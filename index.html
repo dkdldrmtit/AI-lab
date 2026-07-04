@@ -289,7 +289,8 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:20px}
 .bcell .bd{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;padding:2px 8px;border-radius:999px}
 .bcell .tick{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--dim)}
 .bcell .bt{margin-top:auto;font-size:clamp(14.5px,1.7vw,17.5px);font-weight:800;line-height:1.22;letter-spacing:-.2px}
-.bcell .bs{margin-top:5px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--dim)}
+.bcell .bs{margin-top:5px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--mut)}
+.bcell .bd,.bcell .bs,.bcell .tick{line-height:1.25}
 .bcell.d-상 .bd{color:var(--amb);border:1px solid rgba(245,167,66,.5)}
 .bcell.d-중 .bd{color:var(--cyn);border:1px solid rgba(76,195,232,.5)}
 .bcell.d-하 .bd{color:var(--mut);border:1px solid var(--grid)}
@@ -340,6 +341,9 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:20px}
   .bcell .bt{font-size:15px}
   .mgmt-grid{grid-template-columns:1fr}
   .prow{flex-wrap:wrap;gap:6px}
+}
+@media (max-width:480px){
+  .bcell{aspect-ratio:auto;min-height:96px} /* 초소형: 정사각형 해제 → 텍스트 잘림 방지 */
 }
 </style>
 </head>
@@ -480,7 +484,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:20px}
 
 <!-- ═══════════ PROJECT ═══════════ -->
 <section class="view" id="v-project">
-  <a href="#lab" class="tagline">← LAB 목록</a>
+  <a href="#missions" class="tagline">← 미션 보드</a>
   <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:14px">
     <h1 style="margin:0;font-size:clamp(28px,4vw,42px)">자금판</h1>
     <span class="chip chip-live"><span class="dot"></span>LIVE</span>
@@ -557,10 +561,10 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:20px}
   <div class="note"><span>ⓘ</span><span>실제 도구는 <b>Excel VBA</b>로 동작합니다. 이 데모는 <b>같은 업무 규칙</b>을
     웹으로 옮긴 시뮬레이션이며, 모든 데이터는 예시입니다. 화면 구성은 실제 자금판(오전·오후 14개 통화) 중 3개 통화만 보여줍니다.</span></div>
 
-  <div class="tabs" role="tablist">
-    <button class="tab active" data-t="d1" role="tab">① 자동 반영</button>
-    <button class="tab" data-t="d2" role="tab">② 입력 UX</button>
-    <button class="tab" data-t="d3" role="tab">③ 마감 점검</button>
+  <div class="tabs">
+    <button class="tab active" data-t="d1">① 자동 반영</button>
+    <button class="tab" data-t="d2">② 입력 UX</button>
+    <button class="tab" data-t="d3">③ 마감 점검</button>
   </div>
 
   <!-- ── demo 1 ── -->
@@ -589,7 +593,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:20px}
     </div>
 
     <!-- 자금관리: 반영 결과(CLOSING)로 판단 → 후속 프로세스까지 -->
-    <div class="mgmt" id="mgmt">
+    <div class="mgmt" id="mgmt" role="region" aria-label="다음 단계 — 자금 관리 (예시)" tabindex="-1">
       <div class="panel-t"><h3>다음 단계 — 자금 관리
         <span class="tagline" style="font-weight:400">반영된 CLOSING으로 통화별 포지션을 판단합니다</span></h3>
         <div class="ctrl"><button class="btn btn-amber btn-sm" id="btnProc">후속 프로세스 실행 ▶</button></div></div>
@@ -996,7 +1000,8 @@ function newSample(){
   const rows=[];
   const n=rint(6,8);
   rows.push({ccy:'USD',amt:rint(2,90)*1000000,dir:'출금(당발송금)',reason:'해외송금',vd:0,st:'정상'});        /* 당발 제외 */
-  rows.push({ccy:rpick(GEN_CCY),amt:genAmt('JPY'),dir:rpick(DIRS),reason:'국내간자금이체',vd:0,st:rpick(['취소','반려'])}); /* 취소·반려 제외 */
+  const cxlCcy=rpick(GEN_CCY);
+  rows.push({ccy:cxlCcy,amt:genAmt(cxlCcy),dir:rpick(DIRS),reason:'국내간자금이체',vd:0,st:rpick(['취소','반려'])}); /* 취소·반려 제외 */
   const capCcy=rpick(GEN_CCY);
   rows.push({ccy:capCcy,amt:genAmt(capCcy),dir:'입금(타발수취)',reason:rpick(['자본시장영업부','자산운용부']),vd:0,st:'정상'}); /* 노랑 */
   while(rows.length<n){
@@ -1056,6 +1061,7 @@ async function runMystar(){
   if(n.dup)h+=`<span class="r">[!]</span> 중복 의심 ${n.dup}건 — 같은 통화·구분·금액이 이미 존재<br>`;
   h+=`<span class="d">[i] 실제 도구 기준 소요 ~1.2s · 본 데모는 과정을 보여주기 위해 천천히 재생</span>`;
   $('#rptBody').innerHTML=h;$('#ov').classList.add('show');
+  $('#rptClose').focus();
   renderMgmt();
   $('#runHint').textContent='반영 완료 — 아래 ‘자금 관리’에서 포지션 판단을 확인하세요';
   running=false;$('#btnShuffle').disabled=false;$('#btnReset1').disabled=false;
@@ -1152,16 +1158,20 @@ document.addEventListener('DOMContentLoaded',()=>{
     $$('#missFilter .tab').forEach(x=>x.classList.toggle('active',x===b));
     renderMissions(b.dataset.f);
   });
-  /* 빙고 셀 클릭 — 상세 없는 미션은 해당 카드로 스크롤(같은 화면일 때) */
+  /* 빙고 셀 클릭 — 미션 보드가 실제로 보일 때만 카드 스크롤(그 외엔 앵커 기본 이동) */
   document.addEventListener('click',e=>{
     const c=e.target.closest('.bcell');if(!c)return;
     const m=MISSIONS.find(x=>x.cell===c.dataset.mkey);
-    if(m&&!m.links.length&&(location.hash==='#missions'||location.hash==='')){
-      e.preventDefault();
-      const card=$('#m-'+m.cell);
-      if(card){card.scrollIntoView({behavior:REDUCED?'auto':'smooth',block:'center'});
-        card.style.boxShadow='0 0 0 2px var(--amb)';setTimeout(()=>card.style.boxShadow='',1300);}
+    if(!m||m.links.length)return;                              /* 상세 있는 미션 → 기본 이동 */
+    if(!$('#v-missions').classList.contains('active'))return;  /* 홈 등 → #missions로 기본 이동 */
+    e.preventDefault();
+    let card=$('#m-'+m.cell);
+    if(!card){ /* 난이도 필터로 가려짐 → 전체 보기로 복원 후 재조회 */
+      $$('#missFilter .tab').forEach(x=>x.classList.toggle('active',x.dataset.f==='all'));
+      renderMissions('all');card=$('#m-'+m.cell);
     }
+    if(card){card.scrollIntoView({behavior:REDUCED?'auto':'smooth',block:'center'});
+      card.style.boxShadow='0 0 0 2px var(--amb)';setTimeout(()=>card.style.boxShadow='',1300);}
   });
   /* demo tabs */
   $$('.tab[data-t]').forEach(b=>b.addEventListener('click',()=>{
@@ -1183,10 +1193,16 @@ document.addEventListener('DOMContentLoaded',()=>{
   }));
   $('#scnOk').classList.add('btn-amber');$('#scnOk').classList.remove('btn-ghost');
   $('#btnCheck').addEventListener('click',runCheck);
-  /* modal */
-  $('#rptClose').addEventListener('click',()=>$('#ov').classList.remove('show'));
-  $('#ov').addEventListener('click',e=>{if(e.target.id==='ov')$('#ov').classList.remove('show')});
-  addEventListener('keydown',e=>{if(e.key==='Escape')$('#ov').classList.remove('show')});
+  /* modal — 닫으면 포커스를 새로 열린 자금관리 패널로 */
+  const closeOv=()=>{
+    if(!$('#ov').classList.contains('show'))return;
+    $('#ov').classList.remove('show');
+    const mg=$('#mgmt');
+    if(mg.classList.contains('show'))mg.focus({preventScroll:false});
+  };
+  $('#rptClose').addEventListener('click',closeOv);
+  $('#ov').addEventListener('click',e=>{if(e.target.id==='ov')closeOv()});
+  addEventListener('keydown',e=>{if(e.key==='Escape')closeOv()});
   heroLoop();
   /* TODO(backend): 방문 로그·댓글·프로젝트 데이터 API 연동 지점 */
 });
