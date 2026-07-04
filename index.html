@@ -277,6 +277,20 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:20px}
 .mprog .p b{color:var(--amb);font-weight:700}
 .mlayout{display:grid;grid-template-columns:minmax(0,560px) 1fr;gap:34px;align-items:start}
 .bingo-wrap{overflow:hidden}
+.home-bingo{display:grid;grid-template-columns:minmax(0,560px) 1fr;gap:26px;align-items:stretch;margin-top:4px}
+.bside{display:flex;flex-direction:column;gap:16px;min-width:0}
+.bpanel{padding:20px 22px}
+.leg{display:flex;align-items:center;gap:11px;font-size:13.5px;color:var(--mut);margin-bottom:11px}
+.leg:last-child{margin-bottom:0}
+.leg em{color:var(--dim);font-style:normal;font-family:var(--mono);font-size:12px;margin-left:2px}
+.lchip{font-family:var(--mono);font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;flex:0 0 auto}
+.lchip.d-상{color:var(--amb);border:1px solid rgba(245,167,66,.5)}
+.lchip.d-중{color:var(--cyn);border:1px solid rgba(76,195,232,.5)}
+.lchip.d-하{color:var(--mut);border:1px solid var(--grid)}
+.bfocus{flex:1;border-color:rgba(245,167,66,.4);
+  background:linear-gradient(165deg,#161007 0%,var(--panel) 60%)}
+.bfocus h3{font-size:17px;letter-spacing:-.2px}
+@media (max-width:820px){.home-bingo{grid-template-columns:1fr;gap:16px}}
 .bingo{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px}
 .bcell{position:relative;aspect-ratio:1/1;border:1px solid var(--grid);border-radius:14px;
   background:linear-gradient(165deg,var(--panel) 0%,var(--panel2) 100%);
@@ -411,14 +425,22 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:20px}
   <div class="sec">
     <div class="sec-h"><span class="eyebrow">AI빙고 챌린지</span><span class="hint">사내 AI빙고 9개 미션 — 이 사이트에서 공유하고 직접 체험</span></div>
     <div class="mprog" id="homeProg"></div>
-    <div class="blk bingo-wrap" style="max-width:560px">
-      <div class="blk-h"><span class="code">AI BINGO · 3×3</span>
-        <span class="cls">완성 줄 <b class="lineCnt">0</b> / 8</span></div>
-      <div class="bingo" id="homeBingo"></div>
-    </div>
-    <div class="hero-cta" style="margin-top:20px">
-      <a class="btn btn-ghost btn-sm" href="#missions">전체 미션 보드 →</a>
-      <span class="tagline" style="align-self:center">완성되는 미션부터 이곳에서 직접 체험할 수 있습니다</span>
+    <div class="home-bingo">
+      <div class="blk bingo-wrap">
+        <div class="blk-h"><span class="code">AI BINGO · 3×3</span>
+          <span class="cls">완성 줄 <b class="lineCnt">0</b> / 8</span></div>
+        <div class="bingo" id="homeBingo"></div>
+      </div>
+      <aside class="bside">
+        <div class="blk bpanel">
+          <div class="eyebrow" style="margin-bottom:14px">난이도 구성</div>
+          <div class="leg"><span class="lchip d-상">상</span><span>업무혁신 AI Agent · 리포트 <em>2</em></span></div>
+          <div class="leg"><span class="lchip d-중">중</span><span>롤플레잉 · 비교분석 · 업무진단 <em>3</em></span></div>
+          <div class="leg"><span class="lchip d-하">하</span><span>노하우 · 요약 · 발상 · 문구 <em>4</em></span></div>
+        </div>
+        <div id="homeFocus"></div>
+        <a class="btn btn-ghost btn-sm" href="#missions" style="align-self:flex-start">전체 미션 보드 →</a>
+      </aside>
     </div>
   </div>
 
@@ -817,6 +839,17 @@ function doneLines(){
   return LINES.filter(L=>L.every(done)).length;
 }
 function updateLines(){$$('.lineCnt').forEach(e=>e.textContent=doneLines());}
+function renderHomeFocus(){
+  const el=$('#homeFocus');if(!el)return;
+  const m=MISSIONS.find(x=>x.status==='DOING')||MISSIONS.find(x=>x.next)||MISSIONS[0];
+  const links=m.links.map(l=>`<a class="btn btn-ghost btn-sm" href="${l[1]}">${l[0]}</a>`).join(' ');
+  el.innerHTML=`<div class="blk bpanel bfocus">
+    <div class="eyebrow" style="color:var(--amb);margin-bottom:10px">지금 집중 · ${STXT[m.status]||'예정'}</div>
+    <h3>${m.cell} <span class="tagline" style="font-weight:400">난이도 ${m.diff}</span></h3>
+    <p style="margin:8px 0 0;font-size:13.5px;color:var(--mut)">${m.goal}</p>
+    ${links?`<div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">${links}</div>`:''}
+  </div>`;
+}
 function renderProg(id){
   const el=$('#'+id);if(!el)return;
   const done=MISSIONS.filter(m=>m.status==='DONE').length;
@@ -1150,7 +1183,7 @@ async function runCheck(){
 /* ── INIT ─────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded',()=>{
   const t=$('#ticker');t.innerHTML+=t.innerHTML;           /* seamless loop */
-  route();counters();renderLog();
+  route();counters();renderLog();renderHomeFocus();
   renderMissions('all');renderBingo('missBingo');renderBingo('homeBingo');
   renderProg('missProg');renderProg('homeProg');updateLines();
   $('#missFilter').addEventListener('click',e=>{
