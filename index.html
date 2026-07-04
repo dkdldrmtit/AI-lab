@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Lab — 업무 × AI 실험실</title>
+<meta name="description" content="반복 업무를 AI로 다시 만드는 개인 실험실. 외화자금 마감 자동화 '자금판'을 직접 체험해 보세요.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23F5A742'/%3E%3Ctext x='32' y='44' font-family='monospace' font-size='36' font-weight='700' fill='%230B0F17' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap">
+<style>
+:root{
+  --ink:#0B0F17; --panel:#111A28; --panel2:#0E1520;
+  --grid:#223047; --grid2:#1A2434;
+  --txt:#E8EDF5; --mut:#8A94A6; --dim:#5A6678;
+  --amb:#F5A742; --ambf:#241C0E;
+  --cyn:#4CC3E8; --cynf:#10222C;
+  --grn:#35C48D; --red:#F0545C;
+  --yel:#E8C468; --yelf:#2A2410;
+  --kor:'Pretendard Variable',Pretendard,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;
+  --mono:'JetBrains Mono','SFMono-Regular',Consolas,'Malgun Gothic',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);color:var(--txt);font-family:var(--kor);
+  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;
+  background-image:
+    linear-gradient(rgba(34,48,71,.14) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(34,48,71,.14) 1px,transparent 1px);
+  background-size:56px 56px;
+}
+::selection{background:var(--amb);color:var(--ink)}
+a{color:var(--cyn);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%}
+button{font-family:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--amb);outline-offset:2px;border-radius:4px}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+
+/* ── ticker ── */
+.ticker{border-bottom:1px solid var(--grid2);background:rgba(11,15,23,.9);overflow:hidden}
+.ticker-in{display:flex;gap:34px;white-space:nowrap;padding:7px 0;width:max-content;animation:tick 34s linear infinite}
+.ticker .t{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--dim)}
+.ticker .t b{color:var(--mut);font-weight:600}
+.ticker .t .up{color:var(--grn)} .ticker .t .amb{color:var(--amb)}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── nav ── */
+.nav{position:sticky;top:0;z-index:50;background:rgba(11,15,23,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--grid)}
+.nav-in{display:flex;align-items:center;gap:26px;height:58px}
+.logo{display:flex;align-items:center;gap:10px;color:var(--txt)}
+.logo:hover{text-decoration:none}
+.logo-mark{width:26px;height:26px;border-radius:7px;background:var(--amb);color:var(--ink);
+  font-family:var(--mono);font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center}
+.logo-tx{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.18em}
+.logo-sub{font-size:11px;color:var(--dim);letter-spacing:.02em;margin-left:2px}
+.nav-links{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;color:var(--mut);
+  padding:8px 12px;border-radius:8px;white-space:nowrap}
+.nav-links a:hover{color:var(--txt);text-decoration:none;background:var(--panel)}
+.nav-links a.on{color:var(--amb);background:var(--ambf)}
+
+/* ── views ── */
+.view{display:none;padding:52px 0 84px}
+.view.active{display:block;animation:fadeUp .35s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.24em;color:var(--cyn);text-transform:uppercase}
+h1{font-size:clamp(30px,4.6vw,50px);line-height:1.18;font-weight:800;letter-spacing:-.5px;margin:14px 0 16px}
+h2{font-size:clamp(21px,2.6vw,27px);font-weight:800;letter-spacing:-.3px;margin:10px 0 8px}
+h3{font-size:16.5px;font-weight:700}
+.lead{color:var(--mut);font-size:16.5px;max-width:56ch}
+.sec{margin-top:64px}
+.sec-h{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+.sec-h .hint{color:var(--dim);font-size:13px}
+.rule{height:1px;background:var(--grid2);margin:56px 0}
+
+/* ── buttons / chips ── */
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:10px;font-weight:700;font-size:14.5px;
+  padding:12px 20px;border:1px solid transparent;transition:transform .15s,box-shadow .15s,border-color .15s}
+.btn:hover{text-decoration:none;transform:translateY(-1px)}
+.btn-amber{background:var(--amb);color:var(--ink)}
+.btn-amber:hover{box-shadow:0 6px 22px rgba(245,167,66,.28)}
+.btn-ghost{border-color:var(--grid);color:var(--txt);background:transparent}
+.btn-ghost:hover{border-color:var(--mut)}
+.btn-sm{padding:8px 14px;font-size:13px;border-radius:8px}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.chip{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11.5px;font-weight:700;
+  letter-spacing:.08em;padding:5px 11px;border-radius:999px;border:1px solid var(--grid);color:var(--mut)}
+.chip .dot{width:7px;height:7px;border-radius:50%}
+.chip-live{color:var(--grn);border-color:rgba(53,196,141,.45)}
+.chip-live .dot{background:var(--grn);animation:pulse 1.8s infinite}
+.chip-proto{color:var(--cyn);border-color:rgba(76,195,232,.45)}
+.chip-proto .dot{background:var(--cyn)}
+.chip-idea{color:var(--dim);border-style:dashed}
+.chip-idea .dot{background:var(--dim)}
+.chip-amb{color:var(--amb);border-color:rgba(245,167,66,.5)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.tagline{font-family:var(--mono);font-size:11.5px;color:var(--dim);letter-spacing:.04em}
+
+/* ── cards / grids ── */
+.card{background:var(--panel);border:1px solid var(--grid);border-radius:14px;padding:22px;
+  transition:transform .18s,border-color .18s}
+.card:hover{transform:translateY(-2px);border-color:#2E4059}
+.card.flat:hover{transform:none;border-color:var(--grid)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card h3{margin-bottom:8px}
+.card p{color:var(--mut);font-size:14px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+
+/* ── stats ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
+.stat{background:var(--panel);border:1px solid var(--grid);border-radius:14px;padding:18px 20px}
+.stat b{display:block;font-family:var(--mono);font-size:27px;font-weight:700;color:var(--amb);
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat span{font-size:12.5px;color:var(--mut)}
+
+/* ── hero ── */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center;padding-top:26px}
+.hero .disc{margin-top:18px;font-size:12.5px;color:var(--dim)}
+.hero-cta{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+
+/* ── board (자금판 블록) ── */
+.blk{background:var(--panel);border:1px solid var(--grid);border-radius:12px;overflow:hidden}
+.blk-h{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;
+  background:var(--panel2);border-bottom:1px solid var(--grid)}
+.blk-h .code{font-family:var(--mono);font-weight:700;font-size:14.5px;color:var(--amb);letter-spacing:.04em}
+.blk-h .cls{font-family:var(--mono);font-size:12.5px;color:var(--mut);font-variant-numeric:tabular-nums}
+.blk-h .cls b{color:var(--txt);font-weight:600}
+.blk-rows{min-height:120px}
+.brow{display:grid;grid-template-columns:56px minmax(0,110px) 1fr 48px;gap:8px;align-items:center;
+  padding:8px 14px;border-top:1px solid var(--grid2);font-size:13px}
+.brow:first-child{border-top:none}
+.brow .cd{font-family:var(--mono);font-weight:700;font-size:12.5px}
+.brow .cd.c{color:var(--grn)} .brow .cd.d{color:var(--red)}
+.brow .amt{font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.brow .memo{color:var(--mut);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.brow .tm{font-family:var(--mono);font-size:11px;color:var(--dim);text-align:right}
+.brow.new{box-shadow:inset 3px 0 0 var(--amb)}
+.brow.warn{background:var(--yelf)} .brow.warn .memo{color:var(--yel)}
+.brow.dup .amt{color:var(--red)}
+.brow.ghost{color:var(--dim)} .brow.ghost .cd{color:var(--dim)}
+.brow.flash{animation:flashIn .5s ease}
+@keyframes flashIn{from{background:rgba(245,167,66,.22)}to{background:transparent}}
+.blk-empty{padding:26px 14px;color:var(--dim);font-size:12.5px;text-align:center}
+
+/* ── demo layout ── */
+.note{display:flex;gap:10px;align-items:flex-start;background:var(--panel2);border:1px solid var(--grid2);
+  border-radius:12px;padding:13px 16px;font-size:13px;color:var(--mut);margin:18px 0 26px}
+.note b{color:var(--amb)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.tab{background:transparent;border:1px solid var(--grid);color:var(--mut);border-radius:9px;
+  padding:9px 15px;font-size:13.5px;font-weight:700}
+.tab.active{color:var(--amb);border-color:rgba(245,167,66,.55);background:var(--ambf)}
+.tabpane{display:none}.tabpane.active{display:block;animation:fadeUp .3s ease}
+.demo-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:start}
+.panel-t{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px;flex-wrap:wrap}
+.panel-t h3{font-size:14.5px}
+.ctrl{display:flex;gap:8px;flex-wrap:wrap}
+
+/* raw table */
+.rawtab{width:100%;border-collapse:collapse;font-size:12.5px}
+.rawtab th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--dim);text-align:left;
+  padding:8px 8px;border-bottom:1px solid var(--grid)}
+.rawtab td{padding:8px;border-bottom:1px solid var(--grid2);white-space:nowrap}
+.rawtab .num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.rawtab .mono{font-family:var(--mono)}
+.rawtab tr.act{background:rgba(76,195,232,.07)}
+.rawtab tr.skip{opacity:.38}
+.st{font-family:var(--mono);font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.st-wait{color:var(--dim);border:1px solid var(--grid2)}
+.st-ok{color:var(--grn);border:1px solid rgba(53,196,141,.4)}
+.st-skip{color:var(--dim);border:1px solid var(--grid2)}
+.st-out{color:var(--amb);border:1px solid rgba(245,167,66,.4)}
+.st-dup{color:var(--red);border:1px solid rgba(240,84,92,.4)}
+.st-yel{color:var(--yel);border:1px solid rgba(232,196,104,.4)}
+
+/* terminal output */
+.term{background:var(--panel2);border:1px solid var(--grid);border-radius:12px;padding:16px 18px;
+  font-family:var(--mono);font-size:13px;line-height:2.05;min-height:150px;white-space:pre-wrap}
+.term .g{color:var(--grn)} .term .r{color:var(--red)} .term .y{color:var(--yel)}
+.term .a{color:var(--amb)} .term .m{color:var(--mut)} .term .d{color:var(--dim)}
+.caret::after{content:"▌";color:var(--amb);animation:pulse 1s infinite}
+
+/* inputs */
+.inp{background:var(--panel2);border:1px solid var(--grid);border-radius:9px;color:var(--txt);
+  font-family:var(--mono);font-size:14.5px;padding:11px 13px;width:100%;font-variant-numeric:tabular-nums}
+.inp::placeholder{color:var(--dim)}
+.lbl{font-size:12px;color:var(--dim);margin-bottom:7px;display:block}
+.cellrow{display:grid;grid-template-columns:84px 1fr 64px;gap:10px;align-items:center}
+.cell{background:var(--panel2);border:1px solid var(--grid);border-radius:9px;padding:11px 8px;text-align:center;
+  font-family:var(--mono);font-size:13.5px;user-select:none}
+.cell.click{cursor:pointer}
+.cell.c{color:var(--grn);border-color:rgba(53,196,141,.5)}
+.cell.d{color:var(--red);border-color:rgba(240,84,92,.5)}
+.cell.t{color:var(--cyn)}
+.out{font-family:var(--mono);font-size:19px;color:var(--amb);font-variant-numeric:tabular-nums;min-height:28px}
+
+/* scenario cards */
+.scn{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0 16px}
+.scn .card{padding:14px 16px}
+.kv{display:flex;justify-content:space-between;font-size:12.5px;padding:3px 0;color:var(--mut)}
+.kv b{font-family:var(--mono);color:var(--txt);font-weight:600;font-variant-numeric:tabular-nums}
+.kv b.bad{color:var(--red)} .kv b.yl{color:var(--yel)}
+
+/* pipeline / steps */
+.pipe{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap}
+.pstep{background:var(--panel);border:1px solid var(--grid);border-radius:11px;padding:12px 16px;min-width:128px}
+.pstep b{display:block;font-size:14px}
+.pstep span{font-size:11.5px;color:var(--dim)}
+.pstep.hi{border-color:rgba(76,195,232,.55);background:var(--cynf)}
+.pstep.hi b{color:var(--cyn)}
+.parr{align-self:center;color:var(--dim);font-family:var(--mono)}
+
+/* before/after strip */
+.ba{border:1px solid var(--grid);border-radius:13px;padding:16px 18px;margin-top:12px}
+.ba.aft{border-color:rgba(245,167,66,.5);background:#141108}
+.ba .t{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;color:var(--dim);margin-bottom:10px}
+.ba.aft .t{color:var(--amb)}
+.ba .fl{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ba .s{border:1px solid var(--grid2);background:var(--panel2);border-radius:8px;padding:7px 13px;font-size:13px;color:var(--mut)}
+.ba.aft .s{border-color:rgba(245,167,66,.45);background:var(--ambf);color:var(--amb);font-weight:700}
+
+/* perf bars */
+.pbar{display:grid;grid-template-columns:74px 1fr 90px;gap:12px;align-items:center;margin:10px 0}
+.pbar .n{font-family:var(--mono);font-size:12.5px;color:var(--mut);text-align:right}
+.pbar .tr{background:var(--panel2);border-radius:6px;height:22px;border:1px solid var(--grid2);overflow:hidden}
+.pbar .fill{height:100%;border-radius:5px}
+.pbar .v{font-family:var(--mono);font-size:13px;font-weight:700}
+
+/* criteria table */
+.ctab{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
+.ctab th{background:#141C2B;color:#fff;text-align:left;font-size:12.5px;padding:10px 12px;border:1px solid var(--grid)}
+.ctab td{padding:9px 12px;border:1px solid var(--grid2);color:var(--mut)}
+.ctab td:first-child{color:var(--txt);font-weight:700;background:rgba(20,28,43,.5)}
+.ctab .fill-in{font-family:var(--mono);color:var(--amb)}
+
+/* journal timeline */
+.tl{border-left:1px solid var(--grid);margin-left:9px;padding-left:26px;display:flex;flex-direction:column;gap:14px}
+.tl .card{position:relative}
+.tl .card::before{content:"";position:absolute;left:-32px;top:26px;width:11px;height:11px;border-radius:50%;
+  background:var(--ink);border:2px solid var(--dim)}
+.tl .card.hot::before{background:var(--amb);border-color:var(--amb);box-shadow:0 0 0 5px rgba(245,167,66,.18)}
+.wk{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--amb)}
+
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(5,8,13,.72);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.overlay.show{display:flex}
+.modal{background:var(--panel);border:1px solid var(--grid);border-radius:16px;max-width:600px;width:100%;padding:24px;
+  box-shadow:0 24px 80px rgba(0,0,0,.5)}
+.modal h3{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+
+footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:20px}
+.foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:var(--dim);font-size:12.5px}
+.foot .l{font-family:var(--mono);letter-spacing:.14em;color:var(--mut);font-weight:700}
+
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr;gap:30px}
+  .grid3,.scn{grid-template-columns:1fr}
+  .grid2,.demo-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .view{padding:36px 0 64px}
+  .logo-sub{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ticker -->
+<div class="ticker" aria-hidden="true"><div class="ticker-in" id="ticker">
+  <span class="t"><b>AI LAB</b> · WORK × AI EXPERIMENTS</span>
+  <span class="t">STATUS <span class="up">● LIVE</span> — 자금판 매일 오전·오후 운영</span>
+  <span class="t">AM <b>JPY AUD NZD HKD SGD THB CNY</b></span>
+  <span class="t">PM <b>EUR GBP CAD CHF</b> +3</span>
+  <span class="t">100건 반영 <span class="amb">0.5~2s</span></span>
+  <span class="t">6-WEEK BUILD LOG 연재</span>
+  <span class="t">본 사이트의 수치·데이터는 <b>예시</b> · 실데이터 아님</span>
+</div></div>
+
+<!-- nav -->
+<header class="nav"><div class="wrap nav-in">
+  <a class="logo" href="#home"><span class="logo-mark">A</span>
+    <span class="logo-tx">AI LAB</span><span class="logo-sub">by FX cash desk</span></a>
+  <nav class="nav-links" id="navlinks">
+    <a href="#home" data-v="home">HOME</a>
+    <a href="#lab" data-v="lab">LAB</a>
+    <a href="#project" data-v="project">자금판</a>
+    <a href="#demo" data-v="demo">LIVE DEMO</a>
+    <a href="#journal" data-v="journal">JOURNAL</a>
+    <a href="#about" data-v="about">ABOUT</a>
+  </nav>
+</div></header>
+
+<main class="wrap">
+
+<!-- ═══════════ HOME ═══════════ -->
+<section class="view" id="v-home">
+  <div class="hero">
+    <div>
+      <span class="eyebrow">FX Cash Desk · Work × AI</span>
+      <h1>반복 업무를,<br>AI로 다시 만든다</h1>
+      <p class="lead">여기는 제가 실제 업무를 AI로 재설계해 보는 실험실입니다.
+        아이디어를 내고 → 만들고 → <b style="color:var(--txt)">매일 운영으로 증명</b>합니다.
+        첫 번째 실험은 외화자금 마감 자동화 도구, <b style="color:var(--amb)">자금판</b>.</p>
+      <div class="hero-cta">
+        <a class="btn btn-amber" href="#demo">라이브 데모 체험</a>
+        <a class="btn btn-ghost" href="#project">자금판 프로젝트</a>
+      </div>
+      <p class="disc">오른쪽 보드도 장식이 아니라 데모입니다 — 실제 도구와 같은 규칙으로 지금 분배 중.</p>
+    </div>
+    <div>
+      <div class="blk" aria-label="자금판 라이브 프리뷰">
+        <div class="blk-h"><span class="code">JPY · AM</span>
+          <span class="cls">CLOSING <b id="heroCls">0</b></span></div>
+        <div class="blk-rows" id="heroRows"></div>
+      </div>
+      <p class="tagline" style="margin-top:10px;text-align:right">SIMULATION · 예시 데이터 · 실제 규칙 동일</p>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b data-count="1">1</b><span>운영 중 프로젝트</span></div>
+    <div class="stat"><b data-count="14">14</b><span>자동 관리 통화 블록</span></div>
+    <div class="stat"><b>0.5~2s</b><span>100건 자동 반영</span></div>
+    <div class="stat"><b data-count="6">6</b><span>주간 빌드 로그</span></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="eyebrow">Now Running</span></div>
+    <div class="card" style="padding:26px">
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <h2 style="margin:0">자금판 <span style="color:var(--dim);font-weight:600">資金板</span></h2>
+        <span class="chip chip-live"><span class="dot"></span>LIVE · 매일 2회</span>
+      </div>
+      <p style="color:var(--mut);margin-top:10px;max-width:64ch">외화 현금 포지션 마감을 자동화하는 Excel 기반 업무 에이전트.
+        원본을 붙여넣고 버튼 하나 — 필터 → 정규화 → 통화별 분배 → 검증 → 리포트까지 스스로 처리합니다.
+        코드는 Claude와의 설계 대화로 만들었습니다.</p>
+      <div class="meta">
+        <span class="chip">EXCEL VBA</span><span class="chip">CLAUDE</span>
+        <span class="chip">규칙 엔진</span><span class="chip">자동 검증</span><span class="chip">작업 로그</span>
+      </div>
+      <div class="hero-cta" style="margin-top:20px">
+        <a class="btn btn-ghost btn-sm" href="#project">프로젝트 상세</a>
+        <a class="btn btn-amber btn-sm" href="#demo">직접 돌려보기</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="eyebrow">Lab Principles</span><span class="hint">이 실험실이 지키는 세 가지</span></div>
+    <div class="grid3">
+      <div class="card flat"><h3>반복은 도구가, 판단은 사람이</h3><p>기계적인 취합·입력·대사는 자동화하고, 사람은 예외와 판단에 집중합니다.</p></div>
+      <div class="card flat"><h3>검증이 신뢰를 만든다</h3><p>빠른 것만으로는 부족합니다. 스스로 점검하고 경고하는 장치까지가 자동화입니다.</p></div>
+      <div class="card flat"><h3>기록이 증거다</h3><p>모든 실행을 로그로 남깁니다. 효과는 말이 아니라 타임스탬프로 증명합니다.</p></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="eyebrow">Next Up</span><span class="hint">검증되면 여기로 올라옵니다</span></div>
+    <div class="grid2" id="homeNext"></div>
+  </div>
+</section>
+
+<!-- ═══════════ LAB ═══════════ -->
+<section class="view" id="v-lab">
+  <span class="eyebrow">Project Index</span>
+  <h1 style="font-size:clamp(26px,3.6vw,38px)">실험 목록</h1>
+  <p class="lead">업무에서 출발한 아이디어들입니다. 상태는 셋 중 하나 — 매일 돌아가는 <b style="color:var(--grn)">LIVE</b>,
+    동작을 검증 중인 <b style="color:var(--cyn)">PROTOTYPE</b>, 설계 중인 <b style="color:var(--dim)">IDEA</b>.</p>
+  <div class="tabs" style="margin-top:22px" id="labFilter">
+    <button class="tab active" data-f="all">전체</button>
+    <button class="tab" data-f="LIVE">LIVE</button>
+    <button class="tab" data-f="PROTOTYPE">PROTOTYPE</button>
+    <button class="tab" data-f="IDEA">IDEA</button>
+  </div>
+  <div class="grid2" id="labGrid"></div>
+</section>
+
+<!-- ═══════════ PROJECT ═══════════ -->
+<section class="view" id="v-project">
+  <a href="#lab" class="tagline">← LAB 목록</a>
+  <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:14px">
+    <h1 style="margin:0;font-size:clamp(28px,4vw,42px)">자금판</h1>
+    <span class="chip chip-live"><span class="dot"></span>LIVE</span>
+  </div>
+  <p class="lead" style="margin-top:12px">외화자금 마감 자동화 에이전트 — 14개 통화의 현금 포지션 마감을
+    하루 두 번, 붙여넣기와 클릭만으로.</p>
+  <div class="meta"><span class="chip">Excel VBA</span><span class="chip">Claude로 코드 생성</span>
+    <span class="chip">오전 7 + 오후 7 통화</span><span class="chip">매일 오전·오후 운영</span></div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="eyebrow">Problem → Build</span></div>
+    <div class="ba"><div class="t">BEFORE — 수작업 6단계 × 통화 14개 × 하루 2회</div>
+      <div class="fl"><span class="s">내려받기</span><span class="parr">→</span><span class="s">선별</span><span class="parr">→</span>
+      <span class="s">구분 변환</span><span class="parr">→</span><span class="s">입력</span><span class="parr">→</span>
+      <span class="s">대사</span><span class="parr">→</span><span class="s">재검토</span></div></div>
+    <div class="ba aft"><div class="t">AFTER — 자금판</div>
+      <div class="fl"><span class="s">원본 붙여넣기</span><span class="parr" style="color:var(--amb)">→</span>
+      <span class="s">버튼 클릭</span><span class="parr" style="color:var(--amb)">→</span>
+      <span class="s">마감 완료 — 분배·검증·리포트까지 자동</span></div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="eyebrow">Pipeline</span><span class="hint">사람이 하는 일 = 붙여넣기 + 클릭</span></div>
+    <div class="pipe">
+      <div class="pstep"><b>원본</b><span>마이스타 · 수탁</span></div><span class="parr">→</span>
+      <div class="pstep hi"><b>필터 ×3</b><span>오늘 · 정상 · 국내</span></div><span class="parr">→</span>
+      <div class="pstep"><b>정규화</b><span>입출구분 → C/D</span></div><span class="parr">→</span>
+      <div class="pstep"><b>통화 매칭</b><span>블록 14개</span></div><span class="parr">→</span>
+      <div class="pstep hi"><b>분배·기록</b><span>빈 행 + 색·시각</span></div><span class="parr">→</span>
+      <div class="pstep"><b>리포트</b><span>분배·제외·경고</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="eyebrow">Core Features</span></div>
+    <div class="grid3">
+      <div class="card flat"><h3>자동 분배</h3><p>필터 3단 통과 건을 통화 블록의 빈 행에 배열 일괄 기록. 출처·시각 자동.</p></div>
+      <div class="card flat"><h3>마감 점검</h3><p>미처리 거래, 잔액 부족(&lt;50%)·주의(&lt;80%)·과다(&gt;150%), FT 미반영을 한 번에 검사.</p></div>
+      <div class="card flat"><h3>알림 + 체크리스트</h3><p>마감 10분 전 자동 알림이 미완료 항목만 콕 집어 알려줌. 10항목 자동 체크.</p></div>
+      <div class="card flat"><h3>당발 추출</h3><p>필터에서 제외된 해외송금 건을 외환사업부 전달용 시트로 자동 정리.</p></div>
+      <div class="card flat"><h3>안전장치</h3><p>중복 의심 감지 · 대량 변경 보호 · 에러 자동 복구 · 이벤트 재귀 차단.</p></div>
+      <div class="card flat"><h3>작업 로그</h3><p>모든 실행을 타임스탬프로 축적 — 운영 일수·건수의 증거가 됨.</p></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="eyebrow">Performance</span><span class="hint">100건 반영 기준 · 작업로그 실측</span></div>
+    <div class="card flat">
+      <div class="pbar"><span class="n">개선 전</span><div class="tr"><div class="fill" style="width:100%;background:rgba(240,84,92,.35);border:1px solid var(--red)"></div></div><span class="v" style="color:var(--red)">5~15s</span></div>
+      <div class="pbar"><span class="n">v3.31</span><div class="tr"><div class="fill" style="width:13%;background:var(--ambf);border:1px solid var(--amb)"></div></div><span class="v" style="color:var(--amb)">0.5~2s</span></div>
+      <p style="font-size:12.5px;color:var(--dim);margin-top:8px">방법 — 원본 배열 일괄 읽기 · 빈 행 캐싱 · 일괄 쓰기 + 화면 갱신 중단</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="eyebrow">Scorecard</span><span class="hint">1주차에 걸어둔 평가기준 — 실측은 연재 6주차에서 확정</span></div>
+    <table class="ctab"><thead><tr><th>평가 항목</th><th>목표</th><th>실측</th></tr></thead><tbody>
+      <tr><td>마감 준비 시간</td><td>기존 대비 80% 이상 단축</td><td class="fill-in">[ 실측 기입 ]</td></tr>
+      <tr><td>입력 오류·누락</td><td>자동 검증으로 0건</td><td class="fill-in">[ 실측 기입 ]</td></tr>
+      <tr><td>처리 속도</td><td>100건당 2초 이내</td><td class="fill-in">0.5~2초</td></tr>
+      <tr><td>운영 정착</td><td>매일(오전·오후) 실사용</td><td class="fill-in">[ 로그 집계 ]</td></tr>
+      <tr><td>재사용성</td><td>다른 담당자·데스크 적용</td><td class="fill-in">[ 인수인계 점검 ]</td></tr>
+    </tbody></table>
+  </div>
+
+  <div class="hero-cta"><a class="btn btn-amber" href="#demo">이 로직을 직접 돌려보기</a>
+    <a class="btn btn-ghost" href="#journal">6주 빌드 로그 보기</a></div>
+</section>
+
+<!-- ═══════════ DEMO ═══════════ -->
+<section class="view" id="v-demo">
+  <span class="eyebrow">Live Demo</span>
+  <h1 style="font-size:clamp(26px,3.6vw,38px)">직접 돌려보기</h1>
+  <div class="note"><span>ⓘ</span><span>실제 도구는 <b>Excel VBA</b>로 동작합니다. 이 데모는 <b>같은 업무 규칙</b>을
+    웹으로 옮긴 시뮬레이션이며, 모든 데이터는 예시입니다. 화면 구성은 실제 자금판(오전·오후 14개 통화) 중 3개 통화만 보여줍니다.</span></div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-t="d1" role="tab">① 자동 반영</button>
+    <button class="tab" data-t="d2" role="tab">② 입력 UX</button>
+    <button class="tab" data-t="d3" role="tab">③ 마감 점검</button>
+  </div>
+
+  <!-- ── demo 1 ── -->
+  <div class="tabpane active" id="d1">
+    <div class="demo-grid">
+      <div class="card flat">
+        <div class="panel-t"><h3>원본 — 마이스타 거액자금보고 (붙여넣은 상태)</h3>
+          <div class="ctrl">
+            <button class="btn btn-ghost btn-sm" id="btnShuffle">금액 섞기</button>
+            <button class="btn btn-ghost btn-sm" id="btnReset1">초기화</button>
+          </div></div>
+        <div style="overflow-x:auto">
+        <table class="rawtab"><thead><tr>
+          <th>통화</th><th style="text-align:right">입출금액</th><th>입출구분</th><th>사유</th><th>VD</th><th>상태</th><th>처리</th>
+        </tr></thead><tbody id="rawBody"></tbody></table></div>
+        <div style="margin-top:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <button class="btn btn-amber" id="btnRun">마이스타 반영 실행</button>
+          <span class="tagline" id="runHint">필터 → 정규화 → 분배 → 리포트가 순서대로 실행됩니다</span>
+        </div>
+      </div>
+      <div>
+        <div class="blk" style="margin-bottom:12px"><div class="blk-h"><span class="code">JPY</span><span class="cls">CLOSING <b data-cls="JPY">0</b></span></div><div class="blk-rows" data-rows="JPY"><div class="blk-empty">거래 없음 — 반영 대기</div></div></div>
+        <div class="blk" style="margin-bottom:12px"><div class="blk-h"><span class="code">AUD</span><span class="cls">CLOSING <b data-cls="AUD">0</b></span></div><div class="blk-rows" data-rows="AUD"><div class="blk-empty">거래 없음 — 반영 대기</div></div></div>
+        <div class="blk"><div class="blk-h"><span class="code">EUR</span><span class="cls">CLOSING <b data-cls="EUR">0</b></span></div><div class="blk-rows" data-rows="EUR"><div class="blk-empty">거래 없음 — 반영 대기</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── demo 2 ── -->
+  <div class="tabpane" id="d2">
+    <div class="grid3">
+      <div class="card flat">
+        <h3>점 표기 — 0 안 세어도 됨</h3>
+        <p style="margin:8px 0 14px">뒤에 붙인 점 1개당 ×1,000. <span class="mono" style="font-family:var(--mono)">120..</span> 처럼 입력해 보세요.</p>
+        <label class="lbl" for="dotIn">금액 입력 후 Enter</label>
+        <input class="inp" id="dotIn" inputmode="decimal" placeholder="예: 120..  (→ 1억 2천만)">
+        <div style="margin-top:14px"><span class="lbl">변환 결과</span><div class="out" id="dotOut">—</div></div>
+        <p class="tagline" id="dotHint" style="margin-top:10px">점 1개 ×1,000 · 2개 ×1,000,000 · 3개 ×10억</p>
+      </div>
+      <div class="card flat">
+        <h3>구분 토글 — 색·부호 자동 동기</h3>
+        <p style="margin:8px 0 14px">아래 <b>구분</b> 칸을 탭(실제 엑셀에선 더블클릭)하면 빈칸 → C(+) → D(−) 순환.</p>
+        <div class="cellrow">
+          <div class="cell click" id="tgCd" title="탭해서 토글">〈 빈칸 〉</div>
+          <div class="cell" id="tgAmt">1,200,000</div>
+          <div class="cell t" id="tgTm">--:--</div>
+        </div>
+        <p class="tagline" style="margin-top:12px" id="tgHint">구분을 정하면 금액 부호가 따라 바뀝니다</p>
+      </div>
+      <div class="card flat">
+        <h3>시각 자동 — 기록은 도구가</h3>
+        <p style="margin:8px 0 14px">금액을 입력하는 순간, 시각 칸이 스스로 채워집니다.</p>
+        <label class="lbl" for="atAmt">금액 입력 후 Enter</label>
+        <div class="cellrow" style="grid-template-columns:1fr 74px">
+          <input class="inp" id="atAmt" inputmode="numeric" placeholder="예: 8000000 또는 8..">
+          <div class="cell t" id="atTm">--:--</div>
+        </div>
+        <p class="tagline" style="margin-top:12px">‘언제 입력했나’가 항상 남습니다 — 인수인계의 기본</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── demo 3 ── -->
+  <div class="tabpane" id="d3">
+    <div class="panel-t"><h3>시나리오를 고르고, 점검을 실행해 보세요</h3>
+      <div class="ctrl">
+        <button class="btn btn-ghost btn-sm scnb active" data-s="ok" id="scnOk">정상 시나리오</button>
+        <button class="btn btn-ghost btn-sm scnb" data-s="bad">문제 시나리오</button>
+      </div></div>
+    <div class="scn" id="scnCards"></div>
+    <button class="btn btn-amber" id="btnCheck">마감 점검 실행</button>
+    <div class="term" id="checkOut" style="margin-top:16px"><span class="d">[대기] 점검을 실행하면 결과가 여기에 출력됩니다…</span></div>
+  </div>
+</section>
+
+<!-- ═══════════ JOURNAL ═══════════ -->
+<section class="view" id="v-journal">
+  <span class="eyebrow">6-Week Build Log</span>
+  <h1 style="font-size:clamp(26px,3.6vw,38px)">저널 — 만드는 과정 그대로</h1>
+  <p class="lead">자금판을 6주 동안 매주 한 단계씩 만들며 사내 게시판에 연재한 기록입니다. 이 페이지는 그 아카이브.</p>
+  <div class="tl" style="margin-top:30px" id="journalList"></div>
+</section>
+
+<!-- ═══════════ ABOUT ═══════════ -->
+<section class="view" id="v-about">
+  <span class="eyebrow">About</span>
+  <h1 style="font-size:clamp(26px,3.6vw,38px)">이 실험실에 대하여</h1>
+  <p class="lead">저는 외화자금 데스크에서 일하는 실무자입니다. AI Lab은 ‘AI를 배우는 곳’이 아니라
+    <b style="color:var(--txt)">내 업무를 AI로 다시 만들어 보는 곳</b>입니다 — 아이디어에서 멈추지 않고, 만들어서, 매일 운영으로 증명할 때까지.</p>
+
+  <div class="sec">
+    <div class="sec-h"><span class="eyebrow">Two Tracks</span><span class="hint">AI 업무 도구의 두 갈래 — 이 랩은 둘 다 갑니다</span></div>
+    <div class="grid2">
+      <div class="card flat"><h3 style="color:var(--mut)">생성형 — 콘텐츠를 만들어 줌</h3>
+        <p style="margin-top:8px">문안·요약·초안처럼 ‘만드는 한 단계’를 대신합니다. 빠르게 체감되지만, 나머지 과정은 여전히 사람 몫.</p></div>
+      <div class="card flat" style="border-color:rgba(245,167,66,.5);background:#141108"><h3 style="color:var(--amb)">프로세스 자동화형 — 업무가 스스로 돌아감</h3>
+        <p style="margin-top:8px">취합→판단→실행→검증의 전 과정을 맡습니다. 자금판이 여기서 출발했고, 생성형(마감 브리핑)을 결합하는 중.</p></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="eyebrow">How I Build</span></div>
+    <div class="pipe">
+      <div class="pstep"><b>업무를 말로 정의</b><span>무엇을 · 왜 · 예외까지</span></div><span class="parr">→</span>
+      <div class="pstep hi"><b>Claude가 코드 생성</b><span>VBA · 규칙 엔진</span></div><span class="parr">→</span>
+      <div class="pstep"><b>실데이터 검증</b><span>어긋나면 다시 말로</span></div><span class="parr">→</span>
+      <div class="pstep"><b>매일 운영</b><span>로그로 증명</span></div>
+    </div>
+    <p style="color:var(--mut);font-size:14px;margin-top:14px">배운 것 — AI 활용의 핵심은 코딩 실력이 아니라,
+      업무 규칙을 구조화해서 정확히 설명하는 능력이었습니다.</p>
+  </div>
+
+  <div class="sec">
+    <div class="card flat" style="border-color:var(--grid)">
+      <h3>정직 고지</h3>
+      <p style="margin-top:8px">이 사이트는 개인 학습·공모 참여용입니다. 고객정보·실거래 데이터는 일절 사용하지 않으며,
+        화면의 모든 수치는 예시입니다. 실제 도구의 사내 운영은 내부 규정과 보안 검토를 따릅니다.
+        런타임 AI(브리핑) 연동은 정보보안 검토·승인 전까지 개인 환경 프로토타입으로만 검증합니다.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="eyebrow">Contact</span></div>
+    <p style="color:var(--mut)">아이디어 제안·피드백은 사내 메신저로 주세요. <span class="tagline">(외부 연락처는 두지 않습니다)</span></p>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap foot">
+  <span class="l">AI LAB — FX CASH DESK</span>
+  <span>개인 학습·공모용 · 예시 데이터 · 고객정보 없음</span>
+  <span>Built with Claude · Backend coming soon</span>
+</div></footer>
+
+<!-- report modal -->
+<div class="overlay" id="ov" role="dialog" aria-modal="true" aria-labelledby="rptTitle">
+  <div class="modal">
+    <h3 id="rptTitle"><span class="chip chip-amb">REPORT</span> 마이스타 반영 결과</h3>
+    <div class="term" id="rptBody" style="min-height:0"></div>
+    <div style="margin-top:16px;text-align:right"><button class="btn btn-ghost btn-sm" id="rptClose">닫기</button></div>
+  </div>
+</div>
+<script>
+/* ════════════════════════════════════════════════════════════
+   AI LAB — app.js (자립형 · 백엔드 없음)
+   ▸ 새 프로젝트 추가: PROJECTS 배열에 객체 1개만 추가
+   ▸ 백엔드 연동 지점: TODO(backend) 주석 검색
+   ════════════════════════════════════════════════════════════ */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const fmt=n=>Math.abs(n).toLocaleString('en-US');
+const sfmt=n=>(n<0?'-':'')+fmt(n);
+const nowHM=()=>{const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const mmdd=off=>{const d=new Date();d.setDate(d.getDate()+off);
+  return String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+
+/* ── DATA ─────────────────────────────────────────────────── */
+const PROJECTS=[
+ {id:'jagumpan',name:'자금판',status:'LIVE',
+  desc:'외화자금 마감 자동화 — 붙여넣기와 클릭으로 필터·정규화·분배·검증·리포트까지. 매일 오전·오후 실전 운영.',
+  tags:['Excel VBA','Claude','통화 14','규칙 엔진'],
+  links:[['프로젝트 보기','#project'],['라이브 데모','#demo']]},
+ {id:'briefing',name:'Claude 마감 브리핑',status:'PROTOTYPE',
+  desc:'마감점검 집계(숫자만)를 Claude API로 보내 팀 공유·인수인계 문안을 생성. 고객정보 미전송 — 보안 검토 후 사내 적용.',
+  tags:['Claude API','VBA','생성형 결합'],
+  links:[['빌드 로그 5주차','#journal']]},
+ {id:'slot',name:'다음 실험 슬롯',status:'IDEA',
+  desc:'업무에서 발굴 중인 다음 아이디어가 동작 검증을 통과하면 이 자리에 공개됩니다.',
+  tags:['아이디어 검증 중'],links:[]}
+];
+const JOURNAL=[
+ {w:1,t:'기획 · 목표 설정',d:'자금판이 무엇인지, AI를 어떻게 쓰는지 — 그리고 성공을 판정할 평가기준 표를 먼저 걸어둠.'},
+ {w:2,t:'구조 설계',d:'통화 블록 14개와 5컬럼 규격, 점 표기·구분 토글 같은 입력 UX. 설계 자체를 Claude와 대화로 진행.'},
+ {w:3,t:'데이터 자동 반영',d:'붙여넣고 클릭 — 필터 3단 → 정규화 → 통화별 분배 → 리포트. 이 사이트 데모의 원형.'},
+ {w:4,t:'검증 & 안전장치',d:'마감 점검, 자동 알림, 중복 검사, 에러 복구. “믿고 쓰는 도구”의 조건을 코드에 내장.'},
+ {w:5,t:'당발 · 성능 · 로그 + 런타임 AI',d:'100건 0.5~2초, 작업로그, 그리고 Claude 브리핑 프로토타입 — 생성형 결합의 첫 조각.'},
+ {w:6,t:'결과 & 회고',d:'1주차 평가표를 실측으로 회수. 전/후 비교, 배운 점, 그리고 “데이터만 넣으면 마감까지” 로드맵.',hot:true}
+];
+
+/* ── ROUTER ───────────────────────────────────────────────── */
+const VIEWS=['home','lab','project','demo','journal','about'];
+function route(){
+  let h=(location.hash||'#home').slice(1).split('/')[0];
+  if(!VIEWS.includes(h))h='home';
+  $$('.view').forEach(v=>v.classList.toggle('active',v.id==='v-'+h));
+  $$('#navlinks a').forEach(a=>a.classList.toggle('on',a.dataset.v===h));
+  window.scrollTo(0,0);
+}
+addEventListener('hashchange',route);
+
+/* ── RENDER: lab / journal / home-next ───────────────────── */
+const CHIP={LIVE:'chip-live',PROTOTYPE:'chip-proto',IDEA:'chip-idea'};
+function projCard(p){
+  const chip=`<span class="chip ${CHIP[p.status]}"><span class="dot"></span>${p.status}</span>`;
+  const tags=p.tags.map(t=>`<span class="chip">${t}</span>`).join('');
+  const links=p.links.length
+    ? p.links.map(l=>`<a class="btn btn-ghost btn-sm" href="${l[1]}">${l[0]}</a>`).join(' ')
+    : `<span class="tagline">설계 노트 준비 중</span>`;
+  const dash=p.status==='IDEA'?'style="border-style:dashed"':'';
+  return `<div class="card" ${dash}>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><h3 style="font-size:18px">${p.name}</h3>${chip}</div>
+    <p style="margin-top:9px">${p.desc}</p>
+    <div class="meta">${tags}</div>
+    <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">${links}</div></div>`;
+}
+function renderLab(f){
+  $('#labGrid').innerHTML=PROJECTS.filter(p=>f==='all'||p.status===f).map(projCard).join('')
+    ||'<p class="tagline">해당 상태의 실험이 아직 없습니다.</p>';
+  $('#labGrid').style.marginTop='22px';
+}
+function renderJournal(){
+  $('#journalList').innerHTML=JOURNAL.map(j=>`
+   <div class="card flat ${j.hot?'hot':''}">
+     <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+       <span class="wk">WEEK ${j.w} / 6</span><h3>${j.t}</h3>
+       <span class="chip" style="margin-left:auto">사내 게시판 연재</span></div>
+     <p style="margin-top:8px">${j.d}</p></div>`).join('');
+}
+function renderHomeNext(){
+  $('#homeNext').innerHTML=PROJECTS.filter(p=>p.status!=='LIVE').map(projCard).join('');
+}
+
+/* ── HOME: counters + hero live board ─────────────────────── */
+function counters(){
+  if(REDUCED)return;
+  $$('[data-count]').forEach(el=>{
+    const n=+el.dataset.count,t0=performance.now();
+    const tick=t=>{const p=Math.min(1,(t-t0)/700);
+      el.textContent=Math.round(n*p);if(p<1)requestAnimationFrame(tick)};
+    requestAnimationFrame(tick);
+  });
+}
+const HERO_POOL=[
+ {cd:'C',amt:120000000,memo:'마이스타'},
+ {cd:'D',amt:50000000,memo:'수탁'},
+ {cd:'C',amt:8000000,memo:'[자본시장] 마이스타',warn:true},
+ {cd:'D',amt:12000000,memo:'수탁'},
+ {cd:'C',amt:3500000,memo:'마이스타'}
+];
+function heroRow(r){
+  const el=document.createElement('div');
+  el.className='brow new'+(r.warn?' warn':'')+(REDUCED?'':' flash');
+  el.innerHTML=`<span class="cd ${r.cd==='C'?'c':'d'}">${r.cd==='C'?'C(+)':'D(−)'}</span>
+    <span class="amt">${r.cd==='C'?'':'-'}${fmt(r.amt)}</span>
+    <span class="memo">${r.memo}</span><span class="tm">${nowHM()}</span>`;
+  return el;
+}
+async function heroLoop(){
+  const box=$('#heroRows'),cls=$('#heroCls');
+  if(REDUCED){let s=0;HERO_POOL.slice(0,4).forEach(r=>{box.appendChild(heroRow(r));s+=r.cd==='C'?r.amt:-r.amt});cls.textContent=sfmt(s);return;}
+  while(true){
+    if(document.hidden||!$('#v-home').classList.contains('active')){await sleep(1200);continue;}
+    box.innerHTML='';let s=0;cls.textContent='0';
+    for(const r of HERO_POOL){
+      if(document.hidden)break;
+      box.appendChild(heroRow(r));
+      s+=r.cd==='C'?r.amt:-r.amt;cls.textContent=sfmt(s);
+      await sleep(880);
+    }
+    await sleep(2800);
+  }
+}
+
+/* ── DEMO 1: 자동 반영 ─────────────────────────────────────── */
+const BASE_RAW=[
+ {ccy:'JPY',amt:120000000,dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'AUD',amt:3500000, dir:'출금(당발송금)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'USD',amt:9000000, dir:'출금(당발송금)',reason:'해외송금',    vd:0,st:'정상'},
+ {ccy:'JPY',amt:8000000, dir:'입금(타발수취)',reason:'자본시장영업부',vd:0,st:'정상'},
+ {ccy:'EUR',amt:640000,  dir:'입금(타발수취)',reason:'국내간자금이체',vd:-1,st:'정상'},
+ {ccy:'AUD',amt:1200000, dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'취소'},
+ {ccy:'EUR',amt:2100000, dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'JPY',amt:120000000,dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'정상'}
+];
+let RAW=[],BLOCKS={},running=false;
+function renderRaw(){
+  $('#rawBody').innerHTML=RAW.map((r,i)=>`
+   <tr data-i="${i}">
+     <td class="mono">${r.ccy}</td><td class="num">${fmt(r.amt)}</td>
+     <td>${r.dir}</td><td>${r.reason}</td>
+     <td class="mono" style="color:${r.vd===0?'var(--mut)':'var(--dim)'}">${mmdd(r.vd)}</td>
+     <td style="color:${r.st==='정상'?'var(--mut)':'var(--red)'}">${r.st}</td>
+     <td><span class="st st-wait">대기</span></td></tr>`).join('');
+}
+function renderBlocksEmpty(){
+  ['JPY','AUD','EUR'].forEach(c=>{
+    $(`[data-rows="${c}"]`).innerHTML='<div class="blk-empty">거래 없음 — 반영 대기</div>';
+    $(`[data-cls="${c}"]`).textContent='0';
+  });
+}
+function resetDemo1(){
+  if(running)return;
+  RAW=BASE_RAW.map(r=>({...r}));BLOCKS={JPY:[],AUD:[],EUR:[]};
+  renderRaw();renderBlocksEmpty();
+  $('#runHint').textContent='필터 → 정규화 → 분배 → 리포트가 순서대로 실행됩니다';
+}
+function shuffleAmts(){
+  if(running)return;
+  RAW.forEach(r=>{r.amt=Math.max(10000,Math.round(r.amt*(0.6+Math.random()*0.9)/10000)*10000)});
+  RAW[7].amt=RAW[0].amt; /* 중복 케이스 유지 */
+  BLOCKS={JPY:[],AUD:[],EUR:[]};renderRaw();renderBlocksEmpty();
+  document.querySelector('#btnRun').disabled=false;
+  document.querySelector('#runHint').textContent='필터 → 정규화 → 분배 → 리포트가 순서대로 실행됩니다';
+}
+function addBlockRow(ccy,o){
+  const box=$(`[data-rows="${ccy}"]`);
+  const empty=box.querySelector('.blk-empty');if(empty)empty.remove();
+  const el=document.createElement('div');
+  el.className='brow new'+(o.warn?' warn':'')+(o.dup?' dup':'')+(REDUCED?'':' flash');
+  el.innerHTML=`<span class="cd ${o.cd==='C'?'c':'d'}">${o.cd==='C'?'C(+)':'D(−)'}</span>
+    <span class="amt">${o.cd==='C'?'':'-'}${fmt(o.amt)}</span>
+    <span class="memo">${o.memo}</span><span class="tm">${nowHM()}</span>`;
+  box.appendChild(el);
+  const sum=BLOCKS[ccy].reduce((a,b)=>a+(b.cd==='C'?b.amt:-b.amt),0);
+  $(`[data-cls="${ccy}"]`).textContent=sfmt(sum);
+}
+function setSt(i,cls,txt){const c=$(`tr[data-i="${i}"] .st`);c.className='st '+cls;c.textContent=txt;}
+async function runMystar(){
+  if(running)return;running=true;
+  $('#btnRun').disabled=true;$('#btnShuffle').disabled=true;$('#btnReset1').disabled=true;
+  const n={ok:0,dom:0,cap:0,over:0,vd:0,cxl:0,dup:0};
+  for(let i=0;i<RAW.length;i++){
+    const r=RAW[i],tr=$(`tr[data-i="${i}"]`);
+    tr.classList.add('act');await sleep(REDUCED?60:520);
+    if(r.st!=='정상'){tr.classList.add('skip');setSt(i,'st-skip','취소·반려 제외');n.cxl++;}
+    else if(r.vd!==0){tr.classList.add('skip');setSt(i,'st-skip','VD 불일치 제외');n.vd++;}
+    else if(r.reason==='해외송금'){setSt(i,'st-out','당발 목록으로');n.over++;}
+    else{
+      const cd=r.dir.includes('입금')?'C':'D';
+      const dup=BLOCKS[r.ccy].some(b=>b.cd===cd&&b.amt===r.amt);
+      const cap=(r.reason==='자본시장영업부'||r.reason==='자산운용부');
+      const memo=(r.reason==='자본시장영업부'?'[자본시장] ':r.reason==='자산운용부'?'[자산운용] ':'')+'마이스타';
+      addBlockRow(r.ccy,{cd,amt:r.amt,memo,warn:cap,dup});
+      BLOCKS[r.ccy].push({cd,amt:r.amt});
+      n.ok++;if(cap)n.cap++;else n.dom++;
+      if(dup){n.dup++;setSt(i,'st-dup','반영 · 중복 의심');}
+      else setSt(i,cap?'st-yel':'st-ok',cap?'반영 · 확인 필요':'반영 ✓');
+    }
+    tr.classList.remove('act');
+  }
+  await sleep(300);
+  let h=`<span class="g">[OK]</span> 분배 완료 ${n.ok}건 — 국내 ${n.dom} · 확인 필요(노랑) ${n.cap}<br>`;
+  h+=`<span class="m">[-]</span><span class="m"> 제외 — 해외송금 ${n.over}건(당발 목록) · VD 불일치 ${n.vd} · 취소/반려 ${n.cxl}</span><br>`;
+  if(n.cap)h+=`<span class="y">[!]</span> 자본시장·자산운용 ${n.cap}건 노란 표시 — 담당 확인 필요<br>`;
+  if(n.dup)h+=`<span class="r">[!]</span> 중복 의심 ${n.dup}건 — 같은 통화·구분·금액이 이미 존재<br>`;
+  h+=`<span class="d">[i] 실제 도구 기준 소요 ~1.2s · 본 데모는 과정을 보여주기 위해 천천히 재생</span>`;
+  $('#rptBody').innerHTML=h;$('#ov').classList.add('show');
+  $('#runHint').textContent='다시 실행하려면 초기화 후 실행하세요';
+  running=false;$('#btnShuffle').disabled=false;$('#btnReset1').disabled=false;
+}
+
+/* ── DEMO 2: 입력 UX ──────────────────────────────────────── */
+function parseDot(v){
+  v=v.trim().replace(/,/g,'');
+  const m=v.match(/^(\d+)(\.*)$/);
+  if(!m)return null;
+  const dots=m[2].length;
+  return Number(m[1])*Math.pow(1000,dots);
+}
+function bindDemo2(){
+  const din=$('#dotIn'),dout=$('#dotOut'),dh=$('#dotHint');
+  const go=()=>{const n=parseDot(din.value);
+    if(n===null||din.value.trim()===''){dout.textContent='—';dh.textContent='숫자 뒤에 점만 붙여 주세요 (예: 120..)';return;}
+    dout.textContent=fmt(n);
+    const dots=(din.value.trim().match(/\.+$/)||[''])[0].length;
+    dh.textContent=dots?`점 ${dots}개 → ×${fmt(Math.pow(1000,dots))}`:'점 없이 그대로 인식';};
+  din.addEventListener('change',go);
+  din.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
+
+  const cd=$('#tgCd'),amt=$('#tgAmt'),tm=$('#tgTm'),hint=$('#tgHint');
+  let st=0;const base=1200000;
+  cd.addEventListener('click',()=>{
+    st=(st+1)%3;cd.classList.remove('c','d');
+    if(st===0){cd.textContent='〈 빈칸 〉';amt.textContent=fmt(base);hint.textContent='구분을 정하면 금액 부호가 따라 바뀝니다';}
+    if(st===1){cd.textContent='C(+)';cd.classList.add('c');amt.textContent=fmt(base);hint.textContent='입금 — 금액 양수 유지';}
+    if(st===2){cd.textContent='D(−)';cd.classList.add('d');amt.textContent='-'+fmt(base);hint.textContent='출금 — 부호가 자동으로 음수';}
+    if(tm.textContent==='--:--')tm.textContent=nowHM();
+  });
+
+  const a=$('#atAmt'),t=$('#atTm');
+  const stamp=()=>{const n=parseDot(a.value);
+    if(n===null||a.value.trim()==='')return;
+    a.value=fmt(n);t.textContent=nowHM();};
+  a.addEventListener('change',stamp);
+  a.addEventListener('keydown',e=>{if(e.key==='Enter')stamp()});
+}
+
+/* ── DEMO 3: 마감 점검 ────────────────────────────────────── */
+const SCN={
+ ok:{JPY:{bal:1240000000,cls:1210000000,base:1200000000,un:0,unA:0,ft:0,ftChk:true},
+     AUD:{bal:86400000,cls:88000000,base:90000000,un:0,unA:0,ft:0,ftChk:true},
+     EUR:{bal:54200000,cls:56000000,base:60000000,un:0,unA:0,ft:0,ftChk:true}},
+ bad:{JPY:{bal:1240000000,cls:504000000,base:1200000000,un:2,unA:15500000,ft:0,ftChk:true},
+      AUD:{bal:86400000,cls:150000000,base:90000000,un:0,unA:0,ft:0,ftChk:true},
+      EUR:{bal:54200000,cls:52000000,base:60000000,un:0,unA:0,ft:320000,ftChk:false}}
+};
+let curScn='ok';
+function renderScn(){
+  const s=SCN[curScn];
+  $('#scnCards').innerHTML=Object.keys(s).map(c=>{
+    const v=s[c],ratio=v.cls/v.base;
+    const clsCls=ratio<0.5||ratio>1.5?'bad':(ratio<0.8?'yl':'');
+    return `<div class="card flat"><div style="display:flex;justify-content:space-between;margin-bottom:8px">
+      <b style="font-family:var(--mono);color:var(--amb)">${c}</b>
+      <span class="tagline">기준 ${fmt(v.base)}</span></div>
+      <div class="kv"><span>현재 잔액</span><b>${fmt(v.bal)}</b></div>
+      <div class="kv"><span>CLOSING</span><b class="${clsCls}">${fmt(v.cls)}</b></div>
+      <div class="kv"><span>미체크 거래</span><b class="${v.un?'yl':''}">${v.un}건${v.un?' ('+fmt(v.unA)+')':''}</b></div>
+      <div class="kv"><span>FT</span><b class="${v.ft&&!v.ftChk?'yl':''}">${v.ft?fmt(v.ft)+(v.ftChk?' · 체크됨':' · 미체크'):'—'}</b></div>
+    </div>`;}).join('');
+  $('#checkOut').innerHTML='<span class="d">[대기] 점검을 실행하면 결과가 여기에 출력됩니다…</span>';
+}
+async function runCheck(){
+  const s=SCN[curScn],out=$('#checkOut');out.innerHTML='';
+  const put=async(txt,cls)=>{out.innerHTML+=`<span class="${cls||''}">${txt}</span><br>`;await sleep(REDUCED?20:230);};
+  await put('==== 마감 점검 ====','m');
+  const okList=[];let issue=false;
+  for(const c of Object.keys(s)){
+    const v=s[c],r=v.cls/v.base,rows=[];
+    if(v.un>0)rows.push([`    [!] 미처리 ${v.un}건 (${fmt(v.unA)})`,'y']);
+    if(r<0.5)rows.push([`    X  부족: ${fmt(v.cls)}  (${Math.round(r*100)}%)`,'r']);
+    else if(r<0.8)rows.push([`    [.] 주의: ${fmt(v.cls)}  (${Math.round(r*100)}%)`,'y']);
+    else if(r>1.5)rows.push([`    [+] 과다: ${fmt(v.cls)}  (${Math.round(r*100)}%)`,'a']);
+    if(v.ft&&!v.ftChk)rows.push([`    [!] FT ${fmt(v.ft)} 잔액 미반영 — 체크 필요`,'y']);
+    if(rows.length){issue=true;await put(`[${c}]`);for(const x of rows)await put(x[0],x[1]);}
+    else okList.push(c);
+  }
+  if(okList.length)await put(`[${okList.join('] [')}]  V 정상`,'g');
+  await put(issue?'>> 조치 후 재점검 권장':'V  전 통화 정상 — 마감 가능','g');
+}
+
+/* ── INIT ─────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded',()=>{
+  const t=$('#ticker');t.innerHTML+=t.innerHTML;           /* seamless loop */
+  route();counters();renderLab('all');renderJournal();renderHomeNext();
+  $('#labFilter').addEventListener('click',e=>{
+    const b=e.target.closest('[data-f]');if(!b)return;
+    $$('#labFilter .tab').forEach(x=>x.classList.toggle('active',x===b));
+    renderLab(b.dataset.f);
+  });
+  /* demo tabs */
+  $$('.tab[data-t]').forEach(b=>b.addEventListener('click',()=>{
+    $$('.tab[data-t]').forEach(x=>x.classList.toggle('active',x===b));
+    $$('.tabpane').forEach(p=>p.classList.toggle('active',p.id===b.dataset.t));
+  }));
+  /* demo 1 */
+  resetDemo1();
+  $('#btnRun').addEventListener('click',runMystar);
+  $('#btnShuffle').addEventListener('click',shuffleAmts);
+  $('#btnReset1').addEventListener('click',()=>{resetDemo1();$('#btnRun').disabled=false;});
+  /* demo 2/3 */
+  bindDemo2();renderScn();
+  $$('.scnb').forEach(b=>b.addEventListener('click',()=>{
+    curScn=b.dataset.s;
+    $$('.scnb').forEach(x=>{const on=x===b;x.classList.toggle('btn-amber',on);x.classList.toggle('btn-ghost',!on);});
+    renderScn();
+  }));
+  $('#scnOk').classList.add('btn-amber');$('#scnOk').classList.remove('btn-ghost');
+  $('#btnCheck').addEventListener('click',runCheck);
+  /* modal */
+  $('#rptClose').addEventListener('click',()=>$('#ov').classList.remove('show'));
+  $('#ov').addEventListener('click',e=>{if(e.target.id==='ov')$('#ov').classList.remove('show')});
+  addEventListener('keydown',e=>{if(e.key==='Escape')$('#ov').classList.remove('show')});
+  heroLoop();
+  /* TODO(backend): 방문 로그·댓글·프로젝트 데이터 API 연동 지점 */
+});
+</script>
+</body>
+</html>
