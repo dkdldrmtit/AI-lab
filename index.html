@@ -293,6 +293,31 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .nowrun .kv:first-of-type{border-top:none}
 .nowrun .kv b{font-family:var(--mono);color:var(--txt);font-variant-numeric:tabular-nums}
 @media (max-width:820px){.nowrun{grid-template-columns:1fr}}
+/* 실험 캐러셀 — 스크립트의 EXPERIMENTS 배열이 단일 소스 */
+.exph{display:flex;gap:8px}
+.cbtn{width:34px;height:34px;border-radius:9px;border:1px solid var(--grid);background:var(--panel2);color:var(--mut);font-size:15px;cursor:pointer;transition:color .15s,border-color .15s}
+.cbtn:hover{color:var(--txt);border-color:var(--grid-hi)}
+.expwrap{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.expwrap::-webkit-scrollbar{display:none}
+.expslide{flex:0 0 100%;min-width:100%;scroll-snap-align:start;scroll-snap-stop:always}
+.expslide>.card{height:100%}
+.expdots{display:flex;gap:8px;justify-content:center;margin-top:14px}
+.expdots i{width:22px;height:4px;border-radius:2px;background:var(--grid);cursor:pointer;transition:background .2s}
+.expdots i.on{background:var(--amb)}
+.expno{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--dim);border:1px solid var(--grid);padding:4px 9px;border-radius:6px}
+.chip-next{color:var(--amb);border-color:rgba(245,167,66,.45)}
+.chip-open{color:var(--mut);border-style:dashed}
+.btn-dis{opacity:.5;cursor:default;pointer-events:none}
+.stepline{display:flex;align-items:center;gap:8px;margin-top:16px;font-size:12.5px;font-weight:600;flex-wrap:wrap;color:var(--grid-hi)}
+.stepline .st{padding:4px 11px;border:1px solid var(--grid);border-radius:14px;color:var(--dim)}
+.stepline .st.done{color:var(--grn);border-color:rgba(53,196,141,.35)}
+.stepline .st.cur{color:var(--amb);border-color:rgba(245,167,66,.45);background:var(--ambp)}
+.tease{position:relative;min-height:172px;display:flex;flex-direction:column;gap:12px;justify-content:center}
+.tease .sk{height:12px;border-radius:6px;background:linear-gradient(90deg,var(--grid2),var(--grid-hi),var(--grid2));background-size:200% 100%;animation:skm 2.4s linear infinite;opacity:.55}
+@keyframes skm{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.tease .sk{animation:none}}
+.tease .lock{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.tease .lock span{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--mut);background:rgba(11,15,23,.78);border:1px solid var(--grid);padding:8px 15px;border-radius:20px}
 .loggrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:34px;align-items:start;margin-top:40px}
 #logSide{position:sticky;top:84px}
 @media (max-width:820px){.loggrid{grid-template-columns:1fr}#logSide{position:static}}
@@ -405,7 +430,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 <!-- nav -->
 <header class="nav"><div class="wrap nav-in">
   <a class="logo" href="#home"><span class="logo-mark">A</span>
-    <span class="logo-tx">AI LAB</span><span class="logo-sub">by Money Market Desk</span></a>
+    <span class="logo-tx">AI LAB</span><span class="logo-sub">Work × AI Experiments</span></a>
   <nav class="nav-links" id="navlinks">
     <a href="#home" data-v="home">HOME</a>
     <a href="#missions" data-v="missions">MISSIONS<span class="ko">빙고</span></a>
@@ -422,7 +447,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 <section class="view" id="v-home">
   <div class="hero">
     <div>
-      <span class="eyebrow">Money Market Desk · Work × AI</span>
+      <span class="eyebrow">Work × AI Experiments</span>
       <h1><span class="hg">바꿀 수 없는 게 아니라,</span>안 바꿔봤을 뿐</h1>
       <p class="lead">업무를 AI로 다시 설계하는 개인 <b style="color:var(--txt)">AI 연구실</b>입니다.
         가능성을 모두 열어놓고 — <b style="color:var(--txt)">시도하고, 실패하고, 다시 시도하면 결국 바뀐다</b>는
@@ -452,34 +477,11 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
   </div>
 
   <div class="sec">
-    <div class="sec-h"><div><span class="eyebrow">Now Running</span><h2>지금 운영 중인 실험</h2></div></div>
-    <div class="card nowrun" style="padding:26px">
-      <div>
-        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-          <h2 style="margin:0">자금판 <span style="color:var(--dim);font-weight:600">資金板</span></h2>
-          <span class="chip chip-live"><span class="dot"></span>LIVE · 매일 2회</span>
-        </div>
-        <p style="color:var(--mut);margin-top:10px">전국 부점에서 보고되는 고객 자금 유출입을 단시간에 정리하고,
-          통화별 Depo 계좌에 적정 자금을 맞추는 일 — 마감시간이 정해진, 거액이 움직이는 고위험 반복 업무입니다.
-          자금판은 이 과정을 원본 붙여넣기와 버튼 하나(필터 → 정규화 → 분배 → 검증 → 리포트)로 자동화했습니다.
-          코드는 Claude와의 설계 대화로 만들었습니다.</p>
-        <div class="meta">
-          <span class="chip">EXCEL VBA</span><span class="chip">CLAUDE</span>
-          <span class="chip">규칙 엔진</span><span class="chip">자동 검증</span><span class="chip">작업 로그</span>
-        </div>
-        <div class="hero-cta" style="margin-top:20px">
-          <a class="btn btn-amber btn-sm" href="#project">프로젝트 상세</a>
-          <a class="btn btn-ghost btn-sm" href="#demo">라이브 데모 체험</a>
-        </div>
-      </div>
-      <div class="blk bpanel">
-        <div class="eyebrow" style="margin-bottom:10px">운영 스냅샷 · 예시</div>
-        <div class="kv"><span>반영 속도 (100건)</span><b>0.5~2s</b></div>
-        <div class="kv"><span>통화 블록</span><b>14</b></div>
-        <div class="kv"><span>마감 운영</span><b>매일 2회</b></div>
-        <div class="kv"><span>버전</span><b>v3.31</b></div>
-      </div>
-    </div>
+    <div class="sec-h"><div><span class="eyebrow">Experiments</span><h2>지금 운영 중, 그리고 다음 실험</h2></div>
+      <div class="exph"><button class="cbtn" id="expPrev" aria-label="이전 실험 카드">←</button><button class="cbtn" id="expNext" aria-label="다음 실험 카드">→</button></div></div>
+    <!-- 카드들은 EXPERIMENTS 배열에서 렌더 — 스와이프/드래그/화살표로 넘김 -->
+    <div class="expwrap" id="expWrap" aria-label="실험 카드 캐러셀 — 좌우로 넘겨보기"></div>
+    <div class="expdots" id="expDots"></div>
   </div>
 
   <div class="sec">
@@ -814,7 +816,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 
 <footer><div class="wrap">
   <div class="foot-top">
-    <span class="l" style="font-family:var(--mono);letter-spacing:.14em;color:var(--mut);font-weight:700;font-size:12.5px">AI LAB — MONEY MARKET DESK</span>
+    <span class="l" style="font-family:var(--mono);letter-spacing:.14em;color:var(--mut);font-weight:700;font-size:12.5px">AI LAB — WORK × AI EXPERIMENTS</span>
     <nav class="foot-nav"><a href="#home">HOME</a><a href="#missions">MISSIONS</a><a href="#project">PROJECT</a><a href="#demo">LIVE DEMO</a><a href="#log">LOG</a><a href="#about">ABOUT</a></nav>
   </div>
   <div class="foot">
@@ -883,6 +885,82 @@ const MISSIONS=[
 ];
 const STXT={DONE:'완료',DOING:'진행중',PLAN:'예정'};
 const DIFF_COLOR={상:'var(--amb)',중:'var(--cyn)',하:'var(--dim)'};
+
+/* 실험(EXPERIMENTS) — 홈 캐러셀의 단일 소스. 새 실험 = 객체 1개 추가.
+   status: LIVE(운영중) / NEXT(준비중) / OPEN(빈 슬롯)
+   체험이 완성되면 tease 를 지우고 panel·ctas 에 데모 링크만 채우면 됨 */
+const EXPERIMENTS=[
+ {no:'EXP.01',status:'LIVE',title:'자금판',hanja:'資金板',
+  desc:'전국 부점에서 보고되는 고객 자금 유출입을 단시간에 정리하고, 통화별 Depo 계좌에 적정 자금을 맞추는 일 — 마감시간이 정해진, 거액이 움직이는 고위험 반복 업무입니다. 자금판은 이 과정을 원본 붙여넣기와 버튼 하나(필터 → 정규화 → 분배 → 검증 → 리포트)로 자동화했습니다. 코드는 Claude와의 설계 대화로 만들었습니다.',
+  chips:['EXCEL VBA','CLAUDE','규칙 엔진','자동 검증','작업 로그'],
+  ctas:[['프로젝트 상세','#project','amber'],['라이브 데모 체험','#demo','ghost']],
+  panel:{t:'운영 스냅샷 · 예시',kv:[['반영 속도 (100건)','0.5~2s'],['통화 블록','14'],['마감 운영','매일 2회'],['버전','v3.31']]}},
+ {no:'EXP.02',status:'NEXT',title:'Claude 마감 브리핑',
+  desc:'마감 집계(숫자만)를 팀 공유용 자연어 인수인계 문안으로 바꿔 주는 런타임 AI. 개인 환경 프로토타입 단계이며, 웹에서 모의 응답으로 체험할 수 있는 데모를 준비 중입니다. (집계 수치만 전송 · 고객정보 미전송 · 정보보안 검토 후 파일럿)',
+  chips:['CLAUDE API','프롬프트 설계','개인정보 미전송'],
+  steps:[['프로토타입','done'],['웹 데모 구현','cur'],['공개','']],
+  ctas:[['체험 준비 중','','dis'],['미션 보드에서 보기','#missions','ghost']],
+  tease:'COMING SOON · 모의 브리핑 데모'},
+ {no:'EXP.03',status:'OPEN',title:'다음 실험 — 열린 슬롯',
+  desc:'아홉 개 미션이 진행되면서 이 자리에 새 실험이 하나씩 들어옵니다. 다음 후보: 비교분석 보드 · 업무진단 리포트 · 롤플레잉 훈련. 완성되면 자금판처럼 웹에서 직접 체험할 수 있게 공개합니다.',
+  chips:['AI빙고 9미션','공동연구실'],
+  steps:[['소재 선정','cur'],['규칙 설계',''],['체험 공개','']],
+  ctas:[['빙고 미션 보드','#missions','amber'],['연구실 소개','#about','ghost']],
+  tease:'NEXT EXPERIMENT · 준비 중'}
+];
+
+/* 홈 실험 캐러셀 렌더 + 스와이프(터치 네이티브)/마우스 드래그/화살표/도트 */
+function renderExperiments(){
+  const wrap=$('#expWrap');if(!wrap)return;
+  const SC={LIVE:['chip-live','<span class="dot"></span>LIVE · 매일 2회'],
+            NEXT:['chip-next','NEXT · 준비 중'],OPEN:['chip-open','OPEN · 슬롯 대기']};
+  wrap.innerHTML=EXPERIMENTS.map(e=>{
+    const [cc,ct]=SC[e.status];
+    const chips=e.chips.map(c=>`<span class="chip">${c}</span>`).join('');
+    const ctas=e.ctas.map(([t,h,k])=>k==='dis'
+      ?`<span class="btn btn-ghost btn-sm btn-dis">${t}</span>`
+      :`<a class="btn btn-${k} btn-sm" href="${h}">${t}</a>`).join('');
+    const steps=e.steps?`<div class="stepline">${e.steps.map(([t,k],i)=>
+      (i?'<span>→</span>':'')+`<span class="st ${k}">${t}${k==='done'?' ✓':''}</span>`).join('')}</div>`:'';
+    const panel=e.panel
+      ?`<div class="blk bpanel"><div class="eyebrow" style="margin-bottom:10px">${e.panel.t}</div>${
+          e.panel.kv.map(([k,v])=>`<div class="kv"><span>${k}</span><b>${v}</b></div>`).join('')}</div>`
+      :`<div class="blk bpanel tease"><div class="sk" style="width:82%"></div><div class="sk" style="width:64%"></div><div class="sk" style="width:74%"></div><div class="sk" style="width:48%"></div><div class="lock"><span>${e.tease}</span></div></div>`;
+    return `<div class="expslide"><div class="card nowrun" style="padding:26px"><div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <span class="expno">${e.no}</span>
+        <h2 style="margin:0">${e.title}${e.hanja?` <span style="color:var(--dim);font-weight:600">${e.hanja}</span>`:''}</h2>
+        <span class="chip ${cc}">${ct}</span>
+      </div>
+      <p style="color:var(--mut);margin-top:10px">${e.desc}</p>
+      <div class="meta">${chips}</div>${steps}
+      <div class="hero-cta" style="margin-top:20px">${ctas}</div>
+    </div>${panel}</div></div>`;
+  }).join('');
+  const dots=$('#expDots');
+  dots.innerHTML=EXPERIMENTS.map((_,i)=>`<i data-i="${i}" role="button" aria-label="실험 카드 ${i+1}"></i>`).join('');
+  const W=()=>wrap.clientWidth||1;
+  const upd=()=>{const i=Math.round(wrap.scrollLeft/W());
+    $$('#expDots i').forEach((d,j)=>d.classList.toggle('on',j===i))};
+  upd();
+  wrap.addEventListener('scroll',()=>requestAnimationFrame(upd),{passive:true});
+  const go=x=>wrap.scrollTo({left:x,behavior:REDUCED?'auto':'smooth'});
+  dots.onclick=ev=>{const t=ev.target.closest('i');if(t)go(t.dataset.i*W())};
+  $('#expPrev').onclick=()=>wrap.scrollBy({left:-W(),behavior:REDUCED?'auto':'smooth'});
+  $('#expNext').onclick=()=>wrap.scrollBy({left:W(),behavior:REDUCED?'auto':'smooth'});
+  /* 마우스 드래그 스와이프 — 터치는 스크롤 스냅이 네이티브 처리 */
+  let pid=null,sx=0,sl=0,drag=false;
+  wrap.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;
+    pid=e.pointerId;sx=e.clientX;sl=wrap.scrollLeft;drag=false});
+  wrap.addEventListener('pointermove',e=>{if(pid===null)return;const d=e.clientX-sx;
+    if(!drag&&Math.abs(d)>6){drag=true;wrap.style.scrollSnapType='none'}
+    if(drag)wrap.scrollLeft=sl-d});
+  const dEnd=()=>{if(pid===null)return;pid=null;
+    if(drag){wrap.style.scrollSnapType='';go(Math.round(wrap.scrollLeft/W())*W())}};
+  wrap.addEventListener('pointerup',dEnd);wrap.addEventListener('pointercancel',dEnd);
+  wrap.addEventListener('mouseleave',dEnd);
+  wrap.addEventListener('click',e=>{if(drag){e.preventDefault();e.stopPropagation();drag=false}},true);
+}
 
 /* ── ROUTER ───────────────────────────────────────────────── */
 const VIEWS=['home','missions','project','demo','log','about'];
@@ -1297,7 +1375,7 @@ async function runCheck(){
 document.addEventListener('DOMContentLoaded',()=>{
   const t=$('#ticker');t.innerHTML+=t.innerHTML;           /* seamless loop */
   counters();renderLog();renderLogSide();renderHomeFocus();
-  renderMissions('all');renderBingo('missBingo');renderBingo('homeBingo');
+  renderExperiments();renderMissions('all');renderBingo('missBingo');renderBingo('homeBingo');
   renderProg('missProg');renderProg('homeProg');updateLines();
   route(); /* 렌더 완료 후 라우팅(서브라우트 카드 스크롤 포함) */
   $('#missFilter').addEventListener('click',e=>{
