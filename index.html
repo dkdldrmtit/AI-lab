@@ -318,6 +318,61 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 @media (prefers-reduced-motion:reduce){.tease .sk{animation:none}}
 .tease .lock{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
 .tease .lock span{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--mut);background:rgba(11,15,23,.78);border:1px solid var(--grid);padding:8px 15px;border-radius:20px}
+/* 가이드 체험(데모 ⓪) — 스토리 모드 */
+.tour{padding:24px}
+.tr-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.tr-steps{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.trs{font-size:12px;font-weight:700;color:var(--dim);padding:4px 10px;border:1px solid var(--grid);border-radius:14px}
+.trs.cur{color:var(--amb);border-color:rgba(245,167,66,.45);background:var(--ambp)}
+.trs.done{color:var(--grn);border-color:rgba(53,196,141,.3)}
+.trsl{width:10px;height:1px;background:var(--grid)}
+.tr-watch{font-family:var(--mono);font-size:13px;color:var(--mut)}
+.tr-watch b{color:var(--amb);font-size:17px}
+.tr-boot{font-family:var(--mono);font-size:12.5px;color:var(--grn);opacity:.75;min-height:60px;line-height:1.6}
+.tr-hero{transition:opacity .5s}
+.tr-hero h3{font-size:19px;margin-top:10px}
+.tr-hero p{color:var(--mut);margin-top:8px}
+.tr-now{display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:var(--panel2);border:1px solid var(--grid);border-radius:12px;padding:14px 16px;margin:12px 0}
+.tr-now .cc{font-family:var(--mono);font-weight:700;font-size:18px;color:var(--amb)}
+.tr-now .am{font-family:var(--mono);font-weight:700;font-size:18px;font-variant-numeric:tabular-nums}
+.tr-now .dr{font-weight:700} .tr-now .dr.c{color:var(--grn)} .tr-now .dr.d{color:var(--red)}
+.tr-now .idx{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--dim)}
+.tr-choice{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0}
+.tr-ch-g{display:flex;gap:6px;align-items:center;border:1px solid var(--grid2);border-radius:10px;padding:8px 10px}
+.tr-ch-g>span{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--mut)}
+.tr-ch{font-family:var(--mono);font-weight:700;font-size:13px;padding:8px 13px;border-radius:8px;border:1px solid var(--grid);background:var(--panel2);color:var(--txt);cursor:pointer}
+.tr-ch.c:hover{border-color:rgba(53,196,141,.5);color:var(--grn)}
+.tr-ch.d:hover{border-color:rgba(240,84,92,.5);color:var(--red)}
+.tr-ch.hl{border-color:var(--amb);color:var(--amb);box-shadow:0 0 0 2px rgba(245,167,66,.25)}
+.tr-ch.no{animation:trshake .3s}
+@keyframes trshake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.tr-hint{min-height:20px;font-size:13px;color:var(--mut);margin:6px 0}
+.tr-hint.bad{color:var(--red)}
+.tr-blocks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+@media (max-width:820px){.tr-blocks{grid-template-columns:1fr}}
+.tr-blk{border:1px solid var(--grid);border-radius:10px;background:var(--panel2);padding:10px 12px;min-height:78px}
+.tr-blk .h{display:flex;justify-content:space-between;gap:8px;font-family:var(--mono);font-size:12px;color:var(--mut);margin-bottom:6px;border-bottom:1px solid var(--grid2);padding-bottom:6px}
+.tr-blk .h b{color:var(--txt);font-variant-numeric:tabular-nums}
+.tr-blk .r{display:flex;justify-content:space-between;gap:8px;font-family:var(--mono);font-size:12.5px;padding:3px 2px;font-variant-numeric:tabular-nums}
+.tr-blk .r.warn{background:var(--yelf);border-radius:4px}
+.tr-blk .cpos{color:var(--grn)} .tr-blk .dneg{color:var(--red)}
+.tr-count{font-family:var(--mono);font-size:14px;color:var(--mut);display:flex;gap:20px;align-items:baseline;margin:8px 0}
+.tr-count b{color:var(--amb);font-size:24px;font-variant-numeric:tabular-nums}
+.tr-stream{font-family:var(--mono);font-size:12px;color:var(--dim);line-height:1.6;margin:8px 0;min-height:60px}
+.tr-gauge{margin:16px 0 8px}
+.tr-gauge .row{display:grid;grid-template-columns:130px 1fr 90px;gap:10px;align-items:center;margin:8px 0;font-size:13px;color:var(--mut)}
+.tr-gauge .bar{height:12px;border-radius:6px;background:var(--grid2);overflow:hidden}
+.tr-gauge .bar i{display:block;height:100%;border-radius:6px}
+.tr-gauge .v{font-family:var(--mono);font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.tr-card{position:relative;border:1px solid var(--grid);border-radius:14px;background:var(--panel2);padding:22px;margin-top:12px;overflow:hidden}
+.tr-stamp{position:absolute;right:22px;top:18px;transform:rotate(-12deg);border:3px solid var(--grn);color:var(--grn);font-weight:800;font-size:19px;padding:7px 15px;border-radius:10px;opacity:.92;animation:trstamp .45s cubic-bezier(.2,1.6,.4,1)}
+@keyframes trstamp{from{transform:rotate(-12deg) scale(2.2);opacity:0}}
+@media (prefers-reduced-motion:reduce){.tr-stamp,.tr-ch.no{animation:none}}
+.tr-stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.tr-stat .s{border:1px solid var(--grid2);border-radius:10px;padding:10px 12px}
+.tr-stat .s em{display:block;font-style:normal;font-family:var(--mono);font-size:19px;font-weight:700;color:var(--txt)}
+.tr-stat .s span{font-size:12px;color:var(--dim)}
+.tr-brief{border:1px solid rgba(245,167,66,.35);background:var(--ambf);border-radius:12px;padding:16px 18px;margin-top:14px;font-size:14.5px;line-height:1.75;min-height:64px}
 .loggrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:34px;align-items:start;margin-top:40px}
 #logSide{position:sticky;top:84px}
 @media (max-width:820px){.loggrid{grid-template-columns:1fr}#logSide{position:static}}
@@ -659,13 +714,25 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
     웹으로 옮긴 시뮬레이션이며, 모든 데이터는 예시입니다. 화면 구성은 실제 자금판(오전·오후 14개 통화) 중 3개 통화만 보여줍니다.</span></div>
 
   <div class="tabs">
-    <button class="tab active" data-t="d1">① 자동 반영</button>
+    <button class="tab active" data-t="d0">▶ 가이드 체험</button>
+    <button class="tab" data-t="d1">① 자동 반영</button>
     <button class="tab" data-t="d2">② 입력 UX</button>
     <button class="tab" data-t="d3">③ 마감 점검</button>
   </div>
 
+  <!-- ── demo 0: 가이드 체험(스토리 모드) — 처음 온 사람용. 규칙은 데모 ①과 동일 ── -->
+  <div class="tabpane active" id="d0">
+    <div class="card flat tour">
+      <div class="tr-top">
+        <div class="tr-steps" id="trSteps"></div>
+        <div class="tr-watch" id="trWatch" hidden>⏱ <b id="trWatchV">0.0</b>s</div>
+      </div>
+      <div id="trStage"></div>
+    </div>
+  </div>
+
   <!-- ── demo 1 ── -->
-  <div class="tabpane active" id="d1">
+  <div class="tabpane" id="d1">
     <div class="demo-grid">
       <div class="card flat">
         <div class="panel-t"><h3>원본 — 마이스타 거액자금보고 (붙여넣은 상태)</h3>
@@ -851,6 +918,7 @@ const mmdd=off=>{const d=new Date();d.setDate(d.getDate()+off);
 /* ── DATA ─────────────────────────────────────────────────── */
 /* 기록(LOG) — 이 실험실이 해온 일들. 새 일 = 객체 1개 추가 (최신이 위) */
 const LOGS=[
+ {d:'07-05',t:'라이브 데모에 가이드 체험(스토리 모드) 추가',tag:'사이트',note:'30초 자동 시연 · 수작업 vs 자동 스톱워치 비교 · 마감 리포트 카드 · AI 브리핑(모의)'},
  {d:'07-05',t:'데스크톱 기준 전면 정리',tag:'사이트',note:'폭 통일 · 섹션 위계 · 자금판 흐름도 · 데모 딥링크 · 기록 인덱스'},
  {d:'07-04',t:'사이트를 AI빙고 미션 플랫폼으로 개편',tag:'사이트',note:'3×3 빙고 보드 · 데모에 자금관리/후속 프로세스 단계 · 기록 페이지 신설'},
  {d:'07-04',t:'AI Lab 공개 배포 + 자동배포 파이프라인 구축',tag:'사이트',note:'GitHub Pages — 원본 push만 하면 라이브 자동 갱신'},
@@ -973,11 +1041,12 @@ function route(){
   $$('.view').forEach(v=>v.classList.toggle('active',v.id==='v-'+h));
   $$('#navlinks a').forEach(a=>a.classList.toggle('on',a.dataset.v===h));
   window.scrollTo(0,0);
-  /* 서브라우트: #demo/d1~d3 = 탭 딥링크, #missions/<셀> = 해당 미션 카드로 */
-  if(h==='demo'&&/^d[1-3]$/.test(sub)){
+  /* 서브라우트: #demo/d0~d3 = 탭 딥링크, #missions/<셀> = 해당 미션 카드로 */
+  if(h==='demo'&&/^d[0-3]$/.test(sub)){
     $$('.tab[data-t]').forEach(x=>x.classList.toggle('active',x.dataset.t===sub));
     $$('.tabpane').forEach(p=>p.classList.toggle('active',p.id===sub));
   }
+  if(h==='demo'&&!trBootDone){trBootDone=true;trIntro();} /* 첫 방문 시 가이드 부팅 */
   if(h==='missions'&&sub){
     let card=$('#m-'+CSS.escape(sub));
     if(!card&&$('#missGrid')){ /* 필터로 가려짐 → 전체 보기 복원 */
@@ -1291,6 +1360,291 @@ async function runMystar(){
   running=false;$('#btnShuffle').disabled=false;$('#btnReset1').disabled=false;
 }
 
+/* ── DEMO 0: 가이드 체험(스토리 모드) ─────────────────────────
+   처음 온 사람용 — 시연 보기 → 수작업 맛보기 → 자금판 자동 처리(스톱워치)
+   → 판정 → 마감 리포트 카드 → AI 브리핑(모의). 규칙은 데모 ①(VBA 포팅)과 동일.
+   데이터는 결정적(고정) 예시 — JPY 부족·AUD 과다·EUR 적정으로 마감되게 설계 */
+const TR_TGT={JPY:100000000,AUD:5000000,EUR:3000000};
+const TR_MANUAL=[
+ {ccy:'JPY',amt:120000000,dir:'입금(타발수취)',cd:'C'},
+ {ccy:'AUD',amt:2400000,dir:'출금(당발송금)',cd:'D'},
+ {ccy:'EUR',amt:900000,dir:'입금(타발수취)',cd:'C'}];
+const TR_AUTO=[
+ {ccy:'JPY',amt:8000000,dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'AUD',amt:3200000,dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'USD',amt:42000000,dir:'출금(당발송금)',reason:'해외송금',vd:0,st:'정상'},
+ {ccy:'JPY',amt:45000000,dir:'출금(당발송금)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'EUR',amt:1400000,dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'JPY',amt:26000000,dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'취소'},
+ {ccy:'AUD',amt:2800000,dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'JPY',amt:12000000,dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'AUD',amt:1900000,dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'EUR',amt:400000,dir:'입금(타발수취)',reason:'자본시장영업부',vd:0,st:'정상'},
+ {ccy:'JPY',amt:28000000,dir:'출금(당발송금)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'AUD',amt:5600000,dir:'입금(타발수취)',reason:'국내간자금이체',vd:-1,st:'정상'},
+ {ccy:'EUR',amt:800000,dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'AUD',amt:2800000,dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'JPY',amt:6000000,dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'AUD',amt:1200000,dir:'출금(당발송금)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'EUR',amt:600000,dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'JPY',amt:9000000,dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'EUR',amt:600000,dir:'출금(당발송금)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'AUD',amt:2500000,dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'정상'},
+ {ccy:'JPY',amt:20000000,dir:'출금(당발송금)',reason:'국내간자금이체',vd:0,st:'정상'}];
+const TR_TOTAL=TR_MANUAL.length+TR_AUTO.length;
+const TR_STEPNM=['시작','수작업','자동 반영','판정','리포트'];
+let trBootDone=false,trBusy=false;
+let trS={auto:false,mIdx:0,mSecs:0,aSecs:0,blocks:{},over:[],flags:{cap:0,dup:0,skip:0,ok:0}};
+let trTick=null,trT0=0;
+function trWatchStart(){trT0=performance.now();const w=$('#trWatch');w.hidden=false;
+  trTick=setInterval(()=>{$('#trWatchV').textContent=((performance.now()-trT0)/1000).toFixed(1)},100);}
+function trWatchStop(){clearInterval(trTick);trTick=null;
+  const s=(performance.now()-trT0)/1000;$('#trWatchV').textContent=s.toFixed(1);return s;}
+function trSteps(i){$('#trSteps').innerHTML=TR_STEPNM.map((s,j)=>
+  `<span class="trs ${j<i?'done':''}${j===i?' cur':''}">${s}</span>`).join('<span class="trsl"></span>');}
+function trCls(c){return trS.blocks[c].reduce((a,b)=>a+(b.cd==='C'?b.amt:-b.amt),0)}
+function trPaintBlocks(){
+  const el=$('#trBlocks');if(!el)return;
+  el.innerHTML=['JPY','AUD','EUR'].map(c=>{
+    const rows=trS.blocks[c],show=rows.slice(-4);
+    return `<div class="tr-blk"><div class="h"><span>${c}</span><b>CLOSING ${sfmt(trCls(c))}</b></div>${
+      rows.length?(rows.length>4?`<div class="r" style="color:var(--dim)">… 외 ${rows.length-4}건</div>`:'')+
+        show.map(r=>`<div class="r${r.warn?' warn':''}"><span class="${r.cd==='C'?'cpos':'dneg'}">${r.cd==='C'?'C(+)':'D(−)'}${r.dup?' 중복?':''}${r.warn?' [확인]':''}</span><span class="${r.cd==='C'?'cpos':'dneg'}">${r.cd==='C'?'':'-'}${fmt(r.amt)}</span></div>`).join('')
+      :'<div class="r" style="color:var(--dim)">반영 대기</div>'}</div>`;
+  }).join('');
+}
+function trIntro(){
+  trBusy=false;trS={auto:false,mIdx:0,mSecs:0,aSecs:0,blocks:{JPY:[],AUD:[],EUR:[]},over:[],flags:{cap:0,dup:0,skip:0,ok:0}};
+  trSteps(0);$('#trWatch').hidden=true;
+  $('#trStage').innerHTML=`
+   <div class="tr-boot" id="trBoot"></div>
+   <div class="tr-hero" id="trHero" style="opacity:0">
+     <h3>오늘, 당신이 외화자금 데스크 담당입니다</h3>
+     <p>전국 부점에서 자금보고 <b style="color:var(--txt)">${TR_TOTAL}건</b>(예시)이 들어와 있습니다.
+       마감시간 안에 통화별로 정리해 Depo 잔액을 맞춰야 합니다.<br>
+       처음이라면 <b style="color:var(--amb)">30초 자동 시연</b>으로 전체 흐름을 먼저 보세요.</p>
+     <div class="hero-cta" style="margin-top:16px">
+       <button class="btn btn-amber btn-sm" data-act="tourAuto">▶ 30초 자동 시연</button>
+       <button class="btn btn-ghost btn-sm" data-act="tourManual">직접 해보기</button>
+     </div></div>`;
+  trBoot();
+}
+async function trBoot(){
+  const box=$('#trBoot');if(!box)return;box.innerHTML='';
+  const lines=['SESSION AM · 자금판 GUIDED TOUR','RULES LOADED — 필터 · 정규화 · 검증 (실제 VBA와 동일)',`REPORTS INBOUND — ${TR_TOTAL}건 대기 (예시 데이터)`];
+  for(const l of lines){
+    const d=document.createElement('div');box.appendChild(d);
+    for(const ch of l){if(!box.isConnected)return;d.textContent+=ch;await sleep(REDUCED?0:12);}
+    await sleep(REDUCED?0:120);
+  }
+  const h=$('#trHero');if(h)h.style.opacity=1;
+}
+function trManual(auto){
+  trS.auto=!!auto;trS.mIdx=0;trSteps(1);
+  $('#trStage').innerHTML=`
+   <p class="tagline">원장의 한 건을 읽고 알맞은 블록에 기록하세요 —
+     <b style="color:var(--grn)">입금(타발수취) = C(+)</b> ·
+     <b style="color:var(--red)">출금(당발송금) = D(−)</b> (예시)</p>
+   <div class="tr-now" id="trNow"></div>
+   <div class="tr-choice" id="trChoice">${['JPY','AUD','EUR'].map(c=>`
+     <div class="tr-ch-g"><span>${c}</span>
+       <button class="tr-ch c" data-ccy="${c}" data-cd="C">C(+)</button>
+       <button class="tr-ch d" data-ccy="${c}" data-cd="D">D(−)</button></div>`).join('')}</div>
+   <div class="tr-hint" id="trHint">${auto?'자동 시연 중 — 규칙이 어떻게 적용되는지 지켜보세요':'버튼을 눌러 기록해 보세요. 시간이 재고 있습니다 ⏱'}</div>
+   <div class="tr-blocks" id="trBlocks"></div>`;
+  trPaintBlocks();trShowManual();trWatchStart();
+  if(auto)trAutoplay();
+}
+function trShowManual(){
+  const r=TR_MANUAL[trS.mIdx];
+  $('#trNow').innerHTML=`<span class="cc">${r.ccy}</span><span class="am">${fmt(r.amt)}</span>
+    <span class="dr ${r.cd==='C'?'c':'d'}">${r.dir}</span><span>국내간자금이체</span>
+    <span class="idx">수작업 ${trS.mIdx+1} / ${TR_MANUAL.length}</span>`;
+}
+async function trAutoplay(){
+  await sleep(REDUCED?100:900);
+  while(trS.mIdx<TR_MANUAL.length){
+    const r=TR_MANUAL[trS.mIdx];
+    const btn=$(`#trChoice [data-ccy="${r.ccy}"][data-cd="${r.cd}"]`);
+    if(!btn||!btn.isConnected)return;
+    btn.classList.add('hl');await sleep(REDUCED?60:750);
+    if(!btn.isConnected)return;btn.classList.remove('hl');
+    trAnswer(r.ccy,r.cd,true);await sleep(REDUCED?60:500);
+  }
+}
+function trAnswer(ccy,cd,fromAuto){
+  if(trS.auto&&!fromAuto)return;              /* 시연 중 수동 클릭 무시 */
+  const r=TR_MANUAL[trS.mIdx];if(!r)return;
+  const hint=$('#trHint');
+  if(ccy!==r.ccy||cd!==r.cd){
+    const b=$(`#trChoice [data-ccy="${ccy}"][data-cd="${cd}"]`);
+    if(b){b.classList.remove('no');void b.offsetWidth;b.classList.add('no');}
+    hint.className='tr-hint bad';
+    hint.textContent=`이 건은 ${r.ccy} · ${r.dir} → ${r.ccy} ${r.cd==='C'?'C(+)':'D(−)'} 입니다`;
+    return;
+  }
+  hint.className='tr-hint';
+  hint.textContent=`${r.ccy} ${r.cd==='C'?'C(+)':'D(−)'} ${fmt(r.amt)} 기록 ✓`;
+  trS.blocks[r.ccy].push({cd:r.cd,amt:r.amt});trPaintBlocks();
+  trS.mIdx++;
+  if(trS.mIdx<TR_MANUAL.length){trShowManual();return;}
+  trS.mSecs=trWatchStop();trMid();
+}
+function trMid(){
+  const per=trS.auto?15:Math.max(trS.mSecs/TR_MANUAL.length,1);
+  const perTxt=trS.auto?'체감 기준 건당 약 15초로 계산(예시)':`방금 속도 — 건당 약 ${per.toFixed(1)}초`;
+  const estAll=per*TR_TOTAL,estDay=per*300/60;
+  $('#trStage').innerHTML=`
+   <div class="tr-card">
+     <h3>수작업 ${TR_MANUAL.length}건 — <span style="color:var(--amb)">${trS.auto?'시연 완료':trS.mSecs.toFixed(1)+'초'}</span></h3>
+     <p style="color:var(--mut);margin-top:8px">${perTxt}.<br>
+       이 원장 ${TR_TOTAL}건을 전부 손으로 옮기면 <b style="color:var(--red)">약 ${Math.round(estAll)}초</b>,
+       실제 하루 2회 · 약 300건이면 <b style="color:var(--red)">약 ${Math.round(estDay)}분</b>이 걸립니다(예시 추정).<br>
+       한 건만 놓쳐도 마감 오류 — 그래서 이 구간을 자동화했습니다.</p>
+     <div class="hero-cta" style="margin-top:16px">
+       <button class="btn btn-amber" data-act="tourRun">남은 ${TR_AUTO.length}건, 자금판으로 처리 ▶</button>
+     </div></div>
+   <div class="tr-blocks" id="trBlocks" style="margin-top:14px"></div>`;
+  trPaintBlocks();
+  if(trS.auto)setTimeout(()=>{const b=$('[data-act="tourRun"]');if(b&&b.isConnected)trRun();},REDUCED?150:1600);
+}
+async function trRun(){
+  if(trBusy)return;trBusy=true;trSteps(2);
+  $('#trStage').innerHTML=`
+   <div class="tr-count">처리 <span><b id="trCnt">0</b> / ${TR_AUTO.length}</span>
+     <span>⏱ <b id="trAsec">0.0</b>s</span>
+     <span style="font-size:12px;color:var(--dim)">필터 → 정규화 → 분배 → 검증 (실제 규칙 동일 · 예시)</span></div>
+   <div class="tr-stream" id="trStream"></div>
+   <div class="tr-blocks" id="trBlocks"></div>
+   <div id="trAfter"></div>`;
+  trPaintBlocks();$('#trWatch').hidden=true;
+  const stream=$('#trStream');const t0=performance.now();
+  for(let i=0;i<TR_AUTO.length;i++){
+    const r=TR_AUTO[i];let line;
+    if(r.st!=='정상'){trS.flags.skip++;line=`<span style="color:var(--dim)">${r.ccy} ${fmt(r.amt)} — 제외 · 취소/반려</span>`;}
+    else if(r.vd!==0){trS.flags.skip++;line=`<span style="color:var(--dim)">${r.ccy} ${fmt(r.amt)} — 제외 · VD 불일치</span>`;}
+    else if(r.reason==='해외송금'){trS.over.push(r);line=`<span style="color:var(--amb)">${r.ccy} ${fmt(r.amt)} — 당발 목록 → 외환사업부 쪽지</span>`;}
+    else{
+      const cd=r.dir.includes('입금')?'C':'D';
+      const dup=trS.blocks[r.ccy].some(b=>b.cd===cd&&b.amt===r.amt);
+      const cap=(r.reason==='자본시장영업부'||r.reason==='자산운용부');
+      trS.blocks[r.ccy].push({cd,amt:r.amt,warn:cap,dup});
+      trS.flags.ok++;if(cap)trS.flags.cap++;if(dup)trS.flags.dup++;
+      line=`${r.ccy} <span class="${cd==='C'?'cpos':'dneg'}" style="color:${cd==='C'?'var(--grn)':'var(--red)'}">${cd==='C'?'C(+)':'D(−)'} ${fmt(r.amt)}</span> 반영${cap?' · <span style="color:var(--yel)">[자본시장] 확인</span>':''}${dup?' · <span style="color:var(--red)">중복 의심</span>':''}`;
+    }
+    const d=document.createElement('div');d.innerHTML=line;
+    stream.prepend(d);while(stream.children.length>5)stream.lastChild.remove();
+    trPaintBlocks();
+    $('#trCnt').textContent=i+1;
+    $('#trAsec').textContent=((performance.now()-t0)/1000).toFixed(1);
+    await sleep(REDUCED?8:95);
+  }
+  trS.aSecs=(performance.now()-t0)/1000;
+  const per=trS.auto?15:Math.max(trS.mSecs/TR_MANUAL.length,1);
+  const est=per*TR_TOTAL;
+  const w2=Math.max(trS.aSecs/est*100,2.5);
+  $('#trAfter').innerHTML=`
+   <div class="tr-gauge">
+     <div class="row"><span>수작업 추정</span><div class="bar"><i style="width:100%;background:var(--red);opacity:.75"></i></div><span class="v" style="color:var(--red)">~${Math.round(est)}s</span></div>
+     <div class="row"><span>자금판</span><div class="bar"><i style="width:${w2}%;background:var(--grn)"></i></div><span class="v" style="color:var(--grn)">${trS.aSecs.toFixed(1)}s</span></div>
+   </div>
+   <div class="hero-cta"><button class="btn btn-amber btn-sm" data-act="tourJudge">마감 점검 ▶</button></div>`;
+  trBusy=false;
+  if(trS.auto)setTimeout(()=>{const b=$('[data-act="tourJudge"]');if(b&&b.isConnected)trJudge();},REDUCED?150:1800);
+}
+function trVerdict(c){
+  const cls=trCls(c),tgt=TR_TGT[c],ratio=cls/tgt;
+  if(ratio<0.8)return{c,cls,tgt,ratio,act:'부족 → 조달 C(+)',w:'pr',col:'var(--grn)'};
+  if(ratio>1.2)return{c,cls,tgt,ratio,act:'과다 → 운용 D(−)',w:'dp',col:'var(--red)'};
+  return{c,cls,tgt,ratio,act:'적정 → 마감 ✓',w:'hd',col:'var(--cyn)'};
+}
+async function trJudge(){
+  if(trBusy)return;trBusy=true;trSteps(3);
+  $('#trStage').innerHTML=`
+   <p class="tagline">통화별 CLOSING을 기준(목표)과 비교해 판단합니다 — 부족하면 조달, 남으면 운용 (예시)</p>
+   <div class="mgmt-grid" id="trJgrid"></div>
+   <div id="trJafter"></div>`;
+  const grid=$('#trJgrid');
+  for(const c of ['JPY','AUD','EUR']){
+    const v=trVerdict(c);
+    const el=document.createElement('div');el.className='mgcard';
+    el.innerHTML=`<div class="mc-h"><span class="c">${v.c}</span>
+      <span class="act ${v.w==='pr'?'a-procure':v.w==='dp'?'a-deploy':'a-hold'}">${v.act}</span></div>
+      <div class="kv"><span>반영 CLOSING</span><b>${sfmt(v.cls)}</b></div>
+      <div class="kv"><span>기준(목표)</span><b>${fmt(v.tgt)}</b></div>
+      <div class="kv"><span>기준 대비</span><b style="color:${v.col}">${Math.round(v.ratio*100)}%</b></div>`;
+    grid.appendChild(el);await sleep(REDUCED?40:600);
+  }
+  $('#trJafter').innerHTML=`<div class="hero-cta" style="margin-top:14px">
+    <button class="btn btn-amber btn-sm" data-act="tourCard">마감 리포트 발급 ▶</button></div>`;
+  trBusy=false;
+  if(trS.auto)setTimeout(()=>{const b=$('[data-act="tourCard"]');if(b&&b.isConnected)trCard();},REDUCED?150:1700);
+}
+function trCard(){
+  trSteps(4);
+  const vs=['JPY','AUD','EUR'].map(trVerdict);
+  const per=trS.auto?15:Math.max(trS.mSecs/TR_MANUAL.length,1);
+  $('#trStage').innerHTML=`
+   <div class="tr-card">
+     <span class="tr-stamp">AM 마감 완료</span>
+     <span class="eyebrow">Closing Report · 예시</span>
+     <h3 style="margin-top:8px">오늘의 마감 리포트</h3>
+     <div class="tr-stat">
+       <div class="s"><em>${TR_TOTAL}건</em><span>총 보고 (수작업 ${TR_MANUAL.length} + 자동 ${trS.flags.ok+trS.over.length+trS.flags.skip})</span></div>
+       <div class="s"><em>${trS.flags.ok+TR_MANUAL.length}건</em><span>통화 블록 반영</span></div>
+       <div class="s"><em>${trS.over.length}·${trS.flags.skip}건</em><span>당발 쪽지 · 규칙 제외</span></div>
+       <div class="s"><em>${trS.flags.cap+trS.flags.dup}건</em><span>자동 플래그 (확인·중복)</span></div>
+       <div class="s"><em>${trS.aSecs.toFixed(1)}s</em><span>자동 처리 (수작업 추정 ~${Math.round(per*TR_TOTAL)}s)</span></div>
+     </div>
+     <div style="display:flex;gap:10px;flex-wrap:wrap">
+       ${vs.map(v=>`<span class="chip" style="color:${v.col};border-color:${v.col}">${v.c} · ${v.act}</span>`).join('')}
+     </div>
+     <p class="tagline" style="margin-top:14px">판단과 최종 승인은 사람의 몫 — 자금판은 그 앞의 반복을 대신합니다. (모든 수치 예시)</p>
+     <div class="hero-cta" style="margin-top:16px">
+       <button class="btn btn-amber btn-sm" data-act="tourBrief">AI 브리핑 받아보기 ▶</button>
+     </div>
+     <div id="trBriefBox"></div>
+   </div>`;
+  if(trS.auto)setTimeout(()=>{const b=$('[data-act="tourBrief"]');if(b&&b.isConnected)trBrief();},REDUCED?150:2000);
+}
+async function trBrief(){
+  if(trBusy)return;trBusy=true;
+  const btn=$('[data-act="tourBrief"]');if(btn)btn.disabled=true;
+  const vs=['JPY','AUD','EUR'].map(trVerdict);
+  const seg=v=>v.w==='pr'?`${v.c}는 기준 대비 ${Math.round(v.ratio*100)}%로 부족해 조달(FT C+)이 필요합니다`
+    :v.w==='dp'?`${v.c}는 기준의 ${Math.round(v.ratio*100)}%로 여유가 있어 운용 대상입니다`
+    :`${v.c}는 적정 범위(${Math.round(v.ratio*100)}%)로 마감 가능합니다`;
+  const txt=`금일 오전 마감 집계를 공유드립니다. ${seg(vs[0])}. ${seg(vs[1])}. ${seg(vs[2])}. `+
+    `자본시장 ${trS.flags.cap}건과 중복 의심 ${trS.flags.dup}건은 담당 확인 바랍니다. 당발 ${trS.over.length}건은 쪽지 발송 완료입니다.`;
+  const box=$('#trBriefBox');
+  box.innerHTML=`<div class="tr-brief"><div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+    <span class="chip chip-next">모의 응답 · 예시</span>
+    <span style="font-size:12px;color:var(--dim)">집계 수치만 사용 · 고객정보 없음 — 실제 연동은 사내 AI 도입 후 (EXP.02)</span></div>
+    <div id="trBriefTxt"></div></div>
+   <div class="hero-cta" style="margin-top:16px">
+     <button class="btn btn-ghost btn-sm" data-act="tourRestart">↺ 다시 체험</button>
+     <button class="btn btn-ghost btn-sm" data-act="tourGoD1">실전 데모 ①~③ 으로 →</button>
+   </div>`;
+  const t=$('#trBriefTxt');
+  for(const ch of txt){if(!t.isConnected)break;t.textContent+=ch;await sleep(REDUCED?0:18);}
+  trBusy=false;
+}
+function bindTour(){
+  $('#d0').addEventListener('click',e=>{
+    const b=e.target.closest('[data-act],[data-ccy]');if(!b||b.disabled)return;
+    const a=b.dataset.act;
+    if(a==='tourAuto'){trS.auto=true;trManual(true);}
+    else if(a==='tourManual'){trS.auto=false;trManual(false);}
+    else if(a==='tourRun')trRun();
+    else if(a==='tourJudge')trJudge();
+    else if(a==='tourCard')trCard();
+    else if(a==='tourBrief')trBrief();
+    else if(a==='tourRestart')trIntro();
+    else if(a==='tourGoD1'){const t=$('.tab[data-t="d1"]');if(t)t.click();window.scrollTo(0,0);}
+    else if(b.dataset.ccy)trAnswer(b.dataset.ccy,b.dataset.cd,false);
+  });
+}
+
 /* ── DEMO 2: 입력 UX ──────────────────────────────────────── */
 function parseDot(v){
   v=v.trim().replace(/,/g,'');
@@ -1409,6 +1763,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   $('#btnShuffle').addEventListener('click',newSample);
   $('#btnReset1').addEventListener('click',()=>{resetDemo1();if(!running&&!procRunning)$('#btnRun').disabled=false;});
   $('#btnProc').addEventListener('click',runProcess);
+  /* demo 0: 가이드 체험 */
+  bindTour();
   /* demo 2/3 */
   bindDemo2();renderScn();
   $$('.scnb').forEach(b=>b.addEventListener('click',()=>{
