@@ -441,6 +441,8 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .nt-search{border:1px solid var(--grid);border-radius:9px;background:var(--panel);padding:8px 12px;display:flex;align-items:center;gap:8px;font-size:13.5px}
 .nt-search input{flex:1;background:transparent;border:none;outline:none;color:var(--txt);font-family:var(--kor);font-size:13.5px;min-width:0}
 .nt-search input::placeholder{color:var(--dim)}
+.nt-search:focus-within{border-color:var(--amb);box-shadow:0 0 0 2px rgba(245,167,66,.2)}
+.nt-sel:focus-visible{outline:2px solid var(--amb);outline-offset:1px}
 .nt-search .cnt{font-family:var(--mono);font-size:11.5px;color:var(--dim);white-space:nowrap}
 .nt-res{border:1px solid var(--grid-hi);border-radius:0 0 9px 9px;background:#0c1421;margin-top:-1px;overflow:hidden}
 .nt-ro{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 12px;font-family:var(--kor);font-size:13px;color:var(--mut);border:none;border-top:1px solid var(--grid2);background:transparent;cursor:pointer}
@@ -824,12 +826,12 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
   <p class="lead">실험이 완성될 때마다 여기 체험이 하나씩 늘어납니다 — 골라서 직접 만져 보세요.</p>
 
   <!-- 실험(데모 그룹) 선택 — 새 실험 데모 = dcard 버튼 1개 + dgroup 1개 추가 -->
-  <div class="dsel">
-    <button class="dcard active" data-g="jgp">
+  <div class="dsel" role="tablist" aria-label="실험 데모 선택">
+    <button type="button" class="dcard active" data-g="jgp" aria-pressed="true">
       <span class="dc-h"><span class="dc-t">자금판</span><span class="chip chip-live"><span class="dot"></span>LIVE · 매일 2회 운영</span></span>
       <span class="dc-d">외화자금 마감 자동화 — 가이드 체험 + 실전 데모 3종</span>
     </button>
-    <button class="dcard" data-g="note">
+    <button type="button" class="dcard" data-g="note" aria-pressed="false">
       <span class="dc-h"><span class="dc-t">쪽지 다듬기</span><span class="chip chip-next">NEW · 미션9</span></span>
       <span class="dc-d">안내 문구 개선 — 조회해서 고르면, 빠짐없는 안내 쪽지 완성</span>
     </button>
@@ -959,28 +961,28 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
         <div>
           <div class="nt-f"><span class="nt-l">상황</span>
             <div class="chips" id="ntScn">
-              <button class="nt-chip on" data-scn="lunch">점심 회식</button>
-              <button class="nt-chip" data-scn="meet">팀 회의</button>
-              <button class="nt-chip" data-scn="work">부서 워크숍</button>
+              <button type="button" class="nt-chip on" data-scn="lunch" aria-pressed="true">점심 회식</button>
+              <button type="button" class="nt-chip" data-scn="meet" aria-pressed="false">팀 회의</button>
+              <button type="button" class="nt-chip" data-scn="work" aria-pressed="false">부서 워크숍</button>
             </div></div>
           <div class="nt-f"><span class="nt-l">참석자 <em>이름·부서로 조회</em></span>
-            <div class="nt-search">🔍 <input id="ntPq" placeholder="예: 데스크, 김" autocomplete="off"><span class="cnt" id="ntPcnt"></span></div>
-            <div class="nt-res" id="ntPres" hidden></div>
+            <div class="nt-search">🔍 <input id="ntPq" placeholder="예: 데스크, 김" autocomplete="off" aria-label="참석자 이름·부서 검색"><span class="cnt" id="ntPcnt" aria-live="polite"></span></div>
+            <div class="nt-res" id="ntPres" role="listbox" aria-label="참석자 조회 결과" hidden></div>
             <div class="nt-toks" id="ntToks"></div></div>
           <div class="nt-f"><span class="nt-l">날짜 · 시간</span>
             <select class="nt-sel" id="ntTime" aria-label="날짜와 시간 선택"></select></div>
           <div class="nt-f"><span class="nt-l">장소 <em>식당·회의실 조회</em></span>
-            <div class="nt-search">🔍 <input id="ntLq" placeholder="예: 단, 회의실" autocomplete="off"><span class="cnt" id="ntLcnt"></span></div>
-            <div class="nt-res" id="ntLres" hidden></div>
+            <div class="nt-search">🔍 <input id="ntLq" placeholder="예: 단, 회의실" autocomplete="off" aria-label="장소(식당·회의실) 검색"><span class="cnt" id="ntLcnt" aria-live="polite"></span></div>
+            <div class="nt-res" id="ntLres" role="listbox" aria-label="장소 조회 결과" hidden></div>
             <div class="nt-toks" id="ntLpick"></div></div>
           <div class="nt-f" style="margin-bottom:0"><span class="nt-l">보내는 톤 · 채널</span>
-            <div class="nt-seg" id="ntTone"><button class="on" data-tone="msg">사내 메신저</button><button data-tone="mail">이메일 · 정중</button></div></div>
+            <div class="nt-seg" id="ntTone"><button type="button" class="on" data-tone="msg" aria-pressed="true">사내 메신저</button><button type="button" data-tone="mail" aria-pressed="false">이메일 · 정중</button></div></div>
         </div>
         <div>
           <div class="nt-out">
             <div class="nt-oh"><span class="d1"></span><span class="d2"></span><span class="d3"></span>
-              <span class="t">안내 쪽지 — 자동 완성</span><button id="ntCopy">복사 ⧉</button></div>
-            <div class="nt-msg" id="ntMsg"></div>
+              <span class="t">안내 쪽지 — 자동 완성</span><button type="button" id="ntCopy">복사 ⧉</button></div>
+            <div class="nt-msg" id="ntMsg" aria-live="polite"></div>
             <div class="nt-auto" id="ntAuto"></div>
           </div>
         </div>
@@ -1221,14 +1223,18 @@ function route(){
   $$('.view').forEach(v=>v.classList.toggle('active',v.id==='v-'+h));
   $$('#navlinks a').forEach(a=>a.classList.toggle('on',a.dataset.v===h));
   window.scrollTo(0,0);
-  /* 서브라우트: #demo/d0~d3 = 자금판 탭, #demo/note = 쪽지 다듬기, #missions/<셀> = 미션 카드 */
-  if(h==='demo'&&/^d[0-3]$/.test(sub)){
-    demoGroup('jgp');
-    $$('.tab[data-t]').forEach(x=>x.classList.toggle('active',x.dataset.t===sub));
-    $$('.tabpane').forEach(p=>p.classList.toggle('active',p.id===sub));
+  /* 서브라우트: #demo/note = 쪽지 다듬기, #demo(또는 #demo/d0~d3) = 자금판(그룹 리셋) */
+  if(h==='demo'){
+    if(sub==='note')demoGroup('note');
+    else{
+      demoGroup('jgp'); /* 맨 #demo 진입·복귀 시 항상 자금판 그룹으로 */
+      if(/^d[0-3]$/.test(sub)){
+        $$('.tab[data-t]').forEach(x=>x.classList.toggle('active',x.dataset.t===sub));
+        $$('.tabpane').forEach(p=>p.classList.toggle('active',p.id===sub));
+      }
+    }
+    if(!trBootDone){trBootDone=true;trIntro();} /* 첫 방문 시 가이드 부팅 */
   }
-  if(h==='demo'&&sub==='note')demoGroup('note');
-  if(h==='demo'&&!trBootDone){trBootDone=true;trIntro();} /* 첫 방문 시 가이드 부팅 */
   if(h==='missions'&&sub){
     let card=$('#m-'+CSS.escape(sub));
     if(!card&&$('#missGrid')){ /* 필터로 가려짐 → 전체 보기 복원 */
@@ -1971,14 +1977,14 @@ function bindNote(){
     const s=NT_SCN[ntS.scn];
     ntS.time=s.time;ntS.place=NT_PLACES.find(p=>p.n===s.place)||NT_PLACES[0];
     sel.value=s.time;
-    $$('#ntScn .nt-chip').forEach(x=>x.classList.toggle('on',x===b));
+    $$('#ntScn .nt-chip').forEach(x=>{const on=x===b;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on);});
     ntRender();ntRenderBA();
   });
   /* 톤 */
   $('#ntTone').addEventListener('click',e=>{
     const b=e.target.closest('[data-tone]');if(!b)return;
     ntS.tone=b.dataset.tone;
-    $$('#ntTone button').forEach(x=>x.classList.toggle('on',x===b));
+    $$('#ntTone button').forEach(x=>{const on=x===b;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on);});
     ntRender();
   });
   /* 참석자 검색·추가·삭제 */
@@ -1995,6 +2001,8 @@ function bindNote(){
   $('#ntToks').addEventListener('click',e=>{
     const b=e.target.closest('[data-rm]');if(!b)return;
     ntS.people.splice(+b.dataset.rm,1);ntRender();
+    /* 열려 있던 조회 드롭다운의 '추가됨' 스테일 상태 정리 + 포커스 복귀 */
+    pq.value='';$('#ntPres').hidden=true;$('#ntPcnt').textContent='';pq.focus();
   });
   /* 장소 검색·선택 */
   const lq=$('#ntLq');
@@ -2004,26 +2012,37 @@ function bindNote(){
     const b=e.target.closest('[data-pick]');if(!b)return;
     const p=NT_PLACES.find(x=>x.n===b.dataset.pick);
     if(p){ntS.place=p;ntRender();}
-    lq.value='';$('#ntLres').hidden=true;$('#ntLcnt').textContent='';
+    lq.value='';$('#ntLres').hidden=true;$('#ntLcnt').textContent='';lq.focus();
   });
-  /* 복사 */
+  /* 복사 — 성공 여부 확인 후 피드백(사내망 http·권한거부 대응) · 참석자 0명 가드 */
   $('#ntCopy').addEventListener('click',async()=>{
-    const txt=$('#ntMsg').innerText.trim();const btn=$('#ntCopy');
-    try{await navigator.clipboard.writeText(txt);}catch(_){
-      const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);
-      ta.select();try{document.execCommand('copy')}catch(__){}ta.remove();
+    const btn=$('#ntCopy');
+    if(!ntS.people.length){btn.textContent='참석자를 먼저 추가';setTimeout(()=>btn.textContent='복사 ⧉',1400);return;}
+    const txt=$('#ntMsg').innerText.trim();let ok=false;
+    try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(txt);ok=true;}}catch(_){ok=false;}
+    if(!ok){
+      const ta=document.createElement('textarea');ta.value=txt;
+      ta.style.cssText='position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);ta.focus();ta.setSelectionRange(0,txt.length);
+      try{ok=document.execCommand('copy');}catch(__){ok=false;}
+      ta.remove();
     }
-    btn.textContent='복사됨 ✓';setTimeout(()=>btn.textContent='복사 ⧉',1200);
+    btn.textContent=ok?'복사됨 ✓':'복사 실패 — 직접 선택';setTimeout(()=>btn.textContent='복사 ⧉',1400);
   });
   ntRender();ntRenderBA();
 }
 /* 데모 그룹 전환 — 새 그룹 = dcard/dgroup 추가만 하면 됨 */
 function demoGroup(g){
-  $$('.dcard').forEach(b=>b.classList.toggle('active',b.dataset.g===g));
+  $$('.dcard').forEach(b=>{const on=b.dataset.g===g;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);});
   $$('.dgroup').forEach(d=>d.classList.toggle('active',d.id==='dg-'+g));
 }
 function bindDemoGroups(){
-  $$('.dcard').forEach(b=>b.addEventListener('click',()=>demoGroup(b.dataset.g)));
+  /* 클릭 시 해시를 갱신 → route()가 그룹 전환(공유·새로고침 시 그룹 유지) */
+  $$('.dcard').forEach(b=>b.addEventListener('click',()=>{
+    const target=b.dataset.g==='note'?'#demo/note':'#demo';
+    if(location.hash===target)demoGroup(b.dataset.g); /* 해시 동일 → hashchange 미발생, 직접 전환 */
+    else location.hash=target;
+  }));
 }
 
 /* ── DEMO 2: 입력 UX ──────────────────────────────────────── */
