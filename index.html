@@ -277,7 +277,11 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
   .logo-sub{display:none}
 }
 @media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation:none!important;transition:none!important}
+  /* 시그니처 모션(티커·히어로 보드·LIVE 점)은 유지하고, 자극적인 연출만 선별 차단.
+     끄는 것: 흔들림·확대 도장·플래시·스켈레톤·화면 전환·펄스 하이라이트 등 */
+  .view.active,.tabpane.active,.mgmt.show,.proc.show{animation:none!important}
+  .brow.flash,.prow.flash{animation:none!important}
+  .tr-stamp,.tr-ch.no,.tr-ch-g.hl,.tease .sk,.caret::after{animation:none!important}
   html{scroll-behavior:auto}
 }
 
@@ -1193,7 +1197,7 @@ function heroRow(r){
 }
 async function heroLoop(){
   const box=$('#heroRows'),cls=$('#heroCls');
-  if(REDUCED){let s=0;HERO_POOL.slice(0,4).forEach(r=>{box.appendChild(heroRow(r));s+=r.cd==='C'?r.amt:-r.amt});cls.textContent=sfmt(s);return;}
+  /* 시그니처 연출 — reduce-motion 이어도 '하나씩 붙기'는 유지(플래시 팝은 CSS에서 차단됨) */
   while(true){
     if(document.hidden||!$('#v-home').classList.contains('active')){await sleep(1200);continue;}
     box.innerHTML='';let s=0;cls.textContent='0';
