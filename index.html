@@ -1887,9 +1887,9 @@ function bindTour(){
    모든 이름·장소 가명·예시. AI 자동 보완분은 .ai 하이라이트로 표시 */
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const NT_PEOPLE=[
- {n:'김OO',d:'자금부 · MM데스크'},{n:'이OO',d:'자금부 · MM데스크'},{n:'박OO',d:'자금부 · MM데스크'},
- {n:'최OO',d:'자금부 · MM데스크'},{n:'정OO',d:'자금부 · FX데스크'},{n:'한OO',d:'자금부 · 운용데스크'},
- {n:'윤OO',d:'자금부 · 팀장'},{n:'서OO',d:'외환사업부'}];
+ {n:'김OO',d:'기획팀'},{n:'이OO',d:'기획팀'},{n:'박OO',d:'총무팀'},
+ {n:'최OO',d:'영업지원팀'},{n:'정OO',d:'인사팀'},{n:'한OO',d:'홍보팀'},
+ {n:'윤OO',d:'팀장'},{n:'서OO',d:'운영팀'}];
 const NT_PLACES=[
  {n:'단아',d:'본점 3층 · 한식'},{n:'단골식당',d:'본점 인근 · 백반'},{n:'단풍',d:'별관 2층 · 일식'},
  {n:'대회의실 A',d:'본점 12층'},{n:'소회의실 3',d:'본점 4층'},{n:'연수원 세미나실',d:'별관 5층'}];
@@ -1930,10 +1930,10 @@ function ntMsgHTML(state,forceTone){
    <div class="kv"><span class="k">참석</span><span>${who}</span></div>
    ${s.extra?`<div class="kv"><span class="k">참고</span><span>${ntAi(esc(s.extra))}</span></div>`:''}`;
   if(tone==='msg')
-    return `<div class="ttl">${s.emoji} 자금부 ${esc(s.name)} 안내</div>${rows}
+    return `<div class="ttl">${s.emoji} ${esc(s.name)} 안내</div>${rows}
       <div class="end">참석이 어려우시면 ${ntAi(esc(s.deadline)+'까지')} 회신 부탁드립니다 🙏</div>`;
-  return `<div class="ttl">[안내] 자금부 ${esc(s.name)}</div>
-    <p style="margin:0 0 10px">안녕하세요, 자금부입니다.<br>아래와 같이 ${esc(s.name)} 일정을 안내드립니다.</p>${rows}
+  return `<div class="ttl">[안내] ${esc(s.name)}</div>
+    <p style="margin:0 0 10px">안녕하세요.<br>아래와 같이 ${esc(s.name)} 일정을 안내드립니다.</p>${rows}
     <div class="end">참석이 어려우신 경우 ${ntAi(esc(s.deadline)+'까지')} 회신 주시면 감사하겠습니다.<br>감사합니다.</div>`;
 }
 function ntRender(){
