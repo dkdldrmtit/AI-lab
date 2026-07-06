@@ -407,6 +407,19 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .tr-ch-g.hl>span{color:var(--amb)}
 @keyframes trpulse{50%{box-shadow:0 0 0 5px rgba(245,167,66,.05)}}
 @media (prefers-reduced-motion:reduce){.tr-ch-g.hl{animation:none}}
+/* STEP 5 · 조달·운용 게이지+딜 */
+.tr-exec{display:flex;flex-direction:column;gap:12px;margin-top:14px}
+.er{border:1px solid var(--grid2);border-radius:10px;padding:12px 14px;background:var(--panel2)}
+.er-h{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.er-h .c{font-family:var(--mono);font-weight:700;font-size:16px;color:var(--txt)}
+.er-h .er-act{font-size:12.5px;font-weight:700}
+.er-h .er-cls{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums}
+.er-bar{position:relative;height:13px;border-radius:7px;background:var(--grid2)}
+.er-bar .fill{display:block;height:100%;border-radius:7px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.er-bar .tgt{position:absolute;top:-5px;bottom:-5px;width:2px;background:var(--mut);border-radius:1px}
+.er-bar .tgt::after{content:'목표';position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;color:var(--mut);white-space:nowrap}
+.er-deal{font-family:var(--mono);font-size:12.5px;color:var(--mut);margin-top:11px;min-height:18px;opacity:0;transition:opacity .45s}
+.er-deal.show{opacity:1}
 .loggrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:34px;align-items:start;margin-top:40px}
 #logSide{position:sticky;top:84px}
 @media (max-width:820px){.loggrid{grid-template-columns:1fr}#logSide{position:static}}
@@ -1426,7 +1439,7 @@ const TR_AUTO=[
  {ccy:'AUD',amt:2500000,dir:'입금(타발수취)',reason:'국내간자금이체',vd:0,st:'정상'},
  {ccy:'JPY',amt:20000000,dir:'출금(당발송금)',reason:'국내간자금이체',vd:0,st:'정상'}];
 const TR_TOTAL=TR_MANUAL.length+TR_AUTO.length;
-const TR_STEPNM=['시작','수작업','자동 반영','판정','리포트'];
+const TR_STEPNM=['시작','수작업','자동 반영','판정','조달·운용','리포트'];
 let trBootDone=false,trBusy=false;
 let trS={mIdx:0,mSecs:0,aSecs:0,blocks:{},over:[],flags:{cap:0,dup:0,skip:0,ok:0}};
 let trTick=null,trT0=0;
@@ -1618,11 +1631,53 @@ async function trJudge(){
     grid.appendChild(el);await sleep(REDUCED?40:600);
   }
   $('#trJafter').innerHTML=`<div class="hero-cta" style="margin-top:14px">
-    <button class="btn btn-amber btn-sm" data-act="tourCard">마감 리포트 발급 ▶</button></div>`;
+    <button class="btn btn-amber btn-sm" data-act="tourExec">자금 조달·운용 실행 ▶</button></div>`;
+  trBusy=false;
+}
+/* STEP 5 · 조달·운용 실행 — 게이지 스냅(A) + 딜 라인(B) */
+const TR_TGTX=62;   /* 목표선 위치(%) */
+function trExecRow(v){
+  const pos=Math.min(v.ratio*TR_TGTX,100);
+  const col=v.w==='pr'?'var(--grn)':v.w==='dp'?'var(--red)':'var(--cyn)';
+  const act=v.w==='pr'?'부족 · 조달':v.w==='dp'?'과다 · 운용':'적정 · 마감';
+  return `<div class="er" data-c="${v.c}">
+    <div class="er-h"><span class="c">${v.c}</span>
+      <span class="er-act" style="color:${col}">${act}</span>
+      <span class="er-cls">CLOSING ${sfmt(v.cls)} / 목표 ${fmt(v.tgt)}</span></div>
+    <div class="er-bar"><i class="fill" style="width:${pos}%;background:${col}"></i>
+      <span class="tgt" style="left:${TR_TGTX}%"></span></div>
+    <div class="er-deal" data-c="${v.c}"></div></div>`;
+}
+async function trExecute(){
+  if(trBusy)return;trBusy=true;trSteps(4);
+  const vs=['JPY','AUD','EUR'].map(trVerdict);
+  $('#trStage').innerHTML=`
+   <div class="tr-mode machine"><b>STEP 5 · 조달·운용</b>
+     <span>부족은 <b style="color:var(--grn)">조달</b>, 넘치면 <b style="color:var(--red)">운용</b> — 딜 한 건으로 목표에 맞춥니다 (예시·실제 체결 아님)</span></div>
+   <div class="tr-exec" id="trExec">${vs.map(trExecRow).join('')}</div>
+   <div id="trExecAfter"></div>`;
+  await sleep(REDUCED?40:700);
+  for(const v of vs){
+    const gap=Math.abs(v.tgt-v.cls);
+    const deal=$(`.er-deal[data-c="${v.c}"]`),fill=$(`.er[data-c="${v.c}"] .fill`);
+    if(v.w==='pr'){
+      deal.innerHTML=`▸ <b style="color:var(--grn)">FX SWAP</b> · USD/${v.c} — ${v.c} 조달 <b style="color:var(--grn)">+${fmt(gap)}</b> · DEALT ✓`;
+      fill.style.width=TR_TGTX+'%';
+    }else if(v.w==='dp'){
+      deal.innerHTML=`▸ <b style="color:var(--red)">MM DEPO</b> · ${v.c} 운용 <b style="color:var(--red)">−${fmt(gap)}</b> · DEALT ✓`;
+      fill.style.width=TR_TGTX+'%';
+    }else{
+      deal.innerHTML=`▸ <span style="color:var(--cyn)">적정 범위</span> — 거래 없음 ✓`;
+    }
+    deal.classList.add('show');
+    await sleep(REDUCED?40:900);
+  }
+  $('#trExecAfter').innerHTML=`<div class="tr-mult" style="font-size:16px">✓ 세 통화 모두 목표 달성 <span>— 부족은 채우고, 넘치면 굴렸습니다 (예시)</span></div>
+    <div class="hero-cta" style="margin-top:12px"><button class="btn btn-amber btn-sm" data-act="tourCard">마감 리포트 발급 ▶</button></div>`;
   trBusy=false;
 }
 function trCard(){
-  trSteps(4);
+  trSteps(5);
   const vs=['JPY','AUD','EUR'].map(trVerdict);
   const per=Math.max(trS.mSecs/TR_MANUAL.length,1);
   $('#trStage').innerHTML=`
@@ -1676,6 +1731,7 @@ function bindTour(){
     if(a==='tourManual')trManual();
     else if(a==='tourRun')trRun();
     else if(a==='tourJudge')trJudge();
+    else if(a==='tourExec')trExecute();
     else if(a==='tourCard')trCard();
     else if(a==='tourBrief')trBrief();
     else if(a==='tourRestart')trIntro();
