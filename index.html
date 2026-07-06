@@ -1415,7 +1415,7 @@ const TR_AUTO=[
 const TR_TOTAL=TR_MANUAL.length+TR_AUTO.length;
 const TR_STEPNM=['시작','수작업','자동 반영','판정','리포트'];
 let trBootDone=false,trBusy=false;
-let trS={auto:false,mIdx:0,mSecs:0,aSecs:0,blocks:{},over:[],flags:{cap:0,dup:0,skip:0,ok:0}};
+let trS={mIdx:0,mSecs:0,aSecs:0,blocks:{},over:[],flags:{cap:0,dup:0,skip:0,ok:0}};
 let trTick=null,trT0=0;
 function trWatchStart(){trT0=performance.now();const w=$('#trWatch');w.hidden=false;
   trTick=setInterval(()=>{const s=((performance.now()-trT0)/1000).toFixed(1);
@@ -1436,18 +1436,16 @@ function trPaintBlocks(){
   }).join('');
 }
 function trIntro(){
-  trBusy=false;trS={auto:false,mIdx:0,mSecs:0,aSecs:0,blocks:{JPY:[],AUD:[],EUR:[]},over:[],flags:{cap:0,dup:0,skip:0,ok:0}};
+  trBusy=false;trS={mIdx:0,mSecs:0,aSecs:0,blocks:{JPY:[],AUD:[],EUR:[]},over:[],flags:{cap:0,dup:0,skip:0,ok:0}};
   trSteps(0);$('#trWatch').hidden=true;
   $('#trStage').innerHTML=`
    <div class="tr-boot" id="trBoot"></div>
    <div class="tr-hero" id="trHero" style="opacity:0">
      <h3>오늘, 당신이 외화자금 데스크 담당입니다</h3>
-     <p>전국 부점에서 자금보고 <b style="color:var(--txt)">${TR_TOTAL}건</b>(예시)이 들어와 있습니다.
-       마감시간 안에 통화별로 정리해 Depo 잔액을 맞춰야 합니다.<br>
-       처음이라면 <b style="color:var(--amb)">30초 자동 시연</b>으로 전체 흐름을 먼저 보세요.</p>
+     <p>전국에서 자금보고 <b style="color:var(--txt)">${TR_TOTAL}건</b>(예시)이 들어왔습니다.
+       <b style="color:var(--amb)">딱 3건만 직접</b> 마감해 보세요 — 나머지 ${TR_AUTO.length}건은 자금판이 합니다.</p>
      <div class="hero-cta" style="margin-top:16px">
-       <button class="btn btn-amber btn-sm" data-act="tourAuto">▶ 30초 자동 시연</button>
-       <button class="btn btn-ghost btn-sm" data-act="tourManual">직접 해보기</button>
+       <button class="btn btn-amber" data-act="tourManual">▶ 마감 시작</button>
      </div></div>`;
   trBoot();
 }
@@ -1461,24 +1459,20 @@ async function trBoot(){
   }
   const h=$('#trHero');if(h)h.style.opacity=1;
 }
-function trManual(auto){
-  trS.auto=!!auto;trS.mIdx=0;trSteps(1);
+function trManual(){
+  trS.mIdx=0;trSteps(1);
   $('#trStage').innerHTML=`
    <div class="tr-mode human"><b>STEP 1 · 사람 손</b>
-     <span>원래 이 일은 사람이 합니다 — 한 건씩 읽고 · 판단하고 · 옮겨 적기</span>
+     <span>딱 3건만 직접 — <b style="color:var(--grn)">입금 = C(+)</b> · <b style="color:var(--red)">출금 = D(−)</b></span>
      <em id="trWatch2">0.0s</em></div>
-   <p class="tagline">원장의 한 건을 읽고 알맞은 블록에 기록하세요 —
-     <b style="color:var(--grn)">입금(타발수취) = C(+)</b> ·
-     <b style="color:var(--red)">출금(당발송금) = D(−)</b> (예시)</p>
    <div class="tr-now" id="trNow"></div>
    <div class="tr-choice" id="trChoice">${['JPY','AUD','EUR'].map(c=>`
      <div class="tr-ch-g"><span>${c}</span>
        <button class="tr-ch c" data-ccy="${c}" data-cd="C">C(+)</button>
        <button class="tr-ch d" data-ccy="${c}" data-cd="D">D(−)</button></div>`).join('')}</div>
-   <div class="tr-hint" id="trHint">${auto?'자동 시연 중 — 규칙이 어떻게 적용되는지 지켜보세요':'버튼을 눌러 기록해 보세요. 시간이 재고 있습니다 ⏱'}</div>
+   <div class="tr-hint" id="trHint">위 원장 한 건을 읽고, 알맞은 통화의 버튼을 누르세요 — 시간이 가고 있습니다 ⏱</div>
    <div class="tr-blocks" id="trBlocks"></div>`;
   trPaintBlocks();trShowManual();trWatchStart();
-  if(auto)trAutoplay();
 }
 function trShowManual(){
   const r=TR_MANUAL[trS.mIdx];
@@ -1486,19 +1480,7 @@ function trShowManual(){
     <span class="dr ${r.cd==='C'?'c':'d'}">${r.dir}</span><span>국내간자금이체</span>
     <span class="idx">수작업 ${trS.mIdx+1} / ${TR_MANUAL.length}</span>`;
 }
-async function trAutoplay(){
-  await sleep(REDUCED?100:1600);
-  while(trS.mIdx<TR_MANUAL.length){
-    const r=TR_MANUAL[trS.mIdx];
-    const btn=$(`#trChoice [data-ccy="${r.ccy}"][data-cd="${r.cd}"]`);
-    if(!btn||!btn.isConnected)return;
-    btn.classList.add('hl');await sleep(REDUCED?60:1200);
-    if(!btn.isConnected)return;btn.classList.remove('hl');
-    trAnswer(r.ccy,r.cd,true);await sleep(REDUCED?60:900);
-  }
-}
-function trAnswer(ccy,cd,fromAuto){
-  if(trS.auto&&!fromAuto)return;              /* 시연 중 수동 클릭 무시 */
+function trAnswer(ccy,cd){
   const r=TR_MANUAL[trS.mIdx];if(!r)return;
   const hint=$('#trHint');
   if(ccy!==r.ccy||cd!==r.cd){
@@ -1516,36 +1498,33 @@ function trAnswer(ccy,cd,fromAuto){
   trS.mSecs=trWatchStop();trMid();
 }
 function trMid(){
-  const per=trS.auto?15:Math.max(trS.mSecs/TR_MANUAL.length,1);
-  const estAll=per*TR_TOTAL,estDay=per*300/60;
+  const per=Math.max(trS.mSecs/TR_MANUAL.length,1);
+  const estDay=per*300/60;
   $('#trStage').innerHTML=`
    <div class="tr-vs">
-     <div class="v human"><span class="t">👤 사람 손 — 방금 측정</span><em>${per.toFixed(1)}s</em>
-       <span class="d">건당 처리 속도${trS.auto?' (체감 기준 예시)':` · ${TR_MANUAL.length}건 ${trS.mSecs.toFixed(1)}초`}</span></div>
+     <div class="v human"><span class="t">👤 사람 손 — 방금 당신의 기록</span><em>${per.toFixed(1)}s</em>
+       <span class="d">건당 · ${TR_MANUAL.length}건에 ${trS.mSecs.toFixed(1)}초</span></div>
      <div class="vsx">VS</div>
      <div class="v machine"><span class="t">⚡ 자금판</span><em>?</em>
-       <span class="d">남은 ${TR_AUTO.length}건 — 버튼 한 번으로 확인</span></div>
+       <span class="d">남은 ${TR_AUTO.length}건 — 버튼 한 번</span></div>
    </div>
    <div class="tr-card">
-     <p style="color:var(--mut)">이 속도라면 원장 ${TR_TOTAL}건 전부 손으로 옮길 때
-       <b style="color:var(--red)">약 ${Math.round(estAll)}초</b>,
-       실제 하루 2회 · 약 300건이면 <b style="color:var(--red)">약 ${Math.round(estDay)}분</b>(예시 추정).<br>
-       게다가 한 건만 놓쳐도 마감 오류 — 그래서 이 구간을 자동화했습니다.</p>
+     <p style="color:var(--mut)">이 속도면 실제 하루 2회 · 약 300건 =
+       <b style="color:var(--red)">약 ${Math.round(estDay)}분</b>.
+       그리고 한 건만 놓쳐도 마감 오류입니다. (예시 추정)</p>
      <div class="hero-cta" style="margin-top:16px">
        <button class="btn btn-amber" data-act="tourRun">남은 ${TR_AUTO.length}건, 자금판으로 처리 ▶</button>
      </div></div>
    <div class="tr-blocks" id="trBlocks" style="margin-top:14px"></div>`;
   trPaintBlocks();
-  if(trS.auto)setTimeout(()=>{const b=$('[data-act="tourRun"]');if(b&&b.isConnected)trRun();},REDUCED?150:4200);
 }
 async function trRun(){
   if(trBusy)return;trBusy=true;trSteps(2);
   $('#trStage').innerHTML=`
    <div class="tr-mode machine"><b>STEP 2 · 자금판</b>
-     <span>같은 규칙을 이번엔 코드가 집행합니다 — 버튼 한 번, 전 건 일괄 처리</span></div>
+     <span>같은 일, 버튼 한 번 — 규칙은 실제 도구와 동일 (예시 데이터)</span></div>
    <div class="tr-count">처리 <span><b id="trCnt">0</b> / ${TR_AUTO.length}</span>
-     <span>⏱ <b id="trAsec">0.0</b>s</span>
-     <span style="font-size:12px;color:var(--dim)">필터 → 정규화 → 분배 → 검증 (실제 규칙 동일 · 예시)</span></div>
+     <span>⏱ <b id="trAsec">0.0</b>s</span></div>
    <div class="tr-stream" id="trStream"></div>
    <div class="tr-blocks" id="trBlocks"></div>
    <div id="trAfter"></div>`;
@@ -1569,10 +1548,10 @@ async function trRun(){
     trPaintBlocks();
     $('#trCnt').textContent=i+1;
     $('#trAsec').textContent=((performance.now()-t0)/1000).toFixed(1);
-    await sleep(REDUCED?8:(trS.auto?150:95));
+    await sleep(REDUCED?8:95);
   }
   trS.aSecs=(performance.now()-t0)/1000;
-  const per=trS.auto?15:Math.max(trS.mSecs/TR_MANUAL.length,1);
+  const per=Math.max(trS.mSecs/TR_MANUAL.length,1);
   const est=per*TR_TOTAL;
   const w2=Math.max(trS.aSecs/est*100,2.5);
   const mult=Math.max(Math.round(est/trS.aSecs),2);
@@ -1581,10 +1560,9 @@ async function trRun(){
      <div class="row"><span>👤 수작업 추정</span><div class="bar"><i style="width:100%;background:var(--red);opacity:.75"></i></div><span class="v" style="color:var(--red)">~${Math.round(est)}s</span></div>
      <div class="row"><span>⚡ 자금판</span><div class="bar"><i style="width:${w2}%;background:var(--grn)"></i></div><span class="v" style="color:var(--grn)">${trS.aSecs.toFixed(1)}s</span></div>
    </div>
-   <div class="tr-mult">⚡ 약 ${mult}배 빠르게 처리 <span>(방금 이 화면에서 측정 · 예시)</span></div>
+   <div class="tr-mult">⚡ 당신보다 약 ${mult}배 빠릅니다 <span>(방금 이 화면에서 측정 · 예시)</span></div>
    <div class="hero-cta" style="margin-top:12px"><button class="btn btn-amber btn-sm" data-act="tourJudge">마감 점검 ▶</button></div>`;
   trBusy=false;
-  if(trS.auto)setTimeout(()=>{const b=$('[data-act="tourJudge"]');if(b&&b.isConnected)trJudge();},REDUCED?150:4800);
 }
 function trVerdict(c){
   const cls=trCls(c),tgt=TR_TGT[c],ratio=cls/tgt;
@@ -1595,7 +1573,7 @@ function trVerdict(c){
 async function trJudge(){
   if(trBusy)return;trBusy=true;trSteps(3);
   $('#trStage').innerHTML=`
-   <p class="tagline">통화별 CLOSING을 기준(목표)과 비교해 판단합니다 — 부족하면 조달, 남으면 운용 (예시)</p>
+   <p class="tagline">부족하면 <b style="color:var(--grn)">조달</b> · 남으면 <b style="color:var(--red)">운용</b> · 맞으면 <b style="color:var(--cyn)">마감 ✓</b> (기준 대비 · 예시)</p>
    <div class="mgmt-grid" id="trJgrid"></div>
    <div id="trJafter"></div>`;
   const grid=$('#trJgrid');
@@ -1607,17 +1585,16 @@ async function trJudge(){
       <div class="kv"><span>반영 CLOSING</span><b>${sfmt(v.cls)}</b></div>
       <div class="kv"><span>기준(목표)</span><b>${fmt(v.tgt)}</b></div>
       <div class="kv"><span>기준 대비</span><b style="color:${v.col}">${Math.round(v.ratio*100)}%</b></div>`;
-    grid.appendChild(el);await sleep(REDUCED?40:(trS.auto?950:600));
+    grid.appendChild(el);await sleep(REDUCED?40:600);
   }
   $('#trJafter').innerHTML=`<div class="hero-cta" style="margin-top:14px">
     <button class="btn btn-amber btn-sm" data-act="tourCard">마감 리포트 발급 ▶</button></div>`;
   trBusy=false;
-  if(trS.auto)setTimeout(()=>{const b=$('[data-act="tourCard"]');if(b&&b.isConnected)trCard();},REDUCED?150:3500);
 }
 function trCard(){
   trSteps(4);
   const vs=['JPY','AUD','EUR'].map(trVerdict);
-  const per=trS.auto?15:Math.max(trS.mSecs/TR_MANUAL.length,1);
+  const per=Math.max(trS.mSecs/TR_MANUAL.length,1);
   $('#trStage').innerHTML=`
    <div class="tr-card">
      <span class="tr-stamp">AM 마감 완료</span>
@@ -1639,7 +1616,6 @@ function trCard(){
      </div>
      <div id="trBriefBox"></div>
    </div>`;
-  if(trS.auto)setTimeout(()=>{const b=$('[data-act="tourBrief"]');if(b&&b.isConnected)trBrief();},REDUCED?150:3200);
 }
 async function trBrief(){
   if(trBusy)return;trBusy=true;
@@ -1667,15 +1643,14 @@ function bindTour(){
   $('#d0').addEventListener('click',e=>{
     const b=e.target.closest('[data-act],[data-ccy]');if(!b||b.disabled)return;
     const a=b.dataset.act;
-    if(a==='tourAuto'){trS.auto=true;trManual(true);}
-    else if(a==='tourManual'){trS.auto=false;trManual(false);}
+    if(a==='tourManual')trManual();
     else if(a==='tourRun')trRun();
     else if(a==='tourJudge')trJudge();
     else if(a==='tourCard')trCard();
     else if(a==='tourBrief')trBrief();
     else if(a==='tourRestart')trIntro();
     else if(a==='tourGoD1'){const t=$('.tab[data-t="d1"]');if(t)t.click();window.scrollTo(0,0);}
-    else if(b.dataset.ccy)trAnswer(b.dataset.ccy,b.dataset.cd,false);
+    else if(b.dataset.ccy)trAnswer(b.dataset.ccy,b.dataset.cd);
   });
 }
 
