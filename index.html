@@ -420,6 +420,70 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .er-bar .tgt::after{content:'목표';position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;color:var(--mut);white-space:nowrap}
 .er-deal{font-family:var(--mono);font-size:12.5px;color:var(--mut);margin-top:11px;min-height:18px;opacity:0;transition:opacity .45s}
 .er-deal.show{opacity:1}
+/* ── 데모 허브(실험 그룹 선택) — 새 데모 = dcard 1개 + dgroup 1개 ── */
+.dsel{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-bottom:24px}
+.dcard{display:flex;flex-direction:column;gap:7px;text-align:left;border:1px solid var(--grid);border-radius:13px;background:var(--panel2);padding:15px 17px;cursor:pointer;font-family:var(--kor);transition:border-color .15s}
+.dcard:hover{border-color:var(--grid-hi)}
+.dcard.active{border-color:var(--amb);background:var(--ambf)}
+.dcard .dc-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dcard .dc-t{font-weight:800;font-size:16.5px;color:var(--txt)}
+.dcard.active .dc-t{color:var(--amb)}
+.dcard .dc-d{font-size:12.5px;color:var(--mut);line-height:1.5}
+.dgroup{display:none}.dgroup.active{display:block}
+/* ── 쪽지 다듬기(미션9) ── */
+.nt-gen{display:grid;grid-template-columns:.92fr 1.08fr;gap:24px}
+@media (max-width:820px){.nt-gen{grid-template-columns:1fr}}
+.nt-f{margin-bottom:16px}
+.nt-l{font-size:12px;font-weight:700;color:var(--mut);margin-bottom:8px;display:flex;justify-content:space-between;gap:8px}
+.nt-l em{font-style:normal;color:var(--dim);font-weight:600}
+.nt-chip{font-family:var(--kor);font-size:13px;font-weight:600;padding:7px 13px;border-radius:9px;border:1px solid var(--grid);background:var(--panel);color:var(--mut);cursor:pointer}
+.nt-chip.on{border-color:var(--amb);background:var(--ambf);color:var(--amb)}
+.nt-search{border:1px solid var(--grid);border-radius:9px;background:var(--panel);padding:8px 12px;display:flex;align-items:center;gap:8px;font-size:13.5px}
+.nt-search input{flex:1;background:transparent;border:none;outline:none;color:var(--txt);font-family:var(--kor);font-size:13.5px;min-width:0}
+.nt-search input::placeholder{color:var(--dim)}
+.nt-search .cnt{font-family:var(--mono);font-size:11.5px;color:var(--dim);white-space:nowrap}
+.nt-res{border:1px solid var(--grid-hi);border-radius:0 0 9px 9px;background:#0c1421;margin-top:-1px;overflow:hidden}
+.nt-ro{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 12px;font-family:var(--kor);font-size:13px;color:var(--mut);border:none;border-top:1px solid var(--grid2);background:transparent;cursor:pointer}
+.nt-ro:hover{background:var(--ambf);color:var(--amb)}
+.nt-ro .s2{font-size:11.5px;color:var(--dim);font-family:var(--mono);white-space:nowrap}
+.nt-ro.added{opacity:.45;cursor:default}
+.nt-toks{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+.nt-tok{display:inline-flex;align-items:center;gap:7px;font-family:var(--kor);font-size:12.5px;font-weight:600;color:var(--txt);background:var(--panel);border:1px solid var(--grid);border-radius:16px;padding:5px 7px 5px 11px;cursor:pointer}
+.nt-tok .x{color:var(--dim);font-family:var(--mono)}
+.nt-tok:hover .x{color:var(--red)}
+.nt-sel{width:100%;border:1px solid var(--grid);border-radius:9px;background:var(--panel);color:var(--txt);font-family:var(--kor);font-size:13.5px;padding:10px 12px;outline:none}
+.nt-seg{display:inline-flex;border:1px solid var(--grid);border-radius:9px;overflow:hidden}
+.nt-seg button{font-family:var(--kor);font-size:12.5px;font-weight:700;padding:8px 15px;color:var(--mut);background:transparent;border:none;cursor:pointer}
+.nt-seg button.on{background:var(--cynf);color:var(--cyn)}
+.nt-out{border:1px solid var(--grid-hi);border-radius:12px;background:#0c1420;overflow:hidden;position:sticky;top:86px}
+.nt-oh{display:flex;align-items:center;gap:7px;padding:11px 15px;border-bottom:1px solid var(--grid);background:#0b1220}
+.nt-oh .d1,.nt-oh .d2,.nt-oh .d3{width:9px;height:9px;border-radius:50%}
+.nt-oh .d1{background:var(--red)}.nt-oh .d2{background:var(--yel)}.nt-oh .d3{background:var(--grn)}
+.nt-oh .t{font-family:var(--mono);font-size:12px;color:var(--mut);margin-left:4px}
+.nt-oh button{margin-left:auto;font-family:var(--mono);font-size:11.5px;font-weight:700;color:var(--amb);background:transparent;border:1px solid rgba(245,167,66,.4);border-radius:7px;padding:5px 10px;cursor:pointer}
+.nt-msg{padding:17px 18px;font-size:14.5px;line-height:1.75}
+.nt-msg .ttl,.nt-ba .m .ttl{font-weight:800;color:var(--txt);font-size:15.5px;margin-bottom:11px}
+.nt-msg .kv,.nt-ba .m .kv{display:flex;gap:9px;margin:5px 0;justify-content:flex-start;font-size:14.5px;color:var(--txt);padding:0}
+.nt-msg .kv .k,.nt-ba .m .kv .k{color:var(--amb);font-weight:700;min-width:44px;flex:none}
+.nt-msg .end,.nt-ba .m .end{color:var(--mut);margin-top:12px;font-size:13.5px}
+.nt-msg p,.nt-ba .m p{color:var(--mut)}
+.ai{background:rgba(76,195,232,.12);border-bottom:1px dashed var(--cyn);color:var(--cyn);padding:0 3px;border-radius:3px}
+.nt-auto{border-top:1px solid var(--grid);padding:11px 18px;font-size:12.5px;color:var(--mut);background:#0b1220;line-height:1.6}
+.nt-auto b{color:var(--cyn)}
+.nt-ba{display:grid;grid-template-columns:1fr 44px 1fr;align-items:stretch}
+@media (max-width:820px){.nt-ba{grid-template-columns:1fr}.nt-ba .arr{transform:rotate(90deg);padding:6px 0}}
+.nt-ba .col{border:1px solid var(--grid);border-radius:12px;padding:17px 18px}
+.nt-ba .col.b{background:rgba(240,84,92,.05);border-color:rgba(240,84,92,.25)}
+.nt-ba .col.a{background:rgba(53,196,141,.05);border-color:rgba(53,196,141,.28)}
+.nt-ba .tag{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;margin-bottom:11px}
+.nt-ba .b .tag{color:var(--red)}.nt-ba .a .tag{color:var(--grn)}
+.nt-ba .m{font-size:13.5px;line-height:1.7;color:var(--txt)}
+.nt-ba .b .m{color:var(--mut)}
+.nt-ba .fine{color:var(--dim);font-size:12px;margin-top:8px}
+.nt-miss{color:var(--red);text-decoration:underline dotted;text-underline-offset:3px}
+.nt-ba .arr{display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--amb);font-family:var(--mono)}
+.nt-princ{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}
+.nt-ptag{font-size:11.5px;font-weight:700;color:var(--grn);background:rgba(53,196,141,.1);border:1px solid rgba(53,196,141,.3);border-radius:20px;padding:4px 10px}
 .loggrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:34px;align-items:start;margin-top:40px}
 #logSide{position:sticky;top:84px}
 @media (max-width:820px){.loggrid{grid-template-columns:1fr}#logSide{position:static}}
@@ -757,6 +821,22 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 <section class="view" id="v-demo">
   <span class="eyebrow">Live Demo</span>
   <h1>라이브 데모</h1>
+  <p class="lead">실험이 완성될 때마다 여기 체험이 하나씩 늘어납니다 — 골라서 직접 만져 보세요.</p>
+
+  <!-- 실험(데모 그룹) 선택 — 새 실험 데모 = dcard 버튼 1개 + dgroup 1개 추가 -->
+  <div class="dsel">
+    <button class="dcard active" data-g="jgp">
+      <span class="dc-h"><span class="dc-t">자금판</span><span class="chip chip-live"><span class="dot"></span>LIVE · 매일 2회 운영</span></span>
+      <span class="dc-d">외화자금 마감 자동화 — 가이드 체험 + 실전 데모 3종</span>
+    </button>
+    <button class="dcard" data-g="note">
+      <span class="dc-h"><span class="dc-t">쪽지 다듬기</span><span class="chip chip-next">NEW · 미션9</span></span>
+      <span class="dc-d">안내 문구 개선 — 조회해서 고르면, 빠짐없는 안내 쪽지 완성</span>
+    </button>
+  </div>
+
+  <!-- ══ 그룹 1 · 자금판 ══ -->
+  <div class="dgroup active" id="dg-jgp">
   <div class="note"><span>ⓘ</span><span>실제 도구는 <b>Excel VBA</b>로 동작합니다. 이 데모는 <b>같은 업무 규칙</b>을
     웹으로 옮긴 시뮬레이션이며, 모든 데이터는 예시입니다. 화면 구성은 실제 자금판(오전·오후 14개 통화) 중 3개 통화만 보여줍니다.</span></div>
 
@@ -866,6 +946,51 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
       <div class="term" id="checkOut"><span class="d">[대기] 점검을 실행하면 결과가 여기에 출력됩니다…</span></div>
     </div>
   </div>
+  </div><!-- /dg-jgp -->
+
+  <!-- ══ 그룹 2 · 쪽지 다듬기 (미션9 · 문구 개선) ══ -->
+  <div class="dgroup" id="dg-note">
+    <div class="note"><span>ⓘ</span><span>AI빙고 <b>미션9 · 문구 개선</b> 체험판 — 일정은 잡았는데 막상 당일
+      <b>어디로·누구랑</b>인지 헷갈린 적 있죠? 참석자·장소를 조회해 고르면 AI가 빠진 정보까지 채운 안내 쪽지로
+      만들어 줍니다. 모든 이름·장소는 <b>가명·예시</b>입니다.</span></div>
+
+    <div class="card flat">
+      <div class="nt-gen">
+        <div>
+          <div class="nt-f"><span class="nt-l">상황</span>
+            <div class="chips" id="ntScn">
+              <button class="nt-chip on" data-scn="lunch">점심 회식</button>
+              <button class="nt-chip" data-scn="meet">팀 회의</button>
+              <button class="nt-chip" data-scn="work">부서 워크숍</button>
+            </div></div>
+          <div class="nt-f"><span class="nt-l">참석자 <em>이름·부서로 조회</em></span>
+            <div class="nt-search">🔍 <input id="ntPq" placeholder="예: 데스크, 김" autocomplete="off"><span class="cnt" id="ntPcnt"></span></div>
+            <div class="nt-res" id="ntPres" hidden></div>
+            <div class="nt-toks" id="ntToks"></div></div>
+          <div class="nt-f"><span class="nt-l">날짜 · 시간</span>
+            <select class="nt-sel" id="ntTime" aria-label="날짜와 시간 선택"></select></div>
+          <div class="nt-f"><span class="nt-l">장소 <em>식당·회의실 조회</em></span>
+            <div class="nt-search">🔍 <input id="ntLq" placeholder="예: 단, 회의실" autocomplete="off"><span class="cnt" id="ntLcnt"></span></div>
+            <div class="nt-res" id="ntLres" hidden></div>
+            <div class="nt-toks" id="ntLpick"></div></div>
+          <div class="nt-f" style="margin-bottom:0"><span class="nt-l">보내는 톤 · 채널</span>
+            <div class="nt-seg" id="ntTone"><button class="on" data-tone="msg">사내 메신저</button><button data-tone="mail">이메일 · 정중</button></div></div>
+        </div>
+        <div>
+          <div class="nt-out">
+            <div class="nt-oh"><span class="d1"></span><span class="d2"></span><span class="d3"></span>
+              <span class="t">안내 쪽지 — 자동 완성</span><button id="ntCopy">복사 ⧉</button></div>
+            <div class="nt-msg" id="ntMsg"></div>
+            <div class="nt-auto" id="ntAuto"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-h" style="margin-top:26px"><div><span class="eyebrow">Before → After</span><h2 style="font-size:19px">같은 소재, 문구 개선 전 → 후</h2></div></div>
+    <div class="nt-ba" id="ntBA"></div>
+    <p class="bnote">모든 문구·이름·장소는 예시(가명)이며 실제 조직·시스템과 무관합니다 — 미션9 「쪽지·메일·안내 문구 개선」 체험판.</p>
+  </div><!-- /dg-note -->
 </section>
 
 <!-- ═══════════ LOG (기록) ═══════════ -->
@@ -965,6 +1090,7 @@ const mmdd=off=>{const d=new Date();d.setDate(d.getDate()+off);
 /* ── DATA ─────────────────────────────────────────────────── */
 /* 기록(LOG) — 이 실험실이 해온 일들. 새 일 = 객체 1개 추가 (최신이 위) */
 const LOGS=[
+ {d:'07-06',t:'미션9 체험 「쪽지 다듬기」 공개',tag:'AI빙고',note:'참석자·장소 검색 조회 → 안내 쪽지 자동 완성 · 메신저/이메일 톤 전환 · Before→After — 라이브 데모가 실험 선택형 허브로 개편'},
  {d:'07-05',t:'라이브 데모에 가이드 체험(스토리 모드) 추가',tag:'사이트',note:'30초 자동 시연 · 수작업 vs 자동 스톱워치 비교 · 마감 리포트 카드 · AI 브리핑(모의)'},
  {d:'07-05',t:'데스크톱 기준 전면 정리',tag:'사이트',note:'폭 통일 · 섹션 위계 · 자금판 흐름도 · 데모 딥링크 · 기록 인덱스'},
  {d:'07-04',t:'사이트를 AI빙고 미션 플랫폼으로 개편',tag:'사이트',note:'3×3 빙고 보드 · 데모에 자금관리/후속 프로세스 단계 · 기록 페이지 신설'},
@@ -995,8 +1121,9 @@ const MISSIONS=[
   goal:'긴 문서·뉴스·회의·영상을 활용 목적에 맞는 핵심 위주로 요약하는 역량.',links:[]},
  {pos:6,diff:'하',status:'PLAN',cell:'브레인스토밍',title:'AI 브레인스토밍으로 아이디어 구체화',
   goal:'다양한 주제의 아이디어를 발굴하고 선정·구체화하는 과정.',links:[]},
- {pos:8,diff:'하',status:'PLAN',cell:'문구개선',title:'쪽지·메일·안내 문구 개선',
-  goal:'상황·목적에 맞게 전달력·가독성·정중함을 높이도록 문구를 개선.',links:[]}
+ {pos:8,diff:'하',status:'DOING',cell:'문구개선',title:'쪽지·메일·안내 문구 개선',
+  goal:'상황·목적에 맞게 전달력·가독성·정중함을 높이도록 문구를 개선. 체험판 「쪽지 다듬기」 공개.',
+  links:[['쪽지 다듬기 체험','#demo/note']]}
 ];
 const STXT={DONE:'완료',DOING:'진행중',PLAN:'예정'};
 const DIFF_COLOR={상:'var(--amb)',중:'var(--cyn)',하:'var(--dim)'};
@@ -1016,7 +1143,12 @@ const EXPERIMENTS=[
   steps:[['프로토타입','done'],['웹 데모 구현','cur'],['공개','']],
   ctas:[['체험 준비 중','','dis'],['미션 보드에서 보기','#missions','ghost']],
   tease:'COMING SOON · 모의 브리핑 데모'},
- {no:'EXP.03',status:'OPEN',title:'다음 실험 — 열린 슬롯',
+ {no:'EXP.03',status:'LIVE',stTxt:'LIVE · 체험 가능',title:'쪽지 다듬기',
+  desc:'"내일 점심 ㄱ?" — 대충 보낸 안내는 당일에 꼭 헷갈립니다. 참석자·장소를 조회해 고르면, 집결 시간·회신 기한처럼 빠지기 쉬운 정보까지 AI가 채운 안내 쪽지가 완성됩니다. AI빙고 미션9(문구 개선)의 체험판.',
+  chips:['문구 개선','검색 조회','메신저·이메일 톤','미션9'],
+  ctas:[['쪽지 다듬기 체험','#demo/note','amber'],['미션 보드에서 보기','#missions/문구개선','ghost']],
+  panel:{t:'체험 구성 · 예시',kv:[['상황','점심 · 회의 · 워크숍'],['개선 원칙','핵심 · 보완 · 불릿 · 톤'],['출력 채널','메신저 · 이메일'],['데이터','전부 가명 · 예시']]}},
+ {no:'EXP.04',status:'OPEN',title:'다음 실험 — 열린 슬롯',
   desc:'아홉 개 미션이 진행되면서 이 자리에 새 실험이 하나씩 들어옵니다. 다음 후보: 비교분석 보드 · 업무진단 리포트 · 롤플레잉 훈련. 완성되면 자금판처럼 웹에서 직접 체험할 수 있게 공개합니다.',
   chips:['AI빙고 9미션','공동연구실'],
   steps:[['소재 선정','cur'],['규칙 설계',''],['체험 공개','']],
@@ -1030,7 +1162,8 @@ function renderExperiments(){
   const SC={LIVE:['chip-live','<span class="dot"></span>LIVE · 매일 2회'],
             NEXT:['chip-next','NEXT · 준비 중'],OPEN:['chip-open','OPEN · 슬롯 대기']};
   wrap.innerHTML=EXPERIMENTS.map(e=>{
-    const [cc,ct]=SC[e.status];
+    const [cc,defTxt]=SC[e.status];
+    const ct=e.stTxt?(e.status==='LIVE'?'<span class="dot"></span>':'')+e.stTxt:defTxt;
     const chips=e.chips.map(c=>`<span class="chip">${c}</span>`).join('');
     const ctas=e.ctas.map(([t,h,k])=>k==='dis'
       ?`<span class="btn btn-ghost btn-sm btn-dis">${t}</span>`
@@ -1088,11 +1221,13 @@ function route(){
   $$('.view').forEach(v=>v.classList.toggle('active',v.id==='v-'+h));
   $$('#navlinks a').forEach(a=>a.classList.toggle('on',a.dataset.v===h));
   window.scrollTo(0,0);
-  /* 서브라우트: #demo/d0~d3 = 탭 딥링크, #missions/<셀> = 해당 미션 카드로 */
+  /* 서브라우트: #demo/d0~d3 = 자금판 탭, #demo/note = 쪽지 다듬기, #missions/<셀> = 미션 카드 */
   if(h==='demo'&&/^d[0-3]$/.test(sub)){
+    demoGroup('jgp');
     $$('.tab[data-t]').forEach(x=>x.classList.toggle('active',x.dataset.t===sub));
     $$('.tabpane').forEach(p=>p.classList.toggle('active',p.id===sub));
   }
+  if(h==='demo'&&sub==='note')demoGroup('note');
   if(h==='demo'&&!trBootDone){trBootDone=true;trIntro();} /* 첫 방문 시 가이드 부팅 */
   if(h==='missions'&&sub){
     let card=$('#m-'+CSS.escape(sub));
@@ -1740,6 +1875,157 @@ function bindTour(){
   });
 }
 
+/* ── DEMO GROUP: 쪽지 다듬기(미션9 · 문구 개선) ───────────────
+   참석자·장소 검색 조회 → 안내 쪽지 자동 완성. 상황 3종 · 메신저/이메일 톤.
+   모든 이름·장소 가명·예시. AI 자동 보완분은 .ai 하이라이트로 표시 */
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const NT_PEOPLE=[
+ {n:'김OO',d:'자금부 · MM데스크'},{n:'이OO',d:'자금부 · MM데스크'},{n:'박OO',d:'자금부 · MM데스크'},
+ {n:'최OO',d:'자금부 · MM데스크'},{n:'정OO',d:'자금부 · FX데스크'},{n:'한OO',d:'자금부 · 운용데스크'},
+ {n:'윤OO',d:'자금부 · 팀장'},{n:'서OO',d:'외환사업부'}];
+const NT_PLACES=[
+ {n:'단아',d:'본점 3층 · 한식'},{n:'단골식당',d:'본점 인근 · 백반'},{n:'단풍',d:'별관 2층 · 일식'},
+ {n:'대회의실 A',d:'본점 12층'},{n:'소회의실 3',d:'본점 4층'},{n:'연수원 세미나실',d:'별관 5층'}];
+const NT_TIMES=['오늘 · 12:00','내일(금) · 12:30','내일(금) · 15:00','다음주 월 · 09:30','다음주 수 · 11:30'];
+const NT_SCN={
+ lunch:{name:'점심 회식',emoji:'🍽',time:'내일(금) · 12:30',place:'단아',gmin:15,
+  gather:t=>`${t} 로비 집결`,placeAi:'· 예약 확인 요망',extra:null,deadline:'오늘 17시',
+  ai:['집결 시간','회신 마감','예약 확인'],
+  before:'내일 점심 ㄱ? 12시 반쯤 3층에서 봐요~',miss:['12시 반쯤','3층'],
+  missNote:'누가 오는지 · 정확한 식당 · 집결 시간 · 회신 기한이 빠짐'},
+ meet:{name:'팀 회의',emoji:'📋',time:'내일(금) · 15:00',place:'대회의실 A',gmin:5,
+  gather:t=>`${t}까지 착석`,placeAi:'· 회의실 예약 완료',extra:'안건: 주간 자금 포지션 점검 (예시) — 자료는 회의 전 공유',deadline:'오늘 17시',
+  ai:['5분 전 착석','안건·자료 안내','회의실 예약 확인'],
+  before:'내일 오후에 회의 한번 하시죠. 자료는 이따 드릴게요',miss:['내일 오후','이따'],
+  missNote:'정확한 시간 · 장소 · 참석자 · 안건이 빠짐'},
+ work:{name:'부서 워크숍',emoji:'🚌',time:'다음주 월 · 09:30',place:'연수원 세미나실',gmin:15,
+  gather:t=>`${t} 본점 로비 집결 · 버스 이동`,placeAi:'',extra:'준비물: 노트북 · 편한 복장',deadline:'이번주 금 17시',
+  ai:['집결·이동편','준비물 안내','불참 회신 기한'],
+  before:'담주에 부서 워크숍 있다고 합니다~ 다들 일정 비워두세요',miss:['담주에'],
+  missNote:'날짜·시간 · 장소 · 이동 방법 · 준비물이 빠짐'}};
+const NT_PRINC=['핵심 먼저','빠진 정보 채우기','불릿 구조화','정중한 톤'];
+let ntS={scn:'lunch',people:NT_PEOPLE.slice(0,5),place:NT_PLACES[0],time:NT_SCN.lunch.time,tone:'msg'};
+function ntGather(t,gm){const m=t.match(/(\d{1,2}):(\d{2})/);if(!m)return '';
+  let h=+m[1],mi=+m[2]-gm;if(mi<0){mi+=60;h--;}
+  return `${String(h).padStart(2,'0')}:${String(mi).padStart(2,'0')}`;}
+const ntFind=(list,q)=>{const s=q.trim().toLowerCase();if(!s)return[];
+  return list.filter(x=>(x.n+x.d).toLowerCase().includes(s)).slice(0,5);};
+const ntAi=x=>`<span class="ai">${x}</span>`;
+function ntMsgHTML(state,forceTone){
+  const s=NT_SCN[state.scn],tone=forceTone||state.tone,p=state.place;
+  const g=s.gather(ntGather(state.time,s.gmin));
+  const who=state.people.length
+    ?`${state.people.length}명 — ${esc(state.people.map(x=>x.n[0]).join('·'))}`
+    :'<span style="color:var(--dim)">참석자를 조회해 추가해 주세요</span>';
+  const rows=`
+   <div class="kv"><span class="k">일시</span><span>${esc(state.time)} ${ntAi('('+esc(g)+')')}</span></div>
+   <div class="kv"><span class="k">장소</span><span><b>${esc(p.n)}</b> (${esc(p.d)}) ${s.placeAi?ntAi(esc(s.placeAi)):''}</span></div>
+   <div class="kv"><span class="k">참석</span><span>${who}</span></div>
+   ${s.extra?`<div class="kv"><span class="k">참고</span><span>${ntAi(esc(s.extra))}</span></div>`:''}`;
+  if(tone==='msg')
+    return `<div class="ttl">${s.emoji} 자금부 ${esc(s.name)} 안내</div>${rows}
+      <div class="end">참석이 어려우시면 ${ntAi(esc(s.deadline)+'까지')} 회신 부탁드립니다 🙏</div>`;
+  return `<div class="ttl">[안내] 자금부 ${esc(s.name)}</div>
+    <p style="margin:0 0 10px">안녕하세요, 자금부입니다.<br>아래와 같이 ${esc(s.name)} 일정을 안내드립니다.</p>${rows}
+    <div class="end">참석이 어려우신 경우 ${ntAi(esc(s.deadline)+'까지')} 회신 주시면 감사하겠습니다.<br>감사합니다.</div>`;
+}
+function ntRender(){
+  const s=NT_SCN[ntS.scn];
+  $('#ntMsg').innerHTML=ntMsgHTML(ntS);
+  $('#ntAuto').innerHTML=`✨ <b>AI가 자동으로 채운 것</b> — ${s.ai.map(esc).join(' · ')} <span style="color:var(--dim)">(내가 안 적어도 안 헷갈리게)</span>`;
+  $('#ntToks').innerHTML=ntS.people.map((p,i)=>
+    `<button class="nt-tok" data-rm="${i}" title="빼기">${esc(p.n)} <span class="x">×</span></button>`).join('')
+    ||'<span style="font-size:12px;color:var(--dim)">조회 결과에서 눌러 추가하세요</span>';
+  $('#ntLpick').innerHTML=`<span class="nt-tok" style="cursor:default">${esc(ntS.place.n)} <span style="color:var(--dim);font-family:var(--mono);font-size:11px">${esc(ntS.place.d)}</span></span>`;
+}
+function ntRenderBA(){
+  const s=NT_SCN[ntS.scn];
+  let b=esc(s.before);
+  s.miss.forEach(m=>{b=b.replace(esc(m),`<span class="nt-miss">${esc(m)}</span>`)});
+  /* After는 시나리오 기본값 기준 고정 예시 — 생성기 조작과 무관하게 교육용으로 안정 */
+  const def={scn:ntS.scn,people:NT_PEOPLE.slice(0,5),
+    place:NT_PLACES.find(p=>p.n===s.place)||NT_PLACES[0],time:s.time,tone:'msg'};
+  $('#ntBA').innerHTML=`
+   <div class="col b"><div class="tag">BEFORE — 평소 메신저</div>
+     <div class="m">${b}</div><div class="fine">→ ${esc(s.missNote)}</div></div>
+   <div class="arr">→</div>
+   <div class="col a"><div class="tag">AFTER — AI로 정돈</div>
+     <div class="m">${ntMsgHTML(def,'msg')}</div>
+     <div class="nt-princ">${NT_PRINC.map(p=>`<span class="nt-ptag">${p}</span>`).join('')}</div></div>`;
+}
+function ntResults(box,cnt,list,q,render){
+  const r=ntFind(list,q);
+  cnt.textContent=q.trim()?`조회 ${r.length}건`:'';
+  box.hidden=!r.length;box.innerHTML=r.map(render).join('');
+}
+function bindNote(){
+  const root=$('#dg-note');if(!root)return;
+  /* 시간 옵션 */
+  const sel=$('#ntTime');
+  sel.innerHTML=NT_TIMES.map(t=>`<option${t===ntS.time?' selected':''}>${t}</option>`).join('');
+  sel.addEventListener('change',()=>{ntS.time=sel.value;ntRender();});
+  /* 상황 */
+  $('#ntScn').addEventListener('click',e=>{
+    const b=e.target.closest('[data-scn]');if(!b)return;
+    ntS.scn=b.dataset.scn;
+    const s=NT_SCN[ntS.scn];
+    ntS.time=s.time;ntS.place=NT_PLACES.find(p=>p.n===s.place)||NT_PLACES[0];
+    sel.value=s.time;
+    $$('#ntScn .nt-chip').forEach(x=>x.classList.toggle('on',x===b));
+    ntRender();ntRenderBA();
+  });
+  /* 톤 */
+  $('#ntTone').addEventListener('click',e=>{
+    const b=e.target.closest('[data-tone]');if(!b)return;
+    ntS.tone=b.dataset.tone;
+    $$('#ntTone button').forEach(x=>x.classList.toggle('on',x===b));
+    ntRender();
+  });
+  /* 참석자 검색·추가·삭제 */
+  const pq=$('#ntPq');
+  pq.addEventListener('input',()=>ntResults($('#ntPres'),$('#ntPcnt'),NT_PEOPLE,pq.value,
+    p=>{const has=ntS.people.some(x=>x.n===p.n);
+      return `<button class="nt-ro${has?' added':''}" data-add="${esc(p.n)}">${esc(p.n)}<span class="s2">${esc(p.d)}${has?' · 추가됨':''}</span></button>`;}));
+  $('#ntPres').addEventListener('click',e=>{
+    const b=e.target.closest('[data-add]');if(!b)return;
+    const p=NT_PEOPLE.find(x=>x.n===b.dataset.add);
+    if(p&&!ntS.people.some(x=>x.n===p.n)){ntS.people.push(p);ntRender();}
+    pq.value='';$('#ntPres').hidden=true;$('#ntPcnt').textContent='';pq.focus();
+  });
+  $('#ntToks').addEventListener('click',e=>{
+    const b=e.target.closest('[data-rm]');if(!b)return;
+    ntS.people.splice(+b.dataset.rm,1);ntRender();
+  });
+  /* 장소 검색·선택 */
+  const lq=$('#ntLq');
+  lq.addEventListener('input',()=>ntResults($('#ntLres'),$('#ntLcnt'),NT_PLACES,lq.value,
+    p=>`<button class="nt-ro" data-pick="${esc(p.n)}">${esc(p.n)}<span class="s2">${esc(p.d)}</span></button>`));
+  $('#ntLres').addEventListener('click',e=>{
+    const b=e.target.closest('[data-pick]');if(!b)return;
+    const p=NT_PLACES.find(x=>x.n===b.dataset.pick);
+    if(p){ntS.place=p;ntRender();}
+    lq.value='';$('#ntLres').hidden=true;$('#ntLcnt').textContent='';
+  });
+  /* 복사 */
+  $('#ntCopy').addEventListener('click',async()=>{
+    const txt=$('#ntMsg').innerText.trim();const btn=$('#ntCopy');
+    try{await navigator.clipboard.writeText(txt);}catch(_){
+      const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);
+      ta.select();try{document.execCommand('copy')}catch(__){}ta.remove();
+    }
+    btn.textContent='복사됨 ✓';setTimeout(()=>btn.textContent='복사 ⧉',1200);
+  });
+  ntRender();ntRenderBA();
+}
+/* 데모 그룹 전환 — 새 그룹 = dcard/dgroup 추가만 하면 됨 */
+function demoGroup(g){
+  $$('.dcard').forEach(b=>b.classList.toggle('active',b.dataset.g===g));
+  $$('.dgroup').forEach(d=>d.classList.toggle('active',d.id==='dg-'+g));
+}
+function bindDemoGroups(){
+  $$('.dcard').forEach(b=>b.addEventListener('click',()=>demoGroup(b.dataset.g)));
+}
+
 /* ── DEMO 2: 입력 UX ──────────────────────────────────────── */
 function parseDot(v){
   v=v.trim().replace(/,/g,'');
@@ -1860,6 +2146,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   $('#btnProc').addEventListener('click',runProcess);
   /* demo 0: 가이드 체험 */
   bindTour();
+  /* demo 그룹 허브 + 쪽지 다듬기 */
+  bindDemoGroups();bindNote();
   /* demo 2/3 */
   bindDemo2();renderScn();
   $$('.scnb').forEach(b=>b.addEventListener('click',()=>{
