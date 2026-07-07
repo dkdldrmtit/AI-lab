@@ -809,7 +809,8 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
   </div>
 
   <div class="sec">
-    <div class="sec-h"><div><span class="eyebrow">Open Lab</span><h2>혼자의 연구실에서, 함께의 공동연구실로</h2></div></div>
+    <div class="sec-h"><div><span class="eyebrow">Open Lab</span><h2>혼자의 연구실에서, 함께의 공동연구실로</h2></div>
+      <span class="hint" id="fbCount" hidden></span></div>
     <div class="card flat">
       <p style="color:var(--mut)">AI-lab은 개인 연구실로 시작했지만, 여기서 멈추지 않으려 합니다.
         동료들의 아이디어와 시도가 더해져 <b style="color:var(--txt)">우리 모두의 AI 공동연구실</b>로
@@ -2279,6 +2280,15 @@ function bindFeedback(){
   const hasKey=typeof FB_ACCESS_KEY==='string'&&FB_ACCESS_KEY.trim().length>0;
   if(!hasKey){send.style.display='none';copy.classList.remove('btn-ghost');copy.classList.add('btn-amber');}
 
+  /* 참여 카운터 — 실제 도착 건수만 표시(무료 카운터 API·전송 성공 시에만 +1).
+     정직 규칙: 서비스 실패·0건이면 숫자를 아예 숨김(부풀리기 없음) */
+  const CNT='https://abacus.jasoncameron.dev',CNT_PATH='ai-bingo-dev/openlab-feedback';
+  const cntEl=$('#fbCount');
+  const showCnt=n=>{if(cntEl&&n>0){
+    cntEl.innerHTML=`함께 만드는 중 — 지금까지 도착한 의견 <b style="color:var(--amb)">${n}</b>개`;
+    cntEl.hidden=false;}};
+  if(cntEl&&hasKey)fetch(`${CNT}/get/${CNT_PATH}`).then(r=>r.json()).then(d=>showCnt(+d.value)).catch(()=>{});
+
   send.addEventListener('click',async()=>{
     const msg=getMsg();
     if(!msg){flash(send,'내용을 먼저 적어 주세요');return;}
@@ -2298,6 +2308,11 @@ function bindFeedback(){
         send.textContent='보냈어요 ✓';
         $('#fbText').value='';if($('#fbFrom'))$('#fbFrom').value='';
         if(note)note.textContent='전달됐습니다. 소중한 의견 감사합니다 — 기록·다음 실험 후보에 반영할게요.';
+        /* 도착 성공 시에만 카운터 +1 → 'N번째 의견' 감사 문구로 갱신 */
+        fetch(`${CNT}/hit/${CNT_PATH}`).then(r=>r.json()).then(d=>{
+          const n=+d.value;showCnt(n);
+          if(note&&n>0)note.textContent=`전달됐습니다 — ${n}번째 의견으로 기록했어요. 감사합니다!`;
+        }).catch(()=>{});
         setTimeout(()=>{send.textContent=orig;send.disabled=false;if(note)note.textContent=noteDefault;},3200);
       }else throw new Error((data&&data.message)||'send failed');
     }catch(_){
