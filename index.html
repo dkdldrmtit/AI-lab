@@ -2036,55 +2036,91 @@ function ntDetectScn(t){
   if(/회의|미팅|안건|보고|리뷰/.test(t))return 'meet';
   return 'lunch';
 }
-function ntDiagItems(raw,scn,st){
-  const s=NT_SCN[scn];
-  const canonTime=(s.time.match(/\d{1,2}:\d{2}/)||['12:30'])[0];
-  const gather=s.gather(ntGather(s.time,s.gmin));
-  const out=[];
-  /* 참석자 */
-  if(/\d+\s*명|참석자|팀원|전원|다들|참석\s*여부/.test(raw))
-    out.push({st:'ok',label:'참석자',tag:'있음'});
-  else out.push({st:'miss',label:'참석자',sub:'누가 오는지 없음',now:`${st.people.length}명 명시`,tag:'빠진 정보'});
+/* 원문에서 실제 값(날짜·시각·장소·인원·집결·회신)을 추출 — 있으면 그대로 반영, 없으면 보완 */
+const nt2=n=>String(n).padStart(2,'0');
+function ntTo24(ap,h,m){h=+h;m=+m||0;ap=ap||'';
+  if(/오후|저녁/.test(ap)){if(h<12)h+=12;}
+  else if(/오전|아침|새벽/.test(ap)){if(h===12)h=0;}
+  else if(h>=1&&h<=7)h+=12; /* 마커 없는 1~7시는 오후로 추정(업무·식사 관행) */
+  return nt2(h)+':'+nt2(m);}
+function ntExtract(raw){
+  const t=raw.replace(/\s+/g,' ').trim(),e={};
+  /* 날짜 */
+  const dw=t.match(/오늘|내일|모레|글피/),ww=t.match(/(이번주|다음주|담주)?\s*([월화수목금토일])요일/);
+  e.day=dw?dw[0]:(ww?((ww[1]||'').replace('담주','다음주'))+(ww[1]?' ':'')+ww[2]+'요일':'');
   /* 시각 */
-  if(/\d{1,2}:\d{2}/.test(raw))
-    out.push({st:'ok',label:'시각',tag:'있음'});
-  else{
-    const m=raw.match(/\d{1,2}\s*시\s*(반|\d{1,2}\s*분)?|반쯤|쯤|오후|오전|저녁|점심때|이따|담주|다음주|모레/);
-    if(m)out.push({st:'vague',label:'시각',was:m[0].trim(),now:canonTime,tag:'모호 → 명확'});
-    else out.push({st:'miss',label:'시각',sub:'시간 없음',now:canonTime,tag:'빠진 정보'});
-  }
+  let m;
+  if((m=t.match(/(오전|오후|저녁|아침|낮)?\s*(\d{1,2})\s*:\s*(\d{2})/))){e.time=ntTo24(m[1],m[2],m[3]);e.timeStatus='ok';e.timeWas=m[0].trim();}
+  else if((m=t.match(/(오전|오후|저녁|아침|낮)?\s*(\d{1,2})\s*시\s*(반|(\d{1,2})\s*분)?/))){
+    const mi=m[3]==='반'?30:(m[4]?+m[4]:0);e.time=ntTo24(m[1],m[2],mi);e.timeStatus='vague';
+    e.timeWas=m[0].replace(/\s+/g,'')+(/쯤/.test(t)?'쯤':'');}
+  else if(/반쯤|쯤|점심때|저녁때|이따|낮에|오후|오전/.test(t)){e.timeStatus='vague';e.timeWas=(t.match(/오후|오전|점심때|저녁때|이따|낮에/)||[''])[0];e.time='';}
+  else{e.timeStatus='miss';e.time='';}
   /* 장소 */
-  const pl=st.place;
-  if(new RegExp(pl.n).test(raw)||/회의실\s*[A-Za-z0-9가-힣]/.test(raw))
-    out.push({st:'ok',label:'장소',tag:'있음'});
-  else{
-    const m=raw.match(/\d+\s*층|거기|위층|아래층|늘\s*그|그\s*자리/);
-    if(m)out.push({st:'vague',label:'장소',was:m[0].trim(),now:`${pl.n}(${pl.d})`,tag:'모호 → 명확'});
-    else out.push({st:'miss',label:'장소',sub:'장소 없음',now:`${pl.n}(${pl.d})`,tag:'빠진 정보'});
-  }
-  /* 집결/착석 */
-  if(/집결|모여|로비|착석/.test(raw))
-    out.push({st:'ok',label:(scn==='meet'?'착석':'집결'),tag:'있음'});
-  else out.push({st:'miss',label:(scn==='meet'?'착석 시간':'집결 시간'),sub:'없음',now:gather,tag:'빠진 정보'});
-  /* 회신 기한 */
-  if(/회신|참석\s*여부|알려\s*주|회신\s*주|rsvp/i.test(raw))
-    out.push({st:'ok',label:'회신',tag:'있음'});
-  else out.push({st:'miss',label:'회신 기한',sub:'없음',now:`${s.deadline}까지`,tag:'빠진 정보'});
-  return out;
+  let place='';
+  for(const pl of NT_PLACES){if(t.includes(pl.n)){place=`${pl.n} (${pl.d})`;break;}}
+  if(!place){const pm=t.match(/[가-힣A-Za-z0-9]*(?:회의실|세미나실|식당|카페|홀|룸|라운지)/);if(pm)place=pm[0];}
+  if(place){e.placeStatus='ok';e.place=place;}
+  else{const pv=t.match(/\d+\s*층|거기|위층|아래층|늘\s*그|그\s*자리/);
+    if(pv){e.placeStatus='vague';e.placeWas=pv[0];}else e.placeStatus='miss';e.place='';}
+  /* 인원 */
+  const pn=t.match(/(\d+)\s*명/);
+  if(pn){e.people=pn[1]+'명';e.peopleStatus='ok';}
+  else if(/전원|다\s*같이|팀\s*전체|모두\s*참석/.test(t)){e.people='팀 전원';e.peopleStatus='ok';}
+  else{e.people='';e.peopleStatus='miss';}
+  /* 집결·회신 */
+  e.gatherStatus=/집결|모여|로비|착석/.test(t)?'ok':'miss';
+  e.replyStatus=/회신|참석\s*여부|알려\s*주|회신\s*주|rsvp/i.test(t)?'ok':'miss';
+  return e;
 }
 function ntRunImprove(){
   const raw=($('#ntRaw').value||'').trim();
-  const scn=ntDetectScn(raw);
-  const s=NT_SCN[scn];
-  const st={scn,people:NT_PEOPLE.slice(0,5),
-    place:NT_PLACES.find(p=>p.n===s.place)||NT_PLACES[0],time:s.time,tone:ntItone};
-  const items=ntDiagItems(raw,scn,st);
+  const scn=ntDetectScn(raw),s=NT_SCN[scn];
+  const defPlace=NT_PLACES.find(p=>p.n===s.place)||NT_PLACES[0];
+  const defDay=(s.time.split('·')[0]||'내일').trim();
+  const defTime=(s.time.match(/\d{1,2}:\d{2}/)||['12:30'])[0];
+  const e=ntExtract(raw);
+  const day=e.day||defDay, time=e.time||defTime;
+  const place=e.place||`${defPlace.n} (${defPlace.d})`;
+  const gRaw=ntGather(time,s.gmin);
+  const gather=scn==='work'?`${gRaw} 로비 집결 · 버스 이동`:(scn==='meet'?`${gRaw}까지 착석`:`${gRaw} 로비 집결`);
+  const peopleTxt=e.people||`5명 (예시)`;
+  /* 진단 — 있으면 '그대로 반영', 모호는 '명확', 없으면 '보완' */
+  const items=[
+    e.peopleStatus==='ok'?{st:'ok',label:'참석자',now:e.people,tag:'그대로 반영'}
+      :{st:'miss',label:'참석자',sub:'누가 오는지 없음',now:'명시 필요',tag:'빠진 정보'},
+    e.timeStatus==='ok'?{st:'ok',label:'시각',now:time,tag:'그대로 반영'}
+      :e.timeStatus==='vague'?{st:'vague',label:'시각',was:e.timeWas,now:time,tag:'모호 → 명확'}
+      :{st:'miss',label:'시각',sub:'시간 없음',now:time+' (예시)',tag:'빠진 정보'},
+    e.placeStatus==='ok'?{st:'ok',label:'장소',now:e.place,tag:'그대로 반영'}
+      :e.placeStatus==='vague'?{st:'vague',label:'장소',was:e.placeWas,now:place,tag:'모호 → 명확'}
+      :{st:'miss',label:'장소',sub:'장소 없음',now:place+' (예시)',tag:'빠진 정보'},
+    e.gatherStatus==='ok'?{st:'ok',label:scn==='meet'?'착석':'집결',tag:'그대로 반영'}
+      :{st:'miss',label:scn==='meet'?'착석 시간':'집결 시간',sub:'없음',now:gather,tag:'빠진 정보'},
+    e.replyStatus==='ok'?{st:'ok',label:'회신',tag:'그대로 반영'}
+      :{st:'miss',label:'회신 기한',sub:'없음',now:`${s.deadline}까지`,tag:'빠진 정보'}
+  ];
   const fixed=items.filter(i=>i.st!=='ok').length;
-  $('#ntDiag').innerHTML=`<h4>🔍 AI 점검 — 빠지거나 모호한 정보<span class="cnt">${fixed}개 보완</span></h4>`+
+  $('#ntDiag').innerHTML=`<h4>🔍 AI 점검 — 원문 반영 · 빠지거나 모호한 정보<span class="cnt">${fixed}개 보완</span></h4>`+
     items.map(i=>`<div class="nt-ck ${i.st}"><span class="ic">${i.st==='ok'?'✓':i.st==='vague'?'△':'✗'}</span>
-      <span class="tx"><b>${esc(i.label)}</b> ${i.was?`<span class="was">${esc(i.was)}</span>`:i.sub?`— ${esc(i.sub)} `:''}${(i.now&&i.st!=='ok')?`<span class="now">→ ${esc(i.now)}</span>`:''}</span>
+      <span class="tx"><b>${esc(i.label)}</b> ${i.was?`<span class="was">${esc(i.was)}</span>`:i.sub?`— ${esc(i.sub)} `:''}${(i.now&&i.st!=='ok')?`<span class="now">→ ${esc(i.now)}</span>`:i.st==='ok'&&i.now?`<span style="color:var(--mut)">${esc(i.now)}</span>`:''}</span>
       <span class="tg">${esc(i.tag)}</span></div>`).join('');
-  $('#ntMsg2').innerHTML=ntMsgHTML(st);
+  /* 다듬은 문구 — 원문에서 뽑은 값은 그대로, AI가 채운 값만 파란 하이라이트 */
+  const wrap=(v,filled)=>filled?ntAi(esc(v)):esc(v);
+  const rows=`
+   <div class="kv"><span class="k">일시</span><span>${wrap(day,!e.day)} ${wrap(time,e.timeStatus!=='ok')} ${ntAi('('+esc(gather)+')')}</span></div>
+   <div class="kv"><span class="k">장소</span><span>${wrap(place,e.placeStatus!=='ok')} ${s.placeAi?ntAi(esc(s.placeAi)):''}</span></div>
+   <div class="kv"><span class="k">참석</span><span>${e.people?esc(e.people):ntAi('참석 대상 명시 필요')}</span></div>
+   ${s.extra?`<div class="kv"><span class="k">참고</span><span>${ntAi(esc(s.extra))}</span></div>`:''}`;
+  /* 회식은 시간대에 맞춰 점심/저녁 이름 자동 조정 */
+  let sName=s.name;
+  if(scn==='lunch'){const hh=+time.slice(0,2);sName=hh>=17?'저녁 회식':(hh<11?'조찬 모임':'점심 회식');}
+  const end=`참석이 어려우시면 ${e.replyStatus==='ok'?esc(s.deadline+'까지'):ntAi(esc(s.deadline)+'까지')} 회신 부탁드립니다`;
+  $('#ntMsg2').innerHTML=ntItone==='msg'
+    ?`<div class="ttl">${s.emoji} ${esc(sName)} 안내</div>${rows}<div class="end">${end} 🙏</div>`
+    :`<div class="ttl">[안내] ${esc(sName)}</div>
+      <p style="margin:0 0 10px">안녕하세요.<br>아래와 같이 ${esc(sName)} 일정을 안내드립니다.</p>${rows}
+      <div class="end">${end.replace('부탁드립니다','주시면 감사하겠습니다')}.<br>감사합니다.</div>`;
   $('#ntPrinc').innerHTML=NT_PRINC.map(p=>`<span class="nt-ptag">${p}</span>`).join('');
 }
 /* 클립보드 복사(공통) — 성공 여부 확인 후 피드백, off-screen fallback */
