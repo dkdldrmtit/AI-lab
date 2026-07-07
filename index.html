@@ -490,6 +490,11 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .nt-ptag{font-size:11.5px;font-weight:700;color:var(--grn);background:rgba(53,196,141,.1);border:1px solid rgba(53,196,141,.3);border-radius:20px;padding:4px 10px}
 /* 한글 라벨용 eyebrow — 영문용 .24em 자간이 한글을 벌려 보이게 하는 문제 방지 */
 .eyebrow-ko{letter-spacing:.04em;text-transform:none}
+/* d1 → 가이드 체험 연결 CTA */
+.mgnext{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+  margin-top:16px;padding:13px 16px;border:1px solid rgba(245,167,66,.35);background:var(--ambf);border-radius:11px;
+  font-size:13.5px;color:var(--mut)}
+.mgnext b{color:var(--amb)}
 /* 버전 연대기 타임라인 */
 .vline{display:flex;flex-direction:column;gap:0;border-left:2px solid var(--grid);margin-left:8px}
 .vrow{display:flex;gap:16px;align-items:baseline;padding:13px 0 13px 22px;position:relative;flex-wrap:wrap}
@@ -733,9 +738,16 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
       <p style="color:var(--mut)">AI-lab은 개인 연구실로 시작했지만, 여기서 멈추지 않으려 합니다.
         동료들의 아이디어와 시도가 더해져 <b style="color:var(--txt)">우리 모두의 AI 공동연구실</b>로
         자라나는 것이 이 연구실의 다음 목표입니다. 바꿔보고 싶은 반복 업무가 있다면 — 그 아이디어가 다음 실험이 됩니다.</p>
-      <div class="hero-cta" style="margin-top:16px">
-        <a class="btn btn-ghost btn-sm" href="#missions">미션 보드 보기</a>
-        <a class="btn btn-ghost btn-sm" href="#about">아이디어 제안 →</a>
+      <!-- 의견 보내기 — 백엔드 없이: 쓰면 정형 쪽지로 복사 → 사내 메신저로 전달 -->
+      <div style="margin-top:16px">
+        <label class="nt-l" for="fbText">의견 · 실험 아이디어 남기기 <em>복사해서 사내 메신저로 보내 주세요</em></label>
+        <textarea class="nt-ta" id="fbText" style="min-height:72px"
+          placeholder="예: 매일 아침 ○○ 보고 취합이 반복 업무인데, 자금판처럼 자동화될까요?"></textarea>
+        <div class="nt-row" style="margin-top:10px">
+          <button type="button" class="btn btn-amber btn-sm" id="fbCopy">쪽지로 복사 ⧉</button>
+          <a class="btn btn-ghost btn-sm" href="#missions">미션 보드 보기</a>
+          <span class="tagline">받은 의견은 기록(LOG)과 다음 실험 후보에 반영합니다</span>
+        </div>
       </div>
     </div>
   </div>
@@ -938,8 +950,10 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
         <span class="tagline" style="font-weight:400">반영된 CLOSING으로 통화별 포지션을 판단합니다</span></h3></div>
       <div class="mgmt-grid" id="mgmtGrid"></div>
       <div class="mgsum" id="mgmtSum"></div>
-      <p class="tagline" style="margin-top:12px">이 판단 이후 — 당발 쪽지 · 조달/운용 실행 · 마감 리포트까지는
-        <a href="#demo/d0" style="color:var(--amb)">▶ 가이드 체험</a>에서 이어집니다 (예시).</p>
+      <div class="mgnext">
+        <span>판단 다음은 실행 — <b>조달·운용(FX SWAP·MM)</b>과 <b>마감 리포트</b>가 이어집니다 (예시)</span>
+        <button type="button" class="btn btn-amber btn-sm" id="goTour">▶ 이어서 체험하기</button>
+      </div>
     </div>
   </div>
 
@@ -2386,6 +2400,14 @@ document.addEventListener('DOMContentLoaded',()=>{
   bindTour();
   /* demo 그룹 허브 + 쪽지 다듬기 */
   bindDemoGroups();bindNote();
+  /* d1 → 가이드 체험 이어보기 */
+  const gt=$('#goTour');if(gt)gt.addEventListener('click',()=>{
+    const t=$('.tab[data-t="d0"]');if(t)t.click();window.scrollTo({top:0,behavior:REDUCED?'auto':'smooth'});});
+  /* Open Lab 의견 보내기 — 정형 쪽지로 복사 */
+  const fb=$('#fbCopy');if(fb)fb.addEventListener('click',()=>{
+    const v=($('#fbText').value||'').trim();
+    if(!v){fb.textContent='내용을 먼저 적어 주세요';setTimeout(()=>fb.textContent='쪽지로 복사 ⧉',1400);return;}
+    ntDoCopy(`[AI Lab 의견]\n${v}\n— ai-bingo.dev 에서 보냄`,fb);});
   /* demo 2/3 */
   bindDemo2();renderScn();
   $$('.scnb').forEach(b=>b.addEventListener('click',()=>{
