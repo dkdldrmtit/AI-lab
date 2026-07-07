@@ -6,6 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Lab — 업무 × AI 연구실</title>
 <meta name="description" content="반복 업무를 AI로 다시 설계하는 개인 AI 연구실. 외화자금 마감 자동화 '자금판'을 직접 체험해 보세요.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AI Lab — 업무 × AI 연구실">
+<meta property="og:description" content="반복 업무를 AI로 다시 설계하는 개인 AI 연구실. 자금판·브리핑 룸·쪽지 다듬기를 라이브 데모로 직접 체험해 보세요.">
+<meta property="og:url" content="https://ai-bingo.dev/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23F5A742'/%3E%3Ctext x='32' y='44' font-family='monospace' font-size='36' font-weight='700' fill='%230B0F17' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -27,6 +31,7 @@ html{scroll-behavior:smooth}
 body{
   background:var(--ink);color:var(--txt);font-family:var(--kor);
   font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;
+  word-break:keep-all;overflow-wrap:break-word; /* 한글 단어 중간 줄바꿈 방지 */
   background-image:
     linear-gradient(rgba(34,48,71,.14) 1px,transparent 1px),
     linear-gradient(90deg,rgba(34,48,71,.14) 1px,transparent 1px);
@@ -199,7 +204,7 @@ h3{font-size:16.5px;font-weight:700}
 .inp::placeholder{color:var(--dim)}
 .lbl{font-size:12px;color:var(--dim);margin-bottom:7px;display:block}
 .cellrow{display:grid;grid-template-columns:84px 1fr 74px;gap:10px;align-items:center}
-.cell{background:var(--panel2);border:1px solid var(--grid);border-radius:9px;padding:11px 8px;text-align:center;
+.cell{background:var(--panel2);border:1px solid var(--grid);border-radius:9px;padding:11px 8px;text-align:center;white-space:nowrap;
   font-family:var(--mono);font-size:13.5px;user-select:none}
 .cell.click{cursor:pointer}
 .cell.c{color:var(--grn);border-color:rgba(53,196,141,.5)}
@@ -755,7 +760,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
     <div class="stat"><b id="statLive">0</b><span>운영·공개 실험</span></div>
     <div class="stat"><b data-count="14">14</b><span>자동 관리 통화 블록</span></div>
     <div class="stat"><b id="statDays">D+·</b><span>자금판 실전 운영 일차</span></div>
-    <div class="stat"><b data-count="9">9</b><span>도전 중인 빙고 미션</span></div>
+    <div class="stat"><b data-count="9" id="statMiss">9</b><span>도전 중인 빙고 미션</span></div>
   </div>
 
   <div class="sec">
@@ -1228,7 +1233,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
       <div class="card flat"><h3>Contact</h3>
         <p style="margin-top:8px;color:var(--mut)">아이디어 제안·피드백은 사내 메신저로 주세요. <span class="tagline">(외부 연락처는 두지 않습니다)</span></p></div>
       <div class="card flat"><h3>다음 실험</h3>
-        <p style="margin-top:8px;color:var(--mut)">AI빙고 9개 미션이 완성되는 대로 이 사이트에서 공유·체험할 수 있게 됩니다. <a class="tagline" href="#missions">미션 보드 →</a></p></div>
+        <p style="margin-top:8px;color:var(--mut)">AI빙고 9개 미션이 완성되는 대로 이 사이트에서 공유·체험할 수 있게 됩니다. <a href="#missions" style="color:var(--cyn);font-weight:700;white-space:nowrap">미션 보드 →</a></p></div>
     </div>
   </div>
 </section>
@@ -2388,15 +2393,14 @@ function brText(){
   }
   const okLine=okC.length?`${okC.join('·')} 등 ${okN}개 통화 — 적정 범위`:`그 외 11개 통화 — 적정 범위`;
   if(mail){
-    const lines=bad.map((r,i)=>`${i+1}. <b>${r.c}</b>: ${clauses(r).join(' · ')} — ${acts(r).join(' 및 ')} 필요`);
+    const lines=bad.map((r,i)=>`${i+1}. <b>${r.c}</b>: ${clauses(r).join(' · ')} — 조치: ${acts(r).join(' → ')}`);
     lines.push(`${bad.length+1}. ${okLine} · 특이사항 없음`);
     return `[보고] 금일 ${ampm} 외화 마감 현황입니다.<br><br>${lines.join('<br>')}<br><br>상기 우선순위 순으로 처리하겠습니다. 감사합니다.`;
   }
   const lines=bad.map((r,i)=>{
-    const head=(r.un>0||r.ft||r.st==='lo')
-      ?`<span class="pri">${CIRC[i]} ${r.c} — 우선 확인 필요.</span>`
-      :`<span class="warn2">${CIRC[i]} ${r.c} — 기준의 ${r.pct}% 과다.</span>`;
-    return `${head} ${clauses(r).join(' · ')} 상태로, ${acts(r).join('과 ')}가 필요합니다.`;
+    if(!(r.un>0||r.ft||r.st==='lo')) /* 과다 단독 — 비율은 헤드에 이미 있으니 본문은 조치만 */
+      return `<span class="warn2">${CIRC[i]} ${r.c} — 기준의 ${r.pct}% 과다.</span> 여유분 운용(MM 예치·스왑 회수)을 검토해 주세요.`;
+    return `<span class="pri">${CIRC[i]} ${r.c} — 우선 확인 필요.</span> ${clauses(r).join(' · ')} — 조치: ${acts(r).join(' → ')}.`;
   });
   lines.push(`<span class="okk">${CIRC[bad.length]} ${okLine},</span> 특이사항 없습니다.`);
   return `금일 ${ampm} 마감 브리핑입니다.<br><br>${lines.join('<br>')}<br><br>요약 — 처리 우선순위: <b>${prio.join(' → ')}</b>. 이상입니다.`;
@@ -2442,6 +2446,7 @@ function bindBrief(){
   root.querySelector('.br-scn').addEventListener('click',e=>{
     const b=e.target.closest('[data-brscn]');if(!b)return;
     brS.rows=brPreset(b.dataset.brscn);refresh();
+    b.classList.add('on');setTimeout(()=>b.classList.remove('on'),650); /* 눌림 피드백 */
   });
   $('#brTone').addEventListener('click',e=>{
     const b=e.target.closest('[data-tone]');if(!b)return;
@@ -2563,6 +2568,7 @@ async function runCheck(){
 /* ── INIT ─────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded',()=>{
   const t=$('#ticker');t.innerHTML+=t.innerHTML;           /* seamless loop */
+  const sm=$('#statMiss');if(sm){sm.dataset.count=MISSIONS.length;sm.textContent=MISSIONS.length;} /* 미션 수 = 단일 소스 */
   counters();renderLog();renderLogSide();renderHomeFocus();
   renderExperiments();renderDemoCards();renderMissions('all');renderBingo('missBingo');renderBingo('homeBingo');
   renderProg('missProg');renderProg('homeProg');updateLines();
