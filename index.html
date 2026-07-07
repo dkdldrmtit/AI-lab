@@ -1250,7 +1250,9 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
     </div>
     <div class="grid2" style="margin-top:16px">
       <div class="card flat"><h3>Contact</h3>
-        <p style="margin-top:8px;color:var(--mut)">아이디어 제안·피드백은 사내 메신저로 주세요. <span class="tagline">(외부 연락처는 두지 않습니다)</span></p></div>
+        <p style="margin-top:8px;color:var(--mut)">아이디어·의견은 홈의 <b style="color:var(--txt)">Open Lab 의견함</b>에 남겨 주세요 —
+        운영자에게 바로 전달됩니다. <a href="#home/openlab" style="color:var(--cyn);font-weight:700;white-space:nowrap">의견 남기기 →</a><br>
+        <span class="tagline">사내 메신저 제보도 언제나 환영 (외부 연락처는 두지 않습니다)</span></p></div>
       <div class="card flat"><h3>다음 실험</h3>
         <p style="margin-top:8px;color:var(--mut)">AI빙고 9개 미션이 완성되는 대로 이 사이트에서 공유·체험할 수 있게 됩니다. <a href="#missions" style="color:var(--cyn);font-weight:700;white-space:nowrap">미션 보드 →</a></p></div>
     </div>
@@ -1473,6 +1475,14 @@ function route(){
       }
       if(!trBootDone){trBootDone=true;trIntro();} /* 자금판 첫 방문 시 가이드 부팅 */
     }
+  }
+  /* #home/openlab — About 등에서 의견함으로 직행(카드로 스크롤 + 입력 포커스) */
+  if(h==='home'&&sub==='openlab'){
+    const t=$('#fbText');
+    if(t)requestAnimationFrame(()=>{
+      t.closest('.card').scrollIntoView({behavior:REDUCED?'auto':'smooth',block:'center'});
+      t.focus({preventScroll:true});
+    });
   }
   if(h==='missions'&&sub){
     let card=$('#m-'+CSS.escape(sub));
