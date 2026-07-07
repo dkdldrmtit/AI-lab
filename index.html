@@ -563,6 +563,10 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 #ntGo.pulse{animation:ntGoPulse 1.3s ease-in-out infinite}
 @keyframes ntGoPulse{0%,100%{box-shadow:0 0 0 0 rgba(245,167,66,.45)}50%{box-shadow:0 0 0 8px rgba(245,167,66,0)}}
 #ntGo:disabled{opacity:.75;cursor:wait}
+.fb-in{width:100%;margin-top:8px;border:1px solid var(--grid);border-radius:9px;background:var(--panel);color:var(--txt);font-family:var(--kor);font-size:13.5px;padding:10px 12px;outline:none}
+.fb-in::placeholder{color:var(--dim)}
+.fb-in:focus-visible{border-color:var(--amb)}
+#fbSend:disabled{opacity:.7;cursor:wait}
 /* ── 브리핑 룸(미션1-ⓑ) — 상태 조작판 + 모의 AI 브리핑 ── */
 .br-gen{display:grid;grid-template-columns:.95fr 1.05fr;gap:24px;align-items:start}
 @media (max-width:820px){.br-gen{grid-template-columns:1fr}}
@@ -810,16 +814,19 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
       <p style="color:var(--mut)">AI-lab은 개인 연구실로 시작했지만, 여기서 멈추지 않으려 합니다.
         동료들의 아이디어와 시도가 더해져 <b style="color:var(--txt)">우리 모두의 AI 공동연구실</b>로
         자라나는 것이 이 연구실의 다음 목표입니다. 바꿔보고 싶은 반복 업무가 있다면 — 그 아이디어가 다음 실험이 됩니다.</p>
-      <!-- 의견 보내기 — 백엔드 없이: 쓰면 정형 쪽지로 복사 → 사내 메신저로 전달 -->
+      <!-- 의견 보내기 — Web3Forms(정적 폼 서비스)로 운영자에게 자동 이메일. 미설정 시 쪽지 복사로 폴백 -->
       <div style="margin-top:16px">
-        <label class="nt-l" for="fbText">의견 · 실험 아이디어 남기기 <em>복사해서 사내 메신저로 보내 주세요</em></label>
+        <label class="nt-l" for="fbText">의견 · 실험 아이디어 남기기 <em>남기면 연구실 운영자에게 전달됩니다</em></label>
         <textarea class="nt-ta" id="fbText" style="min-height:72px"
           placeholder="예: 매일 아침 ○○ 보고 취합이 반복 업무인데, 자금판처럼 자동화될까요?"></textarea>
+        <input class="fb-in" id="fbFrom" maxlength="60"
+          placeholder="보내는 사람 · 회신받을 곳 (선택 — 익명도 괜찮아요)" autocomplete="off" aria-label="보내는 사람(선택)">
         <div class="nt-row" style="margin-top:10px">
-          <button type="button" class="btn btn-amber btn-sm" id="fbCopy">쪽지로 복사 ⧉</button>
+          <button type="button" class="btn btn-amber btn-sm" id="fbSend">✉ 보내기</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="fbCopy">쪽지로 복사 ⧉</button>
           <a class="btn btn-ghost btn-sm" href="#missions">미션 보드 보기</a>
-          <span class="tagline">받은 의견은 기록(LOG)과 다음 실험 후보에 반영합니다</span>
         </div>
+        <p class="tagline" id="fbNote" style="margin-top:9px" aria-live="polite">받은 의견은 기록(LOG)과 다음 실험 후보에 반영합니다 · 개인정보·실거래 내용은 남기지 말아 주세요</p>
       </div>
     </div>
   </div>
@@ -1285,6 +1292,7 @@ const mmdd=off=>{const d=new Date();d.setDate(d.getDate()+off);
 /* ── DATA ─────────────────────────────────────────────────── */
 /* 기록(LOG) — 이 실험실이 해온 일들. 새 일 = 객체 1개 추가 (최신이 위) */
 const LOGS=[
+ {d:'2026-07-07',t:'Open Lab 의견함을 실제 수신으로 — 남기면 운영자에게 자동 전달',tag:'사이트',note:'Web3Forms 연동(정적 폼) · 보낸 사람 선택 입력 · 실패 시 쪽지 복사 폴백 · 개인정보 미기입 안내'},
  {d:'2026-07-07',t:'체험 「브리핑 룸」 오픈 — 마감 상태를 만지면 AI가 말로 정리',tag:'실험',note:'통화 상태 조작 → 심각도 정렬 모의 브리핑 실시간 재작성 · 팀 공유/보고용 톤 · EXP.02 LIVE'},
  {d:'2026-07-07',t:'사이트 전면 점검 — 정리 · UX · 구조 · 축적 지표',tag:'사이트',note:'중복 제거 · 모바일 동선 · 데모 허브 단일 소스화 · 운영 일차 자동 표기'},
  {d:'2026-07-06',t:'미션9 체험 「쪽지 다듬기」 공개',tag:'AI빙고',note:'내 문구 다듬기(AI 점검) + 골라서 만들기 · 메신저/이메일 톤 전환 · Before→After'},
@@ -1298,6 +1306,12 @@ const LOGS=[
  {d:'2026-06',t:'Claude 마감 브리핑 프로토타입',tag:'자금판',note:'집계 수치만 전송 · 정보보안 검토 후 파일럿 방침'},
  {d:'2026-05',t:'자금판 v3.31 실전 운영 정착',tag:'자금판',note:'매일 오전·오후 2회 · 14개 통화 블록'}
 ];
+/* ── Open Lab 의견 수신 — Web3Forms(정적 폼 서비스) 액세스 키 ──────────────
+   ① https://web3forms.com 에서 이메일(dkdldrmtit@gmail.com) 입력 → 무료 액세스 키 발급
+   ② 발급된 키를 아래 ''(빈칸)에 붙여넣기. (키는 공개돼도 안전 — 지정 메일로만 전송)
+   ③ 그러면 방문자가 '보내기'를 누를 때 그 내용이 운영자 메일로 자동 도착.
+   비워 두면 자동으로 '쪽지 복사' 방식으로 폴백(=지금 동작). TODO(backend) */
+const FB_ACCESS_KEY=''; /* ← 여기에 Web3Forms 액세스 키 */
 /* ── 운영 축적 지표 — 달력·시간표 산식(실거래 데이터 아님 · 영업일 추정 라벨 필수) ── */
 const OPS_START='2026-05-02'; /* v3.31 실전 정착일 — 주인이 실제 날짜로 조정 */
 function opsDays(){return Math.max(0,Math.floor((Date.now()-new Date(OPS_START+'T00:00:00+09:00'))/86400000))+1;}
@@ -2252,6 +2266,55 @@ function ntRunImprove(){
   const _o=$('#ntpImprove .nt-out');if(_o)_o.classList.remove('nt-stale');
   const _g=$('#ntGo');if(_g)_g.classList.remove('pulse');
 }
+/* ── Open Lab 의견 — 보내기(Web3Forms) + 쪽지 복사 폴백 ── */
+function bindFeedback(){
+  const send=$('#fbSend'),copy=$('#fbCopy'),note=$('#fbNote');
+  if(!send||!copy)return;
+  const noteDefault=note?note.textContent:'';
+  const getMsg=()=>($('#fbText').value||'').trim();
+  const getFrom=()=>($('#fbFrom')?($('#fbFrom').value||'').trim():'');
+  const flash=(el,txt,ms)=>{const o=el.textContent;el.textContent=txt;setTimeout(()=>el.textContent=o,ms||1500);};
+
+  /* 키 미설정이면 '보내기'를 감추고 복사만 노출(정직하게: 되는 것만 보여줌) */
+  const hasKey=typeof FB_ACCESS_KEY==='string'&&FB_ACCESS_KEY.trim().length>0;
+  if(!hasKey){send.style.display='none';copy.classList.remove('btn-ghost');copy.classList.add('btn-amber');}
+
+  send.addEventListener('click',async()=>{
+    const msg=getMsg();
+    if(!msg){flash(send,'내용을 먼저 적어 주세요');return;}
+    send.disabled=true;const orig=send.textContent;send.textContent='보내는 중…';
+    try{
+      const res=await fetch('https://api.web3forms.com/submit',{
+        method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({
+          access_key:FB_ACCESS_KEY,
+          subject:'[AI Lab] 새 의견·아이디어',
+          from_name:getFrom()||'익명 방문자',
+          message:msg+'\n\n— 보내는 사람: '+(getFrom()||'익명')+'\n— 출처: ai-bingo.dev / Open Lab'
+        })
+      });
+      const data=await res.json().catch(()=>({}));
+      if(res.ok&&data.success){
+        send.textContent='보냈어요 ✓';
+        $('#fbText').value='';if($('#fbFrom'))$('#fbFrom').value='';
+        if(note)note.textContent='전달됐습니다. 소중한 의견 감사합니다 — 기록·다음 실험 후보에 반영할게요.';
+        setTimeout(()=>{send.textContent=orig;send.disabled=false;if(note)note.textContent=noteDefault;},3200);
+      }else throw new Error((data&&data.message)||'send failed');
+    }catch(_){
+      send.textContent=orig;send.disabled=false;
+      if(note)note.textContent='전송이 막혔어요(네트워크·차단). 옆의 "쪽지로 복사"로 보내 주세요.';
+      copy.classList.remove('btn-ghost');copy.classList.add('btn-amber');
+      setTimeout(()=>{if(note)note.textContent=noteDefault;},4200);
+    }
+  });
+
+  copy.addEventListener('click',()=>{
+    const msg=getMsg();
+    if(!msg){flash(copy,'내용을 먼저 적어 주세요');return;}
+    const from=getFrom();
+    ntDoCopy(`[AI Lab 의견]\n${msg}${from?'\n보내는 사람: '+from:''}\n— ai-bingo.dev 에서 보냄`,copy);
+  });
+}
 /* 다듬기 UX — 입력이 바뀌면 결과를 '이전 결과' 상태로 흐리게 표시 */
 function ntMarkStale(){
   $('#ntDiag').classList.add('nt-stale');
@@ -2660,11 +2723,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   /* d1 → 가이드 체험 이어보기 */
   const gt=$('#goTour');if(gt)gt.addEventListener('click',()=>{
     const t=$('.tab[data-t="d0"]');if(t)t.click();window.scrollTo({top:0,behavior:REDUCED?'auto':'smooth'});});
-  /* Open Lab 의견 보내기 — 정형 쪽지로 복사 */
-  const fb=$('#fbCopy');if(fb)fb.addEventListener('click',()=>{
-    const v=($('#fbText').value||'').trim();
-    if(!v){fb.textContent='내용을 먼저 적어 주세요';setTimeout(()=>fb.textContent='쪽지로 복사 ⧉',1400);return;}
-    ntDoCopy(`[AI Lab 의견]\n${v}\n— ai-bingo.dev 에서 보냄`,fb);});
+  /* Open Lab 의견 — 보내기(Web3Forms 자동 이메일) + 쪽지 복사(폴백) */
+  bindFeedback();
   /* demo 2/3 */
   bindDemo2();renderScn();
   $$('.scnb').forEach(b=>b.addEventListener('click',()=>{
