@@ -490,6 +490,17 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .nt-ptag{font-size:11.5px;font-weight:700;color:var(--grn);background:rgba(53,196,141,.1);border:1px solid rgba(53,196,141,.3);border-radius:20px;padding:4px 10px}
 /* 한글 라벨용 eyebrow — 영문용 .24em 자간이 한글을 벌려 보이게 하는 문제 방지 */
 .eyebrow-ko{letter-spacing:.04em;text-transform:none}
+/* 버전 연대기 타임라인 */
+.vline{display:flex;flex-direction:column;gap:0;border-left:2px solid var(--grid);margin-left:8px}
+.vrow{display:flex;gap:16px;align-items:baseline;padding:13px 0 13px 22px;position:relative;flex-wrap:wrap}
+.vrow::before{content:'';position:absolute;left:-6px;top:20px;width:10px;height:10px;border-radius:50%;
+  background:var(--panel2);border:2px solid var(--dim)}
+.vrow:last-child::before{background:var(--amb);border-color:var(--amb);box-shadow:0 0 10px rgba(245,167,66,.5)}
+.vrow .vv{font-family:var(--mono);font-weight:700;font-size:14px;color:var(--amb);min-width:56px}
+.vrow .vw{font-family:var(--mono);font-size:11.5px;color:var(--dim);min-width:56px}
+.vrow .vb{flex:1;min-width:240px}
+.vrow .vb b{font-size:14.5px;color:var(--txt)}
+.vrow .vb p{font-size:13px;color:var(--mut);margin-top:3px}
 /* 미션 보드 — 예정(PLAN) 컴팩트 행 */
 .mrow{display:flex;align-items:center;gap:12px;padding:13px 18px}
 .mrow .mrow-t{font-size:14px;font-weight:700;color:var(--mut);flex:1;min-width:0}
@@ -626,7 +637,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 <!-- ticker -->
 <div class="ticker" aria-hidden="true"><div class="ticker-in" id="ticker">
   <span class="t"><b>AI LAB</b> · FINANCIAL × AI EXPERIMENTS</span>
-  <span class="t">STATUS <span class="up">● LIVE</span> — 자금판 매일 오전·오후 운영</span>
+  <span class="t">STATUS <span class="up">● LIVE</span> — <span id="tkOps">자금판 매일 오전·오후 운영</span></span>
   <span class="t">AM <b>JPY AUD NZD HKD SGD THB CNY</b></span>
   <span class="t">PM <b>EUR GBP CAD CHF</b> +3</span>
   <span class="t">100건 반영 <span class="amb">0.5~2s</span></span>
@@ -679,7 +690,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
   <div class="stats">
     <div class="stat"><b id="statLive">0</b><span>운영·공개 실험</span></div>
     <div class="stat"><b data-count="14">14</b><span>자동 관리 통화 블록</span></div>
-    <div class="stat"><b>0.5~2s</b><span>100건 자동 반영</span></div>
+    <div class="stat"><b id="statDays">D+·</b><span>자금판 실전 운영 일차</span></div>
     <div class="stat"><b data-count="9">9</b><span>도전 중인 빙고 미션</span></div>
   </div>
 
@@ -764,7 +775,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
   <a href="#missions" class="tagline">← 미션 보드</a>
   <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:14px">
     <h1 style="margin:0">자금판</h1>
-    <span class="chip chip-live"><span class="dot"></span>LIVE</span>
+    <span class="chip chip-live"><span class="dot"></span>LIVE</span> <span class="chip" id="projOps">운영 D+·</span>
   </div>
   <p class="lead" style="margin-top:12px">외화자금 마감 자동화 에이전트 — 14개 통화의 현금 포지션 마감을
     하루 두 번, 붙여넣기와 클릭만으로.</p>
@@ -837,6 +848,12 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
   </div>
 
   <div class="sec">
+    <div class="sec-h"><div><span class="eyebrow">Build Story</span><h2>버전으로 남은 여정</h2></div>
+      <span class="hint">하루 만에 나온 도구가 아닙니다 — 6주 연재와 버전 번호가 그 기록입니다</span></div>
+    <div class="vline" id="verList"></div>
+  </div>
+
+  <div class="sec">
     <div class="sec-h"><div><span class="eyebrow">Scorecard</span><h2>평가 기준과 실측</h2></div><span class="hint">설계 시점에 미리 걸어둔 평가기준 — 실측이 확정되는 대로 채워집니다</span></div>
     <table class="ctab"><thead><tr><th>평가 항목</th><th>목표</th><th>실측</th></tr></thead><tbody>
       <tr><td>마감 준비 시간</td><td>기존 대비 80% 이상 단축</td><td><span class="st st-wait">측정 중</span> <span class="tagline">작업 로그 집계 후 기입</span></td></tr>
@@ -845,7 +862,13 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
       <tr><td>운영 정착</td><td>매일(오전·오후) 실사용</td><td><span class="st st-wait">집계 중</span> <span class="tagline">매일 2회 운영 로그 자동 기록</span></td></tr>
       <tr><td>재사용성</td><td>다른 담당자·데스크 적용</td><td><span class="st st-out">예정</span> <span class="tagline">인수인계 점검 후 확인</span></td></tr>
     </tbody></table>
-    <p class="bnote">실측은 자금판의 작업 로그(타임스탬프 자동 기록)를 근거로 집계해 직접 기입합니다.</p>
+    <div class="term" style="margin-top:14px" aria-label="작업 로그 발췌(형식 예시)">
+<span class="d">[작업 로그 — 도구가 매 실행 자동 기록하는 형식 · 아래 수치는 예시]</span><br>
+2026-07-06 07:41:23 | 마이스타 반영 | 47건 | 1.2s | 경고 1(중복 의심)<br>
+2026-07-06 07:44:05 | 마감 점검   | 14블록 | 적정 12 · 부족 1 · 과다 1<br>
+2026-07-06 15:32:40 | 마이스타 반영 | 52건 | 1.4s | 경고 0<br>
+<span class="d">→ '측정 중' 칸은 이 로그를 기간 집계해 직접 기입합니다</span></div>
+    <p class="bnote">표기 기준 — <b style="color:var(--grn)">실측</b>(작업 로그 근거) · <b style="color:var(--yel)">측정 중</b>(로그 집계 후 기입) · <b style="color:var(--cyn)">예시</b>(시뮬레이션·데모 화면 전체).</p>
   </div>
 
   <div class="hero-cta"><a class="btn btn-amber" href="#demo">라이브 데모 체험</a>
@@ -1144,17 +1167,44 @@ const mmdd=off=>{const d=new Date();d.setDate(d.getDate()+off);
 /* ── DATA ─────────────────────────────────────────────────── */
 /* 기록(LOG) — 이 실험실이 해온 일들. 새 일 = 객체 1개 추가 (최신이 위) */
 const LOGS=[
- {d:'07-06',t:'미션9 체험 「쪽지 다듬기」 공개',tag:'AI빙고',note:'참석자·장소 검색 조회 → 안내 쪽지 자동 완성 · 메신저/이메일 톤 전환 · Before→After — 라이브 데모가 실험 선택형 허브로 개편'},
- {d:'07-05',t:'라이브 데모에 가이드 체험(스토리 모드) 추가',tag:'사이트',note:'30초 자동 시연 · 수작업 vs 자동 스톱워치 비교 · 마감 리포트 카드 · AI 브리핑(모의)'},
- {d:'07-05',t:'데스크톱 기준 전면 정리',tag:'사이트',note:'폭 통일 · 섹션 위계 · 자금판 흐름도 · 데모 딥링크 · 기록 인덱스'},
- {d:'07-04',t:'사이트를 AI빙고 미션 플랫폼으로 개편',tag:'사이트',note:'3×3 빙고 보드 · 데모에 자금관리/후속 프로세스 단계 · 기록 페이지 신설'},
- {d:'07-04',t:'AI Lab 공개 배포 + 자동배포 파이프라인 구축',tag:'사이트',note:'GitHub Pages — 원본 push만 하면 라이브 자동 갱신'},
- {d:'07-04',t:'미션 「업무혁신 AI Agent」 제출물 작성',tag:'AI빙고',note:'자금판 제작기 · 업무 흐름도 · 라이브 데모 링크 포함'},
- {d:'06-29',t:'AI빙고 챌린지 개시 — 9개 미션 도전',tag:'AI빙고'},
- {d:'06월',t:'자금판 6주 제작기 연재 완료(사내)',tag:'자금판',note:'기획 → 구조 → 자동반영 → 검증 → 성능 → 회고'},
- {d:'06월',t:'Claude 마감 브리핑 프로토타입',tag:'자금판',note:'집계 수치만 전송 · 정보보안 검토 후 파일럿 방침'},
- {d:'05월',t:'자금판 v3.31 실전 운영 정착',tag:'자금판',note:'매일 오전·오후 2회 · 14개 통화 블록'}
+ {d:'2026-07-07',t:'사이트 전면 점검 — 정리 · UX · 구조 · 축적 지표',tag:'사이트',note:'중복 제거 · 모바일 동선 · 데모 허브 단일 소스화 · 운영 일차 자동 표기'},
+ {d:'2026-07-06',t:'미션9 체험 「쪽지 다듬기」 공개',tag:'AI빙고',note:'내 문구 다듬기(AI 점검) + 골라서 만들기 · 메신저/이메일 톤 전환 · Before→After'},
+ {d:'2026-07-05',t:'라이브 데모에 가이드 체험(스토리 모드) 추가',tag:'사이트',note:'수작업 vs 자동 스톱워치 비교 · 조달·운용 실행 · 마감 리포트 카드 · AI 브리핑(모의)'},
+ {d:'2026-07-05',t:'데스크톱 기준 전면 정리',tag:'사이트',note:'폭 통일 · 섹션 위계 · 자금판 흐름도 · 데모 딥링크 · 기록 인덱스'},
+ {d:'2026-07-04',t:'사이트를 AI빙고 미션 플랫폼으로 개편',tag:'사이트',note:'3×3 빙고 보드 · 데모에 자금관리 단계 · 기록 페이지 신설'},
+ {d:'2026-07-04',t:'AI Lab 공개 배포 + 자동배포 파이프라인 구축',tag:'사이트',note:'GitHub Pages — 원본 push만 하면 라이브 자동 갱신'},
+ {d:'2026-07-04',t:'미션 「업무혁신 AI Agent」 제출물 작성',tag:'AI빙고',note:'자금판 제작기 · 업무 흐름도 · 라이브 데모 링크 포함'},
+ {d:'2026-06-29',t:'AI빙고 챌린지 개시 — 9개 미션 도전',tag:'AI빙고'},
+ {d:'2026-06',t:'자금판 6주 제작기 연재 완료(사내)',tag:'자금판',note:'기획 → 구조 → 자동반영 → 검증 → 성능 → 회고'},
+ {d:'2026-06',t:'Claude 마감 브리핑 프로토타입',tag:'자금판',note:'집계 수치만 전송 · 정보보안 검토 후 파일럿 방침'},
+ {d:'2026-05',t:'자금판 v3.31 실전 운영 정착',tag:'자금판',note:'매일 오전·오후 2회 · 14개 통화 블록'}
 ];
+/* ── 운영 축적 지표 — 달력·시간표 산식(실거래 데이터 아님 · 영업일 추정 라벨 필수) ── */
+const OPS_START='2026-05-02'; /* v3.31 실전 정착일 — 주인이 실제 날짜로 조정 */
+function opsDays(){return Math.max(0,Math.floor((Date.now()-new Date(OPS_START+'T00:00:00+09:00'))/86400000))+1;}
+function opsStatus(){
+  const now=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}));
+  const w=now.getDay(),h=now.getHours();
+  if(w===0||w===6)return '주말 휴장 · 다음 마감 월요일 AM';
+  if(h<11)return '오늘 AM 마감 시간대';
+  if(h<15)return '오늘 AM 마감 종료 · PM 대기';
+  if(h<18)return '오늘 PM 마감 시간대';
+  return '오늘 AM·PM 마감 종료';
+}
+/* 버전 연대기 — 6주 연재(기획→구조→자동반영→검증→당발·성능→회고) 기반 */
+const VERSIONS=[
+ {v:'v1.0',w:'1~2주차',t:'첫 매크로 — 통화 블록 구조',d:'오전 7 + 오후 7 통화 블록과 점 표기 입력. 반영은 아직 손으로.'},
+ {v:'v2.x',w:'3주차',t:'마이스타 자동 반영',d:'필터 3단(오늘·정상·비해외송금)과 C/D 부호·색 정규화가 코드로.'},
+ {v:'v3.0',w:'4주차',t:'검증 · 안전장치',d:'마감 점검, 중복 의심 경고, 작업 로그 — 빠른 도구에서 믿는 도구로.'},
+ {v:'v3.13',w:'5주차',t:'당발 추출 · 버그와의 싸움',d:'해외송금 당발 시트 자동화. 병합 셀 오류·행 부족을 실전에서 수정.'},
+ {v:'v3.31',w:'6주차~',t:'배열 일괄 처리 · 실전 정착',d:'100건 5~15s → 0.5~2s. 이후 매일 오전·오후 2회 실전 운영.'}
+];
+function renderVersions(){
+  const el=$('#verList');if(!el)return;
+  el.innerHTML=VERSIONS.map(x=>`<div class="vrow">
+    <span class="vv">${x.v}</span><span class="vw">${x.w}</span>
+    <div class="vb"><b>${x.t}</b><p>${x.d}</p></div></div>`).join('');
+}
 /* AI빙고 9미션 — 실제 공모 빙고판 배치(하·중·하 / 상·중·상 / 하·중·하) · pos 0~8 행우선
    status: DONE(완료)/DOING(진행중)/PLAN(예정) · next: 다음 착수 예정 · 자금판=대표 미션 */
 const MISSIONS=[
@@ -1309,7 +1359,8 @@ function renderLogSide(){
   </div>`;
 }
 function renderLog(){
-  $('#logList').innerHTML=LOGS.map((l,i)=>`
+  const range=LOGS[LOGS.length-1].d.slice(0,7)+' ~ '+LOGS[0].d.slice(0,7);
+  $('#logList').innerHTML=`<div class="tagline" style="margin-bottom:4px">기록 ${LOGS.length}건 · ${range} · 계속 쌓이는 중</div>`+LOGS.map((l,i)=>`
    <div class="card flat ${i===0?'hot':''}">
      <div style="display:flex;gap:12px;align-items:baseline;flex-wrap:wrap">
        <span class="wk">${l.d}</span><h3 style="font-size:15.5px">${l.t}</h3>
@@ -2287,6 +2338,12 @@ document.addEventListener('DOMContentLoaded',()=>{
   renderExperiments();renderDemoCards();renderMissions('all');renderBingo('missBingo');renderBingo('homeBingo');
   renderProg('missProg');renderProg('homeProg');updateLines();
   const sl=$('#statLive');if(sl)sl.textContent=EXPERIMENTS.filter(e=>e.status==='LIVE').length;
+  renderVersions();
+  /* 운영 축적 지표 — 달력·시간표 산식 */
+  const dN=opsDays();
+  const sd=$('#statDays');if(sd)sd.textContent='D+'+dN;
+  const po=$('#projOps');if(po)po.textContent='운영 D+'+dN+'일차';
+  const tk=$('#tkOps');if(tk)tk.textContent=`자금판 운영 D+${dN}일차 · ${opsStatus()}`;
   /* 정합성 체크 — 실험 LIVE인데 연결 미션에 체험 링크가 없으면 경고(개발용) */
   EXPERIMENTS.filter(e=>e.status==='LIVE'&&e.mission).forEach(e=>{
     const m=MISSIONS.find(x=>x.cell===e.mission);
