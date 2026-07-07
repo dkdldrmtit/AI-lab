@@ -1031,8 +1031,11 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
       <div class="mgmt-grid" id="mgmtGrid"></div>
       <div class="mgsum" id="mgmtSum"></div>
       <div class="mgnext">
-        <span>판단 다음은 실행 — <b>조달·운용(FX SWAP·MM)</b>과 <b>마감 리포트</b>가 이어집니다 (예시)</span>
-        <button type="button" class="btn btn-amber btn-sm" id="goTour">▶ 이어서 체험하기</button>
+        <span>다음 체험은 <b>입력 UX</b> — 점 표기·구분 토글, 손끝의 반복까지 줄인 디테일입니다</span>
+        <span style="display:inline-flex;gap:8px;flex-wrap:wrap">
+          <button type="button" class="btn btn-amber btn-sm" id="goNext1">▶ 다음 체험 — 입력 UX</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="goTour">조달·운용 스토리는 가이드 체험에</button>
+        </span>
       </div>
     </div>
   </div>
@@ -1835,10 +1838,12 @@ function trManual(){
    <div class="tr-mode human"><b>👤 사람 손</b>
      <span>지금은 <b style="color:var(--txt)">당신이</b> 데스크 담당 — 보고 3건을 직접 정리합니다</span>
      <em id="trWatch2">0.0s</em></div>
+   <div class="tr-guide" style="margin-bottom:8px">💡 <b>'보고'가 뭐냐면</b> — 전국 부점에서 “우리 지점에 고객 외화가 들어와요/나가요” 하고
+     데스크로 보내는 알림입니다. 이 알림을 통화별 장부(<b>통화 블록</b>)에 옮겨 적는 것이 마감의 시작이에요.</div>
    <div class="tr-guide">
-     <span class="n">1</span>위 <b>보고 카드</b>에서 <b>통화</b>(JPY·AUD·EUR)와 <b>입금/출금</b>을 읽고 &nbsp;
-     <span class="n">2</span>아래 <b>같은 통화</b> 줄에서 <b style="color:var(--grn)">입금 → C(+)</b> · <b style="color:var(--red)">출금 → D(−)</b> 버튼을 누르면 &nbsp;
-     <span class="n">3</span>오른쪽 <b>통화 블록</b>에 반영됩니다.
+     <span class="n">1</span>아래 <b>지금 처리할 보고</b> 카드에서 <b>통화</b>와 <b>입금/출금</b>을 확인하고 &nbsp;
+     <span class="n">2</span>그 아래 <b>빛나는 통화 줄</b>에서 <b style="color:var(--grn)">입금이면 C(+)</b> · <b style="color:var(--red)">출금이면 D(−)</b>를 누르면 &nbsp;
+     <span class="n">3</span>맨 아래 <b>통화 블록</b>에 기록됩니다.
    </div>
    <div class="tr-now" id="trNow"></div>
    <div class="tr-choice" id="trChoice">${['JPY','AUD','EUR'].map(c=>`
@@ -1857,8 +1862,8 @@ function trShowManual(){
     <span class="dr ${r.cd==='C'?'c':'d'}">${r.dir}</span><span>국내간자금이체</span>
     <span class="cue">→ 아래 ${r.ccy} 줄에서 선택</span>
     <span class="idx">${trS.mIdx+1} / ${TR_MANUAL.length}</span>`;
-  /* 첫 건은 손을 잡아 줌 — 통화 줄 하이라이트 + 정답 버튼까지 안내 */
-  $$('#trChoice .tr-ch-g').forEach(g=>g.classList.toggle('hl',trS.mIdx===0&&g.dataset.grp===r.ccy));
+  /* 지금 처리할 통화 줄은 매번 하이라이트 — 첫 건은 정답 버튼까지 안내 */
+  $$('#trChoice .tr-ch-g').forEach(g=>g.classList.toggle('hl',g.dataset.grp===r.ccy));
   const hint=$('#trHint');hint.className='tr-hint';
   if(trS.mIdx===0){
     hint.innerHTML=`👉 첫 건은 안내해 드릴게요 — <b style="color:var(--txt)">${r.ccy} ${inflow?'입금':'출금'}</b>이니
@@ -2042,6 +2047,7 @@ function trCard(){
      <p class="tagline" style="margin-top:14px">판단과 최종 승인은 사람의 몫 — 자금판은 그 앞의 반복을 대신합니다. (모든 수치 예시)</p>
      <div class="hero-cta" style="margin-top:16px">
        <button class="btn btn-amber btn-sm" data-act="tourBrief">AI 브리핑 받아보기 ▶</button>
+       <button class="btn btn-ghost btn-sm" data-act="tourGoD1">실전 데모 ①~③ 으로 →</button>
      </div>
      <div id="trBriefBox"></div>
    </div>`;
@@ -2735,7 +2741,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   bindTour();
   /* demo 그룹 허브 + 쪽지 다듬기 */
   bindDemoGroups();bindNote();bindBrief();
-  /* d1 → 가이드 체험 이어보기 */
+  /* d1 끝 → 다음 체험(입력 UX) 전진 / 가이드 체험(조달·운용 스토리)은 보조 링크 */
+  const gn=$('#goNext1');if(gn)gn.addEventListener('click',()=>{
+    const t=$('.tab[data-t="d2"]');if(t)t.click();window.scrollTo({top:0,behavior:REDUCED?'auto':'smooth'});});
   const gt=$('#goTour');if(gt)gt.addEventListener('click',()=>{
     const t=$('.tab[data-t="d0"]');if(t)t.click();window.scrollTo({top:0,behavior:REDUCED?'auto':'smooth'});});
   /* Open Lab 의견 — 보내기(Web3Forms 자동 이메일) + 쪽지 복사(폴백) */
