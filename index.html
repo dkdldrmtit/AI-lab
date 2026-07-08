@@ -563,6 +563,14 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 #ntGo.pulse{animation:ntGoPulse 1.3s ease-in-out infinite}
 @keyframes ntGoPulse{0%,100%{box-shadow:0 0 0 0 rgba(245,167,66,.45)}50%{box-shadow:0 0 0 8px rgba(245,167,66,0)}}
 #ntGo:disabled{opacity:.75;cursor:wait}
+[hidden]{display:none!important} /* 인라인·클래스 display가 hidden 속성을 이기지 못하게 */
+.fb-teaser{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+/* 프로젝트 허브(#project) 카드 그리드 */
+.pjgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:28px}
+.pjcard{display:flex;flex-direction:column;padding:24px}
+.pjcard .pj-h{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.pjcard h3{font-size:18px;letter-spacing:-.2px}
+.pj-desc{color:var(--mut);font-size:14px;line-height:1.7;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .fb-in{width:100%;margin-top:8px;border:1px solid var(--grid);border-radius:9px;background:var(--panel);color:var(--txt);font-family:var(--kor);font-size:13.5px;padding:10px 12px;outline:none}
 .fb-in::placeholder{color:var(--dim)}
 .fb-in:focus-visible{border-color:var(--amb)}
@@ -733,7 +741,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
   <nav class="nav-links" id="navlinks">
     <a href="#home" data-v="home">HOME</a>
     <a href="#missions" data-v="missions">MISSIONS<span class="ko">빙고</span></a>
-    <a href="#project" data-v="project">PROJECT<span class="ko">자금판</span></a>
+    <a href="#project" data-v="project">PROJECTS<span class="ko">상세</span></a>
     <a href="#demo" data-v="demo">LIVE DEMO<span class="ko">체험</span></a>
     <a href="#log" data-v="log">LOG<span class="ko">기록</span></a>
     <a href="#about" data-v="about">ABOUT</a>
@@ -754,7 +762,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
         <b style="color:var(--amb)">자금판</b>입니다.</p>
       <div class="hero-cta">
         <a class="btn btn-amber" href="#demo">라이브 데모 체험</a>
-        <a class="btn btn-ghost" href="#project">자금판 프로젝트</a>
+        <a class="btn btn-ghost" href="#project/jgp">자금판 프로젝트</a>
       </div>
       <p class="disc">이 보드도 장식이 아니라 데모입니다 — 실제 도구와 같은 규칙으로 지금 분배 중.</p>
     </div>
@@ -811,12 +819,18 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
   <div class="sec">
     <div class="sec-h"><div><span class="eyebrow">Open Lab</span><h2>혼자의 연구실에서, 함께의 공동연구실로</h2></div>
       <span class="hint" id="fbCount" hidden></span></div>
-    <div class="card flat">
-      <p style="color:var(--mut)">AI-lab은 개인 연구실로 시작했지만, 여기서 멈추지 않으려 합니다.
-        동료들의 아이디어와 시도가 더해져 <b style="color:var(--txt)">우리 모두의 AI 공동연구실</b>로
-        자라나는 것이 이 연구실의 다음 목표입니다. 바꿔보고 싶은 반복 업무가 있다면 — 그 아이디어가 다음 실험이 됩니다.</p>
+    <div class="card flat" id="fbCard">
+      <!-- 평소엔 한 줄 + 버튼만(접힘) → '의견 남기기' 클릭 시 폼 펼침. 딥링크 #home/openlab 은 자동 펼침 -->
+      <div id="fbTeaser" class="fb-teaser">
+        <p style="color:var(--mut);margin:0">바꿔보고 싶은 반복 업무, 떠오른 아이디어가 있나요? —
+          <b style="color:var(--txt)">그 아이디어가 다음 실험이 됩니다.</b></p>
+        <button type="button" class="btn btn-amber btn-sm" id="fbOpen">💬 의견 남기기</button>
+      </div>
       <!-- 의견 보내기 — Web3Forms(정적 폼 서비스)로 운영자에게 자동 이메일. 미설정 시 쪽지 복사로 폴백 -->
-      <div style="margin-top:16px">
+      <div id="fbForm" hidden>
+        <p style="color:var(--mut)">동료들의 아이디어와 시도가 더해져 <b style="color:var(--txt)">우리 모두의 AI 공동연구실</b>로
+          자라나는 것이 이 연구실의 다음 목표입니다.</p>
+        <div style="margin-top:14px">
         <label class="nt-l" for="fbText">의견 · 실험 아이디어 남기기 <em>남기면 연구실 운영자에게 전달됩니다</em></label>
         <textarea class="nt-ta" id="fbText" style="min-height:72px"
           placeholder="예: 매일 아침 ○○ 보고 취합이 반복 업무인데, 자금판처럼 자동화될까요?"></textarea>
@@ -828,6 +842,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
           <a class="btn btn-ghost btn-sm" href="#missions">미션 보드 보기</a>
         </div>
         <p class="tagline" id="fbNote" style="margin-top:9px" aria-live="polite">받은 의견은 기록(LOG)과 다음 실험 후보에 반영합니다 · 개인정보·실거래 내용은 남기지 말아 주세요</p>
+        </div>
       </div>
     </div>
   </div>
@@ -864,7 +879,20 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 
 <!-- ═══════════ PROJECT ═══════════ -->
 <section class="view" id="v-project">
-  <a href="#missions" class="tagline">← 미션 보드</a>
+  <!-- 프로젝트 허브(#project) — EXPERIMENTS 단일 소스로 카드 자동 렌더. 실험별 상세 = #project/<pid> -->
+  <div id="pjHub">
+    <span class="eyebrow">Projects</span>
+    <h1>프로젝트 — 실험의 상세 기록</h1>
+    <p class="lead">실험이 어떤 업무를 어떻게 바꾸는지, 하나씩 상세 페이지로 정리합니다.
+      완성되는 실험마다 여기 한 장씩 늘어납니다.</p>
+    <div class="pjgrid" id="pjGrid"></div>
+    <p class="bnote" id="pjPlan"></p>
+  </div>
+  <!-- 제네릭 상세(자금판 외) — EXPERIMENTS 데이터로 렌더 -->
+  <div class="ppage" id="pp-gen" hidden></div>
+  <!-- 자금판 상세(커스텀 페이지) -->
+  <div class="ppage" id="pp-jgp" hidden>
+  <a href="#project" class="tagline">← 프로젝트 목록</a>
   <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:14px">
     <h1 style="margin:0">자금판</h1>
     <span class="chip chip-live"><span class="dot"></span>LIVE</span> <span class="chip" id="projOps">운영 D+·</span>
@@ -965,6 +993,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 
   <div class="hero-cta"><a class="btn btn-amber" href="#demo">라이브 데모 체험</a>
     <a class="btn btn-ghost" href="#log">제작 기록 보기</a></div>
+  </div><!-- /pp-jgp -->
 </section>
 
 <!-- ═══════════ DEMO ═══════════ -->
@@ -1264,7 +1293,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 <footer><div class="wrap">
   <div class="foot-top">
     <span class="l" style="font-family:var(--mono);letter-spacing:.14em;color:var(--mut);font-weight:700;font-size:12.5px">AI LAB — WORK × AI EXPERIMENTS</span>
-    <nav class="foot-nav"><a href="#home">HOME</a><a href="#missions">MISSIONS</a><a href="#project">PROJECT</a><a href="#demo">LIVE DEMO</a><a href="#log">LOG</a><a href="#about">ABOUT</a></nav>
+    <nav class="foot-nav"><a href="#home">HOME</a><a href="#missions">MISSIONS</a><a href="#project">PROJECTS</a><a href="#demo">LIVE DEMO</a><a href="#log">LOG</a><a href="#about">ABOUT</a></nav>
   </div>
   <div class="foot">
     <span>개인 학습·공모용 · 예시 데이터 · 고객정보 없음</span>
@@ -1298,6 +1327,7 @@ const mmdd=off=>{const d=new Date();d.setDate(d.getDate()+off);
 /* ── DATA ─────────────────────────────────────────────────── */
 /* 기록(LOG) — 이 실험실이 해온 일들. 새 일 = 객체 1개 추가 (최신이 위) */
 const LOGS=[
+ {d:'2026-07-08',t:'프로젝트 허브 오픈 — 실험마다 상세 페이지 한 장씩',tag:'사이트',note:'#project 허브 + 실험별 상세(#project/…) 체계 · 의견함 접힘 정리 · 가이드 체험 설명 먼저 → 스톱워치'},
  {d:'2026-07-07',t:'Open Lab 의견함을 실제 수신으로 — 남기면 운영자에게 자동 전달',tag:'사이트',note:'Web3Forms 연동(정적 폼) · 보낸 사람 선택 입력 · 실패 시 쪽지 복사 폴백 · 개인정보 미기입 안내'},
  {d:'2026-07-07',t:'체험 「브리핑 룸」 오픈 — 마감 상태를 만지면 AI가 말로 정리',tag:'실험',note:'통화 상태 조작 → 심각도 정렬 모의 브리핑 실시간 재작성 · 팀 공유/보고용 톤 · EXP.02 LIVE'},
  {d:'2026-07-07',t:'사이트 전면 점검 — 정리 · UX · 구조 · 축적 지표',tag:'사이트',note:'중복 제거 · 모바일 동선 · 데모 허브 단일 소스화 · 운영 일차 자동 표기'},
@@ -1349,7 +1379,7 @@ function renderVersions(){
 const MISSIONS=[
  {pos:3,diff:'상',status:'DOING',cell:'자금판',title:'업무혁신 AI Agent 설계·제작',
   goal:'반복·고위험 업무를 분석해 AI Agent를 설계·제작. 외화자금 마감 자동화 도구 “자금판”이 이 미션의 결과물.',
-  links:[['프로젝트 상세','#project'],['라이브 데모','#demo'],['브리핑 룸','#demo/brief']]},
+  links:[['프로젝트 상세','#project/jgp'],['라이브 데모','#demo'],['브리핑 룸','#demo/brief']]},
  {pos:5,diff:'상',status:'PLAN',next:true,cell:'리포트',title:'AI로 나만의 리포트 만들기',
   goal:'관심 주제를 AI로 조사·분석·정리해 나만의 리포트 제작. 6주 빌드로그를 리포트로 재구성 예정.',links:[]},
  {pos:1,diff:'중',status:'PLAN',cell:'롤플레잉',title:'AI 롤플레잉으로 상담·보고 역량 향상',
@@ -1375,21 +1405,25 @@ const DIFF_COLOR={상:'var(--amb)',중:'var(--cyn)',하:'var(--dim)'};
    status: LIVE(운영중) / NEXT(준비중) · EXP 번호는 순서에서 자동 생성
    demo:{g,d} 가 있으면 라이브 데모 허브에 선택 카드가 자동 생성됨(g='dgroup id 접미사')
    mission: 연결된 빙고 미션 cell — 상태 어긋남 경고에 사용 */
+/* pid = 프로젝트 상세 페이지 라우트(#project/<pid>). 자금판(jgp)만 커스텀 페이지(pp-jgp),
+   나머지는 이 데이터로 제네릭 상세(pp-gen) 자동 렌더 — 새 실험 = 객체 1개 + pid만 */
 const EXPERIMENTS=[
- {status:'LIVE',title:'자금판',hanja:'資金板',mission:'자금판',
+ {status:'LIVE',pid:'jgp',title:'자금판',hanja:'資金板',mission:'자금판',
   demo:{g:'jgp',d:'외화자금 마감 자동화 — 가이드 체험 + 실전 데모 3종'},
   desc:'전국 부점에서 보고되는 고객 자금 유출입을 단시간에 정리하고, 통화별 Depo 계좌에 적정 자금을 맞추는 일 — 마감시간이 정해진, 거액이 움직이는 고위험 반복 업무입니다. 자금판은 이 과정을 원본 붙여넣기와 버튼 하나(필터 → 정규화 → 분배 → 검증 → 리포트)로 자동화했습니다. 코드는 Claude와의 설계 대화로 만들었습니다.',
   chips:['EXCEL VBA','CLAUDE','규칙 엔진','자동 검증','작업 로그'],
-  ctas:[['프로젝트 상세','#project','amber'],['라이브 데모 체험','#demo','ghost']],
+  ctas:[['프로젝트 상세','#project/jgp','amber'],['라이브 데모 체험','#demo','ghost']],
   panel:{t:'운영 스냅샷 · 예시',kv:[['통화 블록','오전 7 + 오후 7'],['코드 규모','3모듈 · ~2,800줄'],['안전장치','점검 · 중복 경고 · 로그'],['버전','v3.31']]}},
- {status:'LIVE',stTxt:'LIVE · 체험 가능',title:'브리핑 룸',mission:'자금판',
+ {status:'LIVE',pid:'brief',stTxt:'LIVE · 체험 가능',title:'브리핑 룸',mission:'자금판',
+  story:'자금판이 숫자를 만들면, 마지막엔 사람이 그 숫자를 말로 옮겨 팀에 공유합니다. 그 마지막 한 단계를 런타임 AI에게 맡기는 실험입니다. 지금은 규칙 기반 모의 응답으로 웹에서 체험할 수 있고, 사내 AI 도입 시 이 자리에 실제 Claude가 연결됩니다(집계 수치만 전송 · 고객정보 미전송).',
   demo:{g:'brief',d:'마감 상태를 만지면, AI가 말로 정리 — 모의 브리핑'},
   desc:'마감 집계(숫자만)를 팀 공유용 자연어 인수인계 문안으로 바꿔 주는 런타임 AI의 체험판. 통화 상태를 직접 조작하면 브리핑이 심각한 것부터 실시간으로 다시 작성됩니다. (모의 응답 · 집계 수치만 사용 · 실제 API 연동은 사내 AI 도입 후)',
   chips:['CLAUDE API 예정','우선순위 자동 정렬','팀 공유·보고용 톤','개인정보 미전송'],
   steps:[['프로토타입','done'],['웹 데모','done'],['사내 AI 연동','cur']],
   ctas:[['브리핑 룸 체험','#demo/brief','amber'],['미션 보드 보기','#missions/자금판','ghost']],
   panel:{t:'체험 구성 · 예시',kv:[['조작','부족/적정/과다 · 미처리 · FT'],['브리핑','심각도 우선순위 정렬'],['톤','팀 공유 · 보고용'],['연동','모의 → 사내 AI 도입 시 실제']]}},
- {status:'LIVE',stTxt:'LIVE · 체험 가능',title:'쪽지 다듬기',mission:'문구개선',
+ {status:'LIVE',pid:'note',stTxt:'LIVE · 체험 가능',title:'쪽지 다듬기',mission:'문구개선',
+  story:'미션9(문구 개선)에서 출발한 생활 실험. 좋은 쪽지의 기준은 문장력이 아니라 "받는 사람이 되물을 게 없는가"였습니다. 진단 → 보완 → 재구성 → 톤, 매번 반복되는 4단계를 규칙으로 정리해 웹 체험판으로 만들었습니다. 문구·이름·장소는 전부 가명·예시.',
   demo:{g:'note',d:'안내 문구 개선 — 내 문구 다듬기 + 골라서 만들기'},
   desc:'"내일 점심 ㄱ?" — 대충 보낸 안내는 당일에 꼭 헷갈립니다. 대충 쓴 문구를 붙여넣으면 AI가 빠진 정보를 짚어 채우고 상황에 맞게 다듬어 줍니다. AI빙고 미션9(문구 개선)의 체험판.',
   chips:['문구 개선','AI 점검','메신저·이메일 톤','미션9'],
@@ -1476,8 +1510,11 @@ function route(){
       if(!trBootDone){trBootDone=true;trIntro();} /* 자금판 첫 방문 시 가이드 부팅 */
     }
   }
-  /* #home/openlab — About 등에서 의견함으로 직행(카드로 스크롤 + 입력 포커스) */
+  /* #project/<pid> — 프로젝트 허브 ↔ 실험별 상세 전환 */
+  if(h==='project')projGroup(sub);
+  /* #home/openlab — About 등에서 의견함으로 직행(펼침 + 카드로 스크롤 + 입력 포커스) */
   if(h==='home'&&sub==='openlab'){
+    fbExpand(false);
     const t=$('#fbText');
     if(t)requestAnimationFrame(()=>{
       t.closest('.card').scrollIntoView({behavior:REDUCED?'auto':'smooth',block:'center'});
@@ -1844,6 +1881,7 @@ async function trBoot(){
 }
 function trManual(){
   trS.mIdx=0;trSteps(1);
+  /* 설명 먼저 — 연습장은 접어 두고, '시작'을 누른 순간부터 펼침 + 스톱워치 */
   $('#trStage').innerHTML=`
    <div class="tr-mode human"><b>👤 사람 손</b>
      <span>지금은 <b style="color:var(--txt)">당신이</b> 데스크 담당 — 보고 3건을 직접 정리합니다</span>
@@ -1851,18 +1889,30 @@ function trManual(){
    <div class="tr-guide" style="margin-bottom:8px">💡 <b>'보고'가 뭐냐면</b> — 전국 부점에서 “우리 지점에 고객 외화가 들어와요/나가요” 하고
      데스크로 보내는 알림입니다. 이 알림을 통화별 장부(<b>통화 블록</b>)에 옮겨 적는 것이 마감의 시작이에요.</div>
    <div class="tr-guide">
-     <span class="n">1</span>아래 <b>지금 처리할 보고</b> 카드에서 <b>통화</b>와 <b>입금/출금</b>을 확인하고 &nbsp;
+     <span class="n">1</span><b>지금 처리할 보고</b> 카드에서 <b>통화</b>와 <b>입금/출금</b>을 확인하고 &nbsp;
      <span class="n">2</span>그 아래 <b>빛나는 통화 줄</b>에서 <b style="color:var(--grn)">입금이면 C(+)</b> · <b style="color:var(--red)">출금이면 D(−)</b>를 누르면 &nbsp;
      <span class="n">3</span>맨 아래 <b>통화 블록</b>에 기록됩니다.
    </div>
-   <div class="tr-now" id="trNow"></div>
-   <div class="tr-choice" id="trChoice">${['JPY','AUD','EUR'].map(c=>`
-     <div class="tr-ch-g" data-grp="${c}"><span>${c}</span>
-       <button class="tr-ch c" data-ccy="${c}" data-cd="C">C(+)</button>
-       <button class="tr-ch d" data-ccy="${c}" data-cd="D">D(−)</button></div>`).join('')}</div>
-   <div class="tr-hint" id="trHint"></div>
-   <div class="tr-blocks" id="trBlocks"></div>`;
-  trPaintBlocks();trShowManual();trWatchStart();
+   <div class="hero-cta" id="trStartRow" style="margin:4px 0 2px">
+     <button class="btn btn-amber btn-sm" data-act="tourManualGo">읽었어요, 시작할게요 ▶</button>
+     <span class="tagline">누르는 순간부터 스톱워치가 갑니다 — 천천히 읽고 시작하세요</span>
+   </div>
+   <div id="trEx" hidden>
+     <div class="tr-now" id="trNow"></div>
+     <div class="tr-choice" id="trChoice">${['JPY','AUD','EUR'].map(c=>`
+       <div class="tr-ch-g" data-grp="${c}"><span>${c}</span>
+         <button class="tr-ch c" data-ccy="${c}" data-cd="C">C(+)</button>
+         <button class="tr-ch d" data-ccy="${c}" data-cd="D">D(−)</button></div>`).join('')}</div>
+     <div class="tr-hint" id="trHint"></div>
+     <div class="tr-blocks" id="trBlocks"></div>
+   </div>`;
+  trPaintBlocks();
+}
+function trManualGo(){
+  const ex=$('#trEx');if(!ex||!ex.hidden)return;
+  const row=$('#trStartRow');if(row)row.remove();
+  ex.hidden=false;ex.classList.add('nt-in');
+  trShowManual();trWatchStart();
 }
 function trShowManual(){
   const r=TR_MANUAL[trS.mIdx];
@@ -2089,6 +2139,7 @@ function bindTour(){
     const b=e.target.closest('[data-act],[data-ccy]');if(!b||b.disabled)return;
     const a=b.dataset.act;
     if(a==='tourManual')trManual();
+    else if(a==='tourManualGo')trManualGo();
     else if(a==='tourRun')trRun();
     else if(a==='tourJudge')trJudge();
     else if(a==='tourExec')trExecute();
@@ -2283,10 +2334,75 @@ function ntRunImprove(){
   const _o=$('#ntpImprove .nt-out');if(_o)_o.classList.remove('nt-stale');
   const _g=$('#ntGo');if(_g)_g.classList.remove('pulse');
 }
+/* ── 프로젝트 허브(#project) + 실험별 상세(#project/<pid>) — EXPERIMENTS 단일 소스 ── */
+const PJ_SC={LIVE:['chip-live','<span class="dot"></span>LIVE'],NEXT:['chip-next','NEXT · 준비 중']};
+function pjChip(e){const [cc,defTxt]=PJ_SC[e.status]||PJ_SC.NEXT;
+  return `<span class="chip ${cc}">${e.stTxt?(e.status==='LIVE'?'<span class="dot"></span>':'')+e.stTxt:defTxt}</span>`;}
+function renderProjHub(){
+  const g=$('#pjGrid');if(!g)return;
+  g.innerHTML=EXPERIMENTS.map((e,i)=>{
+    const demoCta=e.demo?`<a class="btn btn-ghost btn-sm" href="${e.demo.g==='jgp'?'#demo':'#demo/'+e.demo.g}">라이브 데모</a>`:'';
+    return `<div class="card pjcard">
+      <div class="pj-h"><span class="expno">EXP.${String(i+1).padStart(2,'0')}</span>
+        <h3>${e.title}</h3>${pjChip(e)}</div>
+      <p class="pj-desc">${e.desc}</p>
+      <div class="meta" style="margin:10px 0 16px">${e.chips.slice(0,4).map(c=>`<span class="chip">${c}</span>`).join('')}</div>
+      <div class="hero-cta" style="margin:auto 0 0">
+        <a class="btn btn-amber btn-sm" href="#project/${e.pid}">프로젝트 상세 →</a>${demoCta}
+      </div></div>`;
+  }).join('');
+  const plan=MISSIONS.filter(m=>m.status==='PLAN').map(m=>m.cell);
+  const pp=$('#pjPlan');
+  if(pp&&plan.length)pp.textContent=`예정 — 남은 미션(${plan.join(' · ')})이 완성되는 대로 이 목록에 프로젝트 페이지가 하나씩 추가됩니다.`;
+}
+/* 제네릭 상세 — EXPERIMENTS 데이터만으로 표준 레이아웃 렌더(자금판 외 실험용) */
+function renderProjGen(e,i){
+  const box=$('#pp-gen');if(!box)return;
+  const steps=e.steps?`<div class="stepline" style="margin-top:10px">${e.steps.map(([t,k],j)=>
+    (j?'<span>→</span>':'')+`<span class="st ${k}">${t}${k==='done'?' ✓':''}</span>`).join('')}</div>`
+    :'<p class="tagline" style="margin-top:8px">단계 정보 준비 중</p>';
+  const panel=e.panel?`<div class="card flat"><div class="eyebrow eyebrow-ko" style="margin-bottom:10px">${e.panel.t}</div>${
+    e.panel.kv.map(([k,v])=>`<div class="kv"><span>${k}</span><b>${v}</b></div>`).join('')}</div>`:'';
+  box.innerHTML=`
+   <a href="#project" class="tagline">← 프로젝트 목록</a>
+   <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:14px">
+     <span class="expno">EXP.${String(i+1).padStart(2,'0')}</span>
+     <h1 style="margin:0">${e.title}</h1>${pjChip(e)}</div>
+   <p class="lead" style="margin-top:12px">${e.desc}</p>
+   <div class="meta">${e.chips.map(c=>`<span class="chip">${c}</span>`).join('')}</div>
+   <div class="grid2" style="margin-top:26px">
+     <div class="card flat"><h3>어디까지 왔나</h3>${steps}
+       ${e.story?`<p style="margin-top:14px;color:var(--mut)">${e.story}</p>`:''}</div>
+     ${panel}
+   </div>
+   <div class="hero-cta" style="margin-top:24px">${e.ctas.map(([t,h,k])=>
+     `<a class="btn btn-${k} btn-sm" href="${h}">${t}</a>`).join('')}</div>
+   <p class="bnote">이 페이지의 수치·구성은 전부 예시입니다 — 실험이 진행되는 대로 상세가 확장됩니다.</p>`;
+}
+function projGroup(pid){
+  const i=EXPERIMENTS.findIndex(e=>e.pid===pid);
+  const hub=$('#pjHub'),jgp=$('#pp-jgp'),gen=$('#pp-gen');
+  if(!hub)return;
+  const isJgp=i>=0&&pid==='jgp';
+  hub.hidden=i>=0;
+  if(jgp)jgp.hidden=!isJgp;
+  if(gen){
+    if(i>=0&&!isJgp){renderProjGen(EXPERIMENTS[i],i);gen.hidden=false;}
+    else gen.hidden=true;
+  }
+}
+/* ── Open Lab 의견함 펼치기 — 평소 접힘, 클릭·딥링크 시 펼침 ── */
+function fbExpand(focus){
+  const f=$('#fbForm'),t=$('#fbTeaser');
+  if(!f)return;
+  if(f.hidden){f.hidden=false;f.classList.add('nt-in');if(t)t.hidden=true;}
+  if(focus){const ta=$('#fbText');if(ta)ta.focus({preventScroll:true});}
+}
 /* ── Open Lab 의견 — 보내기(Web3Forms) + 쪽지 복사 폴백 ── */
 function bindFeedback(){
   const send=$('#fbSend'),copy=$('#fbCopy'),note=$('#fbNote');
   if(!send||!copy)return;
+  const op=$('#fbOpen');if(op)op.addEventListener('click',()=>fbExpand(true));
   const noteDefault=note?note.textContent:'';
   const getMsg=()=>($('#fbText').value||'').trim();
   const getFrom=()=>($('#fbFrom')?($('#fbFrom').value||'').trim():'');
@@ -2700,7 +2816,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const t=$('#ticker');t.innerHTML+=t.innerHTML;           /* seamless loop */
   const sm=$('#statMiss');if(sm){sm.dataset.count=MISSIONS.length;sm.textContent=MISSIONS.length;} /* 미션 수 = 단일 소스 */
   counters();renderLog();renderLogSide();renderHomeFocus();
-  renderExperiments();renderDemoCards();renderMissions('all');renderBingo('missBingo');renderBingo('homeBingo');
+  renderExperiments();renderDemoCards();renderProjHub();renderMissions('all');renderBingo('missBingo');renderBingo('homeBingo');
   renderProg('missProg');renderProg('homeProg');updateLines();
   const sl=$('#statLive');if(sl)sl.textContent=EXPERIMENTS.filter(e=>e.status==='LIVE').length;
   renderVersions();
