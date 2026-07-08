@@ -82,11 +82,13 @@ h1{font-size:clamp(30px,4.6vw,50px);line-height:1.18;font-weight:800;letter-spac
 h2{font-size:clamp(21px,2.6vw,27px);font-weight:800;letter-spacing:-.3px;margin:10px 0 8px}
 h3{font-size:16.5px;font-weight:700}
 .lead{color:var(--mut);font-size:17px;line-height:1.78}
-.sec{margin-top:64px}
-.sec-h{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:20px;flex-wrap:wrap}
+.sec{margin-top:76px}
+.sec-h{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:22px;flex-wrap:wrap}
 .sec-h h2{font-size:21px;font-weight:800;letter-spacing:-.3px;margin:6px 0 0}
 .sec-h .eyebrow{display:block}
 .sec-h .hint{color:var(--dim);font-size:13px}
+@media (max-width:560px){.sec-h .hint{display:none}} /* 모바일에선 섹션 부연 숨김 — 위계만 남김 */
+.exp-desc{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden} /* 카드 설명 3줄까지 */
 .rule{height:1px;background:var(--grid2);margin:56px 0}
 
 /* ── buttons / chips ── */
@@ -725,13 +727,11 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 
 <!-- ticker -->
 <div class="ticker" aria-hidden="true"><div class="ticker-in" id="ticker">
-  <span class="t"><b>AI LAB</b> · FINANCIAL × AI EXPERIMENTS</span>
+  <span class="t"><b>AI LAB</b> · WORK × AI EXPERIMENTS</span>
   <span class="t">STATUS <span class="up">● LIVE</span> — <span id="tkOps">자금판 매일 오전·오후 운영</span></span>
-  <span class="t">AM <b>JPY AUD NZD HKD SGD THB CNY</b></span>
-  <span class="t">PM <b>EUR GBP CAD CHF</b> +3</span>
   <span class="t">100건 반영 <span class="amb">0.5~2s</span></span>
   <span class="t">AI BINGO · <b>9 MISSIONS</b> IN PROGRESS</span>
-  <span class="t">ALL FIGURES &amp; DATA ARE ILLUSTRATIVE · NOT REAL DATA</span>
+  <span class="t">ALL FIGURES &amp; DATA ARE ILLUSTRATIVE</span>
 </div></div>
 
 <!-- nav -->
@@ -756,15 +756,13 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
     <div>
       <span class="eyebrow">Work × AI Experiments</span>
       <h1><span class="hg">바꿀 수 없는 게 아니라,</span>안 바꿔봤을 뿐</h1>
-      <p class="lead">업무를 AI로 다시 설계하는 개인 <b style="color:var(--txt)">AI 연구실</b>입니다.
-        가능성을 모두 열어놓고 — <b style="color:var(--txt)">시도하고, 실패하고, 다시 시도하면 결국 바뀐다</b>는
-        신념으로 조금씩 나아갑니다. 그 시작이자 대표 실험이 외화자금 마감 자동화 도구,
-        <b style="color:var(--amb)">자금판</b>입니다.</p>
+      <p class="lead">업무를 AI로 다시 설계하는 개인 연구실.
+        <b style="color:var(--txt)">시도하고, 실패하고, 다시 시도하면 — 결국 바뀝니다.</b>
+        그 첫 실험이 외화자금 마감 자동화 도구 <b style="color:var(--amb)">자금판</b>입니다.</p>
       <div class="hero-cta">
         <a class="btn btn-amber" href="#demo">라이브 데모 체험</a>
         <a class="btn btn-ghost" href="#project/jgp">자금판 프로젝트</a>
       </div>
-      <p class="disc">이 보드도 장식이 아니라 데모입니다 — 실제 도구와 같은 규칙으로 지금 분배 중.</p>
     </div>
     <div>
       <div class="blk" aria-label="자금판 라이브 프리뷰">
@@ -792,8 +790,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
   </div>
 
   <div class="sec">
-    <div class="sec-h"><div><span class="eyebrow">AI Bingo</span><h2>9개 미션 도전 현황</h2></div><span class="hint">위 실험을 포함한 사내 AI빙고 9개 미션 — 이 사이트에서 공유하고 직접 체험</span></div>
-    <div class="mprog" id="homeProg"></div>
+    <div class="sec-h"><div><span class="eyebrow">AI Bingo</span><h2>9개 미션 도전 현황</h2></div><span class="hint">완성되는 미션마다 여기서 직접 체험</span></div>
     <div class="home-bingo">
       <div class="blk bingo-wrap">
         <div class="blk-h"><span class="code">AI BINGO · 3×3</span>
@@ -1197,9 +1194,9 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 
   <!-- ══ 그룹 3 · 브리핑 룸 (미션1-ⓑ · 마감 상태 → 모의 AI 브리핑) ══ -->
   <div class="dgroup" id="dg-brief">
-    <div class="note"><span>ⓘ</span><span><b>브리핑 룸</b> — 마감 집계(숫자)를 팀 공유용 문장으로 바꾸는 런타임 AI 체험판.
-      지금은 <b>규칙 기반 모의 응답</b>이며 사내 AI 도입 시 실제 Claude가 연결됩니다(집계 수치만 · 고객정보 미전송) —
-      <a href="#missions/자금판" style="color:var(--cyn)">미션 보드에서 보기 →</a></span></div>
+    <div class="note"><span>ⓘ</span><span><b>브리핑 룸</b> — 마감 집계를 팀 공유 문장으로 바꾸는 런타임 AI 체험판 ·
+      규칙 기반 모의 응답(사내 AI 도입 시 실제 연결) —
+      <a href="#missions/자금판" style="color:var(--cyn)">미션 보드 →</a></span></div>
     <div class="card flat">
       <div class="br-gen">
         <div>
@@ -1447,7 +1444,7 @@ function renderExperiments(){
   wrap.innerHTML=EXPERIMENTS.map((e,i)=>{
     const [cc,defTxt]=SC[e.status];
     const ct=e.stTxt?(e.status==='LIVE'?'<span class="dot"></span>':'')+e.stTxt:defTxt;
-    const chips=e.chips.map(c=>`<span class="chip">${c}</span>`).join('');
+    const chips=e.chips.slice(0,4).map(c=>`<span class="chip">${c}</span>`).join('');
     const ctas=e.ctas.map(([t,h,k])=>k==='dis'
       ?`<span class="btn btn-ghost btn-sm btn-dis">${t}</span>`
       :`<a class="btn btn-${k} btn-sm" href="${h}">${t}</a>`).join('');
@@ -1463,7 +1460,7 @@ function renderExperiments(){
         <h2 style="margin:0">${e.title}${e.hanja?` <span style="color:var(--dim);font-weight:600">${e.hanja}</span>`:''}</h2>
         <span class="chip ${cc}">${ct}</span>
       </div>
-      <p style="color:var(--mut);margin-top:10px">${e.desc}</p>
+      <p class="exp-desc" style="color:var(--mut);margin-top:10px">${e.desc}</p>
       <div class="meta">${chips}</div>${steps}
       <div class="hero-cta" style="margin-top:20px">${ctas}</div>
     </div>${panel}</div></div>`;
@@ -2916,7 +2913,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const sm=$('#statMiss');if(sm){sm.dataset.count=MISSIONS.length;sm.textContent=MISSIONS.length;} /* 미션 수 = 단일 소스 */
   counters();renderLog();renderLogSide();renderHomeFocus();
   renderExperiments();renderDemoCards();renderProjHub();renderMissions('all');renderBingo('missBingo');renderBingo('homeBingo');
-  renderProg('missProg');renderProg('homeProg');updateLines();
+  renderProg('missProg');updateLines();
   const sl=$('#statLive');if(sl)sl.textContent=EXPERIMENTS.filter(e=>e.status==='LIVE').length;
   renderVersions();
   /* 운영 축적 지표 — 달력·시간표 산식 */
