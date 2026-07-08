@@ -1122,8 +1122,8 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 
   <!-- ══ 그룹 2 · 쪽지 다듬기 (미션9 · 문구 개선) ══ -->
   <div class="dgroup" id="dg-note">
-    <div class="note"><span>ⓘ</span><span><b>미션9 · 문구 개선</b> 체험판 — 대충 쓴 문구를 붙여넣으면 AI가 <b>빠진 정보를 짚어</b> 다듬습니다 ·
-      이름·장소 전부 가명·예시 — <a href="#missions/문구개선" style="color:var(--cyn)">미션 보드에서 보기 →</a></span></div>
+    <div class="note"><span>ⓘ</span><span><b>미션9 · 문구 개선</b> 체험판 — 대충 쓴 문구를 붙여넣으면 AI가 <b>필수정보 5가지</b>(참석자·시각·장소·집결·회신)의
+      빠짐·모호를 짚어 다듬습니다 · 이름·장소 전부 가명·예시 — <a href="#project/note" style="color:var(--cyn)">이 실험의 스토리 →</a></span></div>
 
     <div class="nt-modes" id="ntModes">
       <button type="button" class="nt-mode on" data-mode="improve" aria-pressed="true">✨ 내 문구 다듬기</button>
@@ -1135,7 +1135,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
       <div class="nt-gen">
         <div>
           <span class="nt-l">고칠 문구 — 내가 대충 쓴 것</span>
-          <textarea class="nt-ta" id="ntRaw" aria-label="다듬을 원본 문구">내일 점심 ㄱ? 12시 반쯤 3층에서 봐요~</textarea>
+          <textarea class="nt-ta" id="ntRaw" aria-label="다듬을 원본 문구">8/12에 부장님 포함 저희 팀 점심 식사 캘박 부탁드립니다~!</textarea>
           <div class="nt-exs"><span>예시 불러오기 ›</span>
             <button type="button" class="nt-ex" data-ex="lunch">팀 점심 (캘박)</button>
             <button type="button" class="nt-ex" data-ex="meet">팀 회의</button>
@@ -2337,7 +2337,7 @@ function ntRunImprove(){
       :{st:'miss',label:'회신 기한',sub:'없음',now:`${deadline}까지`,tag:'빠진 정보'}
   ];
   const fixed=items.filter(i=>i.st!=='ok').length;
-  $('#ntDiag').innerHTML=`<h4>🔍 AI 점검 — 원문 반영 · 빠지거나 모호한 정보<span class="cnt">${fixed}개 보완</span></h4>`+
+  $('#ntDiag').innerHTML=`<h4>🔍 AI 점검 — 필수정보 5가지 · 원문 값은 그대로 반영<span class="cnt">${fixed}개 보완</span></h4>`+
     items.map(i=>`<div class="nt-ck ${i.st}"><span class="ic">${i.st==='ok'?'✓':i.st==='vague'?'△':'✗'}</span>
       <span class="tx"><b>${esc(i.label)}</b> ${i.was?`<span class="was">${esc(i.was)}</span>`:i.sub?`— ${esc(i.sub)} `:''}${(i.now&&i.st!=='ok')?`<span class="now">→ ${esc(i.now)}</span>`:i.st==='ok'&&i.now?`<span style="color:var(--mut)">${esc(i.now)}</span>`:''}</span>
       <span class="tg">${esc(i.tag)}</span></div>`).join('');
