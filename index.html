@@ -1137,7 +1137,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
           <span class="nt-l">고칠 문구 — 내가 대충 쓴 것</span>
           <textarea class="nt-ta" id="ntRaw" aria-label="다듬을 원본 문구">내일 점심 ㄱ? 12시 반쯤 3층에서 봐요~</textarea>
           <div class="nt-exs"><span>예시 불러오기 ›</span>
-            <button type="button" class="nt-ex" data-ex="lunch">점심 회식</button>
+            <button type="button" class="nt-ex" data-ex="lunch">팀 점심 (캘박)</button>
             <button type="button" class="nt-ex" data-ex="meet">팀 회의</button>
             <button type="button" class="nt-ex" data-ex="work">부서 워크숍</button></div>
           <div class="nt-row"><button type="button" class="nt-go" id="ntGo">✨ AI로 다듬기</button>
@@ -1162,7 +1162,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
         <div>
           <div class="nt-f"><span class="nt-l">상황</span>
             <div class="chips" id="ntScn">
-              <button type="button" class="nt-chip on" data-scn="lunch" aria-pressed="true">점심 회식</button>
+              <button type="button" class="nt-chip on" data-scn="lunch" aria-pressed="true">팀 점심</button>
               <button type="button" class="nt-chip" data-scn="meet" aria-pressed="false">팀 회의</button>
               <button type="button" class="nt-chip" data-scn="work" aria-pressed="false">부서 워크숍</button>
             </div></div>
@@ -1423,12 +1423,20 @@ const EXPERIMENTS=[
   ctas:[['브리핑 룸 체험','#demo/brief','amber'],['미션 보드 보기','#missions/자금판','ghost']],
   panel:{t:'체험 구성 · 예시',kv:[['조작','부족/적정/과다 · 미처리 · FT'],['브리핑','심각도 우선순위 정렬'],['톤','팀 공유 · 보고용'],['연동','모의 → 사내 AI 도입 시 실제']]}},
  {status:'LIVE',pid:'note',stTxt:'LIVE · 체험 가능',title:'쪽지 다듬기',mission:'문구개선',
-  story:'미션9(문구 개선)에서 출발한 생활 실험. 좋은 쪽지의 기준은 문장력이 아니라 "받는 사람이 되물을 게 없는가"였습니다. 진단 → 보완 → 재구성 → 톤, 매번 반복되는 4단계를 규칙으로 정리해 웹 체험판으로 만들었습니다. 문구·이름·장소는 전부 가명·예시.',
+  story:'"대충 쓴 한 줄은, 질문이 되어 돌아온다" — 업무에 쫓겨 보낸 한 줄 쪽지는 결국 받은 사람의 질문이 되어 돌아옵니다. 그래서 쪽지의 필수정보 5가지(참석자·시각·장소·집결시간·회신기한)를 정하고, 진단 → 보완 → 재구성 → 톤의 4단계 규칙으로 다듬게 했습니다. 부장님과의 약속과 동기와의 약속은 말투부터 달라야 하니까, 메신저·이메일 톤 전환까지. 좋은 쪽지의 기준은 문장력이 아니라 "받는 사람이 되물을 게 없는가"였습니다.',
+  showcase:{
+    before:'8/12에 부장님 포함 저희 팀 점심 식사 캘박 부탁드립니다~!',
+    missNote:'시각 · 장소 · 회신 기한이 빠지고, 참석 명단은 모호 — 넷 다 되물어야 확정되는 쪽지',
+    checks:[['ok','날짜 8/12 — 그대로 반영'],['vague','참석자 \'부장님 포함 저희 팀\' — 모호 → 명단·인원 확정 필요'],
+      ['miss','시각 없음 → 12:00 제안'],['miss','장소 없음 → 식당·층까지 명시'],['miss','회신 기한 없음 → 전일(8/11) 17시 제안']],
+    after:['🍽 팀 점심 안내','일시 — 8/12(수) 12:00 (11:50 로비 집결)','장소 — 단아 (본점 3층)',
+      '참석 — 부장님 포함 팀 전원 · 명단 확정 후 공유','참석이 어려우시면 8/11(화) 17시까지 회신 부탁드립니다 🙏']},
   demo:{g:'note',d:'안내 문구 개선 — 내 문구 다듬기 + 골라서 만들기'},
   desc:'"내일 점심 ㄱ?" — 대충 보낸 안내는 당일에 꼭 헷갈립니다. 대충 쓴 문구를 붙여넣으면 AI가 빠진 정보를 짚어 채우고 상황에 맞게 다듬어 줍니다. AI빙고 미션9(문구 개선)의 체험판.',
   chips:['문구 개선','AI 점검','메신저·이메일 톤','미션9'],
+  steps:[['필수정보 규칙 설계','done'],['웹 체험판 공개','done'],['상황·톤 확장','cur']],
   ctas:[['쪽지 다듬기 체험','#demo/note','amber'],['미션 보드 보기','#missions/문구개선','ghost']],
-  panel:{t:'체험 구성 · 예시',kv:[['모드','내 문구 다듬기 · 골라서 만들기'],['AI 점검','빠짐 · 모호 진단'],['출력 채널','메신저 · 이메일'],['데이터','전부 가명 · 예시']]}}
+  panel:{t:'체험 구성 · 예시',kv:[['모드','내 문구 다듬기 · 골라서 만들기'],['필수정보','참석자·시각·장소·집결·회신'],['출력 채널','메신저 · 이메일 톤'],['데이터','전부 가명 · 예시']]}}
 ];
 
 /* 홈 실험 캐러셀 렌더 + 스와이프(터치 네이티브)/마우스 드래그/화살표/도트 */
@@ -2162,13 +2170,14 @@ const NT_PEOPLE=[
 const NT_PLACES=[
  {n:'단아',d:'본점 3층 · 한식'},{n:'단골식당',d:'본점 인근 · 백반'},{n:'단풍',d:'별관 2층 · 일식'},
  {n:'대회의실 A',d:'본점 12층'},{n:'소회의실 3',d:'본점 4층'},{n:'연수원 세미나실',d:'별관 5층'}];
-const NT_TIMES=['오늘 · 12:00','내일(금) · 12:30','내일(금) · 15:00','다음주 월 · 09:30','다음주 수 · 11:30'];
+const NT_TIMES=['오늘 · 12:00','8/12(수) · 12:00','내일(금) · 12:30','내일(금) · 15:00','다음주 월 · 09:30','다음주 수 · 11:30'];
 const NT_SCN={
- lunch:{name:'점심 회식',emoji:'🍽',time:'내일(금) · 12:30',place:'단아',gmin:15,
-  gather:t=>`${t} 로비 집결`,placeAi:'· 예약 확인 요망',extra:null,deadline:'오늘 17시',
+ /* lunch = 미션9 등록 글의 실사례와 동기화(8/12 팀 점심 · 캘박) — 글 수정 시 함께 갱신 */
+ lunch:{name:'팀 점심',emoji:'🍽',time:'8/12(수) · 12:00',place:'단아',gmin:10,
+  gather:t=>`${t} 로비 집결`,placeAi:'· 예약 확인 요망',extra:null,deadline:'8/11(화) 17시',
   ai:['집결 시간','회신 마감','예약 확인'],
-  before:'내일 점심 ㄱ? 12시 반쯤 3층에서 봐요~',miss:['12시 반쯤','3층'],
-  missNote:'누가 오는지 · 정확한 식당 · 집결 시간 · 회신 기한이 빠짐'},
+  before:'8/12에 부장님 포함 저희 팀 점심 식사 캘박 부탁드립니다~!',miss:['부장님 포함 저희 팀'],
+  missNote:'시각 · 장소 · 회신 기한이 빠지고, 참석 명단은 모호'},
  meet:{name:'팀 회의',emoji:'📋',time:'내일(금) · 15:00',place:'대회의실 A',gmin:5,
   gather:t=>`${t}까지 착석`,placeAi:'· 회의실 예약 완료',extra:'안건: 주간 자금 포지션 점검 (예시) — 자료는 회의 전 공유',deadline:'오늘 17시',
   ai:['5분 전 착석','안건·자료 안내','회의실 예약 확인'],
@@ -2252,9 +2261,13 @@ function ntTo24(ap,h,m){h=+h;m=+m||0;ap=ap||'';
   return nt2(h)+':'+nt2(m);}
 function ntExtract(raw){
   const t=raw.replace(/\s+/g,' ').trim(),e={};
-  /* 날짜 */
+  /* 날짜 — '8/12'·'8월 12일' 형태는 요일까지 계산해 그대로 반영(올해 기준) */
+  const md=t.match(/(\d{1,2})\s*[\/월]\s*(\d{1,2})\s*일?/);
   const dw=t.match(/오늘|내일|모레|글피/),ww=t.match(/(이번주|다음주|담주)?\s*([월화수목금토일])요일/);
-  e.day=dw?dw[0]:(ww?((ww[1]||'').replace('담주','다음주'))+(ww[1]?' ':'')+ww[2]+'요일':'');
+  if(md&&+md[1]>=1&&+md[1]<=12&&+md[2]>=1&&+md[2]<=31){
+    const W='일월화수목금토',dt=new Date(new Date().getFullYear(),+md[1]-1,+md[2]);
+    e.day=`${+md[1]}/${+md[2]}(${W[dt.getDay()]})`;e.dayMD={m:+md[1],d:+md[2]};
+  }else e.day=dw?dw[0]:(ww?((ww[1]||'').replace('담주','다음주'))+(ww[1]?' ':'')+ww[2]+'요일':'');
   /* 시각 */
   let m;
   if((m=t.match(/(오전|오후|저녁|아침|낮)?\s*(\d{1,2})\s*:\s*(\d{2})/))){e.time=ntTo24(m[1],m[2],m[3]);e.timeStatus='ok';e.timeWas=m[0].trim();}
@@ -2274,6 +2287,13 @@ function ntExtract(raw){
   const pn=t.match(/(\d+)\s*명/);
   if(pn){e.people=pn[1]+'명';e.peopleStatus='ok';}
   else if(/전원|다\s*같이|팀\s*전체|모두\s*참석/.test(t)){e.people='팀 전원';e.peopleStatus='ok';}
+  else if(/(?:부장|팀장|과장|차장|본부장|지점장)님?\s*포함|(?:저희|우리)\s*팀/.test(t)){
+    /* '부장님 포함 저희 팀' 류 — 범위는 있는데 명단·인원이 모호 */
+    const inc=t.match(/(?:부장|팀장|과장|차장|본부장|지점장)님?\s*포함/);
+    e.peopleWas=(t.match(/(?:(?:부장|팀장|과장|차장|본부장|지점장)님?\s*포함\s*)?(?:저희|우리)?\s?팀[가-힣]{0,2}/)||['저희 팀'])[0].trim();
+    e.people=(inc?inc[0].replace(/\s+/g,' ')+' ':'')+'팀 전원 — 명단 확정 후 공유';
+    e.peopleStatus='vague';
+  }
   else{e.people='';e.peopleStatus='miss';}
   /* 집결·회신 */
   e.gatherStatus=/집결|모여|로비|착석/.test(t)?'ok':'miss';
@@ -2292,9 +2312,18 @@ function ntRunImprove(){
   const gRaw=ntGather(time,s.gmin);
   const gather=scn==='work'?`${gRaw} 로비 집결 · 버스 이동`:(scn==='meet'?`${gRaw}까지 착석`:`${gRaw} 로비 집결`);
   const peopleTxt=e.people||`5명 (예시)`;
+  /* 회신 기한 — 날짜가 명시되면 '전일 17시'로 계산 제안 */
+  let deadline=s.deadline;
+  if(e.dayMD&&e.replyStatus!=='ok'){
+    const W='일월화수목금토',p=new Date(new Date().getFullYear(),e.dayMD.m-1,e.dayMD.d-1);
+    deadline=`${p.getMonth()+1}/${p.getDate()}(${W[p.getDay()]}) 17시`;
+  }
   /* 진단 — 있으면 '그대로 반영', 모호는 '명확', 없으면 '보완' */
   const items=[
+    e.day?{st:'ok',label:'날짜',now:e.day,tag:'그대로 반영'}
+      :{st:'miss',label:'날짜',sub:'날짜 없음',now:day+' (예시)',tag:'빠진 정보'},
     e.peopleStatus==='ok'?{st:'ok',label:'참석자',now:e.people,tag:'그대로 반영'}
+      :e.peopleStatus==='vague'?{st:'vague',label:'참석자',was:e.peopleWas,now:'명단·인원 확정 필요',tag:'모호 → 확정'}
       :{st:'miss',label:'참석자',sub:'누가 오는지 없음',now:'명시 필요',tag:'빠진 정보'},
     e.timeStatus==='ok'?{st:'ok',label:'시각',now:time,tag:'그대로 반영'}
       :e.timeStatus==='vague'?{st:'vague',label:'시각',was:e.timeWas,now:time,tag:'모호 → 명확'}
@@ -2305,7 +2334,7 @@ function ntRunImprove(){
     e.gatherStatus==='ok'?{st:'ok',label:scn==='meet'?'착석':'집결',tag:'그대로 반영'}
       :{st:'miss',label:scn==='meet'?'착석 시간':'집결 시간',sub:'없음',now:gather,tag:'빠진 정보'},
     e.replyStatus==='ok'?{st:'ok',label:'회신',tag:'그대로 반영'}
-      :{st:'miss',label:'회신 기한',sub:'없음',now:`${s.deadline}까지`,tag:'빠진 정보'}
+      :{st:'miss',label:'회신 기한',sub:'없음',now:`${deadline}까지`,tag:'빠진 정보'}
   ];
   const fixed=items.filter(i=>i.st!=='ok').length;
   $('#ntDiag').innerHTML=`<h4>🔍 AI 점검 — 원문 반영 · 빠지거나 모호한 정보<span class="cnt">${fixed}개 보완</span></h4>`+
@@ -2317,12 +2346,12 @@ function ntRunImprove(){
   const rows=`
    <div class="kv"><span class="k">일시</span><span>${wrap(day,!e.day)} ${wrap(time,e.timeStatus!=='ok')} ${ntAi('('+esc(gather)+')')}</span></div>
    <div class="kv"><span class="k">장소</span><span>${wrap(place,e.placeStatus!=='ok')} ${s.placeAi?ntAi(esc(s.placeAi)):''}</span></div>
-   <div class="kv"><span class="k">참석</span><span>${e.people?esc(e.people):ntAi('참석 대상 명시 필요')}</span></div>
+   <div class="kv"><span class="k">참석</span><span>${e.peopleStatus==='ok'?esc(e.people):e.peopleStatus==='vague'?ntAi(esc(e.people)):ntAi('참석 대상 명시 필요')}</span></div>
    ${s.extra?`<div class="kv"><span class="k">참고</span><span>${ntAi(esc(s.extra))}</span></div>`:''}`;
   /* 회식은 시간대에 맞춰 점심/저녁 이름 자동 조정 */
   let sName=s.name;
-  if(scn==='lunch'){const hh=+time.slice(0,2);sName=hh>=17?'저녁 회식':(hh<11?'조찬 모임':'점심 회식');}
-  const end=`참석이 어려우시면 ${e.replyStatus==='ok'?esc(s.deadline+'까지'):ntAi(esc(s.deadline)+'까지')} 회신 부탁드립니다`;
+  if(scn==='lunch'){const hh=+time.slice(0,2);sName=hh>=17?'저녁 회식':(hh<11?'조찬 모임':s.name);}
+  const end=`참석이 어려우시면 ${e.replyStatus==='ok'?esc(deadline+'까지'):ntAi(esc(deadline)+'까지')} 회신 부탁드립니다`;
   $('#ntMsg2').innerHTML=ntItone==='msg'
     ?`<div class="ttl">${s.emoji} ${esc(sName)} 안내</div>${rows}<div class="end">${end} 🙏</div>`
     :`<div class="ttl">[안내] ${esc(sName)}</div>
@@ -2363,6 +2392,24 @@ function renderProjGen(e,i){
     :'<p class="tagline" style="margin-top:8px">단계 정보 준비 중</p>';
   const panel=e.panel?`<div class="card flat"><div class="eyebrow eyebrow-ko" style="margin-bottom:10px">${e.panel.t}</div>${
     e.panel.kv.map(([k,v])=>`<div class="kv"><span>${k}</span><b>${v}</b></div>`).join('')}</div>`:'';
+  /* showcase(선택) — 등록 글의 실사례 Before→After + AI 점검을 그대로 보여주는 블록 */
+  const sc=e.showcase?`
+   <div class="sec-h" style="margin-top:34px"><div><span class="eyebrow">Story</span><h2>실제로 이랬습니다 — Before → After</h2></div>
+     <span class="hint">문구·이름·장소 가명 · 예시</span></div>
+   <div class="nt-ba">
+     <div class="col b"><div class="tag">BEFORE — 실제로 보낸 쪽지</div>
+       <div class="m">${esc(e.showcase.before)}</div>
+       <div class="fine">→ ${esc(e.showcase.missNote)}</div></div>
+     <div class="arr">→</div>
+     <div class="col a"><div class="tag">AFTER — AI로 정돈</div>
+       <div class="m">${e.showcase.after.map((l,j)=>j===0?`<div class="ttl">${esc(l)}</div>`
+         :`<div style="margin:3px 0">${esc(l)}</div>`).join('')}</div></div>
+   </div>
+   <div class="nt-diag" style="margin-top:14px">
+     <h4>🔍 AI 점검 — 필수정보 5가지</h4>
+     ${e.showcase.checks.map(([k,txt])=>`<div class="nt-ck ${k}"><span class="ic">${k==='ok'?'✓':k==='vague'?'△':'✗'}</span>
+       <span class="tx">${esc(txt)}</span></div>`).join('')}
+   </div>`:'';
   box.innerHTML=`
    <a href="#project" class="tagline">← 프로젝트 목록</a>
    <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:14px">
@@ -2375,6 +2422,7 @@ function renderProjGen(e,i){
        ${e.story?`<p style="margin-top:14px;color:var(--mut)">${e.story}</p>`:''}</div>
      ${panel}
    </div>
+   ${sc}
    <div class="hero-cta" style="margin-top:24px">${e.ctas.map(([t,h,k])=>
      `<a class="btn btn-${k} btn-sm" href="${h}">${t}</a>`).join('')}</div>
    <p class="bnote">이 페이지의 수치·구성은 전부 예시입니다 — 실험이 진행되는 대로 상세가 확장됩니다.</p>`;
