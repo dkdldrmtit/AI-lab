@@ -1422,8 +1422,8 @@ const EXPERIMENTS=[
   steps:[['프로토타입','done'],['웹 데모','done'],['사내 AI 연동','cur']],
   ctas:[['브리핑 룸 체험','#demo/brief','amber'],['미션 보드 보기','#missions/자금판','ghost']],
   panel:{t:'체험 구성 · 예시',kv:[['조작','부족/적정/과다 · 미처리 · FT'],['브리핑','심각도 우선순위 정렬'],['톤','팀 공유 · 보고용'],['연동','모의 → 사내 AI 도입 시 실제']]}},
- {status:'LIVE',pid:'note',stTxt:'LIVE · 체험 가능',title:'쪽지 다듬기',mission:'문구개선',
-  story:'"대충 쓴 한 줄은, 질문이 되어 돌아온다" — 업무에 쫓겨 보낸 한 줄 쪽지는 결국 받은 사람의 질문이 되어 돌아옵니다. 그래서 쪽지의 필수정보 5가지(참석자·시각·장소·집결시간·회신기한)를 정하고, 진단 → 보완 → 재구성 → 톤의 4단계 규칙으로 다듬게 했습니다. 부장님과의 약속과 동기와의 약속은 말투부터 달라야 하니까, 메신저·이메일 톤 전환까지. 좋은 쪽지의 기준은 문장력이 아니라 "받는 사람이 되물을 게 없는가"였습니다.',
+ {status:'LIVE',pid:'note',art:'note',stTxt:'LIVE · 체험 가능',title:'쪽지 다듬기',mission:'문구개선',
+  story:'필수정보 5가지(참석자·시각·장소·집결시간·회신기한)를 정하고, 진단 → 보완 → 재구성 → 톤의 4단계 규칙으로 다듬게 했습니다. 부장님과의 약속과 동기와의 약속은 말투부터 달라야 하니까 메신저·이메일 톤 전환까지. 좋은 쪽지의 기준은 문장력이 아니라 "받는 사람이 되물을 게 없는가"였습니다.',
   showcase:{
     before:'8/12에 부장님 포함 저희 팀 점심 식사 캘박 부탁드립니다~!',
     missNote:'시각 · 장소 · 회신 기한이 빠지고, 참석 명단은 모호 — 넷 다 되물어야 확정되는 쪽지',
@@ -2384,6 +2384,54 @@ function renderProjHub(){
   const pp=$('#pjPlan');
   if(pp&&plan.length)pp.textContent=`예정 — 남은 미션(${plan.join(' · ')})이 완성되는 대로 이 목록에 프로젝트 페이지가 하나씩 추가됩니다.`;
 }
+/* 실험별 아트(흐름 한눈에) — 자금판 지도와 같은 문법의 SVG. art:'<키>'로 연결 */
+const PJ_ART={note:`<svg class="flowmap" viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="대충 쓴 한 줄 쪽지 → AI 4단계(진단·보완·재구성·톤) → 되묻지 않는 쪽지">
+<text x="30" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">BEFORE · 대충 쓴 한 줄</text>
+<text x="430" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">AI · 4 STEPS</text>
+<text x="660" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">AFTER · 되묻지 않는 쪽지</text>
+<rect x="30" y="48" width="260" height="96" rx="12" fill="#111A28" stroke="#F0545C" stroke-opacity="0.45" stroke-width="1.4"/>
+<text x="50" y="88" font-size="13.5" fill="#E8EDF5">8/12에 부장님 포함 저희 팀</text>
+<text x="50" y="112" font-size="13.5" fill="#E8EDF5">점심 식사 캘박 부탁드립니다~!</text>
+<g class="fm-breathe" style="animation-delay:-.4s"><rect x="50" y="178" width="150" height="30" rx="15" fill="rgba(232,196,104,.06)" stroke="#E8C468" stroke-opacity=".5" stroke-dasharray="4 3"/><text x="66" y="198" font-size="12.5" fill="#E8C468">❓ 몇 시예요?</text></g>
+<g class="fm-breathe" style="animation-delay:-1.6s"><rect x="70" y="220" width="150" height="30" rx="15" fill="rgba(232,196,104,.06)" stroke="#E8C468" stroke-opacity=".5" stroke-dasharray="4 3"/><text x="86" y="240" font-size="12.5" fill="#E8C468">❓ 어디서요?</text></g>
+<g class="fm-breathe" style="animation-delay:-2.8s"><rect x="52" y="262" width="164" height="30" rx="15" fill="rgba(240,84,92,.06)" stroke="#F0545C" stroke-opacity=".5" stroke-dasharray="4 3"/><text x="68" y="282" font-size="12.5" fill="#F0545C">❓ 누가 와요?</text></g>
+<g class="fm-breathe" style="animation-delay:-3.7s"><rect x="74" y="304" width="196" height="30" rx="15" fill="rgba(240,84,92,.06)" stroke="#F0545C" stroke-opacity=".5" stroke-dasharray="4 3"/><text x="90" y="324" font-size="12.5" fill="#F0545C">❓ 언제까지 회신해요?</text></g>
+<path d="M262,178 C 300,220 300,270 268,304" stroke="#E8C468" stroke-width="1.2" stroke-opacity=".35" stroke-dasharray="3 5" fill="none"/>
+<path d="M262,178 L 256,166 M262,178 L 274,174" stroke="#E8C468" stroke-width="1.2" stroke-opacity=".5" fill="none"/>
+<text x="60" y="360" font-size="11.5" fill="#5A6678">— 보낸 뒤에 돌아오는 질문들</text>
+<path d="M290,80 C 360,80 370,140 430,140" stroke="#4CC3E8" stroke-width="1.4" stroke-opacity="0.3" fill="none"/>
+<path d="M290,112 C 360,112 370,180 430,180" stroke="#F5A742" stroke-width="1.4" stroke-opacity="0.3" fill="none"/>
+<path d="M290,144 C 360,144 370,220 430,220" stroke="#35C48D" stroke-width="1.4" stroke-opacity="0.3" fill="none"/>
+<path class="fm-flow" d="M290,80 C 360,80 370,140 430,140" stroke="#4CC3E8" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.4s;animation-delay:-1.1s"/>
+<path class="fm-flow" d="M290,112 C 360,112 370,180 430,180" stroke="#F5A742" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.8s;animation-delay:-.3s"/>
+<path class="fm-flow" d="M290,144 C 360,144 370,220 430,220" stroke="#35C48D" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:3.1s;animation-delay:-2.2s"/>
+<rect class="fm-board" x="430" y="90" width="140" height="220" rx="16" fill="#1c160b" stroke="#F5A742" stroke-width="2"/>
+<text x="500" y="128" font-size="19" font-weight="800" fill="#F5A742" text-anchor="middle">쪽지 다듬기</text>
+<text x="500" y="148" font-size="9" font-weight="700" fill="#E8C468" text-anchor="middle" font-family="'JetBrains Mono',monospace" letter-spacing="1.5">AI CHECK · TONE</text>
+<text x="500" y="180" font-size="12.5" fill="#B9A67C" text-anchor="middle">진단</text>
+<text x="500" y="198" font-size="11" fill="#8A6E3A" text-anchor="middle">↓</text>
+<text x="500" y="216" font-size="12.5" fill="#B9A67C" text-anchor="middle">보완</text>
+<text x="500" y="234" font-size="11" fill="#8A6E3A" text-anchor="middle">↓</text>
+<text x="500" y="252" font-size="12.5" fill="#B9A67C" text-anchor="middle">재구성</text>
+<text x="500" y="270" font-size="11" fill="#8A6E3A" text-anchor="middle">↓</text>
+<text x="500" y="288" font-size="12.5" fill="#B9A67C" text-anchor="middle">톤</text>
+<path d="M570,140 C 620,140 610,120 660,120" stroke="#4CC3E8" stroke-width="1.4" stroke-opacity="0.3" fill="none"/>
+<path d="M570,180 C 620,180 610,180 660,180" stroke="#F5A742" stroke-width="1.4" stroke-opacity="0.3" fill="none"/>
+<path d="M570,220 C 620,220 610,240 660,240" stroke="#35C48D" stroke-width="1.4" stroke-opacity="0.3" fill="none"/>
+<path class="fm-flow" d="M570,140 C 620,140 610,120 660,120" stroke="#4CC3E8" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.1s;animation-delay:-.7s"/>
+<path class="fm-flow" d="M570,180 C 620,180 610,180 660,180" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.5s;animation-delay:-1.9s"/>
+<path class="fm-flow" d="M570,220 C 620,220 610,240 660,240" stroke="#35C48D" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.9s;animation-delay:-.2s"/>
+<rect x="660" y="60" width="310" height="250" rx="14" fill="#0c1420" stroke="#35C48D" stroke-opacity="0.5" stroke-width="1.6"/>
+<text x="682" y="96" font-size="15" font-weight="800" fill="#E8EDF5">🍽 팀 점심 안내</text>
+<line x1="682" y1="112" x2="948" y2="112" stroke="#223047" stroke-width="1"/>
+<text x="682" y="140" font-size="12.5" fill="#35C48D">✓</text><text x="702" y="140" font-size="12.5" fill="#C8D2E0">일시 — 8/12(수) 12:00 · 11:50 집결</text>
+<text x="682" y="170" font-size="12.5" fill="#35C48D">✓</text><text x="702" y="170" font-size="12.5" fill="#C8D2E0">장소 — 단아 (본점 3층)</text>
+<text x="682" y="200" font-size="12.5" fill="#35C48D">✓</text><text x="702" y="200" font-size="12.5" fill="#C8D2E0">참석 — 부장님 포함 팀 전원</text>
+<text x="682" y="230" font-size="12.5" fill="#35C48D">✓</text><text x="702" y="230" font-size="12.5" fill="#C8D2E0">회신 — 8/11(화) 17시까지</text>
+<rect x="682" y="252" width="146" height="28" rx="14" fill="rgba(53,196,141,.1)" stroke="#35C48D" stroke-opacity=".45"/>
+<text x="700" y="271" font-size="12" font-weight="700" fill="#35C48D">되묻는 질문 0건</text>
+<text x="30" y="392" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#5A6678">ALL TEXT ILLUSTRATIVE (예시) · 체험 데모와 동일한 규칙 · 이름·장소 가명</text>
+</svg>`};
 /* 제네릭 상세 — EXPERIMENTS 데이터만으로 표준 레이아웃 렌더(자금판 외 실험용) */
 function renderProjGen(e,i){
   const box=$('#pp-gen');if(!box)return;
@@ -2417,6 +2465,9 @@ function renderProjGen(e,i){
      <h1 style="margin:0">${e.title}</h1>${pjChip(e)}</div>
    <p class="lead" style="margin-top:12px">${e.desc}</p>
    <div class="meta">${e.chips.map(c=>`<span class="chip">${c}</span>`).join('')}</div>
+   ${e.art&&PJ_ART[e.art]?`<div class="sec-h" style="margin-top:30px"><div><span class="eyebrow">Overview</span><h2>흐름 한눈에</h2></div>
+     <span class="hint">대충 쓴 한 줄 → AI 4단계 → 되묻지 않는 쪽지</span></div>
+   <div class="flowwrap">${PJ_ART[e.art]}</div>`:''}
    <div class="grid2" style="margin-top:26px">
      <div class="card flat"><h3>어디까지 왔나</h3>${steps}
        ${e.story?`<p style="margin-top:14px;color:var(--mut)">${e.story}</p>`:''}</div>
