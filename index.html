@@ -1263,6 +1263,13 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
             <button type="button" data-m="감동" aria-pressed="false">감동적으로</button>
             <button type="button" data-m="짧게" aria-pressed="false">짧고 굵게</button>
           </div>
+          <div class="nt-l" style="margin-top:16px"><span>내 위치 <em>같은 말도 연차 따라 문법이 달라요</em></span></div>
+          <div class="nt-seg" id="tsSpk">
+            <button type="button" class="on" data-p="막내·신입" aria-pressed="true">막내·신입</button>
+            <button type="button" data-p="대리" aria-pressed="false">대리</button>
+            <button type="button" data-p="과장·차장" aria-pressed="false">과장·차장</button>
+            <button type="button" data-p="팀장·부장" aria-pressed="false">팀장·부장</button>
+          </div>
           <div class="nt-l" style="margin-top:16px"><span>키워드 <em>선택 — 칩을 누르거나 직접 입력</em></span></div>
           <div class="chips" id="tsKwChips" style="margin-bottom:8px">
             <button type="button" class="nt-chip" data-kw="상반기 목표 달성">상반기 목표 달성</button>
@@ -2638,7 +2645,7 @@ const TS_KWT=[k=>`${k}, 잘될 일만 남았습니다 — 우리가 있으니까
  k=>`${k}${tsJosa(k,'을','를')} 생각하면서, 오늘 이 잔은 더 진심으로 채웠습니다.`,
  k=>`${k} — 말로 다 못 한 응원까지 이 잔에 담겠습니다.`,
  k=>`${k}도 우리도, 앞으로 더 잘될 겁니다.`];
-let tsS={s:'회식 시작',m:'무난',d:0,who:'팀 전체',traits:[],event:''};
+let tsS={s:'회식 시작',m:'무난',d:0,spk:'막내·신입',who:'팀 전체',traits:[],event:''};
 /* 재료 수집 — 채워진 것만 Worker로 보냄('팀 전체'는 기본값이라 재료 아님) */
 function tsMatData(){
   const iv=id=>{const el=$(id);return el?(el.value||'').trim():'';};
@@ -2668,7 +2675,7 @@ async function tsGoRun(){
   if(TOAST_API){
     try{
       const res=await fetch(TOAST_API,{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({situ:tsS.s,mood:tsS.m,dad:tsS.d,kw:($('#tsKw').value||'').slice(0,40),...mat})});
+        body:JSON.stringify({situ:tsS.s,mood:tsS.m,dad:tsS.d,spk:tsS.spk,kw:($('#tsKw').value||'').slice(0,40),...mat})});
       const d=await res.json();
       if(res.ok&&d.body&&d.cheer){r={body:esc(d.body).replace(/\n/g,'<br>'),cheer:[esc(d.cheer[0]),esc(d.cheer[1])]};real=true;}
     }catch(_){}
@@ -2678,11 +2685,11 @@ async function tsGoRun(){
   const kw=($('#tsKw').value||'').trim();
   const matLine=[mat.who,mat.trait,mat.event,mat.phrase&&'"'+mat.phrase+'"'].filter(Boolean).join(' · ');
   $('#tsMsg').innerHTML=`
-   <div class="ts-situ">${esc(tsS.s)} × ${esc(tsS.m)} × 아재개그 ${['차단','한 스푼','퍼붓기'][tsS.d]}${kw?' — 키워드: '+esc(kw):''}${hasMat?'<br>🧂 재료: '+esc(matLine):''}</div>
+   <div class="ts-situ">${esc(tsS.s)} × ${esc(tsS.m)} × ${esc(tsS.spk)} × 아재개그 ${['차단','한 스푼','퍼붓기'][tsS.d]}${kw?' — 키워드: '+esc(kw):''}${hasMat?'<br>🧂 재료: '+esc(matLine):''}</div>
    <div class="ts-body">${r.body}</div>
    <div class="ts-call"><div class="k">선창 → 후창</div>
      <div class="c">제가 "<b>${r.cheer[0]}</b>" 하면, "<span>${r.cheer[1]}</span>" 외쳐주세요 🍻</div></div>${
-   hasMat&&!real?'<div class="ts-mnote">🧂 재료는 실제 Claude 연동 후 반영돼요 — 모의 응답은 문장 풀 조립이라 아직 못 씁니다</div>':''}`;
+   (hasMat||tsS.spk!=='막내·신입')&&!real?'<div class="ts-mnote">🧂 재료·내 위치 설정은 실제 Claude 연동 후 반영돼요 — 모의 응답은 문장 풀 조립이라 아직 못 씁니다</div>':''}`;
   const m=$('#tsMsg');m.classList.remove('nt-in');void m.offsetWidth;m.classList.add('nt-in');
   $('#tsOhT').textContent='방금 뽑은 건배사 — 또 뽑어도 됩니다 🎲';
   go.disabled=false;go.textContent=orig;
@@ -2697,7 +2704,7 @@ function bindToast(){
     const b=e.target.closest('['+attr+']');if(!b)return;
     tsS[key]=key==='d'?+b.getAttribute(attr):b.getAttribute(attr);
     $$(id+' button').forEach(x=>{const on=x===b;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on);});});
-  seg('#tsScn','s','data-s');seg('#tsMood','m','data-m');seg('#tsDad','d','data-d');seg('#tsWho','who','data-w');
+  seg('#tsScn','s','data-s');seg('#tsMood','m','data-m');seg('#tsDad','d','data-d');seg('#tsSpk','spk','data-p');seg('#tsWho','who','data-w');
   /* 재료 섹션 접기/펼치기 */
   $('#tsMatOpen').addEventListener('click',()=>{
     const m=$('#tsMat'),open=m.hidden;m.hidden=!open;
