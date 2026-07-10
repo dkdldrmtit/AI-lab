@@ -586,6 +586,12 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .ts-call .k{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.22em;color:var(--dim);margin-bottom:7px}
 .ts-call .c{font-size:18px;font-weight:800}
 .ts-call .c b{color:var(--amb)}.ts-call .c span{color:var(--cyn)}
+.ts-matbtn{width:100%;text-align:left;font-family:var(--kor);font-size:13px;font-weight:600;color:var(--mut);
+  border:1px dashed var(--grid);border-radius:10px;background:transparent;padding:10px 13px;cursor:pointer}
+.ts-matbtn:hover{border-color:var(--amb);color:var(--txt)}
+.ts-matbtn em{font-style:normal;color:var(--dim);font-weight:600;font-size:12px}
+.ts-mat{border:1px dashed var(--grid);border-radius:10px;padding:14px 13px 13px;margin-top:8px}
+.ts-mnote{font-family:var(--mono);font-size:11.5px;color:var(--dim);margin-top:12px}
 #tsGo:disabled{opacity:.75;cursor:wait}
 /* ── 브리핑 룸(미션1-ⓑ) — 상태 조작판 + 모의 AI 브리핑 ── */
 .br-gen{display:grid;grid-template-columns:.95fr 1.05fr;gap:24px;align-items:start}
@@ -1271,6 +1277,45 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
             <button type="button" class="on" data-d="0" aria-pressed="true">차단 🚫</button>
             <button type="button" data-d="1" aria-pressed="false">한 스푼 🥄</button>
             <button type="button" data-d="2" aria-pressed="false">퍼붓기 🌊</button>
+          </div>
+          <div style="margin-top:16px">
+            <button type="button" class="ts-matbtn" id="tsMatOpen" aria-expanded="false">🧂 재료 더 넣기 <em>선택 · 10초</em><br>
+              <em>주인공·최근 일을 알려주면 '아는 사람'처럼 지어요</em></button>
+            <div class="ts-mat" id="tsMat" hidden>
+              <div class="nt-l"><span>누구를 위한 잔인가요? <em>호칭으로만</em></span></div>
+              <div class="chips" id="tsWho">
+                <button type="button" class="nt-chip on" data-w="팀 전체" aria-pressed="true">팀 전체</button>
+                <button type="button" class="nt-chip" data-w="오늘의 주인공" aria-pressed="false">오늘의 주인공</button>
+                <button type="button" class="nt-chip" data-w="부장님" aria-pressed="false">부장님</button>
+                <button type="button" class="nt-chip" data-w="팀장님" aria-pressed="false">팀장님</button>
+                <button type="button" class="nt-chip" data-w="우리 막내" aria-pressed="false">우리 막내</button>
+                <button type="button" class="nt-chip" data-w="새로 온 분" aria-pressed="false">새로 온 분</button>
+                <button type="button" class="nt-chip" data-w="떠나는 분" aria-pressed="false">떠나는 분</button>
+              </div>
+              <div class="nt-l" style="margin-top:12px"><span>어떤 분이에요? <em>최대 2개</em></span></div>
+              <div class="chips" id="tsTrait">
+                <button type="button" class="nt-chip" data-t="분위기 메이커" aria-pressed="false">분위기 메이커</button>
+                <button type="button" class="nt-chip" data-t="야근을 도맡던" aria-pressed="false">야근을 도맡던</button>
+                <button type="button" class="nt-chip" data-t="묵묵히 다 해내는" aria-pressed="false">묵묵히 다 해내는</button>
+                <button type="button" class="nt-chip" data-t="커피가 주식" aria-pressed="false">커피가 주식</button>
+                <button type="button" class="nt-chip" data-t="잔소리도 다정한" aria-pressed="false">잔소리도 다정한</button>
+                <button type="button" class="nt-chip" data-t="팀의 브레인" aria-pressed="false">팀의 브레인</button>
+              </div>
+              <div class="nt-l" style="margin-top:12px"><span>요즘 우리 팀에 있었던 일 <em>선택 — 다시 누르면 해제</em></span></div>
+              <div class="chips" id="tsEvent">
+                <button type="button" class="nt-chip" data-e="큰 프로젝트 마무리" aria-pressed="false">큰 프로젝트 마무리</button>
+                <button type="button" class="nt-chip" data-e="야근 많았던 시즌" aria-pressed="false">야근 많았던 시즌</button>
+                <button type="button" class="nt-chip" data-e="새 시스템 오픈" aria-pressed="false">새 시스템 오픈</button>
+                <button type="button" class="nt-chip" data-e="인사이동 시즌" aria-pressed="false">인사이동 시즌</button>
+                <button type="button" class="nt-chip" data-e="실적 마감 끝" aria-pressed="false">실적 마감 끝</button>
+              </div>
+              <input class="fb-in" id="tsEventIn" maxlength="30" autocomplete="off"
+                placeholder="직접 입력 — 예: 워크숍에서 비 쫄딱 맞음 (실명·거래정보 금지)" aria-label="최근 있었던 일(선택)">
+              <div class="nt-l" style="margin-top:12px"><span>우리끼리 쓰는 말 <em>선창·후창에 살려 드려요</em></span></div>
+              <input class="fb-in" id="tsPhrase" style="margin-top:0" maxlength="15" autocomplete="off"
+                placeholder="예: 가보자고, 폼 미쳤다" aria-label="팀 유행어(선택)">
+              <p class="ts-mnote">전부 선택사항 · 실명 대신 호칭만 — 재료가 없으면 없는 대로, 있는 것만 씁니다</p>
+            </div>
           </div>
           <div style="margin-top:22px"><button type="button" class="nt-go" id="tsGo">🍻 건배사 뽑기</button></div>
           <p class="nt-howto">키워드는 건배사 생성에만 쓰이고 저장되지 않아요 ·
@@ -2593,7 +2638,17 @@ const TS_KWT=[k=>`${k}, 잘될 일만 남았습니다 — 우리가 있으니까
  k=>`${k}${tsJosa(k,'을','를')} 생각하면서, 오늘 이 잔은 더 진심으로 채웠습니다.`,
  k=>`${k} — 말로 다 못 한 응원까지 이 잔에 담겠습니다.`,
  k=>`${k}도 우리도, 앞으로 더 잘될 겁니다.`];
-let tsS={s:'회식 시작',m:'무난',d:0};
+let tsS={s:'회식 시작',m:'무난',d:0,who:'팀 전체',traits:[],event:''};
+/* 재료 수집 — 채워진 것만 Worker로 보냄('팀 전체'는 기본값이라 재료 아님) */
+function tsMatData(){
+  const iv=id=>{const el=$(id);return el?(el.value||'').trim():'';};
+  return {
+    who:tsS.who!=='팀 전체'?tsS.who:'',
+    trait:tsS.traits.join(', ').slice(0,60),
+    event:(iv('#tsEventIn')||tsS.event).slice(0,30),
+    phrase:iv('#tsPhrase').slice(0,15)
+  };
+}
 
 const tsLast={}; /* 풀별 직전 인덱스 기억 — 같은 문장이 연달아 나오지 않게 */
 const tsPick=(a,key)=>{let i;do{i=Math.floor(Math.random()*a.length)}while(a.length>1&&i===tsLast[key]);tsLast[key]=i;return a[i];};
@@ -2609,10 +2664,11 @@ async function tsGoRun(){
   const go=$('#tsGo');go.disabled=true;const orig=go.textContent;go.textContent='🍻 뽑는 중…';
   await sleep(REDUCED?200:550);
   let r=null,real=false;
+  const mat=tsMatData(),hasMat=!!(mat.who||mat.trait||mat.event||mat.phrase);
   if(TOAST_API){
     try{
       const res=await fetch(TOAST_API,{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({situ:tsS.s,mood:tsS.m,dad:tsS.d,kw:($('#tsKw').value||'').slice(0,40)})});
+        body:JSON.stringify({situ:tsS.s,mood:tsS.m,dad:tsS.d,kw:($('#tsKw').value||'').slice(0,40),...mat})});
       const d=await res.json();
       if(res.ok&&d.body&&d.cheer){r={body:esc(d.body).replace(/\n/g,'<br>'),cheer:[esc(d.cheer[0]),esc(d.cheer[1])]};real=true;}
     }catch(_){}
@@ -2620,11 +2676,13 @@ async function tsGoRun(){
   if(!r)r=tsMock();
   $('#tsBadge').innerHTML=`<span class="dot"></span>${real?'REAL CLAUDE':'모의 응답'}`;
   const kw=($('#tsKw').value||'').trim();
+  const matLine=[mat.who,mat.trait,mat.event,mat.phrase&&'"'+mat.phrase+'"'].filter(Boolean).join(' · ');
   $('#tsMsg').innerHTML=`
-   <div class="ts-situ">${esc(tsS.s)} × ${esc(tsS.m)} × 아재개그 ${['차단','한 스푼','퍼붓기'][tsS.d]}${kw?' — 키워드: '+esc(kw):''}</div>
+   <div class="ts-situ">${esc(tsS.s)} × ${esc(tsS.m)} × 아재개그 ${['차단','한 스푼','퍼붓기'][tsS.d]}${kw?' — 키워드: '+esc(kw):''}${hasMat?'<br>🧂 재료: '+esc(matLine):''}</div>
    <div class="ts-body">${r.body}</div>
    <div class="ts-call"><div class="k">선창 → 후창</div>
-     <div class="c">제가 "<b>${r.cheer[0]}</b>" 하면, "<span>${r.cheer[1]}</span>" 외쳐주세요 🍻</div></div>`;
+     <div class="c">제가 "<b>${r.cheer[0]}</b>" 하면, "<span>${r.cheer[1]}</span>" 외쳐주세요 🍻</div></div>${
+   hasMat&&!real?'<div class="ts-mnote">🧂 재료는 실제 Claude 연동 후 반영돼요 — 모의 응답은 문장 풀 조립이라 아직 못 씁니다</div>':''}`;
   const m=$('#tsMsg');m.classList.remove('nt-in');void m.offsetWidth;m.classList.add('nt-in');
   $('#tsOhT').textContent='방금 뽑은 건배사 — 또 뽑어도 됩니다 🎲';
   go.disabled=false;go.textContent=orig;
@@ -2639,7 +2697,24 @@ function bindToast(){
     const b=e.target.closest('['+attr+']');if(!b)return;
     tsS[key]=key==='d'?+b.getAttribute(attr):b.getAttribute(attr);
     $$(id+' button').forEach(x=>{const on=x===b;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on);});});
-  seg('#tsScn','s','data-s');seg('#tsMood','m','data-m');seg('#tsDad','d','data-d');
+  seg('#tsScn','s','data-s');seg('#tsMood','m','data-m');seg('#tsDad','d','data-d');seg('#tsWho','who','data-w');
+  /* 재료 섹션 접기/펼치기 */
+  $('#tsMatOpen').addEventListener('click',()=>{
+    const m=$('#tsMat'),open=m.hidden;m.hidden=!open;
+    $('#tsMatOpen').setAttribute('aria-expanded',open);
+    if(open)m.classList.add('nt-in');});
+  /* 특징 — 최대 2개 토글 */
+  $('#tsTrait').addEventListener('click',e=>{
+    const b=e.target.closest('[data-t]');if(!b)return;
+    const v=b.dataset.t,i=tsS.traits.indexOf(v);
+    if(i>=0)tsS.traits.splice(i,1);
+    else{if(tsS.traits.length>=2)return;tsS.traits.push(v);}
+    const on=i<0;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);});
+  /* 최근 일 — 단일 선택, 다시 누르면 해제 */
+  $('#tsEvent').addEventListener('click',e=>{
+    const b=e.target.closest('[data-e]');if(!b)return;
+    tsS.event=tsS.event===b.dataset.e?'':b.dataset.e;
+    $$('#tsEvent button').forEach(x=>{const on=x.dataset.e===tsS.event;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on);});});
   $('#tsKwChips').addEventListener('click',e=>{const b=e.target.closest('[data-kw]');if(!b)return;
     const inp=$('#tsKw');const v=inp.value.trim();
     inp.value=v?v.replace(/,\s*$/,'')+', '+b.dataset.kw:b.dataset.kw;});
