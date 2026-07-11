@@ -2614,7 +2614,7 @@ function projGroup(pid){
 }
 /* ── 건배사 자판기(미션6) — 규칙 기반 모의 생성. TOAST_API 설정 시 실제 Claude(Worker 경유)로 전환 ──
    TODO(backend): tools/toast-worker.js 를 Cloudflare Worker 로 배포 후 그 URL을 아래에 기입 → 배지가 REAL CLAUDE 로 바뀜 */
-const TOAST_API='';
+const TOAST_API='https://wandering-dust-9ae8.dkdldrmtit-d5e.workers.dev/';
 const TS={
  '회식 시작':{o:['드디어 한 주의 하이라이트, 회식입니다.','오늘 하루도 다들 고생 많으셨습니다.','메뉴보다 중요한 건 지금 이 멤버입니다.','업무 얘기는 여기까지 하고, 지금부터는 맛있게 먹는 게 일입니다.'],
    cheer:[['오늘 하루도','수고했다!'],['한 주의 피로','여기서 리셋!'],['우리의 저녁은','이제 시작!'],['좋은 사람들과','좋은 밤!'],['맛있게 먹고','힘내서 가자!']]},
