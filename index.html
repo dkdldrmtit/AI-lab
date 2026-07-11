@@ -2657,8 +2657,14 @@ function tsMatData(){
   };
 }
 
-const tsLast={}; /* 풀별 직전 인덱스 기억 — 같은 문장이 연달아 나오지 않게 */
-const tsPick=(a,key)=>{let i;do{i=Math.floor(Math.random()*a.length)}while(a.length>1&&i===tsLast[key]);tsLast[key]=i;return a[i];};
+const tsLast={}; /* 풀별 최근 2회 기억 — 같은 문장이 금방 다시 나오지 않게 */
+const tsPick=(a,key)=>{
+  const h=tsLast[key]||(tsLast[key]=[]);
+  const keep=Math.min(2,a.length-1); /* 풀이 작으면 기억 폭도 줄여 무한루프 방지 */
+  let i;do{i=Math.floor(Math.random()*a.length)}while(keep>0&&h.includes(i));
+  h.push(i);while(h.length>keep)h.shift();
+  return a[i];
+};
 function tsMock(){
   const t=TS[tsS.s],kw=($('#tsKw').value||'').trim();
   const parts=[tsPick(t.o,'o'+tsS.s),tsPick(TS_MOOD[tsS.m],'m'+tsS.m)];
