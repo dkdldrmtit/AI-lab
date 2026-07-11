@@ -1299,29 +1299,10 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
                 <button type="button" class="nt-chip" data-w="새로 온 분" aria-pressed="false">새로 온 분</button>
                 <button type="button" class="nt-chip" data-w="떠나는 분" aria-pressed="false">떠나는 분</button>
               </div>
-              <div class="nt-l" style="margin-top:12px"><span>어떤 분이에요? <em>최대 2개</em></span></div>
-              <div class="chips" id="tsTrait">
-                <button type="button" class="nt-chip" data-t="분위기 메이커" aria-pressed="false">분위기 메이커</button>
-                <button type="button" class="nt-chip" data-t="야근을 도맡던" aria-pressed="false">야근을 도맡던</button>
-                <button type="button" class="nt-chip" data-t="묵묵히 다 해내는" aria-pressed="false">묵묵히 다 해내는</button>
-                <button type="button" class="nt-chip" data-t="커피가 주식" aria-pressed="false">커피가 주식</button>
-                <button type="button" class="nt-chip" data-t="잔소리도 다정한" aria-pressed="false">잔소리도 다정한</button>
-                <button type="button" class="nt-chip" data-t="팀의 브레인" aria-pressed="false">팀의 브레인</button>
-              </div>
-              <div class="nt-l" style="margin-top:12px"><span>요즘 우리 팀에 있었던 일 <em>선택 — 다시 누르면 해제</em></span></div>
-              <div class="chips" id="tsEvent">
-                <button type="button" class="nt-chip" data-e="큰 프로젝트 마무리" aria-pressed="false">큰 프로젝트 마무리</button>
-                <button type="button" class="nt-chip" data-e="야근 많았던 시즌" aria-pressed="false">야근 많았던 시즌</button>
-                <button type="button" class="nt-chip" data-e="새 시스템 오픈" aria-pressed="false">새 시스템 오픈</button>
-                <button type="button" class="nt-chip" data-e="인사이동 시즌" aria-pressed="false">인사이동 시즌</button>
-                <button type="button" class="nt-chip" data-e="실적 마감 끝" aria-pressed="false">실적 마감 끝</button>
-              </div>
-              <input class="fb-in" id="tsEventIn" maxlength="30" autocomplete="off"
-                placeholder="직접 입력 — 예: 워크숍에서 비 쫄딱 맞음 (실명·거래정보 금지)" aria-label="최근 있었던 일(선택)">
-              <div class="nt-l" style="margin-top:12px"><span>우리끼리 쓰는 말 <em>선창·후창에 살려 드려요</em></span></div>
-              <input class="fb-in" id="tsPhrase" style="margin-top:0" maxlength="15" autocomplete="off"
-                placeholder="예: 가보자고, 폼 미쳤다" aria-label="팀 유행어(선택)">
-              <p class="ts-mnote">전부 선택사항 · 실명 대신 호칭만 — 재료가 없으면 없는 대로, 있는 것만 씁니다</p>
+              <div class="nt-l" style="margin-top:12px"><span>그분·요즘 우리 팀 한 줄 <em>선택 — 실명 금지</em></span></div>
+              <input class="fb-in" id="tsNote" style="margin-top:0" maxlength="60" autocomplete="off"
+                placeholder="예: 야근 도맡던 팀장님 송별 / 요즘 팀 유행어 '가보자고'" aria-label="이 자리에 대한 한 줄(선택)">
+              <p class="ts-mnote">전부 선택사항 · 적은 것만 쓰고, 없는 이야기는 지어내지 않습니다</p>
             </div>
           </div>
           <div style="margin-top:22px"><button type="button" class="nt-go" id="tsGo">🍻 건배사 뽑기</button></div>
@@ -2645,15 +2626,13 @@ const TS_KWT=[k=>`${k}, 잘될 일만 남았습니다. 우리가 있으니까요
  k=>`${k}${tsJosa(k,'을','를')} 생각하면서, 오늘 이 잔은 더 진심으로 채웠습니다.`,
  k=>`${k}, 그 말에 담긴 응원까지 이 잔에 함께 담겠습니다.`,
  k=>`${k}도 우리도, 앞으로 더 잘될 겁니다.`];
-let tsS={s:'회식 시작',m:'무난',d:0,spk:'막내·신입',who:'팀 전체',traits:[],event:''};
+let tsS={s:'회식 시작',m:'무난',d:0,spk:'막내·신입',who:'팀 전체'};
 /* 재료 수집 — 채워진 것만 Worker로 보냄('팀 전체'는 기본값이라 재료 아님) */
 function tsMatData(){
   const iv=id=>{const el=$(id);return el?(el.value||'').trim():'';};
   return {
     who:tsS.who!=='팀 전체'?tsS.who:'',
-    trait:tsS.traits.join(', ').slice(0,60),
-    event:(iv('#tsEventIn')||tsS.event).slice(0,30),
-    phrase:iv('#tsPhrase').slice(0,15)
+    note:iv('#tsNote').slice(0,60)
   };
 }
 
@@ -2677,7 +2656,7 @@ async function tsGoRun(){
   const go=$('#tsGo');go.disabled=true;const orig=go.textContent;go.textContent='🍻 뽑는 중…';
   await sleep(REDUCED?200:550);
   let r=null,real=false;
-  const mat=tsMatData(),hasMat=!!(mat.who||mat.trait||mat.event||mat.phrase);
+  const mat=tsMatData(),hasMat=!!(mat.who||mat.note);
   if(TOAST_API){
     try{
       const res=await fetch(TOAST_API,{method:'POST',headers:{'Content-Type':'application/json'},
@@ -2689,7 +2668,7 @@ async function tsGoRun(){
   if(!r)r=tsMock();
   $('#tsBadge').innerHTML=`<span class="dot"></span>${real?'REAL CLAUDE':'모의 응답'}`;
   const kw=($('#tsKw').value||'').trim();
-  const matLine=[mat.who,mat.trait,mat.event,mat.phrase&&'"'+mat.phrase+'"'].filter(Boolean).join(' · ');
+  const matLine=[mat.who,mat.note&&'"'+mat.note+'"'].filter(Boolean).join(' · ');
   $('#tsMsg').innerHTML=`
    <div class="ts-situ">${esc(tsS.s)} × ${esc(tsS.m)} × ${esc(tsS.spk)} × 아재개그 ${['차단','한 스푼','퍼붓기'][tsS.d]}${kw?' — 키워드: '+esc(kw):''}${hasMat?'<br>🧂 재료: '+esc(matLine):''}</div>
    <div class="ts-body">${r.body}</div>
@@ -2716,18 +2695,6 @@ function bindToast(){
     const m=$('#tsMat'),open=m.hidden;m.hidden=!open;
     $('#tsMatOpen').setAttribute('aria-expanded',open);
     if(open)m.classList.add('nt-in');});
-  /* 특징 — 최대 2개 토글 */
-  $('#tsTrait').addEventListener('click',e=>{
-    const b=e.target.closest('[data-t]');if(!b)return;
-    const v=b.dataset.t,i=tsS.traits.indexOf(v);
-    if(i>=0)tsS.traits.splice(i,1);
-    else{if(tsS.traits.length>=2)return;tsS.traits.push(v);}
-    const on=i<0;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);});
-  /* 최근 일 — 단일 선택, 다시 누르면 해제 */
-  $('#tsEvent').addEventListener('click',e=>{
-    const b=e.target.closest('[data-e]');if(!b)return;
-    tsS.event=tsS.event===b.dataset.e?'':b.dataset.e;
-    $$('#tsEvent button').forEach(x=>{const on=x.dataset.e===tsS.event;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on);});});
   $('#tsKwChips').addEventListener('click',e=>{const b=e.target.closest('[data-kw]');if(!b)return;
     const inp=$('#tsKw');const v=inp.value.trim();
     inp.value=v?v.replace(/,\s*$/,'')+', '+b.dataset.kw:b.dataset.kw;});
