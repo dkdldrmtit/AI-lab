@@ -1636,7 +1636,7 @@ function route(){
   window.scrollTo(0,0);
   /* 서브라우트: #demo/<그룹id> = 해당 데모 그룹(dg-* 존재 시), #demo(또는 #demo/d0~d3) = 자금판 */
   if(h==='demo'){
-    if(sub&&document.getElementById('dg-'+sub)){demoGroup(sub);$('#dsel').classList.add('dsel-min');}
+    if(sub&&document.getElementById('dg-'+sub))demoGroup(sub);
     else{
       demoGroup('jgp'); /* 맨 #demo 진입·복귀 시 항상 자금판 그룹으로 */
       if(/^d[0-3]$/.test(sub)){
@@ -3103,11 +3103,26 @@ function demoGroup(g){
   $$('.dcard').forEach(b=>{const on=b.dataset.g===g;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);});
   $$('.dgroup').forEach(d=>d.classList.toggle('active',d.id==='dg-'+g));
 }
+/* 데모 카드 스크롤 축소 — 설명 카드는 그대로 두고, 체험하러 내려가면 탭으로. 다시 올라오면 복원 */
+function bindDselShrink(){
+  const el=$('#dsel');if(!el)return;
+  addEventListener('scroll',()=>{
+    if(!el.offsetParent)return; /* 데모 화면이 아닐 땐 무시 */
+    const r=el.getBoundingClientRect();
+    const min=el.classList.contains('dsel-min');
+    if(!min&&r.bottom<80){
+      const h0=el.offsetHeight;
+      el.classList.add('dsel-min');
+      scrollBy(0,el.offsetHeight-h0); /* 줄어든 높이만큼 보정 — 화면 안 흔들리게 */
+    }else if(min&&r.top>70){
+      el.classList.remove('dsel-min');
+    }
+  },{passive:true});
+}
 function bindDemoGroups(){
   /* 클릭 시 해시를 갱신 → route()가 그룹 전환(공유·새로고침 시 그룹 유지) */
   $('#dsel').addEventListener('click',e=>{
     const b=e.target.closest('.dcard');if(!b)return;
-    $('#dsel').classList.add('dsel-min'); /* 선택했으니 카드를 탭으로 축소 */
     const target=b.dataset.g==='jgp'?'#demo':'#demo/'+b.dataset.g;
     if(location.hash===target)demoGroup(b.dataset.g); /* 해시 동일 → hashchange 미발생, 직접 전환 */
     else location.hash=target;
@@ -3249,7 +3264,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   /* demo 0: 가이드 체험 */
   bindTour();
   /* demo 그룹 허브 + 쪽지 다듬기 */
-  bindDemoGroups();bindNote();bindBrief();bindToast();
+  bindDemoGroups();bindDselShrink();bindNote();bindBrief();bindToast();
   /* d1 끝 → 다음 체험(입력 UX) 전진 / 가이드 체험(조달·운용 스토리)은 보조 링크 */
   const gn=$('#goNext1');if(gn)gn.addEventListener('click',()=>{
     const t=$('.tab[data-t="d2"]');if(t)t.click();window.scrollTo({top:0,behavior:REDUCED?'auto':'smooth'});});
