@@ -1265,7 +1265,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
   <!-- ══ 그룹 4 · 건배사 자판기 (미션6 노하우 · 첫 실제 AI 연동 준비) ══ -->
   <div class="dgroup" id="dg-toast">
     <div class="note"><span>🍻</span><span><b>건배사 자판기</b> — "건배사 한번 해봐" 그 순간의 비상 버튼 ·
-      <span id="tsModeNote">지금은 <b>규칙 기반 모의 응답</b>(실제 Claude 연동 준비 중)</span> —
+      <span id="tsModeNote"><b>진짜 Claude</b>가 뽑을 때마다 새로 짓습니다 (100회 채점 규칙서 탑재)</span> —
       <a href="#project/toast" style="color:var(--cyn)">이 실험의 스토리 →</a></span></div>
     <div class="card flat">
       <div class="nt-gen">
@@ -1349,7 +1349,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
       </div>
     </div>
     <p class="bnote">⚠ 데모 버전은 회식 자리에서의 웃음을 보장하지 않습니다 · 아재개그 '퍼붓기' 선택 시 분위기는 본인 책임 ·
-      건배사·이름은 전부 예시(가명) · 실제 Claude 연동 시 API 키는 서버(Cloudflare Worker)에만 보관됩니다.</p>
+      건배사·이름은 전부 예시(가명) · API 키는 서버(Cloudflare Worker)에만 보관 · 연동 실패 시 모의 응답 라벨로 정직하게 전환됩니다.</p>
   </div><!-- /dg-toast -->
 </section>
 
@@ -1451,6 +1451,8 @@ const mmdd=off=>{const d=new Date();d.setDate(d.getDate()+off);
 /* ── DATA ─────────────────────────────────────────────────── */
 /* 기록(LOG) — 이 실험실이 해온 일들. 새 일 = 객체 1개 추가 (최신이 위) */
 const LOGS=[
+ {d:'2026-07-12',t:'건배사 100회 채점 → 규칙서 완성 · N행시 모드 추가',tag:'실험',note:'실전 채점으로 추출한 규칙과 시범 답안을 프롬프트에 탑재(v7.9) · N행시 글자 맞춤은 기계 검증 · push=자동 배포 파이프라인'},
+ {d:'2026-07-11',t:'사이트 최초 실제 AI 연동 — 건배사 자판기 REAL CLAUDE 점등',tag:'실험',note:'Cloudflare Worker로 API 키 서버 보관 · 후보 3잔 중 선발(best-of-3) · 실패 시 모의 폴백 정직 라벨 · EXP.04'},
  {d:'2026-07-09',t:'체험 「건배사 자판기」 오픈 — 회식의 비상 버튼',tag:'실험',note:'상황·분위기·키워드·아재개그 수위 → 선창·후창 생성 · 모의 응답(실제 Claude 연동 준비 중) · EXP.04'},
  {d:'2026-07-08',t:'프로젝트 허브 오픈 — 실험마다 상세 페이지 한 장씩',tag:'사이트',note:'실험별 상세 딥링크(#project/…) · 의견함 접힘 정리 · 가이드 체험 설명 먼저 → 스톱워치'},
  {d:'2026-07-07',t:'Open Lab 의견함을 실제 수신으로 — 남기면 운영자에게 자동 전달',tag:'사이트',note:'Web3Forms 연동(정적 폼) · 보낸 사람 선택 입력 · 실패 시 쪽지 복사 폴백 · 개인정보 미기입 안내'},
@@ -1547,7 +1549,7 @@ const EXPERIMENTS=[
   steps:[['프로토타입','done'],['웹 데모','done'],['사내 AI 연동','cur']],
   ctas:[['브리핑 룸 체험','#demo/brief','amber'],['미션 보드 보기','#missions/자금판','ghost']],
   panel:{t:'체험 구성 · 예시',kv:[['조작','부족/적정/과다 · 미처리 · FT'],['브리핑','심각도 우선순위 정렬'],['톤','팀 공유 · 보고용'],['연동','모의 → 사내 AI 도입 시 실제']]}},
- {status:'LIVE',pid:'note',art:'note',stTxt:'LIVE · 체험 가능',title:'쪽지 다듬기',mission:'문구개선',
+ {status:'LIVE',pid:'note',art:'note',artHint:'대충 쓴 한 줄 → AI 4단계 → 되묻지 않는 쪽지',stTxt:'LIVE · 체험 가능',title:'쪽지 다듬기',mission:'문구개선',
   story:'필수정보 5가지(참석자·시각·장소·집결시간·회신기한)를 정하고, 진단 → 보완 → 재구성 → 톤의 4단계 규칙으로 다듬게 했습니다. 부장님과의 약속과 동기와의 약속은 말투부터 달라야 하니까 메신저·이메일 톤 전환까지. 좋은 쪽지의 기준은 문장력이 아니라 "받는 사람이 되물을 게 없는가"였습니다.',
   showcase:{
     before:'8/12에 부장님 포함 저희 팀 점심 식사 캘박 부탁드립니다~!',
@@ -1562,14 +1564,32 @@ const EXPERIMENTS=[
   steps:[['필수정보 규칙 설계','done'],['웹 체험판 공개','done'],['상황·톤 확장','cur']],
   ctas:[['쪽지 다듬기 체험','#demo/note','amber'],['미션 보드 보기','#missions/문구개선','ghost']],
   panel:{t:'체험 구성 · 예시',kv:[['모드','내 문구 다듬기 · 골라서 만들기'],['필수정보','참석자·시각·장소·집결·회신'],['출력 채널','메신저 · 이메일 톤'],['데이터','전부 가명 · 예시']]}},
- {status:'LIVE',pid:'toast',stTxt:'LIVE · 체험 가능',title:'건배사 자판기',mission:'노하우',
-  demo:{g:'toast',d:'상황·분위기를 고르면 선창→후창까지 — 회식 전 비상용'},
-  desc:'"자, 신입이 건배사 한번 해봐" — 그 순간을 위한 자판기. 상황·분위기·키워드·아재개그 수위를 고르면 건배사를 선창→후창까지 지어 줍니다. 이 사이트 최초의 실제 AI 연동을 준비 중인 실험(연동 전엔 모의 응답 라벨).',
-  chips:['선창→후창','아재개그 수위','키워드 반영','CLAUDE API 예정'],
-  steps:[['컨셉·목업','done'],['웹 데모(모의)','done'],['실제 Claude 연동','cur']],
-  story:'회식의 그 순간 — "건배사 한번 해봐" — 을 위한 비상 버튼입니다. 상황 6종 × 분위기 4종 × 아재개그 수위에 우리 팀 키워드까지 섞어 선창→후창 구조로 만들어 줍니다. 지금은 규칙 기반 모의 응답이고, Cloudflare Worker에 API 키를 숨기는 방식으로 이 사이트 최초의 실제 Claude 연동을 준비 중입니다.',
-  ctas:[['건배사 뽑기','#demo/toast','amber'],['미션 보드 보기','#missions/노하우','ghost']],
-  panel:{t:'체험 구성 · 예시',kv:[['상황','회식·승진·송별·환영 등 6종'],['분위기','무난 · 웃김 · 감동 · 짧게'],['아재개그','차단 · 한 스푼 · 퍼붓기'],['연동','모의 → 실제 Claude 준비 중']]}}
+ {status:'LIVE',pid:'toast',art:'toast',artHint:'나의 선택 → Worker(금고·규칙서) → Claude 후보 3잔 → 오늘의 한 잔',stTxt:'LIVE · 실제 AI',title:'건배사 자판기',mission:'노하우',
+  demo:{g:'toast',d:'상황·분위기·재료를 고르면 진짜 Claude가 선창→후창까지 — 회식 전 비상용'},
+  desc:'"자, 신입이 건배사 한번 해봐" — 그 순간을 위한 비상 버튼. 상황·분위기·내 위치·재료를 고르면 진짜 Claude가 그 자리에서 선창→후창까지 새로 지어 줍니다. 이 사이트 최초의 실제 AI 연동 — 건배사 100번을 채점해 만든 규칙서로 말합니다.',
+  chips:['REAL CLAUDE','채점 100회 규칙서','후보 3잔 중 선발','N행시 기계 검증'],
+  steps:[['모의 조립기','done'],['실제 Claude 연동','done'],['채점 100회 → 규칙서','done'],['N행시·자동 배포','done'],['실전 다듬기','cur']],
+  story:'처음엔 미리 써 둔 문장 서랍에서 조립하는 모의 자판기였습니다. Cloudflare Worker에 API 키를 숨겨 이 사이트 최초의 실제 Claude를 연결했고, 그때부터 진짜 훈련이 시작됐습니다. 건배사를 100번 뽑고 채점해 규칙서를 만들었죠 — 좋은 형태도 반복되면 죽는다(신선함), 건배사는 다시 읽을 수 없다(한 번 듣고 통과), 거창함보다 가벼움. 그렇게 살아남은 규칙들과 시범 답안 4편이 매 요청마다 Claude에게 전달됩니다. 그리고 프롬프트로 안 되는 건 코드로 — N행시의 글자 맞춤은 Worker가 기계로 검증합니다.',
+  showcase:{
+    title:'100번 뽑고 채점했습니다 — Before → After',
+    hint:'실제 학습 과정 · 문구는 예시(가명)',
+    bTag:'BEFORE — 모의 조립기 (v1)',
+    aTag:'AFTER — 채점 100회 뒤 (REAL CLAUDE)',
+    ckTitle:'⚖️ 100회 채점이 남긴 규칙 — 산 것과 죽은 것',
+    before:'오늘 하루도 다들 고생 많으셨습니다. 거창한 말 대신, 진심만 담겠습니다. 잔이 비면 마음이 허전하고, 잔이 차면 마음이 "잔"잔해집니다.',
+    missNote:'문장은 멀쩡한데 서로 모르는 사이 — 서랍 조립의 한계, 몇 번 뽑으면 바닥이 보임',
+    checks:[['ok','신선함 — 좋은 형태도 반복되는 순간 죽는다'],
+      ['ok','한 번 듣고 통과 — 꼬면 "뭔말이여", 건배사는 다시 못 읽는다'],
+      ['ok','거창함보다 가벼움 — 단, 칭찬을 실어서'],
+      ['miss','장면·통계 지어내기 — 그럴듯한 거짓 디테일은 실격'],
+      ['miss','올드 레퍼토리·아첨 프레임 — 구조가 좋아도 죽는다']],
+    after:['🍻 송별회 × 감동 × 대리 — 재료: 야근 도맡던 팀장님, 육아휴직',
+      '회사에서 야근을 도맡으시던 팀장님, 이제는 야근을 넘어선 육아로 밤샘근무를 하게 되셨네요.',
+      '저희는 그래도 말이라도 통했지만, 이제 같이 일하게 되실 분은 말보단 울기만 할 겁니다.',
+      '그래도 팀장님은 항상 저희를 웃게 만들었으니, 아기도 웃게 만드실 거라 생각합니다.',
+      '선창 "팀장님은!" → 후창 "집에서도 에이스!"']},
+  ctas:[['진짜 Claude로 뽑아보기','#demo/toast','amber'],['미션 보드 보기','#missions/노하우','ghost']],
+  panel:{t:'엔진 구성 · 실제',kv:[['생성','Claude — 후보 3잔 → 자평 → 선발'],['규칙서','실전 채점 100회에서 추출 · v7.9'],['키 보관','Cloudflare Worker(서버) — 브라우저 미노출'],['검증','N행시 글자 맞춤 기계 검사 · 실패 시 재시도'],['안전','월 지출 한도 · 5초 쿨다운 · 실패 시 모의 폴백 라벨']]}}
 ];
 
 /* 홈 실험 캐러셀 렌더 + 스와이프(터치 네이티브)/마우스 드래그/화살표/도트 */
@@ -2562,6 +2582,65 @@ const PJ_ART={note:`<svg class="flowmap" viewBox="0 0 1000 400" xmlns="http://ww
 <rect x="682" y="252" width="146" height="28" rx="14" fill="rgba(53,196,141,.1)" stroke="#35C48D" stroke-opacity=".45"/>
 <text x="700" y="271" font-size="12" font-weight="700" fill="#35C48D">되묻는 질문 0건</text>
 <text x="30" y="392" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#5A6678">ALL TEXT ILLUSTRATIVE (예시) · 체험 데모와 동일한 규칙 · 이름·장소 가명</text>
+</svg>`,
+toast:`<svg class="flowmap" viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="나의 선택 → Cloudflare Worker(키 금고·규칙서·검증기) → Claude 후보 3잔 중 선발 → 오늘의 한 잔">
+<text x="30" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">INPUT · 나의 선택</text>
+<text x="300" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">WORKER · 금고 + 규칙서</text>
+<text x="545" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">CLAUDE · BEST OF 3</text>
+<text x="775" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">OUTPUT · 오늘의 한 잔</text>
+<rect x="30" y="48" width="210" height="262" rx="12" fill="#111A28" stroke="#4CC3E8" stroke-opacity="0.45" stroke-width="1.4"/>
+<text x="48" y="82" font-size="11.5" fill="#8A94A6">자리</text><text x="120" y="82" font-size="12.5" fill="#E8EDF5">송별회</text>
+<text x="48" y="114" font-size="11.5" fill="#8A94A6">분위기</text><text x="120" y="114" font-size="12.5" fill="#E8EDF5">감동적으로</text>
+<text x="48" y="146" font-size="11.5" fill="#8A94A6">내 위치</text><text x="120" y="146" font-size="12.5" fill="#E8EDF5">대리</text>
+<text x="48" y="178" font-size="11.5" fill="#8A94A6">아재개그</text><text x="120" y="178" font-size="12.5" fill="#E8EDF5">차단 🚫</text>
+<g class="fm-breathe"><rect x="46" y="196" width="178" height="72" rx="10" fill="rgba(245,167,66,.05)" stroke="#F5A742" stroke-opacity=".5" stroke-dasharray="4 3"/>
+<text x="60" y="218" font-size="10.5" fill="#8A6E3A">🧂 재료 한 줄</text>
+<text x="60" y="238" font-size="12" fill="#E8C468">야근 도맡던 팀장님이</text>
+<text x="60" y="256" font-size="12" fill="#E8C468">육아휴직으로 떠남</text></g>
+<text x="48" y="296" font-size="11.5" fill="#5A6678">— 칩 몇 번이면 준비 끝</text>
+<path d="M240,100 C 275,100 270,125 300,125" stroke="#4CC3E8" stroke-width="1.4" stroke-opacity="0.3" fill="none"/>
+<path d="M240,165 C 275,165 270,180 300,180" stroke="#F5A742" stroke-width="1.4" stroke-opacity="0.3" fill="none"/>
+<path d="M240,232 C 275,232 270,240 300,240" stroke="#35C48D" stroke-width="1.4" stroke-opacity="0.3" fill="none"/>
+<path class="fm-flow" d="M240,100 C 275,100 270,125 300,125" stroke="#4CC3E8" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.4s;animation-delay:-1.1s"/>
+<path class="fm-flow" d="M240,165 C 275,165 270,180 300,180" stroke="#F5A742" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.8s;animation-delay:-.3s"/>
+<path class="fm-flow" d="M240,232 C 275,232 270,240 300,240" stroke="#35C48D" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:3.1s;animation-delay:-2.2s"/>
+<rect class="fm-board" x="300" y="66" width="180" height="244" rx="16" fill="#1c160b" stroke="#F5A742" stroke-width="2"/>
+<text x="390" y="98" font-size="14.5" font-weight="800" fill="#F5A742" text-anchor="middle">Cloudflare Worker</text>
+<text x="390" y="116" font-size="8.5" font-weight="700" fill="#E8C468" text-anchor="middle" font-family="'JetBrains Mono',monospace" letter-spacing="1.2">KEY VAULT · RULEBOOK</text>
+<text x="390" y="150" font-size="12.5" fill="#B9A67C" text-anchor="middle">🔒 API 키 금고</text>
+<text x="390" y="168" font-size="10" fill="#8A6E3A" text-anchor="middle">브라우저엔 키가 없다</text>
+<text x="390" y="200" font-size="12.5" fill="#B9A67C" text-anchor="middle">📜 규칙서 v7.9</text>
+<text x="390" y="218" font-size="10" fill="#8A6E3A" text-anchor="middle">실전 채점 100회에서 추출</text>
+<text x="390" y="250" font-size="12.5" fill="#B9A67C" text-anchor="middle">✅ N행시 형식 검증기</text>
+<text x="390" y="268" font-size="10" fill="#8A6E3A" text-anchor="middle">글자 안 맞으면 자동 폐기</text>
+<path d="M480,130 C 515,130 510,140 545,140" stroke="#4CC3E8" stroke-width="1.4" stroke-opacity="0.3" fill="none"/>
+<path d="M480,188 C 515,188 510,188 545,188" stroke="#F5A742" stroke-width="1.4" stroke-opacity="0.3" fill="none"/>
+<path d="M480,246 C 515,246 510,236 545,236" stroke="#35C48D" stroke-width="1.4" stroke-opacity="0.3" fill="none"/>
+<path class="fm-flow" d="M480,130 C 515,130 510,140 545,140" stroke="#4CC3E8" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.1s;animation-delay:-.7s"/>
+<path class="fm-flow" d="M480,188 C 515,188 510,188 545,188" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.5s;animation-delay:-1.9s"/>
+<path class="fm-flow" d="M480,246 C 515,246 510,236 545,236" stroke="#35C48D" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.9s;animation-delay:-.2s"/>
+<rect x="545" y="66" width="180" height="244" rx="16" fill="#0E1520" stroke="#4CC3E8" stroke-opacity=".7" stroke-width="1.8"/>
+<text x="635" y="98" font-size="15" font-weight="800" fill="#4CC3E8" text-anchor="middle">Claude</text>
+<text x="635" y="116" font-size="8.5" font-weight="700" fill="#7FB8CC" text-anchor="middle" font-family="'JetBrains Mono',monospace" letter-spacing="1.2">WRITES 3 · PICKS 1</text>
+<rect x="561" y="132" width="148" height="26" rx="8" fill="#111A28" stroke="#223047"/><text x="575" y="149" font-size="11.5" fill="#8A94A6">🍺 후보 1잔</text>
+<rect x="561" y="166" width="148" height="26" rx="8" fill="#111A28" stroke="#223047"/><text x="575" y="183" font-size="11.5" fill="#8A94A6">🍺 후보 2잔</text>
+<g class="fm-breathe"><rect x="561" y="200" width="148" height="26" rx="8" fill="rgba(53,196,141,.08)" stroke="#35C48D" stroke-opacity=".7"/><text x="575" y="217" font-size="11.5" font-weight="700" fill="#35C48D">🍺 후보 3잔 ✓ 선발</text></g>
+<text x="635" y="252" font-size="10.5" fill="#5A6678" text-anchor="middle">서로 다른 각으로 세 잔을 쓰고</text>
+<text x="635" y="270" font-size="10.5" fill="#5A6678" text-anchor="middle">제일 좋은 잔만 내보냅니다</text>
+<path d="M725,188 C 750,188 748,186 775,186" stroke="#35C48D" stroke-width="1.6" stroke-opacity="0.35" fill="none"/>
+<path class="fm-flow" d="M725,188 C 750,188 748,186 775,186" stroke="#35C48D" stroke-width="2.6" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:1.9s;animation-delay:-.5s"/>
+<rect x="775" y="56" width="195" height="264" rx="14" fill="#0c1420" stroke="#35C48D" stroke-opacity="0.5" stroke-width="1.6"/>
+<rect x="791" y="72" width="118" height="22" rx="11" fill="rgba(53,196,141,.1)" stroke="#35C48D" stroke-opacity=".5"/>
+<text x="801" y="87" font-size="9.5" font-weight="700" fill="#35C48D" font-family="'JetBrains Mono',monospace">● REAL CLAUDE</text>
+<text x="791" y="122" font-size="11.8" fill="#C8D2E0">회사에서 야근을 도맡으시던</text>
+<text x="791" y="142" font-size="11.8" fill="#C8D2E0">팀장님, 이제는 육아라는</text>
+<text x="791" y="162" font-size="11.8" fill="#C8D2E0">밤샘근무를 하러 가시네요…</text>
+<rect x="791" y="180" width="163" height="66" rx="10" fill="rgba(245,167,66,.05)" stroke="#F5A742" stroke-opacity=".5" stroke-dasharray="4 3"/>
+<text x="805" y="206" font-size="11.5" font-weight="700" fill="#F5A742">선창 "팀장님은!"</text>
+<text x="805" y="230" font-size="11.5" font-weight="700" fill="#4CC3E8">후창 "집에서도 에이스!"</text>
+<rect x="791" y="262" width="150" height="26" rx="13" fill="rgba(53,196,141,.1)" stroke="#35C48D" stroke-opacity=".45"/>
+<text x="805" y="280" font-size="11" font-weight="700" fill="#35C48D">매번 새로 짓는 한 잔</text>
+<text x="30" y="392" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#5A6678">ILLUSTRATIVE (예시) · 실제 체험과 동일한 구조 · 문구·호칭은 예시(가명)</text>
 </svg>`};
 /* 제네릭 상세 — EXPERIMENTS 데이터만으로 표준 레이아웃 렌더(자금판 외 실험용) */
 function renderProjGen(e,i){
@@ -2573,19 +2652,19 @@ function renderProjGen(e,i){
     e.panel.kv.map(([k,v])=>`<div class="kv"><span>${k}</span><b>${v}</b></div>`).join('')}</div>`:'';
   /* showcase(선택) — 등록 글의 실사례 Before→After + AI 점검을 그대로 보여주는 블록 */
   const sc=e.showcase?`
-   <div class="sec-h" style="margin-top:34px"><div><span class="eyebrow">Story</span><h2>실제로 이랬습니다 — Before → After</h2></div>
-     <span class="hint">문구·이름·장소 가명 · 예시</span></div>
+   <div class="sec-h" style="margin-top:34px"><div><span class="eyebrow">Story</span><h2>${e.showcase.title||'실제로 이랬습니다 — Before → After'}</h2></div>
+     <span class="hint">${e.showcase.hint||'문구·이름·장소 가명 · 예시'}</span></div>
    <div class="nt-ba">
-     <div class="col b"><div class="tag">BEFORE — 실제로 보낸 쪽지</div>
+     <div class="col b"><div class="tag">${e.showcase.bTag||'BEFORE — 실제로 보낸 쪽지'}</div>
        <div class="m">${esc(e.showcase.before)}</div>
        <div class="fine">→ ${esc(e.showcase.missNote)}</div></div>
      <div class="arr">→</div>
-     <div class="col a"><div class="tag">AFTER — AI로 정돈</div>
+     <div class="col a"><div class="tag">${e.showcase.aTag||'AFTER — AI로 정돈'}</div>
        <div class="m">${e.showcase.after.map((l,j)=>j===0?`<div class="ttl">${esc(l)}</div>`
          :`<div style="margin:3px 0">${esc(l)}</div>`).join('')}</div></div>
    </div>
    <div class="nt-diag" style="margin-top:14px">
-     <h4>🔍 AI 점검 — 필수정보 5가지</h4>
+     <h4>${e.showcase.ckTitle||'🔍 AI 점검 — 필수정보 5가지'}</h4>
      ${e.showcase.checks.map(([k,txt])=>`<div class="nt-ck ${k}"><span class="ic">${k==='ok'?'✓':k==='vague'?'△':'✗'}</span>
        <span class="tx">${esc(txt)}</span></div>`).join('')}
    </div>`:'';
@@ -2597,7 +2676,7 @@ function renderProjGen(e,i){
    <p class="lead" style="margin-top:12px">${e.desc}</p>
    <div class="meta">${e.chips.map(c=>`<span class="chip">${c}</span>`).join('')}</div>
    ${e.art&&PJ_ART[e.art]?`<div class="sec-h" style="margin-top:30px"><div><span class="eyebrow">Overview</span><h2>흐름 한눈에</h2></div>
-     <span class="hint">대충 쓴 한 줄 → AI 4단계 → 되묻지 않는 쪽지</span></div>
+     <span class="hint">${e.artHint||''}</span></div>
    <div class="flowwrap">${PJ_ART[e.art]}</div>`:''}
    <div class="grid2" style="margin-top:26px">
      <div class="card flat"><h3>어디까지 왔나</h3>${steps}
