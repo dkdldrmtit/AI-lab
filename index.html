@@ -439,11 +439,15 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .dcard .dc-t{font-weight:800;font-size:16.5px;color:var(--txt)}
 .dcard.active .dc-t{color:var(--amb)}
 .dcard .dc-d{font-size:12.5px;color:var(--mut);line-height:1.5}
-/* 체험 중엔 선택 카드를 탭처럼 축소 — 클릭·딥링크 시 발동 */
-.dsel-min{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:16px}
-.dsel-min .dcard{flex-direction:row;align-items:center;justify-content:center;gap:8px;padding:9px 12px;border-radius:10px}
-.dsel-min .dc-t{font-size:13px}
-.dsel-min .dc-d,.dsel-min .chip{display:none}
+/* 체험 중 고정 미니 탭바 — 카드 레이아웃은 건드리지 않아 화면이 흔들리지 않는다 */
+#dselMini{position:fixed;left:0;right:0;z-index:49;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;
+  padding:8px 12px;background:rgba(11,15,23,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--grid);
+  transform:translateY(-120%);opacity:0;transition:transform .25s,opacity .25s;pointer-events:none}
+#dselMini.show{transform:none;opacity:1;pointer-events:auto}
+#dselMini button{font-family:var(--kor);font-size:12.5px;font-weight:700;padding:7px 13px;border-radius:9px;
+  border:1px solid var(--grid);background:var(--panel);color:var(--mut);cursor:pointer;white-space:nowrap}
+#dselMini button.active{border-color:var(--amb);background:var(--ambf);color:var(--amb)}
+@media(prefers-reduced-motion:reduce){#dselMini{transition:none}}
 .dgroup{display:none}.dgroup.active{display:block}
 /* ── 쪽지 다듬기(미션9) ── */
 .nt-gen{display:grid;grid-template-columns:.92fr 1.08fr;gap:24px}
@@ -1034,6 +1038,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 
   <!-- 실험(데모 그룹) 선택 — EXPERIMENTS의 demo 필드에서 자동 렌더. 새 데모 = demo:{g,d} + dgroup 1개 -->
   <div class="dsel" id="dsel" role="tablist" aria-label="실험 데모 선택"></div>
+  <div id="dselMini" role="tablist" aria-label="데모 빠른 전환"></div>
 
   <!-- ══ 그룹 1 · 자금판 ══ -->
   <div class="dgroup active" id="dg-jgp">
@@ -3096,36 +3101,42 @@ function renderDemoCards(){
       <span class="dc-h"><span class="dc-t">${e.title}</span><span class="chip ${cc}">${ct}</span></span>
       <span class="dc-d">${e.demo.d}</span></button>`;
   }).join('');
+  const mini=$('#dselMini');
+  if(mini)mini.innerHTML=EXPERIMENTS.filter(e=>e.demo).map((e,i)=>
+    `<button type="button" data-g="${e.demo.g}" class="${i===0?'active':''}">${e.title}</button>`).join('');
 }
 /* 데모 그룹 전환 — 새 그룹 = EXPERIMENTS demo 필드 + dgroup 1개 추가만 하면 됨 */
 function demoGroup(g){
   if(!document.getElementById('dg-'+g))g='jgp';
   $$('.dcard').forEach(b=>{const on=b.dataset.g===g;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);});
+  $$('#dselMini button').forEach(b=>b.classList.toggle('active',b.dataset.g===g));
   $$('.dgroup').forEach(d=>d.classList.toggle('active',d.id==='dg-'+g));
 }
-/* 데모 카드 스크롤 축소 — 설명 카드는 그대로 두고, 체험하러 내려가면 탭으로. 다시 올라오면 복원 */
+/* 체험하러 내려가면 상단에 미니 탭바가 스르륵 — 카드 레이아웃은 그대로라 화면이 안 흔들린다 */
 function bindDselShrink(){
-  const el=$('#dsel');if(!el)return;
-  addEventListener('scroll',()=>{
-    if(!el.offsetParent)return; /* 데모 화면이 아닐 땐 무시 */
-    const r=el.getBoundingClientRect();
-    const min=el.classList.contains('dsel-min');
-    if(!min&&r.bottom<80){
-      const h0=el.offsetHeight;
-      el.classList.add('dsel-min');
-      scrollBy(0,el.offsetHeight-h0); /* 줄어든 높이만큼 보정 — 화면 안 흔들리게 */
-    }else if(min&&r.top>70){
-      el.classList.remove('dsel-min');
-    }
-  },{passive:true});
+  const el=$('#dsel'),mini=$('#dselMini');if(!el||!mini)return;
+  const sync=()=>{
+    if(!el.offsetParent){mini.classList.remove('show');return;} /* 데모 화면이 아닐 땐 숨김 */
+    const nav=$('.nav');
+    const navB=Math.max(0,nav?nav.getBoundingClientRect().bottom:0);
+    mini.style.top=navB+'px';
+    mini.classList.toggle('show',el.getBoundingClientRect().bottom<navB+10);
+  };
+  addEventListener('scroll',sync,{passive:true});
+  addEventListener('hashchange',()=>setTimeout(sync,50));
 }
 function bindDemoGroups(){
   /* 클릭 시 해시를 갱신 → route()가 그룹 전환(공유·새로고침 시 그룹 유지) */
-  $('#dsel').addEventListener('click',e=>{
-    const b=e.target.closest('.dcard');if(!b)return;
-    const target=b.dataset.g==='jgp'?'#demo':'#demo/'+b.dataset.g;
-    if(location.hash===target)demoGroup(b.dataset.g); /* 해시 동일 → hashchange 미발생, 직접 전환 */
+  const pick=g=>{
+    const target=g==='jgp'?'#demo':'#demo/'+g;
+    if(location.hash===target)demoGroup(g); /* 해시 동일 → hashchange 미발생, 직접 전환 */
     else location.hash=target;
+  };
+  $('#dsel').addEventListener('click',e=>{
+    const b=e.target.closest('.dcard');if(b)pick(b.dataset.g);
+  });
+  $('#dselMini').addEventListener('click',e=>{
+    const b=e.target.closest('[data-g]');if(b)pick(b.dataset.g);
   });
 }
 
