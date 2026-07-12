@@ -439,6 +439,11 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .dcard .dc-t{font-weight:800;font-size:16.5px;color:var(--txt)}
 .dcard.active .dc-t{color:var(--amb)}
 .dcard .dc-d{font-size:12.5px;color:var(--mut);line-height:1.5}
+/* 체험 중엔 선택 카드를 탭처럼 축소 — 클릭·딥링크 시 발동 */
+.dsel-min{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:16px}
+.dsel-min .dcard{flex-direction:row;align-items:center;justify-content:center;gap:8px;padding:9px 12px;border-radius:10px}
+.dsel-min .dc-t{font-size:13px}
+.dsel-min .dc-d,.dsel-min .chip{display:none}
 .dgroup{display:none}.dgroup.active{display:block}
 /* ── 쪽지 다듬기(미션9) ── */
 .nt-gen{display:grid;grid-template-columns:.92fr 1.08fr;gap:24px}
@@ -598,6 +603,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .ts-kwex{border-style:dashed;color:var(--dim)}
 .ts-kwex:hover{color:var(--txt);border-color:var(--amb)}
 .ts-load{color:var(--mut)}
+.nt-oh button{white-space:nowrap;flex-shrink:0}
 .ts-dots span{opacity:0;animation:tsdot 1.2s infinite}
 .ts-dots span:nth-child(2){animation-delay:.2s}
 .ts-dots span:nth-child(3){animation-delay:.4s}
@@ -1624,7 +1630,7 @@ function route(){
   window.scrollTo(0,0);
   /* 서브라우트: #demo/<그룹id> = 해당 데모 그룹(dg-* 존재 시), #demo(또는 #demo/d0~d3) = 자금판 */
   if(h==='demo'){
-    if(sub&&document.getElementById('dg-'+sub))demoGroup(sub);
+    if(sub&&document.getElementById('dg-'+sub)){demoGroup(sub);$('#dsel').classList.add('dsel-min');}
     else{
       demoGroup('jgp'); /* 맨 #demo 진입·복귀 시 항상 자금판 그룹으로 */
       if(/^d[0-3]$/.test(sub)){
@@ -3078,6 +3084,7 @@ function bindDemoGroups(){
   /* 클릭 시 해시를 갱신 → route()가 그룹 전환(공유·새로고침 시 그룹 유지) */
   $('#dsel').addEventListener('click',e=>{
     const b=e.target.closest('.dcard');if(!b)return;
+    $('#dsel').classList.add('dsel-min'); /* 선택했으니 카드를 탭으로 축소 */
     const target=b.dataset.g==='jgp'?'#demo':'#demo/'+b.dataset.g;
     if(location.hash===target)demoGroup(b.dataset.g); /* 해시 동일 → hashchange 미발생, 직접 전환 */
     else location.hash=target;
