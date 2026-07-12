@@ -592,6 +592,11 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .ts-matbtn em{font-style:normal;color:var(--dim);font-weight:600;font-size:12px}
 .ts-mat{border:1px dashed var(--grid);border-radius:10px;padding:14px 13px 13px;margin-top:8px}
 .ts-mnote{font-family:var(--mono);font-size:11.5px;color:var(--dim);margin-top:12px}
+#dg-toast .nt-l{margin-bottom:6px}
+#dg-toast .nt-chip{padding:6px 11px;font-size:12.5px}
+#dg-toast .nt-seg button{padding:8px 12px;font-size:12px}
+.ts-kwex{border-style:dashed;color:var(--dim)}
+.ts-kwex:hover{color:var(--txt);border-color:var(--amb)}
 #tsGo:disabled{opacity:.75;cursor:wait}
 /* ── 브리핑 룸(미션1-ⓑ) — 상태 조작판 + 모의 AI 브리핑 ── */
 .br-gen{display:grid;grid-template-columns:.95fr 1.05fr;gap:24px;align-items:start}
@@ -1256,36 +1261,36 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
             <button type="button" class="nt-chip" data-s="연말·신년" aria-pressed="false">연말·신년</button>
             <button type="button" class="nt-chip" data-s="프로젝트 완수" aria-pressed="false">프로젝트 완수</button>
           </div>
-          <div class="nt-l" style="margin-top:16px"><span>분위기</span></div>
+          <div class="nt-l" style="margin-top:12px"><span>분위기</span></div>
           <div class="nt-seg" id="tsMood">
             <button type="button" class="on" data-m="무난" aria-pressed="true">무난하게</button>
             <button type="button" data-m="유쾌" aria-pressed="false">웃기게</button>
             <button type="button" data-m="감동" aria-pressed="false">감동적으로</button>
             <button type="button" data-m="짧게" aria-pressed="false">짧고 굵게</button>
           </div>
-          <div class="nt-l" style="margin-top:16px"><span>내 위치 <em>같은 말도 연차 따라 문법이 달라요</em></span></div>
+          <div class="nt-l" style="margin-top:12px"><span>내 위치 <em>말투가 달라져요</em></span></div>
           <div class="nt-seg" id="tsSpk">
             <button type="button" class="on" data-p="막내·신입" aria-pressed="true">막내·신입</button>
             <button type="button" data-p="대리" aria-pressed="false">대리</button>
             <button type="button" data-p="과장·차장" aria-pressed="false">과장·차장</button>
             <button type="button" data-p="팀장·부장" aria-pressed="false">팀장·부장</button>
           </div>
-          <div class="nt-l" style="margin-top:16px"><span>키워드 <em>선택 — 칩을 누르거나 직접 입력</em></span></div>
+          <div class="nt-l" style="margin-top:12px"><span>키워드 <em>선택 — 예시처럼 눌러도, 직접 써도 돼요</em></span></div>
           <div class="chips" id="tsKwChips" style="margin-bottom:8px">
-            <button type="button" class="nt-chip" data-kw="상반기 목표 달성">상반기 목표 달성</button>
-            <button type="button" class="nt-chip" data-kw="우리 팀 최고">우리 팀 최고</button>
-            <button type="button" class="nt-chip" data-kw="건강">건강</button>
-            <button type="button" class="nt-chip" data-kw="워라밸">워라밸</button>
+            <button type="button" class="nt-chip ts-kwex" data-kw="건강">건강</button>
+            <button type="button" class="nt-chip ts-kwex" data-kw="팀원">팀원</button>
+            <button type="button" class="nt-chip ts-kwex" data-kw="목표 달성">목표 달성</button>
+            <button type="button" class="nt-chip ts-kwex" data-kw="휴가">휴가</button>
           </div>
           <input class="fb-in" id="tsKw" style="margin-top:0" maxlength="40" autocomplete="off"
             placeholder="예: 하반기 파이팅, 김 부장님 (실명·개인정보는 넣지 마세요)" aria-label="건배사 키워드(선택)">
-          <div class="nt-l" style="margin-top:16px"><span>아재개그</span></div>
+          <div class="nt-l" style="margin-top:12px"><span>아재개그</span></div>
           <div class="nt-seg" id="tsDad">
             <button type="button" class="on" data-d="0" aria-pressed="true">차단 🚫</button>
             <button type="button" data-d="1" aria-pressed="false">한 스푼 🥄</button>
             <button type="button" data-d="2" aria-pressed="false">퍼붓기 🌊</button>
           </div>
-          <div style="margin-top:16px">
+          <div style="margin-top:12px">
             <button type="button" class="ts-matbtn" id="tsMatOpen" aria-expanded="false">🧂 재료 더 넣기 <em>선택 · 10초</em><br>
               <em>주인공·최근 일을 알려주면 '아는 사람'처럼 지어요</em></button>
             <div class="ts-mat" id="tsMat" hidden>
