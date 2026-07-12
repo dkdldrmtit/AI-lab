@@ -597,6 +597,11 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 #dg-toast .nt-seg button{padding:8px 12px;font-size:12px}
 .ts-kwex{border-style:dashed;color:var(--dim)}
 .ts-kwex:hover{color:var(--txt);border-color:var(--amb)}
+.ts-load{color:var(--mut)}
+.ts-dots span{opacity:0;animation:tsdot 1.2s infinite}
+.ts-dots span:nth-child(2){animation-delay:.2s}
+.ts-dots span:nth-child(3){animation-delay:.4s}
+@keyframes tsdot{0%,60%,100%{opacity:0}30%{opacity:1}}
 #tsGo:disabled{opacity:.75;cursor:wait}
 /* ── 브리핑 룸(미션1-ⓑ) — 상태 조작판 + 모의 AI 브리핑 ── */
 .br-gen{display:grid;grid-template-columns:.95fr 1.05fr;gap:24px;align-items:start}
@@ -1291,7 +1296,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
             <button type="button" data-d="2" aria-pressed="false">퍼붓기 🌊</button>
           </div>
           <div style="margin-top:12px">
-            <button type="button" class="ts-matbtn" id="tsMatOpen" aria-expanded="false">🧂 재료 더 넣기 <em>선택 · 10초</em><br>
+            <button type="button" class="ts-matbtn" id="tsMatOpen" aria-expanded="false">🧂 재료 더 넣기 <em>선택 · 10초</em> <span id="tsMatBadge" style="color:var(--amb);font-weight:700"></span><br>
               <em>주인공·최근 일을 알려주면 '아는 사람'처럼 지어요</em></button>
             <div class="ts-mat" id="tsMat" hidden>
               <div class="nt-l"><span>누구를 위한 잔인가요? <em>호칭으로만</em></span></div>
@@ -1318,6 +1323,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
           <div class="nt-out">
             <div class="nt-oh"><span class="br-badge" id="tsBadge"><span class="dot"></span>모의 응답</span>
               <span class="t" id="tsOhT">버튼을 누르면 새로 나옵니다</span>
+              <button type="button" id="tsAgain">🎲 다시 뽑기</button>
               <button type="button" id="tsCopy">복사 ⧉</button></div>
             <div class="nt-msg" id="tsMsg" aria-live="polite" style="min-height:200px"></div>
             <div class="br-foot" id="tsFoot">🍻 같은 조합도 뽑을 때마다 다르게 · 전부 예시(가명)</div>
@@ -2657,34 +2663,62 @@ function tsMock(){
   if(tsS.d>1){const rest=TS_DAD.filter(x=>!parts.includes(x));parts.push(tsPick(rest.length?rest:TS_DAD,'d2'));}
   return {body:(tsS.m==='짧게'?parts.slice(0,2):parts).join('<br>'),cheer:tsPick(t.cheer,'c'+tsS.s)};
 }
-async function tsGoRun(){
-  const go=$('#tsGo');go.disabled=true;const orig=go.textContent;go.textContent='🍻 뽑는 중…';
-  await sleep(REDUCED?200:550);
-  let r=null,real=false;
+let tsCur=null; /* 마지막 결과 — 복사용 */
+function tsMatBadge(){
+  const b=$('#tsMatBadge');if(!b)return;
+  const mat=tsMatData(),n=(mat.who?1:0)+(mat.note?1:0);
+  b.textContent=n?'· '+n+'개 들어감':'';
+}
+async function tsGoRun(auto){
+  const go=$('#tsGo');go.disabled=true;const orig='🍻 건배사 뽑기';
   const mat=tsMatData(),hasMat=!!(mat.who||mat.note);
-  if(TOAST_API){
+  let r=null,real=false,fail='';
+  if(TOAST_API&&!auto){
+    go.textContent='🍻 뽑는 중…';
+    /* 로딩 연출 — best-of-3가 실제로 하는 일을 그대로 보여줌 */
+    const stages=['Claude가 후보 3잔을 쓰는 중','후보끼리 비교하는 중','제일 좋은 한 잔을 고르는 중'];
+    let si=0;
+    $('#tsMsg').innerHTML='<div class="ts-situ">REAL CLAUDE 작성 중</div>'+
+      '<div class="ts-body ts-load"><span id="tsStage">'+stages[0]+'</span><span class="ts-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    const tick=setInterval(()=>{const el=$('#tsStage');if(el)el.textContent=stages[++si%stages.length];},2600);
+    const call=()=>fetch(TOAST_API,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({situ:tsS.s,mood:tsS.m,dad:tsS.d,spk:tsS.spk,kw:($('#tsKw').value||'').slice(0,40),...mat})});
     try{
-      const res=await fetch(TOAST_API,{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({situ:tsS.s,mood:tsS.m,dad:tsS.d,spk:tsS.spk,kw:($('#tsKw').value||'').slice(0,40),...mat})});
-      const d=await res.json();
+      let res=await call();
+      if(res.status===429){ /* 쿨다운 — 숨기지 말고 세어 준다 */
+        for(let s=5;s>0;s--){go.textContent='🍺 잔 돌릴 시간 '+s+'초';await sleep(1000);}
+        go.textContent='🍻 뽑는 중…';
+        res=await call();
+      }
+      const d=await res.json().catch(()=>({}));
       if(res.ok&&d.body&&d.cheer){r={body:esc(d.body).replace(/\n/g,'<br>'),cheer:[esc(d.cheer[0]),esc(d.cheer[1])],ver:d.ver};real=true;}
-    }catch(_){}
+      else fail=res.status===429?'cool':'err';
+    }catch(_){fail='err';}
+    clearInterval(tick);
+  }else{
+    await sleep(REDUCED?150:400);
   }
   if(!r)r=tsMock();
-  $('#tsBadge').innerHTML=`<span class="dot"></span>${real?'REAL CLAUDE'+(r.ver?' · '+esc(r.ver):''):'모의 응답'}`;
+  $('#tsBadge').innerHTML='<span class="dot"></span>'+(real?'REAL CLAUDE'+(r.ver?' · '+esc(r.ver):''):'모의 응답');
   const kw=($('#tsKw').value||'').trim();
   const matLine=[mat.who,mat.note&&'"'+mat.note+'"'].filter(Boolean).join(' · ');
+  const note=auto?'이 첫 잔은 모의 미리보기예요. 버튼을 누르면 진짜 Claude가 새로 지어요':
+    (!real&&TOAST_API)?(fail==='cool'?'연속 뽑기가 많아 이번 잔은 모의로 대신했어요. 한숨 돌리고 다시!':'실제 연동이 잠시 응답하지 않아 모의 응답으로 대신했어요'):
+    (!real&&(hasMat||tsS.spk!=='막내·신입'))?'재료·내 위치 설정은 실제 Claude 연동 후 반영돼요':'';
   $('#tsMsg').innerHTML=`
    <div class="ts-situ">${esc(tsS.s)} × ${esc(tsS.m)} × ${esc(tsS.spk)} × 아재개그 ${['차단','한 스푼','퍼붓기'][tsS.d]}${kw?' — 키워드: '+esc(kw):''}${hasMat?'<br>🧂 재료: '+esc(matLine):''}</div>
    <div class="ts-body">${r.body}</div>
    <div class="ts-call"><div class="k">선창 → 후창</div>
      <div class="c">제가 "<b>${r.cheer[0]}</b>" 하면, "<span>${r.cheer[1]}</span>" 외쳐주세요 🍻</div></div>${
-   (hasMat||tsS.spk!=='막내·신입')&&!real?'<div class="ts-mnote">🧂 재료·내 위치 설정은 실제 Claude 연동 후 반영돼요 — 모의 응답은 문장 풀 조립이라 아직 못 씁니다</div>':''}`;
+   note?'<div class="ts-mnote">🧂 '+note+'</div>':''}`;
   const m=$('#tsMsg');m.classList.remove('nt-in');void m.offsetWidth;m.classList.add('nt-in');
-  $('#tsOhT').textContent='방금 뽑은 건배사 — 또 뽑어도 됩니다 🎲';
+  tsCur={b:$('#tsMsg .ts-body').innerText,c:[$('#tsMsg .ts-call b').innerText,$('#tsMsg .ts-call .c span').innerText]};
+  $('#tsOhT').textContent=auto?'첫 잔은 미리보기 — 버튼으로 진짜를 뽑아보세요':'방금 뽑은 건배사';
+  tsMatBadge();
   go.disabled=false;go.textContent=orig;
-  /* 실뽑기 수만 카운트(정직 규칙 — 실패·0이면 숨김) */
-  fetch('https://abacus.jasoncameron.dev/hit/ai-bingo-dev/toast-pulls').then(x=>x.json()).then(d=>{
+  if(!auto&&window.innerWidth<720)$('#tsMsg').scrollIntoView({behavior:REDUCED?'auto':'smooth',block:'center'});
+  /* 잔 카운터 — 직접 뽑은 것만 +1, 자동 미리보기는 조회만 (정직 규칙) */
+  fetch('https://abacus.jasoncameron.dev/'+(auto?'get':'hit')+'/ai-bingo-dev/toast-pulls').then(x=>x.json()).then(d=>{
     if(+d.value>0)$('#tsFoot').innerHTML=`🍻 같은 조합도 뽑을 때마다 다르게 · 전부 예시(가명) <span style="margin-left:auto">지금까지 <b style="color:var(--amb)">${+d.value}잔</b></span>`;
   }).catch(()=>{});
 }
@@ -2699,16 +2733,17 @@ function bindToast(){
   $('#tsMatOpen').addEventListener('click',()=>{
     const m=$('#tsMat'),open=m.hidden;m.hidden=!open;
     $('#tsMatOpen').setAttribute('aria-expanded',open);
-    if(open)m.classList.add('nt-in');});
+    if(open)m.classList.add('nt-in');
+    tsMatBadge();});
   $('#tsKwChips').addEventListener('click',e=>{const b=e.target.closest('[data-kw]');if(!b)return;
     const inp=$('#tsKw');const v=inp.value.trim();
     inp.value=v?v.replace(/,\s*$/,'')+', '+b.dataset.kw:b.dataset.kw;});
-  $('#tsGo').addEventListener('click',tsGoRun);
+  $('#tsGo').addEventListener('click',()=>tsGoRun(false));
+  $('#tsAgain').addEventListener('click',()=>tsGoRun(false));
   $('#tsCopy').addEventListener('click',()=>{
-    const t=$('#tsMsg').innerText.trim();
-    if(!t){$('#tsCopy').textContent='먼저 뽑아 주세요';setTimeout(()=>$('#tsCopy').textContent='복사 ⧉',1400);return;}
-    ntDoCopy(t,$('#tsCopy'));});
-  tsGoRun(); /* 첫 화면부터 한 잔 뽑혀 있게 */
+    if(!tsCur){$('#tsCopy').textContent='먼저 뽑아 주세요';setTimeout(()=>$('#tsCopy').textContent='복사 ⧉',1400);return;}
+    ntDoCopy(tsCur.b+'\n\n선창 "'+tsCur.c[0]+'" → 후창 "'+tsCur.c[1]+'"',$('#tsCopy'));});
+  tsGoRun(true); /* 첫 화면은 모의 미리보기 — 실제 호출은 버튼부터(방문 과금 방지) */
 }
 /* ── Open Lab 의견함 펼치기 — 평소 접힘, 클릭·딥링크 시 펼침 ── */
 function fbExpand(focus){
