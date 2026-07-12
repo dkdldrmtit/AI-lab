@@ -604,6 +604,8 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .ts-kwex:hover{color:var(--txt);border-color:var(--amb)}
 .ts-load{color:var(--mut)}
 .nt-oh button{white-space:nowrap;flex-shrink:0}
+.nt-chip:disabled{opacity:.38;cursor:default}
+.ts-nhs{color:var(--amb);font-weight:800}
 .ts-dots span{opacity:0;animation:tsdot 1.2s infinite}
 .ts-dots span:nth-child(2){animation-delay:.2s}
 .ts-dots span:nth-child(3){animation-delay:.4s}
@@ -1295,6 +1297,10 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
           </div>
           <input class="fb-in" id="tsKw" style="margin-top:0" maxlength="40" autocomplete="off"
             placeholder="예: 하반기 파이팅, 김 부장님 (실명·개인정보는 넣지 마세요)" aria-label="건배사 키워드(선택)">
+          <div class="chips" style="margin-top:8px">
+            <button type="button" class="nt-chip" id="tsNh" aria-pressed="false" disabled>✍ 이 단어로 N행시 짓기</button>
+            <span class="ts-mnote" id="tsNhHint" style="margin-top:4px">한글 2~4자 키워드일 때 켤 수 있어요</span>
+          </div>
           <div class="nt-l" style="margin-top:12px"><span>아재개그</span></div>
           <div class="nt-seg" id="tsDad">
             <button type="button" class="on" data-d="0" aria-pressed="true">차단 🚫</button>
@@ -2643,7 +2649,15 @@ const TS_KWT=[k=>`${k}, 잘될 일만 남았습니다. 우리가 있으니까요
  k=>`${k}${tsJosa(k,'을','를')} 생각하면서, 오늘 이 잔은 더 진심으로 채웠습니다.`,
  k=>`${k}, 그 말에 담긴 응원까지 이 잔에 함께 담겠습니다.`,
  k=>`${k}도 우리도, 앞으로 더 잘될 겁니다.`];
-let tsS={s:'그냥 한잔',m:'무난',d:0,spk:'막내·신입',who:'팀 전체'};
+let tsS={s:'그냥 한잔',m:'무난',d:0,spk:'막내·신입',who:'팀 전체',nh:false};
+const tsNhOk=v=>/^[가-힣]{2,4}$/.test(v.trim());
+function tsNhSync(){
+  const b=$('#tsNh');if(!b)return;
+  const ok=tsNhOk($('#tsKw').value);
+  b.disabled=!ok;
+  if(!ok&&tsS.nh){tsS.nh=false;b.classList.remove('on');b.setAttribute('aria-pressed',false);}
+  $('#tsNhHint').textContent=ok?(tsS.nh?`"${$('#tsKw').value.trim()}" ${$('#tsKw').value.trim().length}행시로 지어요`:'켜면 이 단어로 N행시를 지어요'):'한글 2~4자 키워드일 때 켤 수 있어요';
+}
 /* 재료 수집 — 채워진 것만 Worker로 보냄('팀 전체'는 기본값이라 재료 아님) */
 function tsMatData(){
   const iv=id=>{const el=$(id);return el?(el.value||'').trim():'';};
@@ -2688,7 +2702,7 @@ async function tsGoRun(auto){
       '<div class="ts-body ts-load"><span id="tsStage">'+stages[0]+'</span><span class="ts-dots"><span>.</span><span>.</span><span>.</span></span></div>';
     const tick=setInterval(()=>{const el=$('#tsStage');if(el)el.textContent=stages[++si%stages.length];},2600);
     const call=()=>fetch(TOAST_API,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({situ:tsS.s,mood:tsS.m,dad:tsS.d,spk:tsS.spk,kw:($('#tsKw').value||'').slice(0,40),...mat})});
+      body:JSON.stringify({situ:tsS.s,mood:tsS.m,dad:tsS.d,spk:tsS.spk,nh:tsS.nh?1:0,kw:($('#tsKw').value||'').slice(0,40),...mat})});
     try{
       let res=await call();
       if(res.status===429){ /* 쿨다운 — 숨기지 말고 세어 준다 */
@@ -2711,9 +2725,11 @@ async function tsGoRun(auto){
   const note=auto?'이 첫 잔은 모의 미리보기예요. 버튼을 누르면 진짜 Claude가 새로 지어요':
     (!real&&TOAST_API)?(fail==='cool'?'연속 뽑기가 많아 이번 잔은 모의로 대신했어요. 한숨 돌리고 다시!':'실제 연동이 잠시 응답하지 않아 모의 응답으로 대신했어요'):
     (!real&&(hasMat||tsS.spk!=='막내·신입'))?'재료·내 위치 설정은 실제 Claude 연동 후 반영돼요':'';
+  let bodyHtml=r.body;
+  if(tsS.nh&&real)bodyHtml=bodyHtml.replace(/(^|<br>)\s*([가-힣])!\s*/g,'$1<span class="ts-nhs">$2!</span> ');
   $('#tsMsg').innerHTML=`
-   <div class="ts-situ">${esc(tsS.s)} × ${esc(tsS.m)} × ${esc(tsS.spk)} × 아재개그 ${['차단','한 스푼','퍼붓기'][tsS.d]}${kw?' — 키워드: '+esc(kw):''}${hasMat?'<br>🧂 재료: '+esc(matLine):''}</div>
-   <div class="ts-body">${r.body}</div>
+   <div class="ts-situ">${esc(tsS.s)} × ${esc(tsS.m)} × ${esc(tsS.spk)} × 아재개그 ${['차단','한 스푼','퍼붓기'][tsS.d]}${tsS.nh&&kw?' × '+kw.trim().length+'행시':''}${kw?' — 키워드: '+esc(kw):''}${hasMat?'<br>🧂 재료: '+esc(matLine):''}</div>
+   <div class="ts-body">${bodyHtml}</div>
    <div class="ts-call"><div class="k">선창 → 후창</div>
      <div class="c">제가 "<b>${r.cheer[0]}</b>" 하면, "<span>${r.cheer[1]}</span>" 외쳐주세요 🍻</div></div>${
    note?'<div class="ts-mnote">🧂 '+note+'</div>':''}`;
@@ -2743,7 +2759,14 @@ function bindToast(){
     tsMatBadge();});
   $('#tsKwChips').addEventListener('click',e=>{const b=e.target.closest('[data-kw]');if(!b)return;
     const inp=$('#tsKw');const v=inp.value.trim();
-    inp.value=v?v.replace(/,\s*$/,'')+', '+b.dataset.kw:b.dataset.kw;});
+    inp.value=v?v.replace(/,\s*$/,'')+', '+b.dataset.kw:b.dataset.kw;
+    tsNhSync();});
+  $('#tsKw').addEventListener('input',tsNhSync);
+  $('#tsNh').addEventListener('click',()=>{
+    const b=$('#tsNh');if(b.disabled)return;
+    tsS.nh=!tsS.nh;b.classList.toggle('on',tsS.nh);b.setAttribute('aria-pressed',tsS.nh);
+    tsNhSync();});
+  tsNhSync();
   $('#tsGo').addEventListener('click',()=>tsGoRun(false));
   $('#tsAgain').addEventListener('click',()=>tsGoRun(false));
   $('#tsCopy').addEventListener('click',()=>{
