@@ -2662,11 +2662,11 @@ async function tsGoRun(){
       const res=await fetch(TOAST_API,{method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({situ:tsS.s,mood:tsS.m,dad:tsS.d,spk:tsS.spk,kw:($('#tsKw').value||'').slice(0,40),...mat})});
       const d=await res.json();
-      if(res.ok&&d.body&&d.cheer){r={body:esc(d.body).replace(/\n/g,'<br>'),cheer:[esc(d.cheer[0]),esc(d.cheer[1])]};real=true;}
+      if(res.ok&&d.body&&d.cheer){r={body:esc(d.body).replace(/\n/g,'<br>'),cheer:[esc(d.cheer[0]),esc(d.cheer[1])],ver:d.ver};real=true;}
     }catch(_){}
   }
   if(!r)r=tsMock();
-  $('#tsBadge').innerHTML=`<span class="dot"></span>${real?'REAL CLAUDE':'모의 응답'}`;
+  $('#tsBadge').innerHTML=`<span class="dot"></span>${real?'REAL CLAUDE'+(r.ver?' · '+esc(r.ver):''):'모의 응답'}`;
   const kw=($('#tsKw').value||'').trim();
   const matLine=[mat.who,mat.note&&'"'+mat.note+'"'].filter(Boolean).join(' · ');
   $('#tsMsg').innerHTML=`
