@@ -610,6 +610,11 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .nt-oh button{white-space:nowrap;flex-shrink:0}
 .nt-chip:disabled{opacity:.38;cursor:default}
 .ts-nhs{color:var(--amb);font-weight:800}
+.ts-rate{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:14px;font-size:12.5px;color:var(--mut)}
+.ts-rate button{font-family:var(--kor);font-size:12.5px;font-weight:700;padding:7px 13px;border-radius:9px;
+  border:1px solid var(--grid);background:var(--panel);color:var(--mut);cursor:pointer;white-space:nowrap}
+.ts-rate button:hover{border-color:var(--amb);color:var(--txt)}
+.ts-rate .fine2{font-size:11px;color:var(--dim)}
 .ts-dots span{opacity:0;animation:tsdot 1.2s infinite}
 .ts-dots span:nth-child(2){animation-delay:.2s}
 .ts-dots span:nth-child(3){animation-delay:.4s}
@@ -2816,17 +2821,21 @@ async function tsGoRun(auto){
    <div class="ts-body">${bodyHtml}</div>
    <div class="ts-call"><div class="k">선창 → 후창</div>
      <div class="c">제가 "<b>${r.cheer[0]}</b>" 하면, "<span>${r.cheer[1]}</span>" 외쳐주세요 🍻</div></div>${
-   note?'<div class="ts-mnote">🧂 '+note+'</div>':''}`;
+   note?'<div class="ts-mnote">🧂 '+note+'</div>':''}${
+   auto?'':`<div class="ts-rate" id="tsRate"><span>이 건배사 어때요?</span>
+     <button type="button" data-v="up">👍 좋아요</button>
+     <button type="button" data-v="down">👎 다시 뽑기</button></div>`}`;
   const m=$('#tsMsg');m.classList.remove('nt-in');void m.offsetWidth;m.classList.add('nt-in');
-  tsCur={b:$('#tsMsg .ts-body').innerText,c:[$('#tsMsg .ts-call b').innerText,$('#tsMsg .ts-call .c span').innerText]};
+  tsCur={b:$('#tsMsg .ts-body').innerText,c:[$('#tsMsg .ts-call b').innerText,$('#tsMsg .ts-call .c span').innerText],situ:$('#tsMsg .ts-situ').innerText,real,ver:r.ver||''};
   $('#tsOhT').textContent=auto?'첫 잔은 미리보기 — 버튼으로 진짜를 뽑아보세요':'방금 뽑은 건배사';
   tsMatBadge();
   go.disabled=false;go.textContent=orig;
   if(!auto&&window.innerWidth<720)$('#tsMsg').scrollIntoView({behavior:REDUCED?'auto':'smooth',block:'center'});
-  /* 잔 카운터 — 직접 뽑은 것만 +1, 자동 미리보기는 조회만 (정직 규칙) */
-  fetch('https://abacus.jasoncameron.dev/'+(auto?'get':'hit')+'/ai-bingo-dev/toast-pulls').then(x=>x.json()).then(d=>{
-    if(+d.value>0)$('#tsFoot').innerHTML=`🍻 같은 조합도 뽑을 때마다 다르게 · 전부 예시(가명) <span style="margin-left:auto">지금까지 <b style="color:var(--amb)">${+d.value}잔</b></span>`;
-  }).catch(()=>{});
+  /* 잔 카운터 — 직접 뽑은 것만 +1, 자동 미리보기는 조회만. 👍👎도 실클릭 수만(0이면 숨김) */
+  const tsCnt=k=>fetch('https://abacus.jasoncameron.dev/'+k).then(x=>x.json()).then(d=>+d.value||0).catch(()=>0);
+  Promise.all([tsCnt((auto?'get':'hit')+'/ai-bingo-dev/toast-pulls'),tsCnt('get/ai-bingo-dev/toast-up'),tsCnt('get/ai-bingo-dev/toast-down')]).then(([n,u,dn])=>{
+    if(n>0)$('#tsFoot').innerHTML=`🍻 같은 조합도 뽑을 때마다 다르게 · 전부 예시(가명) <span style="margin-left:auto">지금까지 <b style="color:var(--amb)">${n}잔</b>${u>0?' · 👍 '+u:''}${dn>0?' · 👎 '+dn:''}</span>`;
+  });
 }
 function bindToast(){
   const root=$('#dg-toast');if(!root)return;
@@ -2853,6 +2862,31 @@ function bindToast(){
   tsNhSync();
   $('#tsGo').addEventListener('click',()=>tsGoRun(false));
   $('#tsAgain').addEventListener('click',()=>tsGoRun(false));
+  /* 평가 — 숫자는 실클릭만 기록, 👍 후 전송은 옵트인(자동 수집 없음) */
+  $('#tsMsg').addEventListener('click',async e=>{
+    const v=e.target.closest('#tsRate [data-v]');
+    if(v){
+      const rate=$('#tsRate');if(rate.dataset.done)return;rate.dataset.done='1';
+      fetch('https://abacus.jasoncameron.dev/hit/ai-bingo-dev/toast-'+(v.dataset.v==='up'?'up':'down')).catch(()=>{});
+      if(v.dataset.v==='down'){rate.innerHTML='<span>취향 저격 실패였네요… 바로 새로 뽑을게요 🎲</span>';tsGoRun(false);return;}
+      const canSend=typeof FB_ACCESS_KEY==='string'&&FB_ACCESS_KEY.trim().length>0;
+      rate.innerHTML=`<span style="color:var(--grn)">🍻 고마워요!</span>${
+        canSend?`<button type="button" id="tsHall">이 잔을 개발자에게 자랑하기</button>
+        <span class="fine2">건배사 본문·설정만 전송 · 실명이 담겼다면 보내지 말아 주세요</span>`:''}`;
+      return;
+    }
+    const h=e.target.closest('#tsHall');
+    if(h&&tsCur){
+      h.disabled=true;h.textContent='보내는 중…';
+      try{
+        const res=await fetch('https://api.web3forms.com/submit',{method:'POST',
+          headers:{'Content-Type':'application/json',Accept:'application/json'},
+          body:JSON.stringify({access_key:FB_ACCESS_KEY,subject:'[건배사 명예의 전당 후보]',from_name:'toast-demo',
+            message:tsCur.situ+'\n\n'+tsCur.b+'\n\n선창 "'+tsCur.c[0]+'" → 후창 "'+tsCur.c[1]+'"\n\n('+(tsCur.real?'REAL '+tsCur.ver:'모의 응답')+')'})});
+        h.textContent=res.ok?'보냈어요! 검토 후 전당에 실릴 수 있어요':'전송 실패 — 다음에 다시';
+      }catch(_){h.textContent='전송 실패 — 다음에 다시';}
+    }
+  });
   $('#tsCopy').addEventListener('click',()=>{
     if(!tsCur){$('#tsCopy').textContent='먼저 뽑아 주세요';setTimeout(()=>$('#tsCopy').textContent='복사 ⧉',1400);return;}
     ntDoCopy(tsCur.b+'\n\n선창 "'+tsCur.c[0]+'" → 후창 "'+tsCur.c[1]+'"',$('#tsCopy'));});
