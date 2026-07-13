@@ -1338,7 +1338,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
             </div>
           </div>
           <div style="margin-top:22px"><button type="button" class="nt-go" id="tsGo">🍻 건배사 뽑기</button></div>
-          <p class="nt-howto">키워드는 건배사 생성에만 쓰이고 저장되지 않아요 ·
+          <p class="nt-howto">키워드는 생성에만 쓰여요(저장은 직접 «전당 후보 남기기»를 누른 건배사만) ·
             너무 많이 뽑진 말아 주세요, 개발자의 토큰은 소중하니까요 🥲</p>
         </div>
         <div>
@@ -2869,22 +2869,19 @@ function bindToast(){
       const rate=$('#tsRate');if(rate.dataset.done)return;rate.dataset.done='1';
       fetch('https://abacus.jasoncameron.dev/hit/ai-bingo-dev/toast-'+(v.dataset.v==='up'?'up':'down')).catch(()=>{});
       if(v.dataset.v==='down'){rate.innerHTML='<span>취향 저격 실패였네요… 바로 새로 뽑을게요 🎲</span>';tsGoRun(false);return;}
-      const canSend=typeof FB_ACCESS_KEY==='string'&&FB_ACCESS_KEY.trim().length>0;
       rate.innerHTML=`<span style="color:var(--grn)">🍻 고마워요!</span>${
-        canSend?`<button type="button" id="tsHall">이 잔을 개발자에게 자랑하기</button>
-        <span class="fine2">건배사 본문·설정만 전송 · 실명이 담겼다면 보내지 말아 주세요</span>`:''}`;
+        TOAST_API?`<button type="button" id="tsHall">이 잔을 전당 후보로 남기기</button>
+        <span class="fine2">개발자 보관함에만 저장(메일 아님) · 실명이 담겼다면 남기지 말아 주세요</span>`:''}`;
       return;
     }
     const h=e.target.closest('#tsHall');
     if(h&&tsCur){
-      h.disabled=true;h.textContent='보내는 중…';
+      h.disabled=true;h.textContent='보관함에 넣는 중…';
       try{
-        const res=await fetch('https://api.web3forms.com/submit',{method:'POST',
-          headers:{'Content-Type':'application/json',Accept:'application/json'},
-          body:JSON.stringify({access_key:FB_ACCESS_KEY,subject:'[건배사 명예의 전당 후보]',from_name:'toast-demo',
-            message:tsCur.situ+'\n\n'+tsCur.b+'\n\n선창 "'+tsCur.c[0]+'" → 후창 "'+tsCur.c[1]+'"\n\n('+(tsCur.real?'REAL '+tsCur.ver:'모의 응답')+')'})});
-        h.textContent=res.ok?'보냈어요! 검토 후 전당에 실릴 수 있어요':'전송 실패 — 다음에 다시';
-      }catch(_){h.textContent='전송 실패 — 다음에 다시';}
+        const res=await fetch(TOAST_API,{method:'POST',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({hall:1,situ:tsCur.situ,body:tsCur.b,c0:tsCur.c[0],c1:tsCur.c[1],ver:tsCur.real?tsCur.ver:'모의'})});
+        h.textContent=res.ok?'보관함에 담겼어요! 검토 후 전당에 실릴 수 있어요':'보관함 준비 중 — 다음에!';
+      }catch(_){h.textContent='보관함 준비 중 — 다음에!';}
     }
   });
   $('#tsCopy').addEventListener('click',()=>{
