@@ -692,6 +692,18 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 @keyframes fmBreathe{0%,100%{opacity:.9}50%{opacity:.55}}
 .fm-exc{animation:fmExc 2.4s ease-in-out infinite}
 @keyframes fmExc{0%,100%{opacity:1}50%{opacity:.3}}
+/* 4컷 스토리(건배사) — 스포트라이트 순회 + 소품 애니 */
+.tst-spot{animation:tstSpot 4s linear infinite}
+@keyframes tstSpot{0%,24%{opacity:1}30%,100%{opacity:.3}}
+.tst-d1{animation-delay:0s}.tst-d2{animation-delay:-3s}.tst-d3{animation-delay:-2s}.tst-d4{animation-delay:-1s}
+.tst-blink{animation:tstBl 1s steps(1) infinite}
+@keyframes tstBl{50%{opacity:.15}}
+.tst-halo{animation:tstHalo 2s ease-in-out infinite}
+@keyframes tstHalo{0%,100%{opacity:.08}50%{opacity:.55}}
+.tst-clap{animation:tstCl .8s steps(2) infinite}
+@keyframes tstCl{50%{opacity:.1}}
+.tst-spark{animation:tstSp 1s ease-in-out infinite}
+@keyframes tstSp{0%,100%{opacity:.15}50%{opacity:1}}
 .home-bingo{display:grid;grid-template-columns:minmax(0,520px) minmax(0,1fr);gap:30px;align-items:stretch;margin-top:4px}
 .bside{display:flex;flex-direction:column;gap:16px;min-width:0}
 #homeFocus{display:flex;flex:1;min-height:0}
@@ -1575,12 +1587,22 @@ const EXPERIMENTS=[
   steps:[['필수정보 규칙 설계','done'],['웹 체험판 공개','done'],['상황·톤 확장','cur']],
   ctas:[['쪽지 다듬기 체험','#demo/note','amber'],['미션 보드 보기','#missions/문구개선','ghost']],
   panel:{t:'체험 구성 · 예시',kv:[['모드','내 문구 다듬기 · 골라서 만들기'],['필수정보','참석자·시각·장소·집결·회신'],['출력 채널','메신저 · 이메일 톤'],['데이터','전부 가명 · 예시']]}},
- {status:'LIVE',pid:'toast',art:'toast',artHint:'나의 선택 → Worker(금고·규칙서) → Claude 후보 3잔 → 오늘의 한 잔',stTxt:'LIVE · 실제 AI',title:'건배사 자판기',mission:'노하우',
+ {status:'LIVE',pid:'toast',stTxt:'LIVE · 실제 AI',title:'건배사 자판기',mission:'노하우',
+  arts:[
+   {key:'toastStory',eyebrow:'The Moment',h2:'이 실험이 태어난 순간',hint:'등장인물·대사 전부 가상(예시)'},
+   {key:'toast',eyebrow:'Pipeline',h2:'흐름 한눈에',hint:'나의 선택 → Worker(금고·규칙서) → Claude 후보 3잔 → 오늘의 한 잔'}],
   demo:{g:'toast',d:'상황·분위기·재료를 고르면 진짜 Claude가 선창→후창까지 — 회식 전 비상용'},
-  desc:'"자, 신입이 건배사 한번 해봐" — 그 순간을 위한 비상 버튼. 상황·분위기·내 위치·재료를 고르면 진짜 Claude가 그 자리에서 선창→후창까지 새로 지어 줍니다. 이 사이트 최초의 실제 AI 연동 — 건배사 100번을 채점해 만든 규칙서로 말합니다.',
+  desc:'"자, 신입이 건배사 한번 해봐" — 그 순간을 위한 비상 버튼. 상황·분위기·내 위치·재료를 고르면 진짜 Claude가 그 자리에서 선창→후창까지 새로 지어 줍니다.',
   chips:['REAL CLAUDE','채점 100회 규칙서','후보 3잔 중 선발','N행시 기계 검증'],
   steps:[['모의 조립기','done'],['실제 Claude 연동','done'],['채점 100회 → 규칙서','done'],['N행시·자동 배포','done'],['실전 다듬기','cur']],
-  story:'처음엔 미리 써 둔 문장 서랍에서 조립하는 모의 자판기였습니다. Cloudflare Worker에 API 키를 숨겨 이 사이트 최초의 실제 Claude를 연결했고, 그때부터 진짜 훈련이 시작됐습니다. 건배사를 100번 뽑고 채점해 규칙서를 만들었죠 — 좋은 형태도 반복되면 죽는다(신선함), 건배사는 다시 읽을 수 없다(한 번 듣고 통과), 거창함보다 가벼움. 그렇게 살아남은 규칙들과 시범 답안 4편이 매 요청마다 Claude에게 전달됩니다. 그리고 프롬프트로 안 되는 건 코드로 — N행시의 글자 맞춤은 Worker가 기계로 검증합니다.',
+  story:'처음엔 미리 써 둔 문장 서랍에서 조립하는 모의 자판기였습니다. Cloudflare Worker에 API 키를 숨겨 이 사이트 최초의 실제 Claude를 연결했고, 건배사 100번을 뽑아 채점하며 규칙서를 만들었습니다 — 그 훈련의 결과가 아래 여섯 기능과 Before→After입니다.',
+  features:{eyebrow:'Core Features',h2:'여섯 가지 핵심 장치',hint:'전부 실제로 돌아가는 구성 — 문구는 예시',items:[
+   ['진짜 Claude 연동','이 사이트 최초의 실제 AI. API 키는 Cloudflare Worker(서버)에만 — 브라우저에 노출되지 않습니다.',['지금 체험','#demo/toast']],
+   ['채점 100회 규칙서','건배사 100번을 뽑고 사람이 직접 채점 — 살아남은 규칙 30여 개와 시범 답안이 매 요청마다 전달됩니다.'],
+   ['후보 3잔 → 한 잔','한 번의 호출에서 후보 3개를 짓고 스스로 평가해 한 잔을 선발 — 같은 선택에도 매번 다른 잔이 나옵니다.'],
+   ['N행시 기계 검증','글자 맞춤은 프롬프트가 아니라 코드가 검사합니다. 어긋나면 자동 재시도 — AI의 약점은 기계로 보강.'],
+   ['재료 한 줄','호칭과 사실 한 줄을 주면 그것만 사용 — 없는 장면·통계를 지어내는 건 규칙으로 금지했습니다(실명 금지).'],
+   ['방문자 평가 루프','👍/👎 실클릭만 집계하고, 👍는 보관함으로. 자동 학습은 없습니다 — 운영자 검토를 거쳐야 규칙이 됩니다.']]},
   showcase:{
     title:'100번 뽑고 채점했습니다 — Before → After',
     hint:'실제 학습 과정 · 문구는 예시(가명)',
@@ -2652,6 +2674,170 @@ toast:`<svg class="flowmap" viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000
 <rect x="791" y="262" width="150" height="26" rx="13" fill="rgba(53,196,141,.1)" stroke="#35C48D" stroke-opacity=".45"/>
 <text x="805" y="280" font-size="11" font-weight="700" fill="#35C48D">매번 새로 짓는 한 잔</text>
 <text x="30" y="392" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#5A6678">ILLUSTRATIVE (예시) · 실제 체험과 동일한 구조 · 문구·호칭은 예시(가명)</text>
+</svg>`,
+toastStory:`<svg class="flowmap" viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="부장님의 지목 → 테이블 아래에서 자판기 → 건배사 → 박수">
+<text x="30" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">SCENE 1 · 위기</text>
+<text x="280" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">SCENE 2 · 자판기</text>
+<text x="530" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">SCENE 3 · 건배사</text>
+<text x="780" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">SCENE 4 · 박수</text>
+<!-- ══ SCENE 1 · 위기 ══ -->
+<g class="tst-spot tst-d1">
+<rect x="30" y="44" width="200" height="308" rx="14" fill="#111A28" stroke="#223047" stroke-width="1.4"/>
+<path d="M40,316 L220,316" stroke="#1A2434" stroke-width="2"/><!-- 바닥 -->
+<!-- 말풍선 -->
+<g class="fm-breathe"><rect x="46" y="60" width="168" height="50" rx="12" fill="rgba(245,167,66,.07)" stroke="#F5A742" stroke-opacity=".65" stroke-width="1.4"/>
+<text x="60" y="81" font-size="13" font-weight="700" fill="#F5A742">"신입~ 건배사</text>
+<text x="60" y="100" font-size="13" font-weight="700" fill="#F5A742">한번 해봐!"</text></g>
+<path d="M186,110 L 192,120" stroke="#F5A742" stroke-opacity=".6" stroke-width="1.4" fill="none"/>
+<!-- 나 (시안, 테이블에 앉아 얼음) — 다리는 테이블이 가림 -->
+<circle cx="92" cy="182" r="10" fill="#4CC3E8"/>
+<path d="M88,192 q4,-3 8,0" stroke="#0B0F17" stroke-width="1.5" fill="none" stroke-linecap="round"/><!-- 울상 -->
+<path d="M92,193 q-15,1 -16,20 l-1,16 q0,6 7,6 l20,0 q7,0 7,-6 l-1,-16 q-1,-19 -16,-20 z" fill="#4CC3E8"/>
+<path d="M81,206 L74,232 M103,206 L110,232" stroke="#4CC3E8" stroke-width="7" stroke-linecap="round"/>
+<circle cx="73" cy="236" r="4.5" fill="#2E7D96"/><circle cx="111" cy="236" r="4.5" fill="#2E7D96"/><!-- 손, 테이블 위 -->
+<g class="tst-blink"><text x="106" y="166" font-size="15" fill="#F0545C" font-weight="800">!</text>
+<path d="M79,166 q-4,7 0,10 q5,-3 0,-10" fill="#4CC3E8" opacity=".85"/></g>
+<!-- 부장님 (앰버, 서서 지목) -->
+<circle cx="190" cy="132" r="12" fill="#F5A742"/>
+<path d="M185,143 L195,143" stroke="#0B0F17" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M190,146 q-17,1 -19,24 l-2,28 q0,7 8,7 l26,0 q8,0 8,-7 l-2,-28 q-2,-23 -19,-24 z" fill="#F5A742"/>
+<path d="M190,153 l-3,5 l3,17 l3,-17 z" fill="#B87A24"/><!-- 넥타이 -->
+<path d="M177,160 L149,176" stroke="#F5A742" stroke-width="8" stroke-linecap="round"/>
+<circle cx="146" cy="178" r="4.5" fill="#B87A24"/>
+<path d="M146,178 L136,182" stroke="#B87A24" stroke-width="3.5" stroke-linecap="round"/><!-- 검지 -->
+<path d="M203,162 q10,10 2,26" stroke="#F5A742" stroke-width="8" fill="none" stroke-linecap="round"/><!-- 뒷짐 팔 -->
+<path d="M184,205 L181,268 M196,205 L199,268" stroke="#F5A742" stroke-width="8" stroke-linecap="round"/>
+<ellipse cx="180" cy="272" rx="6" ry="3.5" fill="#B87A24"/><ellipse cx="200" cy="272" rx="6" ry="3.5" fill="#B87A24"/>
+<path d="M170,316 L214,316" stroke="#223047" stroke-width="3"/><!-- 부장 발밑 그림자 -->
+<!-- 회식 테이블 (사람 앞을 가림) -->
+<rect x="44" y="240" width="116" height="12" rx="6" fill="#1A2434" stroke="#223047" stroke-width="1.4"/>
+<path d="M56,252 L52,306 M148,252 L152,306" stroke="#223047" stroke-width="5" stroke-linecap="round"/>
+<rect x="64" y="214" width="11" height="26" rx="3" fill="none" stroke="#35C48D" stroke-width="1.8"/>
+<rect x="67" y="207" width="5" height="8" rx="2" fill="none" stroke="#35C48D" stroke-width="1.8"/><!-- 소주병 -->
+<path d="M120,222 l12,0 l-2,18 l-8,0 z" fill="none" stroke="#8A94A6" stroke-width="1.7"/>
+<path d="M122,231 l8,0 l-1,8 l-6,0 z" fill="#E8C468" opacity=".85"/><!-- 잔+술 -->
+<text x="46" y="336" font-size="11.5" fill="#5A6678">머릿속이 하얘지는 그 순간</text>
+</g>
+<path d="M230,200 C 255,200 255,200 280,200" stroke="#4CC3E8" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
+<path class="fm-flow" d="M230,200 C 255,200 255,200 280,200" stroke="#4CC3E8" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9"/>
+<!-- ══ SCENE 2 · 자판기 ══ -->
+<g class="tst-spot tst-d2">
+<rect x="280" y="44" width="200" height="308" rx="14" fill="#111A28" stroke="#223047" stroke-width="1.4"/>
+<rect x="286" y="58" width="188" height="11" rx="5" fill="#1A2434" stroke="#223047" stroke-width="1.2"/>
+<text x="382" y="66.5" font-size="8" fill="#5A6678" text-anchor="middle" font-family="'JetBrains Mono',monospace">─ 테이블 아래 ─</text>
+<!-- 폰 -->
+<rect x="330" y="84" width="100" height="172" rx="14" fill="#1c160b" stroke="#F5A742" stroke-width="2"/>
+<rect class="tst-halo" x="325" y="79" width="110" height="182" rx="17" fill="none" stroke="#F5A742" stroke-width="2"/>
+<rect x="342" y="100" width="42" height="15" rx="7.5" fill="rgba(245,167,66,.15)" stroke="#F5A742" stroke-opacity=".5"/>
+<rect x="390" y="100" width="28" height="15" rx="7.5" fill="none" stroke="#223047"/>
+<rect x="342" y="121" width="28" height="15" rx="7.5" fill="none" stroke="#223047"/>
+<rect x="376" y="121" width="42" height="15" rx="7.5" fill="rgba(76,195,232,.15)" stroke="#4CC3E8" stroke-opacity=".5"/>
+<rect x="342" y="142" width="76" height="15" rx="7.5" fill="none" stroke="#223047"/>
+<rect x="342" y="166" width="76" height="26" rx="9" fill="#F5A742"/>
+<text x="380" y="184" font-size="12.5" font-weight="800" fill="#0B0F17" text-anchor="middle">건배사 뽑기</text>
+<text x="352" y="216" font-size="11" fill="#E8C468" font-family="'JetBrains Mono',monospace">CLAUDE</text>
+<text x="352" y="231" font-size="10" fill="#8A6E3A" font-family="'JetBrains Mono',monospace">writing…</text>
+<!-- 손 (뭉툭한 장갑 손 + 검지) -->
+<path d="M462,300 q-20,-30 -32,-84" stroke="#4CC3E8" stroke-width="10" stroke-linecap="round"/>
+<circle cx="429" cy="210" r="8" fill="#4CC3E8"/>
+<path d="M426,206 L414,190" stroke="#4CC3E8" stroke-width="5" stroke-linecap="round"/>
+<g class="tst-blink"><text x="440" y="186" font-size="12" fill="#4CC3E8" font-weight="700">띡,</text>
+<text x="450" y="204" font-size="12" fill="#4CC3E8" font-weight="700">띡</text></g>
+<g class="fm-breathe"><rect x="322" y="274" width="116" height="24" rx="12" fill="rgba(53,196,141,.1)" stroke="#35C48D" stroke-opacity=".6"/>
+<text x="332" y="290" font-size="9.5" font-weight="700" fill="#35C48D" font-family="'JetBrains Mono',monospace">● REAL CLAUDE</text></g>
+<text x="296" y="336" font-size="11.5" fill="#5A6678">테이블 아래에서 조용히, 8초</text>
+</g>
+<path d="M480,200 C 505,200 505,200 530,200" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
+<path class="fm-flow" d="M480,200 C 505,200 505,200 530,200" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-delay:-.7s"/>
+<!-- ══ SCENE 3 · 건배사 ══ -->
+<g class="tst-spot tst-d3">
+<rect x="530" y="44" width="200" height="308" rx="14" fill="#111A28" stroke="#223047" stroke-width="1.4"/>
+<path d="M540,316 L720,316" stroke="#1A2434" stroke-width="2"/>
+<!-- 말풍선 -->
+<g class="fm-breathe"><rect x="546" y="60" width="168" height="50" rx="12" fill="rgba(76,195,232,.07)" stroke="#4CC3E8" stroke-opacity=".7" stroke-width="1.4"/>
+<text x="560" y="81" font-size="12.5" font-weight="800" fill="#F5A742">"제가 우리 팀! 하면</text>
+<text x="560" y="100" font-size="12.5" font-weight="800" fill="#4CC3E8">최고다! 외쳐주세요"</text></g>
+<path d="M622,110 L 628,122" stroke="#4CC3E8" stroke-opacity=".6" stroke-width="1.4" fill="none"/>
+<!-- 나 (시안, 서서 잔 높이) -->
+<circle cx="630" cy="136" r="11" fill="#4CC3E8"/>
+<path d="M625,146 q5,5 10,0" stroke="#0B0F17" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+<path d="M630,149 q-16,1 -17,23 l-2,24 q0,7 8,7 l22,0 q8,0 8,-7 l-2,-24 q-1,-22 -17,-23 z" fill="#4CC3E8"/>
+<path d="M619,160 L604,182" stroke="#4CC3E8" stroke-width="8" stroke-linecap="round"/>
+<circle cx="602" cy="186" r="4.5" fill="#2E7D96"/>
+<path d="M641,158 L658,138" stroke="#4CC3E8" stroke-width="8" stroke-linecap="round"/>
+<circle cx="661" cy="135" r="4.5" fill="#2E7D96"/>
+<path d="M655,112 l14,0 l-2,17 l-10,0 z" fill="none" stroke="#F5A742" stroke-width="1.8"/>
+<path d="M657,121 l10,0 l-1,8 l-8,0 z" fill="#E8C468" opacity=".9"/><!-- 손에 든 잔 -->
+<g class="tst-spark"><path d="M674,104 l5,-7 M680,114 l8,-2 M666,100 l-1,-8" stroke="#E8C468" stroke-width="2" stroke-linecap="round"/></g>
+<path d="M624,203 L620,250 M636,203 L640,250" stroke="#4CC3E8" stroke-width="8" stroke-linecap="round"/>
+<!-- 동료 왼쪽 (앉아서 잔 들기) -->
+<circle cx="568" cy="192" r="9" fill="#8A94A6"/>
+<path d="M565,200 q3,3 6,0" stroke="#0B0F17" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+<path d="M568,203 q-12,1 -13,17 l-1,22 l28,0 l-1,-22 q-1,-16 -13,-17 z" fill="#8A94A6"/>
+<path d="M578,210 L590,192" stroke="#8A94A6" stroke-width="7" stroke-linecap="round"/>
+<circle cx="592" cy="189" r="4" fill="#5A6678"/>
+<path d="M587,168 l12,0 l-2,15 l-8,0 z" fill="none" stroke="#8A94A6" stroke-width="1.6"/>
+<path d="M589,176 l8,0 l-1,7 l-6,0 z" fill="#E8C468" opacity=".85"/>
+<!-- 동료 오른쪽 -->
+<circle cx="694" cy="196" r="9" fill="#8A94A6"/>
+<path d="M691,204 q3,3 6,0" stroke="#0B0F17" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+<path d="M694,207 q-12,1 -13,17 l-1,18 l28,0 l-1,-18 q-1,-16 -13,-17 z" fill="#8A94A6"/>
+<path d="M684,214 L672,196" stroke="#8A94A6" stroke-width="7" stroke-linecap="round"/>
+<circle cx="670" cy="193" r="4" fill="#5A6678"/>
+<path d="M663,172 l12,0 l-2,15 l-8,0 z" fill="none" stroke="#8A94A6" stroke-width="1.6"/>
+<path d="M665,180 l8,0 l-1,7 l-6,0 z" fill="#E8C468" opacity=".85"/>
+<!-- 테이블 (앞을 가림) -->
+<rect x="548" y="244" width="164" height="12" rx="6" fill="#1A2434" stroke="#223047" stroke-width="1.4"/>
+<path d="M562,256 L558,308 M698,256 L702,308" stroke="#223047" stroke-width="5" stroke-linecap="round"/>
+<rect x="576" y="218" width="11" height="26" rx="3" fill="none" stroke="#35C48D" stroke-width="1.8"/>
+<rect x="579" y="211" width="5" height="8" rx="2" fill="none" stroke="#35C48D" stroke-width="1.8"/>
+<circle cx="648" cy="238" r="7" fill="none" stroke="#8A94A6" stroke-width="1.5"/>
+<circle cx="666" cy="240" r="5" fill="none" stroke="#8A94A6" stroke-width="1.3"/><!-- 접시 -->
+<text x="546" y="336" font-size="11.5" fill="#5A6678">한 번 듣고 바로 따라오는 콜</text>
+</g>
+<path d="M730,200 C 755,200 755,200 780,200" stroke="#35C48D" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
+<path class="fm-flow" d="M730,200 C 755,200 755,200 780,200" stroke="#35C48D" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-delay:-1.3s"/>
+<!-- ══ SCENE 4 · 박수 ══ -->
+<g class="tst-spot tst-d4">
+<rect x="780" y="44" width="200" height="308" rx="14" fill="#111A28" stroke="#223047" stroke-width="1.4"/>
+<path d="M790,316 L970,316" stroke="#1A2434" stroke-width="2"/>
+<g class="fm-breathe"><rect x="796" y="60" width="168" height="34" rx="12" fill="rgba(245,167,66,.07)" stroke="#F5A742" stroke-opacity=".65" stroke-width="1.4"/>
+<text x="812" y="82" font-size="13" font-weight="700" fill="#F5A742">"오~ 제법인데?"</text></g>
+<path d="M826,94 L 830,106" stroke="#F5A742" stroke-opacity=".6" stroke-width="1.4" fill="none"/>
+<!-- 부장님 박수 -->
+<circle cx="832" cy="120" r="11" fill="#F5A742"/>
+<path d="M827,130 q5,4 10,0" stroke="#0B0F17" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+<path d="M832,133 q-16,1 -17,23 l-2,26 q0,7 8,7 l22,0 q8,0 8,-7 l-2,-26 q-1,-22 -17,-23 z" fill="#F5A742"/>
+<path d="M832,140 l-3,4 l3,15 l3,-15 z" fill="#B87A24"/>
+<path d="M821,145 L807,132 M843,145 L855,132" stroke="#F5A742" stroke-width="8" stroke-linecap="round"/>
+<circle cx="805" cy="129" r="4.5" fill="#B87A24"/><circle cx="857" cy="129" r="4.5" fill="#B87A24"/>
+<path d="M826,189 L823,244 M838,189 L841,244" stroke="#F5A742" stroke-width="8" stroke-linecap="round"/>
+<ellipse cx="822" cy="248" rx="6" ry="3.5" fill="#B87A24"/><ellipse cx="842" cy="248" rx="6" ry="3.5" fill="#B87A24"/>
+<!-- 동료 박수 -->
+<circle cx="922" cy="136" r="10" fill="#8A94A6"/>
+<path d="M918,145 q4,4 8,0" stroke="#0B0F17" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+<path d="M922,148 q-15,1 -16,22 l-2,24 q0,7 8,7 l20,0 q8,0 8,-7 l-2,-24 q-1,-21 -16,-22 z" fill="#8A94A6"/>
+<path d="M912,159 L899,147 M932,159 L944,147" stroke="#8A94A6" stroke-width="7" stroke-linecap="round"/>
+<circle cx="897" cy="144" r="4" fill="#5A6678"/><circle cx="946" cy="144" r="4" fill="#5A6678"/>
+<path d="M917,201 L914,244 M927,201 L930,244" stroke="#8A94A6" stroke-width="7" stroke-linecap="round"/>
+<ellipse cx="913" cy="248" rx="5.5" ry="3" fill="#5A6678"/><ellipse cx="931" cy="248" rx="5.5" ry="3" fill="#5A6678"/>
+<!-- 박수 이펙트 -->
+<g class="tst-clap"><path d="M800,120 l-6,-6 M862,120 l6,-6 M892,136 l-6,-6 M950,136 l6,-6" stroke="#E8C468" stroke-width="1.8" stroke-linecap="round"/>
+<text x="860" y="112" font-size="12" font-weight="800" fill="#E8C468">짝짝</text>
+<text x="948" y="122" font-size="12" font-weight="800" fill="#E8C468">짝</text></g>
+<!-- 나 (앞쪽, 발을 축으로 꾸벅 인사) -->
+<g transform="rotate(9 872 312)">
+<circle cx="872" cy="216" r="11" fill="#4CC3E8"/>
+<path d="M867,226 q5,4 10,0" stroke="#0B0F17" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+<path d="M872,229 q-15,1 -16,21 l-1,20 q0,6 7,6 l20,0 q7,0 7,-6 l-1,-20 q-1,-20 -16,-21 z" fill="#4CC3E8"/>
+<path d="M862,242 L850,258 M882,242 L894,258" stroke="#4CC3E8" stroke-width="7" stroke-linecap="round"/>
+<path d="M867,275 L864,306 M877,275 L880,306" stroke="#4CC3E8" stroke-width="7" stroke-linecap="round"/>
+<ellipse cx="863" cy="310" rx="5.5" ry="3" fill="#2E7D96"/><ellipse cx="881" cy="310" rx="5.5" ry="3" fill="#2E7D96"/>
+</g>
+<g class="fm-breathe"><rect x="796" y="322" width="128" height="22" rx="11" fill="rgba(53,196,141,.1)" stroke="#35C48D" stroke-opacity=".55"/>
+<text x="808" y="337" font-size="11" font-weight="700" fill="#35C48D">위기 탈출 성공 🍻</text></g>
+</g>
+<text x="30" y="390" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#5A6678">ILLUSTRATIVE · 등장인물·대사는 전부 가상(예시) · 회식의 그 순간을 위한 비상 버튼</text>
 </svg>`};
 /* 제네릭 상세 — EXPERIMENTS 데이터만으로 표준 레이아웃 렌더(자금판 외 실험용) */
 function renderProjGen(e,i){
@@ -2661,6 +2847,18 @@ function renderProjGen(e,i){
     :'<p class="tagline" style="margin-top:8px">단계 정보 준비 중</p>';
   const panel=e.panel?`<div class="card flat"><div class="eyebrow eyebrow-ko" style="margin-bottom:10px">${e.panel.t}</div>${
     e.panel.kv.map(([k,v])=>`<div class="kv"><span>${k}</span><b>${v}</b></div>`).join('')}</div>`:'';
+  /* arts(선택, 복수) — 없으면 기존 art/artHint 단일 방식으로 폴백 */
+  const artList=(e.arts||(e.art?[{key:e.art,hint:e.artHint}]:[])).filter(a=>PJ_ART[a.key]);
+  const arts=artList.map(a=>`
+   <div class="sec-h" style="margin-top:30px"><div><span class="eyebrow">${a.eyebrow||'Overview'}</span><h2>${a.h2||'흐름 한눈에'}</h2></div>
+     <span class="hint">${a.hint||''}</span></div>
+   <div class="flowwrap">${PJ_ART[a.key]}</div>`).join('');
+  /* features(선택) — 자금판 상세의 '핵심 기능' grid3 카드 섹션 */
+  const feats=e.features?`
+   <div class="sec-h" style="margin-top:34px"><div><span class="eyebrow">${e.features.eyebrow||'Core Features'}</span><h2>${e.features.h2||'핵심 기능'}</h2></div>
+     ${e.features.hint?`<span class="hint">${e.features.hint}</span>`:''}</div>
+   <div class="grid3">${e.features.items.map(([t,d,link])=>`<div class="card flat"><h3>${t}</h3><p>${d}</p>${
+     link?`<a class="tagline" href="${link[1]}">${link[0]} →</a>`:''}</div>`).join('')}</div>`:'';
   /* showcase(선택) — 등록 글의 실사례 Before→After + AI 점검을 그대로 보여주는 블록 */
   const sc=e.showcase?`
    <div class="sec-h" style="margin-top:34px"><div><span class="eyebrow">Story</span><h2>${e.showcase.title||'실제로 이랬습니다 — Before → After'}</h2></div>
@@ -2686,9 +2884,8 @@ function renderProjGen(e,i){
      <h1 style="margin:0">${e.title}</h1>${pjChip(e)}</div>
    <p class="lead" style="margin-top:12px">${e.desc}</p>
    <div class="meta">${e.chips.map(c=>`<span class="chip">${c}</span>`).join('')}</div>
-   ${e.art&&PJ_ART[e.art]?`<div class="sec-h" style="margin-top:30px"><div><span class="eyebrow">Overview</span><h2>흐름 한눈에</h2></div>
-     <span class="hint">${e.artHint||''}</span></div>
-   <div class="flowwrap">${PJ_ART[e.art]}</div>`:''}
+   ${arts}
+   ${feats}
    <div class="grid2" style="margin-top:26px">
      <div class="card flat"><h3>어디까지 왔나</h3>${steps}
        ${e.story?`<p style="margin-top:14px;color:var(--mut)">${e.story}</p>`:''}</div>
