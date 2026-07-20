@@ -1601,7 +1601,7 @@ const mmdd=off=>{const d=new Date();d.setDate(d.getDate()+off);
 /* ── DATA ─────────────────────────────────────────────────── */
 /* 기록(LOG) — 이 실험실이 해온 일들. 새 일 = 객체 1개 추가 (최신이 위) */
 const LOGS=[
- {d:'2026-07-19',t:'두 번째 실험 「FX 자금조달판」 공개 — 마감 다음 이야기, 조달',tag:'실험',note:'외화 스왑 자금조달 도구(Excel VBA 6모듈·Mac/Win) 웹 체험 오픈 · 네팅 보드 → 파 날짜 후보 → 시뮬레이션 → 한도 → 딜까지 게임형 스토리 · 수치 전부 예시'},
+ {d:'2026-07-19',t:'두 번째 실험 「FX 자금조달판」 공개 — 마감 다음 이야기, 조달',tag:'실험',note:'외화 스왑 자금조달 도구(Excel VBA 6모듈·Mac/Win) 웹 체험 오픈 · 네팅 보드 → 갚을 날 고르기 → 체결 시뮬레이션 → 한도 → 체결까지 게임형 스토리 · 수치 전부 예시'},
  {d:'2026-07-12',t:'건배사 100회 채점 → 규칙서 완성 · N행시 모드 추가',tag:'실험',note:'실전 채점으로 추출한 규칙과 시범 답안을 프롬프트에 탑재(v7.9) · N행시 글자 맞춤은 기계 검증 · push=자동 배포 파이프라인'},
  {d:'2026-07-11',t:'사이트 최초 실제 AI 연동 — 건배사 자판기 REAL CLAUDE 점등',tag:'실험',note:'Cloudflare Worker로 API 키 서버 보관 · 후보 3잔 중 선발(best-of-3) · 실패 시 모의 폴백 정직 라벨 · EXP.04'},
  {d:'2026-07-09',t:'체험 「건배사 자판기」 오픈 — 회식의 비상 버튼',tag:'실험',note:'상황·분위기·키워드·아재개그 수위 → 선창·후창 생성 · 모의 응답(실제 Claude 연동 준비 중) · EXP.04'},
@@ -1694,15 +1694,15 @@ const EXPERIMENTS=[
   panel:{t:'운영 스냅샷 · 예시',kv:[['통화 블록','오전 7 + 오후 7'],['코드 규모','3모듈 · ~2,800줄'],['안전장치','점검 · 중복 경고 · 로그'],['버전','v3.31']]}},
  {status:'LIVE',pid:'fxp',title:'FX 자금조달판',hanja:'資金調達板',mission:'자금판',stTxt:'LIVE · 체험 가능',
   arts:[
-   {key:'fxpMap',eyebrow:'The Action',h2:'하루의 행동 지도 — 당기고, 굴리고',hint:'자금판 마감 결과 → 조달판 보드 → 중개 호가 비교·직거래 메신저·MM 운용까지 (수치·상대 전부 예시)'},
+   {key:'fxpMap',eyebrow:'The Action',h2:'하루를 그림 한 장으로 — 당기고, 굴리고',hint:'빈 칸(부족)은 시장에서 당겨 채워지고, 남는 칸은 굴리러 나갑니다 — 시계는 마감까지 (전부 예시·실거래 아님)'},
    {key:'fxp',eyebrow:'How It Works',h2:'어려운 건 접어 두고, 4단계로',hint:'붙여넣기 → 도구가 골라내기 → 돈의 달력 → 클릭하면 답 (수치 예시)'}],
-  demo:{g:'fx',d:'외화 스왑 자금조달 — 부족을 찾고 · 파 날짜를 고르고 · 딜을 던지기까지, 게임처럼'},
-  desc:'자금판이 마감을 끝내면 통화별로 남는 돈과 모자란 돈이 보입니다. 그 다음 일 — FX 스왑으로 자금을 당겨오고 밀어내는 조달·운용이 두 번째 실험입니다. 거래 일보를 붙여넣으면 통화×영업일 네팅 보드가 서고, 부족한 칸을 클릭하면 파 날짜 후보 → 체결 시뮬레이션 → 상대방 한도 → 요청 문구까지 한 흐름으로 이어집니다. Excel VBA(Mac·Windows 겸용)로 실전 운영을 준비 중입니다.',
+  demo:{g:'fx',d:'외화 스왑 조달·운용 — 부족을 찾고 · 갚을 날을 고르고 · 체결까지, 게임처럼'},
+  desc:'자금판이 마감을 끝내면 통화별로 남는 돈과 모자란 돈이 보입니다. 그 다음 일 — 모자란 통화는 FX 스왑으로 당겨오고(조달), 남는 통화는 굴리는(운용) 두 번째 도구입니다. 거래 일보를 붙여넣으면 통화×영업일 네팅 보드가 서고, 부족한 칸을 클릭하면 파 날짜 후보 → 체결 시뮬레이션 → 상대방 한도 → 요청 문구까지 한 흐름으로 이어집니다. Excel VBA(Mac·Windows 겸용)로 실전 운영을 준비 중입니다.',
   chips:['EXCEL VBA','네팅 보드','체결 시뮬','한도 칩','문구 자동'],
   story:'자금판을 쓰다 보니 마감 뒤에 똑같이 반복되는 일이 하나 더 있었습니다 — 며칠 뒤 결제 스케줄을 뒤져 반대 흐름을 찾고, 시세판과 계산기를 오가며 파 날짜를 정하고, 한도를 확인하고, 중개·상대은행에 보낼 문구를 손으로 조립하는 일. 이 판단 과정을 “클릭 몇 번”으로 접었습니다. 셀을 클릭하면 후보가 서고, 후보를 고르면 스케줄이 미리 체결된 것처럼 다시 그려지고, 한도가 스스로 손을 들며, 문구는 이미 완성돼 있습니다. 판단과 체결은 여전히 사람의 몫 — 도구는 그 앞의 반복을 대신합니다.',
   features:{eyebrow:'Core Features',h2:'여섯 가지 핵심 장치',hint:'Excel VBA로 실제 구동되는 구성 — 화면 수치는 예시',items:[
    ['네팅 보드','일보를 붙여넣으면 통화×앞 5영업일(TOD·TOM·SPOT…) 매트릭스가 자동으로 서고, 부족은 붉게 · 잉여는 푸르게. 오늘 처리할 것만 큐로 추려 줍니다.',['체험에서 보기','#demo/fx']],
-   ['파 날짜 후보','반대 흐름이 있는 매칭 날짜(체결하면 잔여 0)와 정규 테너(1W~6M)를 스왑포인트·1일당 비용과 함께 나란히 — 어느 날로 맞추는 게 유리한지 한눈에.'],
+   ['갚을 날짜 후보','돈이 들어올 날에 맞추는 매칭(체결하면 잔여 0)과 정해진 기간(1W~6M)을 가격·하루당 비용과 함께 나란히 — 어느 날로 맞추는 게 유리한지 한눈에.'],
    ['체결 가정 시뮬레이션','후보를 고르는 순간 그 통화의 결제 스케줄이 “체결했다면”의 세계로 다시 그려집니다. 달라지는 구간만 파란 숫자 — 감이 아니라 눈으로 확인.'],
    ['한도 신호등','거래 금액이 정해지면 상대방별 신용·결제리스크 한도를 자동 환산해 ○ 여유 · ▲ 주의 · × 위험 칩으로. 위험한 곳은 고르기 전에 손을 듭니다.'],
    ['요청 문구 자동','통화·금액·방향·니어/파 날짜가 실무 관례 그대로 문구로 조립되고 클립보드에 복사 — 중개·메신저에 그대로 던지면 됩니다.'],
@@ -2567,7 +2567,7 @@ function fxIntro(){
      <h3>마감은 끝났고, 내일이 문제입니다</h3>
      <p>돈이 빠질 날 <b style="color:var(--txt)">하루 먼저</b> 움직이면 — ① 계좌가 갑자기 비는 사고가 없고
        ② 서두르지 않으니 <b style="color:var(--txt)">가격도 유리</b>합니다.
-       이 미리 준비하는 거래가 <b style="color:var(--cyn)">조달</b>(모자라면 당겨오기) · <b style="color:var(--cyn)">운용</b>(남으면 굴리기).
+       모자라면 미리 당겨오는 게 <b style="color:var(--cyn)">조달</b>, 남으면 굴리는 게 <b style="color:var(--cyn)">운용</b>입니다.
        마지막엔 <b style="color:var(--amb)">딜 점수</b>가 나옵니다 — 오늘의 시나리오를 고르세요.</p>
      <div class="fxscn">${Object.values(FX_SCNS).map(s=>`
        <button data-fx="scn" data-k="${s.key}"><span class="lv">${s.lv}</span>
@@ -2601,7 +2601,7 @@ function fxCands(){
   const ruleTxt=S.rule==='bestpd'
     ?`들어올 돈이 없으니 <b>정해진 기간(테너)</b> 중에서 고릅니다 — 기준은 <b style="color:var(--txt)">하루당 비용(1일당)</b>. 총액이 아니라 “하루에 얼마 내는 셈인가”로 견줘야 공정합니다.`
     :S.amt<0
-    ?`<b style="color:var(--cyn)">매칭</b> = 그날 ${S.ccy}가 들어올 예정이라 <b>그 돈으로 갚으면 딱 0</b>이 되는 날짜 — 공짜 퍼즐 맞추기. 테너(1W·1M)는 하루당 비용으로 비교.`
+    ?`<b style="color:var(--cyn)">매칭</b> = 그날 ${S.ccy}가 들어올 예정이라 <b>그 돈으로 갚으면 딱 0</b>이 되는 날짜 — 날짜 퍼즐 맞추기. 테너(1W·1M)는 하루당 비용으로 비교.`
     :`남는 돈은 <b>다시 필요해지는 날</b>까지만 굴립니다. <b style="color:var(--cyn)">매칭</b> = 그날 ${S.ccy}가 나갈 예정이라 <b>회수 시점이 딱 맞는</b> 날짜.`;
   $('#fxStage').innerHTML=`
    <div class="tr-guide">💡 ${S.verb} 금액은 정해졌습니다(${S.unit}mio). 남은 결정 — <b style="color:var(--txt)">${S.amt<0?'언제 갚을까':'언제까지 굴릴까'}?</b><br>
@@ -2653,10 +2653,10 @@ function fxPaint(){
       if(!c)hint.textContent='후보를 먼저 선택하세요';
       else if(S.rule==='bestpd')hint.innerHTML=c.best
         ?`<b style="color:var(--grn)">좋은 눈!</b> ${c.tag}가 하루당 ${c.pd.toFixed(3)}으로 제일 쌉니다`
-        :`가능은 합니다 — 다만 1일당을 비교하면 <b>2W(-0.330)</b>가 더 쌌어요`;
+        :`가능은 합니다 — 1일당을 비교하면 <b>${S.cands.find(x=>x.best).tag}(${S.cands.find(x=>x.best).pd.toFixed(3)})</b>가 더 쌌어요`;
       else hint.innerHTML=c.after===0
         ?`<b style="color:var(--grn)">완전 스퀘어!</b> ${S.amt<0?'들어올 돈으로 갚아':'나갈 날에 맞춰 회수해'} 남는 것도 모자란 것도 없음`
-        :`가능은 합니다 — 다만 잔여 ${c.after}mio가 남아요. 날짜를 맞추는 매칭이 더 깔끔`;}}
+        :`가능은 합니다 — 다만 ${c.after}mio가 그대로 남습니다. 날짜를 맞추는 매칭이 더 깔끔`;}}
 }
 function fxLimit(){
   fxSteps(3);fxCp=-1;
@@ -2818,7 +2818,7 @@ function fxReport(){
     ?(c.best?['★',S.amt<0?'갚을 날':'회수일','<b>'+c.tag+'</b> — 하루당 비용 최저. 정확한 눈!']
              :['△',S.amt<0?'갚을 날':'회수일',c.tag+' — 되긴 하지만 1일당 비교에선 <b>'+bestC.tag+'</b>('+bestC.pd.toFixed(3)+')가 더 쌌어요'])
     :(c.after===0?['★',S.amt<0?'갚을 날':'회수일','<b>매칭 '+c.far+'</b> — 날짜가 딱 맞아 잔여 0. 만점!']
-             :['△',S.amt<0?'갚을 날':'회수일',c.tag+' — 잔여 '+c.after+'mio가 남았어요. 매칭('+bestC.far+')이 있었습니다']);
+             :['△',S.amt<0?'갚을 날':'회수일',c.tag+' — '+c.after+'mio가 그대로 남았어요. 매칭('+bestC.far+')이 있었습니다']);
   const jCp=cp[1]==='ok'
     ?['★','거래 상대','<b>'+cpNm+'</b> — '+cp[2]+'. 안전한 선택']
     :['△','거래 상대',cpNm+' — ▲ 주의 상태에서 진행('+cp[2]+'). 여유 있는 곳이 네 군데 있었어요'];
@@ -2852,7 +2852,7 @@ function fxReport(){
        <tr><td>날짜 비교</td><td class="old">시세판 보며 수기 환산</td><td class="new">후보 + 1일당 자동</td></tr>
        <tr><td>한도 확인</td><td class="old">다른 파일 열어 환산</td><td class="new">○▲× 신호등 자동</td></tr>
        <tr><td>문구 작성</td><td class="old">손 타이핑 — 오타 = 사고</td><td class="new">자동 조립 + 복사</td></tr>
-       <tr><td>합계</td><td class="old">~15분 · 사고 위험 (예시)</td><td class="new">오늘 당신: ${secs.toFixed(0)}초 · ${fxClicks}클릭</td></tr>
+       <tr><td>전체</td><td class="old">~15분 · 사고 위험 (예시)</td><td class="new">오늘 당신: ${secs.toFixed(0)}초 · ${fxClicks}클릭</td></tr>
      </tbody></table></div>
      <div class="eyebrow" style="margin-top:14px">Next — 공모 아이디어 (다음 버전 구상 · 아직 없음)</div>
      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
@@ -3177,74 +3177,90 @@ const PJ_ART={note:`<svg class="flowmap" viewBox="0 0 1000 400" xmlns="http://ww
 <text x="700" y="271" font-size="12" font-weight="700" fill="#35C48D">되묻는 질문 0건</text>
 <text x="30" y="392" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#5A6678">ALL TEXT ILLUSTRATIVE (예시) · 체험 데모와 동일한 규칙 · 이름·장소 가명</text>
 </svg>`,
-fxpMap:`<svg class="flowmap" viewBox="0 0 1000 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="마감 시한 안에서 통화별로 조달·운용을 나눠 중개 호가를 비교하고 직거래로 체결하는 하루의 행동 지도">
-<rect x="30" y="18" width="940" height="34" rx="9" fill="#111A28" stroke="#223047"/>
-<text x="46" y="40" font-family="'JetBrains Mono',monospace" font-size="12.5" fill="#E8EDF5" font-weight="700">PM 15:42<tspan fill="#F0545C"><animate attributeName="opacity" values="1;1;0;1" dur="1s" repeatCount="indefinite"/>:</tspan>07</text>
-<text x="150" y="40" font-family="'JetBrains Mono',monospace" font-size="11" fill="#8A94A6">— 오늘 결제분 마감(CUT-OFF)까지</text>
-<text x="392" y="40" font-family="'JetBrains Mono',monospace" font-size="12.5" fill="#F0545C" font-weight="700">47분<animate attributeName="opacity" values="1;.45;1" dur="1.6s" repeatCount="indefinite"/></text>
-<rect x="460" y="30" width="330" height="8" rx="4" fill="#1A2434"/>
-<rect x="460" y="30" width="238" height="8" rx="4" fill="#F5A742" opacity=".8"/>
-<text x="806" y="40" font-family="'JetBrains Mono',monospace" font-size="11" fill="#8A94A6">CUT-OFF <tspan fill="#F0545C" font-weight="700">16:30</tspan></text>
-<text x="30" y="92" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">FROM · 자금판 마감</text>
-<rect x="30" y="106" width="132" height="108" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.4"/>
-<text x="46" y="132" font-size="12.5" fill="#E8EDF5" font-weight="700">마감 리포트</text>
-<g font-family="'JetBrains Mono',monospace" font-size="10">
-<text x="46" y="154" fill="#F0545C">HKD 부족</text>
-<text x="46" y="172" fill="#35C48D">CNY 남음</text>
-<text x="46" y="190" fill="#8A94A6">JPY 다음주</text></g>
-<path d="M162,160 C 190,160 196,160 218,160" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
-<path class="fm-flow" d="M162,160 C 190,160 196,160 218,160" stroke="#F5A742" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.2s"/>
-<text x="218" y="92" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">BOARD · 조달판 — 통화별 작전</text>
-<rect x="218" y="106" width="222" height="330" rx="14" fill="#1c160b" stroke="#F5A742" stroke-width="2"/>
-<g font-size="11">
-<rect x="234" y="122" width="190" height="86" rx="9" fill="rgba(240,84,92,.07)" stroke="#F0545C" stroke-opacity=".4"/>
-<text x="248" y="144" font-family="'JetBrains Mono',monospace" font-size="11.5" fill="#F0545C" font-weight="800">HKD −250 · 내일</text>
-<text x="248" y="163" font-size="10.5" fill="#E8EDF5">작전: 스왑으로 당겨오기(조달)</text>
-<text x="248" y="180" font-size="10" fill="#8A94A6">갚을 날 = 매칭 07/27 (잔여 0)</text>
-<text x="248" y="197" font-size="10" fill="#E8C468">호가 3곳 비교 → 직거래 네고</text>
-<rect x="234" y="218" width="190" height="86" rx="9" fill="rgba(53,196,141,.06)" stroke="#35C48D" stroke-opacity=".4"/>
-<text x="248" y="240" font-family="'JetBrains Mono',monospace" font-size="11.5" fill="#35C48D" font-weight="800">CNY +200 · 내일</text>
-<text x="248" y="259" font-size="10.5" fill="#E8EDF5">작전: 남는 돈 굴리기(운용)</text>
-<text x="248" y="276" font-size="10" fill="#8A94A6">스왑 S/B vs MM 예치 — 비교</text>
-<text x="248" y="293" font-size="10" fill="#E8C468">금리 우위 쪽으로 실행</text>
-<rect x="234" y="314" width="190" height="64" rx="9" fill="rgba(90,102,120,.08)" stroke="#5A6678" stroke-opacity=".4" stroke-dasharray="4 3"/>
-<text x="248" y="336" font-family="'JetBrains Mono',monospace" font-size="11.5" fill="#8A94A6" font-weight="800">JPY −100 · 다음주</text>
-<text x="248" y="355" font-size="10" fill="#5A6678">아직 여유 — 오늘은 모니터만</text>
-<text x="234" y="410" font-size="10" fill="#5A6678">클릭 → 후보·시뮬·한도·문구 자동</text></g>
-<text x="490" y="92" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">MARKET · 시한 안에 좋은 값 잡기</text>
-<g font-family="'JetBrains Mono',monospace">
-<text x="490" y="122" font-size="10.5" fill="#F0545C" font-weight="700">LANE 1 · HKD 조달 — FX SWAP</text>
-<rect x="490" y="132" width="128" height="42" rx="9" fill="#111A28" stroke="#223047"/>
-<text x="502" y="150" font-size="10.5" fill="#8A94A6">중개 A</text>
-<text x="502" y="166" font-size="10.5" fill="#5A6678">-1.07/-0.98 <tspan fill="#5A6678">✗</tspan></text>
-<rect x="632" y="132" width="128" height="42" rx="9" fill="#111A28" stroke="#223047"/>
-<text x="644" y="150" font-size="10.5" fill="#8A94A6">중개 B <tspan fill="#35C48D" font-size="9">▲</tspan></text>
-<g><text x="644" y="166" font-size="10.5" fill="#5A6678">-1.06/-0.97 ✗<animate attributeName="opacity" values="1;1;0;0;1" dur="2.6s" repeatCount="indefinite"/></text>
-<text x="644" y="166" font-size="10.5" fill="#5A6678" opacity="0">-1.06/-0.96 ✗<animate attributeName="opacity" values="0;0;1;1;0" dur="2.6s" repeatCount="indefinite"/></text></g>
-<rect x="774" y="128" width="196" height="50" rx="10" fill="rgba(53,196,141,.07)" stroke="#35C48D" stroke-width="1.6"><animate attributeName="stroke-opacity" values="1;.4;1" dur="2s" repeatCount="indefinite"/></rect>
-<text x="788" y="147" font-size="10.5" fill="#E8EDF5" font-weight="700">B은행 직거래 <tspan fill="#F5A742">BEST ✓</tspan></text>
-<text x="788" y="164" font-size="10.5" fill="#35C48D" font-weight="700">네고 -0.98 → -1.00 DONE</text>
-<path d="M440,160 C 462,160 468,153 490,153" stroke="#5A6678" stroke-width="1.1" stroke-opacity=".45" stroke-dasharray="3 5" fill="none"/>
-<path d="M618,153 L 632,153" stroke="#5A6678" stroke-width="1.1" stroke-opacity=".45" stroke-dasharray="3 5" fill="none"/>
-<path d="M760,153 L 774,153" stroke="#35C48D" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
-<path class="fm-flow" d="M440,160 C 560,160 660,153 774,153" stroke="#35C48D" stroke-width="2" stroke-opacity=".85" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.3s;animation-delay:-.6s"/>
-<text x="490" y="216" font-size="10.5" fill="#4CC3E8" font-weight="700">LANE 2 · CNY 운용 — 스왑 vs 자금거래(MM) 비교</text>
-<rect x="490" y="226" width="180" height="42" rx="9" fill="#111A28" stroke="#223047"/>
-<text x="502" y="244" font-size="10.5" fill="#8A94A6">FX 스왑 S/B 환산</text>
-<text x="502" y="260" font-size="10.5" fill="#5A6678">≒ 연 3.05% ✗</text>
-<rect x="690" y="222" width="180" height="50" rx="10" fill="rgba(76,195,232,.07)" stroke="#4CC3E8" stroke-width="1.6"/>
-<text x="702" y="241" font-size="10.5" fill="#E8EDF5" font-weight="700">C은행 MM 예치 <tspan fill="#F5A742">WIN</tspan></text>
-<text x="702" y="258" font-size="10.5" fill="#4CC3E8" font-weight="700">연 3.20% · +0.15%p DONE</text>
-<path d="M440,256 C 462,256 468,247 490,247" stroke="#5A6678" stroke-width="1.1" stroke-opacity=".45" stroke-dasharray="3 5" fill="none"/>
-<path class="fm-flow" d="M440,256 C 560,256 600,247 690,247" stroke="#4CC3E8" stroke-width="2" stroke-opacity=".85" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.7s;animation-delay:-1.3s"/>
-<text x="490" y="310" font-size="10.5" fill="#8A94A6" font-weight="700">LANE 3 · JPY — 오늘은 관망</text>
-<path d="M440,346 C 500,346 520,326 560,326" stroke="#5A6678" stroke-width="1.1" stroke-opacity=".35" stroke-dasharray="3 6" fill="none"/>
-<text x="490" y="332" font-size="10" fill="#5A6678">시세만 지켜보다가, 유리해지면 그때 —</text>
-<g class="fm-breathe"><rect x="490" y="360" width="480" height="66" rx="12" fill="rgba(53,196,141,.06)" stroke="#35C48D" stroke-opacity=".5"/>
-<text x="510" y="386" font-family="'JetBrains Mono',monospace" font-size="12" fill="#35C48D" font-weight="700">15:58 — 컷오프 32분 전, 두 딜 완료 ✓ 내일은 이미 준비됨</text>
-<text x="510" y="406" font-size="10" fill="#8A94A6">부족은 좋은 값에 당겨왔고, 남는 돈은 더 주는 곳에 굴렸습니다</text></g></g>
-<text x="30" y="470" font-size="11" fill="#5A6678">통화마다 작전을 세우고 — 조달은 호가 비교 끝에 직거래 네고로, 운용은 스왑과 자금거래를 견줘서 —</text>
-<text x="30" y="488" font-size="11" fill="#5A6678">마감 시한 안에 하나씩 DONE. 수치·상대·시각 전부 예시, 실거래 아님.</text>
+fxpMap:`<svg class="flowmap" viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="조달판 보드의 부족 칸(빨강)이 시장의 은행·중개에서 당겨온 돈으로 채워지고, 남는 칸(초록)은 금고로 굴러가며, 시계는 마감까지 줄어드는 하루의 그림">
+<defs>
+<linearGradient id="fxg1" x1="0" y1="0" x2="1" y2="0">
+ <stop offset="0" stop-color="#35C48D" stop-opacity="0"/><stop offset="1" stop-color="#35C48D" stop-opacity=".55"/></linearGradient>
+<linearGradient id="fxg2" x1="0" y1="0" x2="1" y2="0">
+ <stop offset="0" stop-color="#4CC3E8" stop-opacity=".55"/><stop offset="1" stop-color="#4CC3E8" stop-opacity="0"/></linearGradient>
+</defs>
+<circle cx="916" cy="66" r="34" fill="#111A28" stroke="#223047" stroke-width="2"/>
+<circle cx="916" cy="66" r="34" fill="none" stroke="#F0545C" stroke-width="5" stroke-linecap="round"
+  stroke-dasharray="213.6" transform="rotate(-90 916 66)">
+  <animate attributeName="stroke-dashoffset" values="64;186" dur="9s" repeatCount="indefinite"/></circle>
+<line x1="916" y1="66" x2="916" y2="44" stroke="#8A94A6" stroke-width="2.4" stroke-linecap="round">
+  <animateTransform attributeName="transform" type="rotate" from="0 916 66" to="360 916 66" dur="9s" repeatCount="indefinite"/></line>
+<circle cx="916" cy="66" r="3.4" fill="#8A94A6"/>
+<text x="916" y="118" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#F0545C" font-weight="700">16:30</text>
+<rect x="56" y="96" width="290" height="340" rx="18" fill="#1c160b" stroke="#F5A742" stroke-width="2.4"/>
+<rect x="56" y="96" width="290" height="34" rx="18" fill="#F5A742" opacity=".14"/>
+<circle cx="80" cy="113" r="4" fill="#F5A742"/><circle cx="96" cy="113" r="4" fill="#F5A742" opacity=".45"/><circle cx="112" cy="113" r="4" fill="#F5A742" opacity=".2"/>
+<g>
+<rect x="80" y="150" width="52" height="30" rx="7" fill="#182234"/><rect x="142" y="150" width="52" height="30" rx="7" fill="#182234"/><rect x="204" y="150" width="52" height="30" rx="7" fill="#182234"/><rect x="266" y="150" width="52" height="30" rx="7" fill="#182234"/>
+<rect x="80" y="192" width="52" height="30" rx="7" fill="#182234"/>
+<rect x="142" y="192" width="52" height="30" rx="7" fill="rgba(240,84,92,.2)" stroke="#F0545C" stroke-width="2">
+  <animate attributeName="stroke-opacity" values="1;.35;1" dur="1.4s" repeatCount="indefinite"/>
+  <animate attributeName="fill" values="rgba(240,84,92,.2);rgba(240,84,92,.2);rgba(240,84,92,.2);rgba(53,196,141,.24);rgba(53,196,141,.24);rgba(240,84,92,.2)" keyTimes="0;.5;.62;.66;.9;1" dur="7s" repeatCount="indefinite"/></rect>
+<rect x="204" y="192" width="52" height="30" rx="7" fill="#182234"/><rect x="266" y="192" width="52" height="30" rx="7" fill="#182234"/>
+<rect x="80" y="234" width="52" height="30" rx="7" fill="rgba(53,196,141,.18)" stroke="#35C48D" stroke-width="1.6"/>
+<rect x="142" y="234" width="52" height="30" rx="7" fill="#182234"/><rect x="204" y="234" width="52" height="30" rx="7" fill="#182234"/><rect x="266" y="234" width="52" height="30" rx="7" fill="#182234"/>
+<rect x="80" y="276" width="52" height="30" rx="7" fill="#182234"/><rect x="142" y="276" width="52" height="30" rx="7" fill="#182234"/><rect x="204" y="276" width="52" height="30" rx="7" fill="#182234"/><rect x="266" y="276" width="52" height="30" rx="7" fill="#182234"/>
+</g>
+<g>
+<rect x="84" y="352" width="14" height="52" rx="3" fill="#223047"/>
+<rect x="106" y="368" width="14" height="36" rx="3" fill="#223047"/>
+<rect x="128" y="340" width="14" height="64" rx="3" fill="rgba(240,84,92,.55)">
+  <animate attributeName="opacity" values="1;.45;1" dur="1.4s" repeatCount="indefinite"/></rect>
+<rect x="150" y="376" width="14" height="28" rx="3" fill="#223047"/>
+<rect x="172" y="360" width="14" height="44" rx="3" fill="#223047"/>
+<rect x="194" y="348" width="14" height="56" rx="3" fill="rgba(53,196,141,.5)"/>
+<rect x="216" y="372" width="14" height="32" rx="3" fill="#223047"/>
+<rect x="238" y="366" width="14" height="38" rx="3" fill="#223047"/>
+<rect x="260" y="356" width="14" height="48" rx="3" fill="#223047"/>
+<rect x="282" y="374" width="14" height="30" rx="3" fill="#223047"/>
+<line x1="80" y1="410" x2="322" y2="410" stroke="#223047" stroke-width="1.4"/>
+</g>
+<line x1="560" y1="436" x2="972" y2="436" stroke="#223047" stroke-width="2"/>
+<g>
+<rect x="580" y="256" width="74" height="180" rx="6" fill="#111A28" stroke="#223047" stroke-width="1.6"/>
+<line x1="617" y1="230" x2="617" y2="256" stroke="#223047" stroke-width="2"/><circle cx="617" cy="228" r="4" fill="#4CC3E8" opacity=".8"><animate attributeName="opacity" values=".8;.2;.8" dur="2s" repeatCount="indefinite"/></circle>
+<g fill="#E8C468" opacity=".75"><rect x="592" y="272" width="12" height="9" rx="2"/><rect x="612" y="272" width="12" height="9" rx="2"/><rect x="632" y="290" width="12" height="9" rx="2"/><rect x="592" y="308" width="12" height="9" rx="2"/><rect x="632" y="326" width="12" height="9" rx="2"/><rect x="612" y="344" width="12" height="9" rx="2"/><rect x="592" y="380" width="12" height="9" rx="2"><animate attributeName="opacity" values="1;.15;1" dur="3.1s" repeatCount="indefinite"/></rect></g>
+<g fill="#223047"><rect x="632" y="272" width="12" height="9" rx="2"/><rect x="592" y="290" width="12" height="9" rx="2"/><rect x="612" y="290" width="12" height="9" rx="2"/><rect x="612" y="308" width="12" height="9" rx="2"/><rect x="632" y="308" width="12" height="9" rx="2"/><rect x="592" y="326" width="12" height="9" rx="2"/><rect x="612" y="326" width="12" height="9" rx="2"/></g>
+<rect x="700" y="196" width="86" height="240" rx="6" fill="#111A28" stroke="#35C48D" stroke-opacity=".55" stroke-width="2">
+  <animate attributeName="stroke-opacity" values=".55;1;.55" dur="2.4s" repeatCount="indefinite"/></rect>
+<line x1="743" y1="168" x2="743" y2="196" stroke="#223047" stroke-width="2"/><circle cx="743" cy="166" r="4" fill="#35C48D"><animate attributeName="opacity" values="1;.25;1" dur="1.6s" repeatCount="indefinite"/></circle>
+<g fill="#E8C468" opacity=".8"><rect x="714" y="212" width="13" height="10" rx="2"/><rect x="736" y="212" width="13" height="10" rx="2"/><rect x="758" y="230" width="13" height="10" rx="2"/><rect x="714" y="248" width="13" height="10" rx="2"/><rect x="736" y="266" width="13" height="10" rx="2"/><rect x="758" y="284" width="13" height="10" rx="2"/><rect x="714" y="320" width="13" height="10" rx="2"/><rect x="758" y="356" width="13" height="10" rx="2"/><rect x="736" y="392" width="13" height="10" rx="2"><animate attributeName="opacity" values=".8;.1;.8" dur="2.7s" repeatCount="indefinite"/></rect></g>
+<g fill="#223047"><rect x="758" y="212" width="13" height="10" rx="2"/><rect x="714" y="230" width="13" height="10" rx="2"/><rect x="736" y="230" width="13" height="10" rx="2"/><rect x="736" y="248" width="13" height="10" rx="2"/><rect x="758" y="248" width="13" height="10" rx="2"/><rect x="714" y="266" width="13" height="10" rx="2"/><rect x="758" y="320" width="13" height="10" rx="2"/><rect x="714" y="356" width="13" height="10" rx="2"/><rect x="736" y="320" width="13" height="10" rx="2"/></g>
+<rect x="832" y="286" width="64" height="150" rx="6" fill="#111A28" stroke="#223047" stroke-width="1.6"/>
+<g fill="#E8C468" opacity=".7"><rect x="844" y="300" width="11" height="8" rx="2"/><rect x="862" y="318" width="11" height="8" rx="2"/><rect x="844" y="336" width="11" height="8" rx="2"/><rect x="862" y="372" width="11" height="8" rx="2"/></g>
+<g fill="#223047"><rect x="862" y="300" width="11" height="8" rx="2"/><rect x="844" y="318" width="11" height="8" rx="2"/><rect x="862" y="336" width="11" height="8" rx="2"/><rect x="844" y="354" width="11" height="8" rx="2"/><rect x="862" y="354" width="11" height="8" rx="2"/></g>
+<rect x="912" y="336" width="58" height="100" rx="10" fill="#111A28" stroke="#4CC3E8" stroke-opacity=".6" stroke-width="2"/>
+<circle cx="941" cy="376" r="17" fill="none" stroke="#4CC3E8" stroke-opacity=".7" stroke-width="3"/>
+<circle cx="941" cy="376" r="6.5" fill="none" stroke="#4CC3E8" stroke-opacity=".7" stroke-width="2.4"/>
+<line x1="941" y1="376" x2="941" y2="362" stroke="#4CC3E8" stroke-opacity=".7" stroke-width="2.4"/>
+</g>
+<path d="M194,207 C 360,180 480,300 596,300" stroke="#5A6678" stroke-width="1.2" stroke-opacity=".4" stroke-dasharray="3 6" fill="none"/>
+<path d="M194,207 C 380,168 560,340 848,340" stroke="#5A6678" stroke-width="1.2" stroke-opacity=".4" stroke-dasharray="3 6" fill="none"/>
+<path id="fxDealIn" d="M743,240 C 560,220 400,207 200,207" stroke="url(#fxg1)" stroke-width="3" fill="none"/>
+<path d="M743,240 C 560,220 400,207 200,207" stroke="#35C48D" stroke-width="1.2" stroke-opacity=".25" fill="none"/>
+<circle r="5" fill="#35C48D"><animateMotion dur="7s" repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" begin="0s"><mpath href="#fxDealIn"/></animateMotion>
+  <animate attributeName="opacity" values="0;1;1;1;0" keyTimes="0;.1;.5;.9;1" dur="7s" repeatCount="indefinite"/></circle>
+<circle r="3.6" fill="#35C48D" opacity=".8"><animateMotion dur="7s" begin="0.7s" repeatCount="indefinite"><mpath href="#fxDealIn"/></animateMotion></circle>
+<circle r="3" fill="#35C48D" opacity=".55"><animateMotion dur="7s" begin="1.3s" repeatCount="indefinite"><mpath href="#fxDealIn"/></animateMotion></circle>
+<g><rect x="-15" y="-10" width="30" height="20" rx="5" fill="#0B0F17" stroke="#35C48D" stroke-width="1.6"/>
+ <path d="M-6,0 L-2,5 L7,-5" stroke="#35C48D" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+ <animateMotion dur="7s" begin="2.1s" repeatCount="indefinite"><mpath href="#fxDealIn"/></animateMotion></g>
+<path id="fxDealOut" d="M106,249 C 340,290 600,392 918,392" stroke="url(#fxg2)" stroke-width="3" fill="none"/>
+<path d="M106,249 C 340,290 600,392 918,392" stroke="#4CC3E8" stroke-width="1.2" stroke-opacity=".22" fill="none"/>
+<circle r="5" fill="#4CC3E8"><animateMotion dur="8s" repeatCount="indefinite"><mpath href="#fxDealOut"/></animateMotion></circle>
+<circle r="3.6" fill="#4CC3E8" opacity=".75"><animateMotion dur="8s" begin="1s" repeatCount="indefinite"><mpath href="#fxDealOut"/></animateMotion></circle>
+<circle r="3" fill="#4CC3E8" opacity=".5"><animateMotion dur="8s" begin="1.9s" repeatCount="indefinite"><mpath href="#fxDealOut"/></animateMotion></circle>
+<g opacity=".9"><circle cx="0" cy="0" r="9" fill="none" stroke="#4CC3E8" stroke-width="2"/><path d="M0,-4 L0,4 M-3.5,-1 C-3.5,-3 3.5,-3 3.5,-1 M-3.5,1 C-3.5,3 3.5,3 3.5,1" stroke="#4CC3E8" stroke-width="1.6" fill="none"/>
+ <animateMotion dur="8s" begin="3s" repeatCount="indefinite"><mpath href="#fxDealOut"/></animateMotion></g>
+<circle cx="168" cy="207" r="10" fill="none" stroke="#35C48D" stroke-width="2" opacity="0">
+  <animate attributeName="opacity" values="0;0;.9;0" keyTimes="0;.6;.66;.8" dur="7s" repeatCount="indefinite"/>
+  <animate attributeName="r" values="6;6;10;22" keyTimes="0;.6;.66;.8" dur="7s" repeatCount="indefinite"/></circle>
+<text x="56" y="482" font-family="'JetBrains Mono',monospace" font-size="10" letter-spacing="1.5" fill="#5A6678">SIMULATION · 전부 예시 — 실거래 아님</text>
 </svg>`,
 fxp:`<svg class="flowmap" viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="거래 내역 붙여넣기 → 도구가 골라내기 → 돈의 달력 → 클릭하면 답 — 쉬운 4단계">
 <text x="30" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">STEP 1 · 붙여넣기</text>
