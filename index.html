@@ -522,6 +522,28 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .fxjdg .j b{color:var(--txt);font-size:12.5px}
 .fxscore{font-family:var(--mono);font-weight:800;font-size:22px;color:var(--amb);margin:10px 0 2px}
 .fxscore span{font-size:12px;color:var(--dim);font-weight:400;font-family:var(--kor)}
+.fxscn{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0 4px}
+@media (max-width:760px){.fxscn{grid-template-columns:1fr}}
+.fxscn button{text-align:left;border:1px solid var(--grid);border-radius:12px;background:var(--panel2);padding:15px;cursor:pointer;transition:transform .12s,border-color .15s}
+.fxscn button:hover{transform:translateY(-2px);border-color:var(--amb)}
+.fxscn .lv{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;border-radius:99px;padding:2px 9px;margin-bottom:8px;border:1px solid var(--grid);color:var(--mut)}
+.fxscn button:nth-child(1) .lv{color:var(--grn);border-color:rgba(53,196,141,.45)}
+.fxscn button:nth-child(2) .lv{color:var(--amb);border-color:rgba(245,167,66,.45)}
+.fxscn button:nth-child(3) .lv{color:var(--cyn);border-color:rgba(76,195,232,.45)}
+.fxscn .t{display:block;font-weight:800;font-size:14.5px;color:var(--txt)}
+.fxscn .d{display:block;font-size:12px;color:var(--mut);margin-top:5px;line-height:1.55}
+.fxchat .xl{font-size:10.5px;color:var(--dim);margin:-4px 4px 0;max-width:82%}
+.fxchat .xl.r{align-self:flex-end;text-align:right}
+.fxbrk .q.tick{animation:fxtick .5s}
+@keyframes fxtick{0%{background:var(--ambf)}100%{background:transparent}}
+.fxbrk .r .mv{font-size:10px;width:14px;text-align:center}
+.fxbrk .r .mv.up{color:var(--grn)} .fxbrk .r .mv.dn{color:var(--red)}
+.fxtbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:12.5px}
+.fxtbl th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--mut);text-align:left;padding:7px 10px;border-bottom:1px solid var(--grid)}
+.fxtbl td{padding:8px 10px;border-bottom:1px solid var(--grid2);color:var(--mut);vertical-align:top}
+.fxtbl td:first-child{color:var(--txt);font-weight:700;white-space:nowrap}
+.fxtbl td.old{color:var(--red)} .fxtbl td.new{color:var(--grn)}
+@media (prefers-reduced-motion:reduce){.fxbrk .q.tick{animation:none}}
 /* ── 데모 허브(실험 그룹 선택) — 새 데모 = dcard 1개 + dgroup 1개 ── */
 .dsel{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-bottom:24px}
 .dcard{display:flex;flex-direction:column;gap:7px;text-align:left;border:1px solid var(--grid);border-radius:13px;background:var(--panel2);padding:15px 17px;cursor:pointer;font-family:var(--kor);transition:border-color .15s}
@@ -1685,6 +1707,22 @@ const EXPERIMENTS=[
    ['한도 신호등','거래 금액이 정해지면 상대방별 신용·결제리스크 한도를 자동 환산해 ○ 여유 · ▲ 주의 · × 위험 칩으로. 위험한 곳은 고르기 전에 손을 듭니다.'],
    ['요청 문구 자동','통화·금액·방향·니어/파 날짜가 실무 관례 그대로 문구로 조립되고 클립보드에 복사 — 중개·메신저에 그대로 던지면 됩니다.'],
    ['누적 일보 엔진','매일 아래에 이어 붙이기만 하면 끝. 같은 거래가 다시 나오면 최신 행만, 취소승인이 나타나면 원거래까지 자동 제외 — 붙여넣기 실수도 흡수합니다.']]},
+  showcase:{
+    title:'조달판 전과 후 — 같은 아침, 다른 하루',
+    hint:'수기 시절의 실제 순서 재구성 · 시간은 예시 추정',
+    bTag:'BEFORE — 수기 시절 (한 건 ~15분)',
+    aTag:'AFTER — 조달판 (한 건 ~30초 · 클릭 4번)',
+    ckTitle:'⚠ 수기 한 건에 숨어 있던 함정들',
+    before:'결제 스케줄 시트 3개를 열어 눈으로 대조 → 통화별 유출입을 계산기로 두드려 네팅 → 시세판을 보며 파 날짜별 포인트를 수기로 견줌 → 한도는 또 다른 파일을 열어 환산 → 문구를 손으로 타이핑 → 전화·메신저로 확인.',
+    missNote:'매일 아침 반복 · 한 곳만 놓쳐도 마감 사고 — 판단이 아니라 “찾고 베끼는 일”에 시간이 샜습니다',
+    checks:[['miss','스케줄 대조 — 시트 3개를 눈으로 오가다 한 줄 놓침'],
+      ['miss','네팅 계산 — 계산기 재입력 중 자릿수 실수'],
+      ['vague','한도 확인 — 다른 파일 열어 수기 환산 · 아침엔 자주 생략'],
+      ['miss','문구 타이핑 — 날짜·금액 오타는 곧 금액 사고'],
+      ['ok','판단(어느 날짜·어느 상대) — 이건 원래 사람의 몫']],
+    after:['① 부족 칸 클릭 — 갚을 날 후보·달력 미리보기 자동','② 후보 선택 — “체결했다면”을 눈으로 확인',
+      '③ 한도 신호등 — ○▲× 로 즉시 (환산 자동)','④ 문구 자동 완성 → 복사 → 메신저',
+      '검증·기록·재계산은 전부 도구가 — 사람은 판단만']},
   steps:[['웹 목업 설계','done'],['Excel VBA 이식 · Mac/Win','done'],['클릭 패널·시뮬·한도','done'],['실전 데이터 검증','cur'],['자금거래 연결','']],
   stepsH:'실험 진행 상황',
   ctas:[['조달 체험 시작','#demo/fx','amber'],['프로젝트 상세','#project/fxp','ghost']],
@@ -2462,22 +2500,48 @@ function bindTour(){
   });
 }
 
-/* ── DEMO GROUP: FX 자금조달판(dg-fx) — 조달 스토리 + 거래 게임 ──
+/* ── DEMO GROUP: FX 자금조달판(dg-fx) — 조달·운용 스토리 + 거래 게임 ──
    자금판 마감의 다음 이야기. 규칙은 Excel VBA 실물과 동일 · 수치는 전부 예시 · 실거래 아님 */
-const FX_STEPNM=['시작','보드','갚을 날','한도','체결','결과'];
+const FX_STEPNM=['시나리오','보드','갚을 날','한도','체결','결과'];
 const FX_COLS=[['TOD','07/20 월'],['TOM','07/21 화'],['SPOT','07/22 수'],['','07/23 목'],['+1W','07/27 월']];
 const FX_BRD=[['JPY',[0,-100,-100,0,0]],['HKD',[-50,-250,100,-100,-50]],['CNY',[0,200,-80,40,0]],['EUR',[-4,0,-8,0,-6]]];
-const FX_SCH=[ /* [mm/dd,요일,BUY,SELL,key] — HKD 결제 스케줄(예시) */
- ['07/21','화',0,-250,''],['07/22','수',100,0,''],['07/23','목',0,-100,''],['07/24','금',0,0,''],
- ['07/25','토',0,0,'wk'],['07/26','일',0,0,'wk'],['07/27','월',250,0,'m0'],['07/28','화',0,0,'t0'],
- ['07/29','수',0,0,''],['07/30','목',0,-50,''],['08/01','토',0,0,'wk'],['08/02','일',0,0,'wk'],
- ['08/04','화',0,0,'t1'],['08/05','수',250,0,'m1']];
-const FX_CANDS=[
- {tag:'매칭',far:'07/27',days:6,sp:null,after:0,best:true,key:'m0'},
- {tag:'매칭',far:'08/05',days:15,sp:null,after:0,key:'m1'},
- {tag:'1W',far:'07/28',days:7,sp:-1.19,pd:-0.170,after:-250,key:'t0'},
- {tag:'2W',far:'08/04',days:14,sp:-2.29,pd:-0.164,after:-250,key:'t1'},
- {tag:'1M',far:'08/21',days:31,sp:-5.27,pd:-0.170,after:-250,key:'t2'}];
+const FX_SCNS={
+ hkd:{key:'hkd',ccy:'HKD',col:1,amt:-250,dir:'B/S',verb:'조달',near:'07/21',rule:'after0',unit:'250',base:-1.02,
+  h:'HKD 부족 채우기',lv:'입문 ★',d:'내일 2.5억 유출 — 들어올 돈과 날짜를 맞추는 매칭 퍼즐. 처음이면 여기부터.',
+  intro:'내일(07/21) HKD 2.5억이 빠져나갑니다',
+  use:'신용 ≈0.4억 · 결제일 ≈4.4억/일',
+  sched:[['07/21','화',0,-250,''],['07/22','수',100,0,''],['07/23','목',0,-100,''],['07/24','금',0,0,''],
+   ['07/25','토',0,0,'wk'],['07/26','일',0,0,'wk'],['07/27','월',250,0,'m0'],['07/28','화',0,0,'t0'],
+   ['07/29','수',0,0,''],['07/30','목',0,-50,''],['08/01','토',0,0,'wk'],['08/02','일',0,0,'wk'],
+   ['08/04','화',0,0,'t1'],['08/05','수',250,0,'m1']],
+  cands:[{tag:'매칭',far:'07/27',days:6,sp:null,after:0,best:true,key:'m0'},
+   {tag:'매칭',far:'08/05',days:15,sp:null,after:0,key:'m1'},
+   {tag:'1W',far:'07/28',days:7,sp:-1.19,pd:-0.170,after:-250,key:'t0'},
+   {tag:'2W',far:'08/04',days:14,sp:-2.29,pd:-0.164,after:-250,key:'t1'},
+   {tag:'1M',far:'08/21',days:31,sp:-5.27,pd:-0.170,after:-250,key:'t2'}]},
+ jpy:{key:'jpy',ccy:'JPY',col:2,amt:-100,dir:'B/S',verb:'조달',near:'07/22',rule:'bestpd',unit:'100',base:-4.62,
+  h:'JPY — 매칭이 없다?!',lv:'중급 ★★',d:'들어올 돈이 없어 테너로 승부. 하루당 비용(1일당)을 읽어내는 코스.',
+  intro:'모레(07/22) JPY 1억이 빠져나갑니다 — 그런데 들어올 예정이 없네요',
+  use:'신용 ≈0.9억 · 결제일 ≈9억/일',
+  sched:[['07/22','수',0,-100,''],['07/23','목',0,0,''],['07/24','금',30,0,''],
+   ['07/25','토',0,0,'wk'],['07/26','일',0,0,'wk'],['07/27','월',0,-40,''],['07/29','수',0,0,'t0'],
+   ['08/01','토',0,0,'wk'],['08/02','일',0,0,'wk'],['08/05','수',0,0,'t1'],['08/07','금',0,-30,'']],
+  cands:[{tag:'1W',far:'07/29',days:7,sp:-2.45,pd:-0.350,after:-100,key:'t0'},
+   {tag:'2W',far:'08/05',days:14,sp:-4.62,pd:-0.330,after:-100,best:true,key:'t1'},
+   {tag:'1M',far:'08/24',days:33,sp:-11.62,pd:-0.352,after:-100,key:'t2'}]},
+ cny:{key:'cny',ccy:'CNY',col:1,amt:200,dir:'S/B',verb:'운용',near:'07/21',rule:'after0',unit:'200',base:-0.86,
+  h:'CNY 남는 돈 굴리기',lv:'응용 ★★★',d:'잉여 2억을 놀리지 않는다 — 나갈 날에 맞춰 밀어두는 운용 코스.',
+  intro:'내일(07/21) CNY 2억이 남습니다 — 놀리면 0%, 굴리면 이자',
+  use:'신용 ≈0.3억 · 결제일 ≈3.9억/일',
+  sched:[['07/21','화',200,0,''],['07/22','수',0,-80,''],['07/23','목',40,0,''],
+   ['07/25','토',0,0,'wk'],['07/26','일',0,0,'wk'],['07/28','화',0,0,'t0'],
+   ['07/30','목',0,-200,'m0'],['08/01','토',0,0,'wk'],['08/02','일',0,0,'wk'],['08/04','화',0,0,'t1']],
+  cands:[{tag:'매칭',far:'07/30',days:9,sp:null,after:0,best:true,key:'m0'},
+   {tag:'1W',far:'07/28',days:7,sp:-0.86,pd:-0.123,after:200,key:'t0'},
+   {tag:'2W',far:'08/04',days:14,sp:-1.68,pd:-0.120,after:200,key:'t1'}]}
+};
+let fxS=null,fxBootDone=false,fxBusy=false,fxSel=-1,fxCp=-1,fxClicks=0,fxT0=0,fxTick=null;
+let fxChan='',fxNego=false,fxPx='',fxBrkPick=-1,fxOfr=[],fxTickB=null,fxPickWasBest=false;
 const FX_CPTY=[
  ['A은행','ok','신용 3,000억 중 120억 사용'],
  ['B은행','ok','신용 2,500억 중 300억 사용'],
@@ -2485,34 +2549,31 @@ const FX_CPTY=[
  ['D은행','warn','파 날짜 한도 500억 중 460억 (92%)'],
  ['E외은','bad','신용 1,000억 중 990억 (99%)'],
  ['F증권','ok','신용 800억 중 40억 사용']];
-const FX_BRKS=[['중개 A','-1.07','-0.98'],['중개 B','-1.06','-0.97'],['중개 C','-1.08','-1.00']];
-let fxBootDone=false,fxBusy=false,fxSel=-1,fxCp=-1,fxClicks=0,fxT0=0,fxTick=null;
-let fxChan='',fxNego=false,fxPx='',fxBrkPick=-1;
 const fxAmt=v=>v<0?`(${fmt(-v*1e6)})`:fmt(v*1e6);
 const fxNow=()=>{const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');};
+const fxDD=s=>s.replace('/','');
 function fxSteps(i){$('#fxSteps').innerHTML=FX_STEPNM.map((s,j)=>
   `<span class="trs ${j<i?'done':''}${j===i?' cur':''}">${s}</span>`).join('<span class="trsl"></span>');}
 function fxWatchStart(){fxT0=performance.now();const w=$('#fxWatch');w.hidden=false;
   fxTick=setInterval(()=>{$('#fxWatchV').textContent=((performance.now()-fxT0)/1000).toFixed(1);},100);}
 function fxWatchStop(){clearInterval(fxTick);fxTick=null;return (performance.now()-fxT0)/1000;}
+function fxBrkStop(){clearInterval(fxTickB);fxTickB=null;}
 function fxIntro(){
-  fxBusy=false;fxSel=-1;fxCp=-1;fxClicks=0;fxChan='';fxNego=false;fxPx='';fxBrkPick=-1;
+  fxBusy=false;fxS=null;fxSel=-1;fxCp=-1;fxClicks=0;fxChan='';fxNego=false;fxPx='';fxBrkPick=-1;fxBrkStop();
   fxSteps(0);$('#fxWatch').hidden=true;
   $('#fxStage').innerHTML=`
    <div class="tr-boot" id="fxBoot"></div>
    <div class="tr-hero">
-     <h3>내일, HKD 2.5억이 빠져나갑니다</h3>
-     <p>내일 아침에야 움직이면 급하게 비싼 값으로 채워야 하고, 자칫 계좌가 비는 사고가 됩니다.
-       그래서 데스크는 <b style="color:var(--txt)">하루 먼저</b> 움직입니다 —
-       <b style="color:var(--amb)">오늘 미리 당겨 두면</b> ① 내일 돈이 갑자기 빠져도 계좌가 놀라지 않고
+     <h3>마감은 끝났고, 내일이 문제입니다</h3>
+     <p>돈이 빠질 날 <b style="color:var(--txt)">하루 먼저</b> 움직이면 — ① 계좌가 갑자기 비는 사고가 없고
        ② 서두르지 않으니 <b style="color:var(--txt)">가격도 유리</b>합니다.
-       이 미리 준비하는 거래가 <b style="color:var(--cyn)">조달(FX 스왑)</b> — “오늘 빌리고, 정한 날짜에 갚는” 거래입니다.</p>
-     <p style="color:var(--mut);margin-top:8px">예전엔 시세판·계산기·전화의 일 — 이제 <b style="color:var(--amb)">클릭 몇 번</b>인지 직접 세어 보세요.
-       마지막엔 <b style="color:var(--amb)">딜 점수</b>도 나옵니다.</p>
-     <div class="hero-cta" style="margin-top:16px">
-       <button class="btn btn-amber" data-fx="board">▶ 자금조달판 열기</button>
-       <span class="tagline">수치 전부 예시 · 실거래 아님</span>
-     </div></div>`;
+       이 미리 준비하는 거래가 <b style="color:var(--cyn)">조달</b>(모자라면 당겨오기) · <b style="color:var(--cyn)">운용</b>(남으면 굴리기).
+       마지막엔 <b style="color:var(--amb)">딜 점수</b>가 나옵니다 — 오늘의 시나리오를 고르세요.</p>
+     <div class="fxscn">${Object.values(FX_SCNS).map(s=>`
+       <button data-fx="scn" data-k="${s.key}"><span class="lv">${s.lv}</span>
+         <span class="t">${s.h}</span><span class="d">${s.d}</span></button>`).join('')}
+     </div>
+     <p class="tagline">수치 전부 예시 · 실거래 아님 · 세 코스 모두 2분이면 끝</p></div>`;
   (async()=>{const box=$('#fxBoot');if(!box)return;
     for(const l of ['SESSION PM · FX 자금조달판 GUIDED','LINK 자금판 → CLOSING 인계 · RULES LOADED']){
       const d=document.createElement('div');box.appendChild(d);
@@ -2521,28 +2582,33 @@ function fxIntro(){
 }
 function fxBoard(){
   fxSteps(1);fxWatchStart();
+  const S=fxS;
   $('#fxStage').innerHTML=`
-   <div class="tr-guide">💡 이 판은 <b>“언제, 어떤 통화가 비는지”의 달력</b>입니다.
-     <b style="color:var(--red)">빨강 = 그날 부족(채워야 함)</b> · <b style="color:var(--grn)">초록 = 남음(굴릴 수 있음)</b>.
-     내일(07/21) HKD가 −2.5억이네요. <span class="n">1</span><b style="color:var(--amb)">빛나는 칸</b>을 눌러 조달을 시작하세요.</div>
+   <div class="tr-guide">💡 <b>${S.intro}.</b> 이 판은 “언제, 어떤 통화가 비는지”의 달력입니다 —
+     <b style="color:var(--red)">빨강 = 부족(채워야 함)</b> · <b style="color:var(--grn)">초록 = 남음(굴릴 수 있음)</b>.
+     <span class="n">1</span><b style="color:var(--amb)">빛나는 ${S.ccy} 칸</b>을 눌러 ${S.verb}을 시작하세요.</div>
    <div class="fxb"><table><thead><tr><th>통화</th>${FX_COLS.map(c=>
      `<th>${c[0]?`<em>${c[0]}</em>`:'<em>&nbsp;</em>'}${c[1]}</th>`).join('')}</tr></thead><tbody>${
      FX_BRD.map(([cc,vs])=>`<tr><td class="cc">${cc}</td>${vs.map((v,j)=>{
-       const hit=cc==='HKD'&&j===1;
-       return `<td class="${v>0?'p':v<0?'m':''}${hit?' hit':''}"${hit?' data-fx="cell" role="button" tabindex="0" title="클릭 = 조달 시작"':''}>${v?fxAmt(v):'·'}</td>`;
+       const hit=cc===S.ccy&&j===S.col;
+       return `<td class="${v>0?'p':v<0?'m':''}${hit?' hit':''}"${hit?` data-fx="cell" role="button" tabindex="0" title="클릭 = ${S.verb} 시작"`:''}>${v?fxAmt(v):'·'}</td>`;
      }).join('')}</tr>`).join('')}</tbody></table></div>
-   <p class="tagline">Excel 실물에선 일보를 붙여넣고 버튼 하나면 이 판이 자동으로 섭니다 — 오늘 미리 처리할 것들은 QUEUE로 따로 추려 줍니다</p>`;
+   <p class="tagline">Excel 실물에선 일보를 붙여넣고 버튼 하나면 이 판이 자동으로 섭니다 — 오늘 처리할 것들은 QUEUE로 따로 추려 줍니다</p>`;
 }
 function fxCands(){
   fxSteps(2);fxSel=-1;
+  const S=fxS;
+  const ruleTxt=S.rule==='bestpd'
+    ?`들어올 돈이 없으니 <b>정해진 기간(테너)</b> 중에서 고릅니다 — 기준은 <b style="color:var(--txt)">하루당 비용(1일당)</b>. 총액이 아니라 “하루에 얼마 내는 셈인가”로 견줘야 공정합니다.`
+    :S.amt<0
+    ?`<b style="color:var(--cyn)">매칭</b> = 그날 ${S.ccy}가 들어올 예정이라 <b>그 돈으로 갚으면 딱 0</b>이 되는 날짜 — 공짜 퍼즐 맞추기. 테너(1W·1M)는 하루당 비용으로 비교.`
+    :`남는 돈은 <b>다시 필요해지는 날</b>까지만 굴립니다. <b style="color:var(--cyn)">매칭</b> = 그날 ${S.ccy}가 나갈 예정이라 <b>회수 시점이 딱 맞는</b> 날짜.`;
   $('#fxStage').innerHTML=`
-   <div class="tr-guide">💡 빌리는 건 정해졌습니다(내일 250). 남은 결정은 하나 — <b style="color:var(--txt)">언제 갚을까?</b><br>
-     <b style="color:var(--cyn)">매칭</b> = 그날 HKD가 들어올 예정이라 <b>그 돈으로 갚으면 딱 0</b>이 되는 날짜(공짜 퍼즐 맞추기).
-     1W·1M 같은 <b>테너</b>는 정해진 기간 — <b>하루당 비용</b>으로 비교합니다.
-     <span class="n">1</span>후보를 눌러 보세요 — 오른쪽 달력이 <b style="color:var(--cyn)">“체결했다면”</b>으로 다시 그려집니다.</div>
+   <div class="tr-guide">💡 ${S.verb} 금액은 정해졌습니다(${S.unit}mio). 남은 결정 — <b style="color:var(--txt)">${S.amt<0?'언제 갚을까':'언제까지 굴릴까'}?</b><br>
+     ${ruleTxt} <span class="n">1</span>후보를 누르면 오른쪽 달력이 <b style="color:var(--cyn)">“체결했다면”</b>으로 다시 그려집니다.</div>
    <div class="fx2col">
-     <div class="fxpn"><div class="bar"><span>갚을 날짜 후보 — 클릭 = 선택</span><b>HKD B/S 250mio</b></div><div id="fxCandList"></div></div>
-     <div class="fxpn fxsc"><div class="bar"><span id="fxSchT">HKD 돈의 달력</span><b id="fxSchB">실제 흐름</b></div>
+     <div class="fxpn"><div class="bar"><span>${S.amt<0?'갚을':'회수'} 날짜 후보 — 클릭 = 선택</span><b>${S.ccy} ${S.dir} ${S.unit}mio</b></div><div id="fxCandList"></div></div>
+     <div class="fxpn fxsc"><div class="bar"><span>${S.ccy} 돈의 달력</span><b id="fxSchB">실제 흐름</b></div>
        <div class="hd"><span>날짜</span><span>들어옴</span><span>나감</span><span>잔액</span><span>표시</span></div>
        <div id="fxSched"></div></div>
    </div>
@@ -2552,25 +2618,26 @@ function fxCands(){
   fxPaint();
 }
 function fxPaint(){
-  const c=fxSel>=0?FX_CANDS[fxSel]:null;
-  $('#fxCandList').innerHTML=FX_CANDS.map((k,i)=>`
+  const S=fxS,c=fxSel>=0?S.cands[fxSel]:null;
+  $('#fxCandList').innerHTML=S.cands.map((k,i)=>`
    <button type="button" class="fxrow${k.best?' best':''}${i===fxSel?' sel':''}" data-fx="cand" data-i="${i}">
-     <span class="tag${k.sp!=null?' tn':''}">${k.tag}</span><span>07/21-${k.far}</span>
+     <span class="tag${k.sp!=null?' tn':''}">${k.tag}</span><span>${S.near}-${k.far}</span>
      <span class="sp">${k.sp!=null?`SP ${k.sp.toFixed(2)} · 1일 ${k.pd.toFixed(3)}`:'가격 문의'}</span>
      <span class="af${k.after===0?' sq':''}">${k.after===0?'잔여 0 √':'잔여 '+k.after+'mio'}</span></button>`).join('');
-  const rows=FX_SCH.map(r=>({md:r[0],dow:r[1],buy:r[2],sell:r[3],key:r[4]}));
+  const rows=S.sched.map(r=>({md:r[0],dow:r[1],buy:r[2],sell:r[3],key:r[4]}));
   if(c&&!rows.some(r=>r.key===c.key)){rows.push({dots:1});rows.push({md:c.far,dow:'',buy:0,sell:0,key:c.key});}
   const farIdx=c?rows.findIndex(r=>r.key===c.key):-1;
+  const nSim=-S.amt,fSim=S.amt;
   let bal=0;
   $('#fxSched').innerHTML=rows.map((r,i)=>{
     if(r.dots)return `<div class="r wk"><span>···</span><span></span><span></span><span></span><span></span></div>`;
     let b=r.buy,s=r.sell,simB=0,simS=0;
-    if(c&&i===0)simB=250;
-    if(c&&r.key===c.key)simS=-250;
+    if(c&&i===0){if(nSim>0)simB=nSim;else simS=nSim;}
+    if(c&&r.key===c.key){if(fSim>0)simB=fSim;else simS=fSim;}
     bal+=b+s+simB+simS;
     const isFar=c&&r.key===c.key,isNear=i===0;
-    const tagNm={m0:'매칭',m1:'매칭',t0:'1W',t1:'2W',t2:'1M'}[r.key]||'';
-    const tag=isNear?'◀ 빌림':isFar?'▶ 갚음':tagNm;
+    const tagNm={m0:'매칭',m1:'매칭',t0:S.cands.find(x=>x.key==='t0')?.tag||'',t1:S.cands.find(x=>x.key==='t1')?.tag||'',t2:'1M'}[r.key]||'';
+    const tag=isNear?(S.amt<0?'◀ 빌림':'◀ 굴림'):isFar?(S.amt<0?'▶ 갚음':'▶ 회수'):tagNm;
     if(r.key==='wk')return `<div class="r wk"><span>${r.md}(${r.dow})</span><span></span><span></span><span></span><span>주말</span></div>`;
     const balBlue=c&&farIdx>=0&&i<farIdx;
     return `<div class="r${isNear?' near':''}${isFar?' far':''}">
@@ -2582,17 +2649,23 @@ function fxPaint(){
   $('#fxSchB').textContent=c?'체결 가정 — 파란 숫자':'실제 흐름';
   const cta=$('#fxCandCta'),hint=$('#fxCandHint');
   if(cta){cta.disabled=!c;
-    if(hint)hint.innerHTML=c?(c.after===0
-      ?`<b style="color:var(--grn)">완전 스퀘어!</b> 내일 −250은 빌림으로 0이 되고, ${c.far} 들어올 돈으로 갚음 — 남는 것도 모자란 것도 없음`
-      :`가능은 합니다 — 다만 잔여 ${c.after}mio가 남아요. 들어올 돈과 날짜를 맞추는 게(매칭) 더 깔끔`):'후보를 먼저 선택하세요';}
+    if(hint){
+      if(!c)hint.textContent='후보를 먼저 선택하세요';
+      else if(S.rule==='bestpd')hint.innerHTML=c.best
+        ?`<b style="color:var(--grn)">좋은 눈!</b> ${c.tag}가 하루당 ${c.pd.toFixed(3)}으로 제일 쌉니다`
+        :`가능은 합니다 — 다만 1일당을 비교하면 <b>2W(-0.330)</b>가 더 쌌어요`;
+      else hint.innerHTML=c.after===0
+        ?`<b style="color:var(--grn)">완전 스퀘어!</b> ${S.amt<0?'들어올 돈으로 갚아':'나갈 날에 맞춰 회수해'} 남는 것도 모자란 것도 없음`
+        :`가능은 합니다 — 다만 잔여 ${c.after}mio가 남아요. 날짜를 맞추는 매칭이 더 깔끔`;}}
 }
 function fxLimit(){
   fxSteps(3);fxCp=-1;
+  const S=fxS;
   $('#fxStage').innerHTML=`
    <div class="tr-guide">💡 은행끼리도 <b>거래 한도</b>가 있습니다 — 서로 너무 크게 물리지 않기 위한 안전선.
-     이 거래(250mio·${FX_CANDS[fxSel].days}일)가 상대별 한도를 얼마나 쓰는지 <b>자동 환산</b>됩니다.
+     이 거래(${S.unit}mio·${S.cands[fxSel].days}일)가 상대별 한도를 얼마나 쓰는지 <b>자동 환산</b>됩니다.
      <span class="n">1</span>숫자를 보고 거래할 곳을 고르세요 — <b style="color:var(--red)">×는 오늘 안 됩니다</b>.</div>
-   <p class="tagline" style="margin:0 0 4px">이 거래의 사용량: 신용 ≈0.4억 · 결제일 ≈4.4억/일 — 자동 환산(예시)</p>
+   <p class="tagline" style="margin:0 0 4px">이 거래의 사용량: ${S.use} — 자동 환산(예시)</p>
    <div class="fxchips">${FX_CPTY.map(([nm,st,why],i)=>`
      <button type="button" class="fxchip ${st}" data-fx="cp" data-i="${i}" data-st="${st}">
        ${st==='ok'?'○':st==='warn'?'▲':'×'} ${nm}<span class="why">${why}</span></button>`).join('')}
@@ -2603,8 +2676,8 @@ function fxLimit(){
 }
 async function fxDeal(){
   if(fxBusy)return;fxBusy=true;fxSteps(4);
-  const c=FX_CANDS[fxSel],cp=FX_CPTY[fxCp][0];
-  const q=`HKD 250mio B/S 07/21-${c.far}`;
+  const S=fxS,c=S.cands[fxSel],cp=FX_CPTY[fxCp][0];
+  const q=`${S.ccy} ${S.unit}mio ${S.dir} ${S.near}-${c.far}`;
   $('#fxStage').innerHTML=`
    <div class="tr-guide">💡 통화·금액·방향·날짜가 <b>실무 관례 그대로</b> 한 줄 문구로 조립됩니다 — Excel에선 이 순간 복사까지 끝.</div>
    <div class="fxquote" id="fxQ"><span class="cur">&nbsp;</span></div>
@@ -2614,10 +2687,10 @@ async function fxDeal(){
      <div class="fxchan">
        <button data-fx="chDir"><span class="tag2">DIRECT · 직거래</span>
          <span class="t">💬 ${cp} 메신저로 직접</span>
-         <span class="d">방금 고른 은행과 1:1 대화로 가격을 받고, <b>네고(흥정)</b>도 해볼 수 있습니다 · 중개 수수료 없음</span></button>
+         <span class="d">방금 고른 은행과 1:1 대화 — 실제처럼 영어 딜러 채팅으로, <b>네고(흥정)</b>도 해볼 수 있습니다 · 중개 수수료 없음</span></button>
        <button data-fx="chBrk"><span class="tag2">BROKER · 중개</span>
          <span class="t">📊 중개 화면에서 비교</span>
-         <span class="d">세 중개사의 가격을 한눈에 놓고 제일 좋은 줄을 골라 체결 · 소액 수수료 있음</span></button>
+         <span class="d">세 중개사의 <b>실시간으로 움직이는 호가</b>를 놓고 제일 좋은 줄을 골라 체결 · 소액 수수료 있음</span></button>
      </div></div>
    <div id="fxDealBody"></div>`;
   const qEl=$('#fxQ');qEl.innerHTML='';
@@ -2627,14 +2700,15 @@ async function fxDeal(){
   const w=$('#fxChanWrap');if(w)w.hidden=false;
   fxBusy=false;
 }
-async function fxChatPut(who,cls,txt,type){
+async function fxChatPut(who,cls,txt,xl,type){
   const ch=$('#fxCh');if(!ch)return;
   const w=document.createElement('div');w.className='who'+(cls==='me'?' r':'');w.textContent=who+' · '+fxNow();ch.appendChild(w);
   const b=document.createElement('div');b.className='bb '+cls;ch.appendChild(b);
-  if(type){for(const t of txt){if(!b.isConnected)return;b.textContent+=t;await sleep(REDUCED?0:28);}}
+  if(type){for(const t of txt){if(!b.isConnected)return;b.textContent+=t;await sleep(REDUCED?0:26);}}
   else b.textContent=txt;
+  if(xl){const x=document.createElement('div');x.className='xl'+(cls==='me'?' r':'');x.textContent='— '+xl;ch.appendChild(x);}
   ch.scrollTop=ch.scrollHeight;
-  await sleep(REDUCED?30:520);
+  await sleep(REDUCED?30:480);
 }
 function fxChatOpt(list){
   const ch=$('#fxCh');if(!ch)return;
@@ -2642,92 +2716,154 @@ function fxChatOpt(list){
   d.innerHTML=list.map(([t,act,g])=>`<button data-fx="${act}"${g?' class="ghost2"':''}>${t}</button>`).join('');
   ch.appendChild(d);ch.scrollTop=ch.scrollHeight;
 }
+function fxBase(){const S=fxS,c=S.cands[fxSel];return c.sp!=null?c.sp:S.base;}
 async function fxDir(){
   if(fxBusy)return;fxBusy=true;fxChan='dir';
-  const c=FX_CANDS[fxSel],cp=FX_CPTY[fxCp][0];
+  const S=fxS,c=S.cands[fxSel],cp=FX_CPTY[fxCp][0];
+  const base=fxBase(),bid=(base-0.07).toFixed(2),ofr=(base+0.02).toFixed(2);
   $('#fxChanWrap').hidden=true;
   $('#fxDealBody').innerHTML=`
-   <p class="tagline" style="margin:12px 0 4px">💬 ${cp} 딜링 메신저 (모의) — 이제 답은 <b style="color:var(--amb)">당신이 고릅니다</b></p>
-   <div class="fxchat" id="fxCh"><div class="sys">● ${cp} 연결됨 · 보안 메신저 (모의)</div></div><div id="fxChAfter"></div>`;
-  await fxChatPut('나 (외화자금)','me',`안녕하세요 :) HKD 250 b/s 07/21-${c.far} 가격 부탁드립니다`,true);
-  await fxChatPut(cp,'them','넵 잠시만요');
-  await fxChatPut(cp,'them','-1.07 / -0.98 드릴 수 있습니다');
-  fxChatOpt([['👍 -0.98 바로 체결','dealNow'],['🙏 조금만 더 — 네고해 본다','nego',1]]);
+   <p class="tagline" style="margin:12px 0 4px">💬 ${cp} 딜링 메신저 (모의) — 실제처럼 영어 딜러 축약어, 해석은 말풍선 아래에. 답은 <b style="color:var(--amb)">당신이 고릅니다</b></p>
+   <div class="fxchat" id="fxCh"><div class="sys">● ${cp} 연결됨 · 보안 딜링 메신저 (모의)</div></div><div id="fxChAfter"></div>`;
+  await fxChatPut('나 (외화자금)','me',`hi hi :) ${S.ccy.toLowerCase()} ${S.unit} ${S.dir.toLowerCase()} ${fxDD(S.near)}-${fxDD(c.far)} pls`,
+    `${S.ccy} ${S.unit}mio, ${S.near}에 ${S.amt<0?'빌리고':'맡기고'} ${c.far}에 ${S.amt<0?'갚는':'되찾는'} 가격 부탁해요`,true);
+  await fxChatPut(cp,'them','sec pls','잠시만요 — 가격 산출 중');
+  await fxChatPut(cp,'them',`${bid} / ${ofr}`,`사자/팔자 호가 — 이 거래엔 오른쪽 ${ofr}이 적용됩니다`);
+  fxChatOpt([[`👍 mine ${ofr} — 바로 체결`,'dealNow'],['🙏 any better? — 네고 시도','nego',1],['😎 off today — 오늘 안 해요','off',1]]);
+  fxBusy=false;
+}
+async function fxOff(){
+  if(fxBusy)return;fxBusy=true;
+  const cp=FX_CPTY[fxCp][0];
+  $$('#fxCh .fxopt').forEach(x=>x.remove());
+  await fxChatPut('나 (외화자금)','me','off today, thx anyway :)','오늘은 거래 안 할게요',true);
+  await fxChatPut(cp,'them','ok np, ping me anytime','괜찮아요, 언제든 연락 주세요');
+  const ch=$('#fxCh');const s=document.createElement('div');s.className='sys';
+  s.textContent='…라고 할 뻔! 내일이면 돈이 빠져나갑니다. 마음을 다잡고 다시 —';ch.appendChild(s);ch.scrollTop=ch.scrollHeight;
+  await sleep(REDUCED?50:900);
+  const base=fxBase(),ofr=(base+0.02).toFixed(2);
+  fxChatOpt([[`👍 mine ${ofr} — 바로 체결`,'dealNow'],['🙏 any better? — 네고 시도','nego',1]]);
   fxBusy=false;
 }
 async function fxNegoGo(){
   if(fxBusy)return;fxBusy=true;fxNego=true;
-  const cp=FX_CPTY[fxCp][0];
+  const cp=FX_CPTY[fxCp][0],base=fxBase();
   $$('#fxCh .fxopt').forEach(x=>x.remove());
-  await fxChatPut('나 (외화자금)','me','사이즈 있는 건인데 조금만 더 안 될까요 🙏',true);
-  await fxChatPut(cp,'them','음… 알겠습니다. -1.00까지 해드릴게요. 마지막입니다!');
-  fxChatOpt([['✔ -1.00 체결하겠습니다','dealNego']]);
+  await fxChatPut('나 (외화자금)','me','any juice? size is real :)','사이즈 있는 거래인데 조금만 더 안 될까요',true);
+  await fxChatPut(cp,'them',`ok ok… ${base.toFixed(2)} final`,`${base.toFixed(2)}까지 해드릴게요 — 마지막 가격`);
+  fxChatOpt([[`✔ done ${base.toFixed(2)} — 체결!`,'dealNego'],['🙏 one more? — 한 번 더 밀어본다','nego2',1]]);
+  fxBusy=false;
+}
+async function fxNego2(){
+  if(fxBusy)return;fxBusy=true;
+  const cp=FX_CPTY[fxCp][0],base=fxBase();
+  $$('#fxCh .fxopt').forEach(x=>x.remove());
+  await fxChatPut('나 (외화자금)','me','come on, one more pip 🙏','한 핍만 더요…',true);
+  await fxChatPut(cp,'them',`cant :( ${base.toFixed(2)} last — take it or leave it`,'더는 안 됩니다 — 여기까지가 최선');
+  fxChatOpt([[`✔ ok done ${base.toFixed(2)}`,'dealNego']]);
   fxBusy=false;
 }
 async function fxDealDone(px){
   if(fxBusy)return;fxBusy=true;fxPx=px;
-  const c=FX_CANDS[fxSel],cp=FX_CPTY[fxCp][0];
+  const S=fxS,c=S.cands[fxSel],cp=FX_CPTY[fxCp][0];
   $$('#fxCh .fxopt').forEach(x=>x.remove());
-  await fxChatPut('나 (외화자금)','me',`${px}에 체결하겠습니다. 감사합니다!`,true);
-  await fxChatPut(cp,'them',`DONE ✓ HKD 250mio B/S 07/21-${c.far} @${px} — 컨펌 보내드릴게요`);
+  await fxChatPut('나 (외화자금)','me',`done ${px}, tks! ✔`,`${px}에 체결합니다, 감사!`,true);
+  await fxChatPut(cp,'them',`DONE ✓ ${S.ccy.toLowerCase()} ${S.unit} ${S.dir.toLowerCase()} ${fxDD(S.near)} ${fxDD(c.far)} @ ${px} · conf to follow`,
+    '체결 확정 — 컨펌(확인서)이 곧 나갑니다');
   const ch=$('#fxCh');const st=document.createElement('div');st.className='fxdealt';st.textContent='DEALT ✓';ch.appendChild(st);ch.scrollTop=ch.scrollHeight;
   $('#fxChAfter').innerHTML=`<div class="hero-cta" style="margin-top:12px"><button class="btn btn-amber" data-fx="report">결과 채점 보기 ▶</button></div>`;
   fxBusy=false;
 }
 function fxBrk(){
   fxChan='brk';
+  const S=fxS,base=fxBase();
+  fxOfr=[base+0.02,base+0.03,base+0.00];
   $('#fxChanWrap').hidden=true;
   $('#fxDealBody').innerHTML=`
-   <p class="tagline" style="margin:12px 0 4px">📊 중개 화면 (모의) — 왼쪽이 사자, 오른쪽이 팔자.
-     이 거래는 <b>오른쪽(-0.9x) 숫자가 클수록(더 마이너스일수록) 유리</b>합니다. 눈 크게 뜨고 제일 좋은 줄에 체결!</p>
-   <div class="fxbrk" id="fxBrkB">${FX_BRKS.map(([nm,bid,ofr],i)=>`
-     <div class="r" data-row="${i}"><b>${nm}</b><span class="q">${bid} / ${ofr}</span>
+   <p class="tagline" style="margin:12px 0 4px">📊 중개 화면 (모의) — 호가가 <b style="color:var(--amb)">계속 움직입니다</b>.
+     이 거래는 오른쪽 숫자가 <b>더 마이너스일수록 유리</b> — 좋은 순간, 좋은 줄에 [체결]!</p>
+   <div class="fxbrk" id="fxBrkB">${['중개 A','중개 B','중개 C'].map((nm,i)=>`
+     <div class="r" data-row="${i}"><b>${nm}</b>
+       <span class="q" id="fxQ${i}">${(fxOfr[i]-0.09).toFixed(2)} / ${fxOfr[i].toFixed(2)}</span>
+       <span class="mv" id="fxM${i}"></span>
        <button class="deal" data-fx="brkPick" data-i="${i}">체결</button></div>`).join('')}</div>
    <div id="fxChAfter"></div>`;
+  if(!REDUCED){
+    fxTickB=setInterval(()=>{
+      const i=Math.floor(Math.random()*3);
+      const d=(Math.random()<0.5?-0.01:0.01);
+      const nv=Math.min(Math.max(fxOfr[i]+d,base-0.02),base+0.05);
+      const up=nv<fxOfr[i];fxOfr[i]=nv;
+      const q=$('#fxQ'+i),m=$('#fxM'+i);if(!q)return;
+      q.textContent=`${(nv-0.09).toFixed(2)} / ${nv.toFixed(2)}`;
+      q.classList.remove('tick');void q.offsetWidth;q.classList.add('tick');
+      if(m){m.textContent=up?'▼':'▲';m.className='mv '+(up?'up':'dn');}
+    },1000);}
 }
 function fxBrkDone(i){
-  fxBrkPick=i;fxPx=FX_BRKS[i][2];
-  const c=FX_CANDS[fxSel];
+  fxBrkStop();fxBrkPick=i;fxPx=fxOfr[i].toFixed(2);
+  fxPickWasBest=fxOfr[i]<=Math.min(...fxOfr)+1e-9;
+  const S=fxS,c=S.cands[fxSel];
   $$('#fxBrkB .r').forEach((r,j)=>{r.classList.toggle('hitb',j===i);
     const btn=r.querySelector('.deal');if(btn)btn.disabled=true;});
   $('#fxChAfter').innerHTML=`
-   <div class="fxcmp">✓ <b>${FX_BRKS[i][0]}</b>에서 HKD 250mio B/S 07/21-${c.far} @<b>${fxPx}</b> 체결 (중개 수수료 별도 · 모의)</div>
+   <div class="fxcmp">✓ <b>${['중개 A','중개 B','중개 C'][i]}</b>에서 ${S.ccy} ${S.unit}mio ${S.dir} ${S.near}-${c.far} @<b>${fxPx}</b> MINE (중개 수수료 별도 · 모의)</div>
    <div class="hero-cta" style="margin-top:12px"><button class="btn btn-amber" data-fx="report">결과 채점 보기 ▶</button></div>`;
 }
 function fxReport(){
-  fxSteps(5);const secs=fxWatchStop();$('#fxWatch').hidden=true;
-  const c=FX_CANDS[fxSel],cp=FX_CPTY[fxCp],cpNm=cp[0];
-  const jDate=c.after===0
-    ?['★','갚을 날','<b>매칭 '+c.far+'</b> — 들어올 돈으로 갚아 잔여 0. 만점!']
-    :['△','갚을 날','테너 '+c.tag+' — 되긴 하지만 잔여 '+c.after+'mio가 남았어요. 매칭('+FX_CANDS[0].far+')이 있었습니다'];
+  fxSteps(5);fxBrkStop();const secs=fxWatchStop();$('#fxWatch').hidden=true;
+  const S=fxS,c=S.cands[fxSel],cp=FX_CPTY[fxCp],cpNm=cp[0];
+  const bestC=S.cands.find(x=>x.best),base=fxBase();
+  const jDate=S.rule==='bestpd'
+    ?(c.best?['★',S.amt<0?'갚을 날':'회수일','<b>'+c.tag+'</b> — 하루당 비용 최저. 정확한 눈!']
+             :['△',S.amt<0?'갚을 날':'회수일',c.tag+' — 되긴 하지만 1일당 비교에선 <b>'+bestC.tag+'</b>('+bestC.pd.toFixed(3)+')가 더 쌌어요'])
+    :(c.after===0?['★',S.amt<0?'갚을 날':'회수일','<b>매칭 '+c.far+'</b> — 날짜가 딱 맞아 잔여 0. 만점!']
+             :['△',S.amt<0?'갚을 날':'회수일',c.tag+' — 잔여 '+c.after+'mio가 남았어요. 매칭('+bestC.far+')이 있었습니다']);
   const jCp=cp[1]==='ok'
-    ?['★','거래 상대','<b>'+cpNm+'</b> — 한도 여유('+cp[2]+'). 안전한 선택']
-    :['△','거래 상대',cpNm+' — ▲ 주의 상태에서 진행('+cp[2]+'). 여유 있는 곳이 세 군데 있었어요'];
+    ?['★','거래 상대','<b>'+cpNm+'</b> — '+cp[2]+'. 안전한 선택']
+    :['△','거래 상대',cpNm+' — ▲ 주의 상태에서 진행('+cp[2]+'). 여유 있는 곳이 네 군데 있었어요'];
   let jCh;
-  if(fxChan==='dir'&&fxNego)jCh=['★','거래 방법','<b>직거래 + 네고</b> — -0.98→-1.00으로 개선, 수수료도 없음. 오늘의 최적 루트!'];
-  else if(fxChan==='dir')jCh=['○','거래 방법','직거래 -0.98 — 무난! 다만 네고 한마디면 -1.00까지 갔어요 (오늘의 최적: 직거래+네고)'];
-  else if(fxBrkPick===2)jCh=['○','거래 방법','중개 C -1.00 — 세 줄 중 최고를 골랐네요! 다만 수수료 감안하면 직거래+네고가 근소 우위'];
-  else jCh=['△','거래 방법','중개 '+fxPx+' — 옆줄에 더 좋은 -1.00이 있었어요. 오늘의 최적: 직거래+네고'];
+  if(fxChan==='dir'&&fxNego)jCh=['★','거래 방법','<b>직거래 + 네고</b> — '+(base+0.02).toFixed(2)+'→'+base.toFixed(2)+'으로 개선, 수수료도 없음. 최적 루트!'];
+  else if(fxChan==='dir')jCh=['○','거래 방법','직거래 '+fxPx+' — 무난! 다만 네고 한마디면 '+base.toFixed(2)+'까지 갔어요'];
+  else if(fxPickWasBest)jCh=['○','거래 방법','중개 '+fxPx+' — 움직이는 세 줄 중 최유리를 잡았네요! 다만 수수료 감안하면 직거래+네고가 근소 우위'];
+  else jCh=['△','거래 방법','중개 '+fxPx+' — 그 순간 옆줄이 더 좋았어요. 오늘의 최적: 직거래+네고'];
   const stars=[jDate,jCp,jCh].filter(j=>j[0]==='★').length;
   const grade=stars===3?'★★★ PERFECT DEAL':stars===2?'★★☆ GOOD DEAL':'★☆☆ DONE — 다음 판엔 더!';
+  const routeDate=S.rule==='bestpd'?bestC.tag+'(1일당 최저)':'매칭 '+bestC.far;
   $('#fxStage').innerHTML=`
    <div class="tr-card">
-     <span class="tr-stamp">조달 완료</span>
+     <span class="tr-stamp">${S.verb} 완료</span>
      <span class="eyebrow">Deal Report · 예시</span>
      <h3 style="margin-top:8px">채점 결과 — 당신의 딜</h3>
-     <div class="fxscore">${grade} <span>· 오늘의 최적 루트: 매칭 ${FX_CANDS[0].far} × 한도 여유 은행 × 직거래+네고</span></div>
+     <div class="fxscore">${grade} <span>· 오늘의 최적 루트: ${routeDate} × 한도 여유 은행 × 직거래+네고</span></div>
      <div class="fxjdg">
        ${[jDate,jCp,jCh].map(j=>`<div class="j"><em>${j[0]}</em><b>${j[1]}</b><span>${j[2]}</span></div>`).join('')}
      </div>
      <div class="tr-stat">
-       <div class="s"><em>${fxClicks}번</em><span>클릭 (부족 발견 → DEALT)</span></div>
-       <div class="s"><em>${secs.toFixed(0)}s</em><span>소요 — 수기로는 ~15분(예시 추정)</span></div>
-       <div class="s"><em>@${fxPx}</em><span>체결 가격 · ${fxChan==='dir'?(fxNego?cpNm+' 직거래(네고)':cpNm+' 직거래'):FX_BRKS[fxBrkPick][0]+' 중개'} (모의)</span></div>
-       <div class="s"><em>${c.after===0?'잔여 0':'잔여 '+c.after}</em><span>${c.after===0?'완전 스퀘어 — 내일 걱정 끝':'일부 잔여 — 내일 한 번 더'}</span></div>
+       <div class="s"><em>${fxClicks}번</em><span>클릭 (발견 → DEALT)</span></div>
+       <div class="s"><em>${secs.toFixed(0)}s</em><span>소요 시간</span></div>
+       <div class="s"><em>@${fxPx}</em><span>체결 · ${fxChan==='dir'?(fxNego?cpNm+' 직거래(네고)':cpNm+' 직거래'):['중개 A','중개 B','중개 C'][fxBrkPick]} (모의)</span></div>
+       <div class="s"><em>${c.after===0?'잔여 0':'잔여 '+c.after}</em><span>${c.after===0?'스퀘어 — 걱정 끝':'일부 잔여 — 한 번 더'}</span></div>
      </div>
-     <p class="tagline" style="margin-top:6px">이 흐름 그대로 Excel VBA 도구가 돌아갑니다 — 판단과 체결은 사람의 몫, 도구는 그 앞의 반복을 접습니다. (전 과정 예시 · 실거래 아님)</p>
+     <h3 style="font-size:15px;margin-top:16px">같은 딜, 수기로 했다면 — 조달판이 접은 것들</h3>
+     <div style="overflow-x:auto"><table class="fxtbl"><thead><tr><th>작업</th><th>수기 시절</th><th>조달판</th></tr></thead><tbody>
+       <tr><td>스케줄 대조</td><td class="old">시트 3개를 눈으로</td><td class="new">보드 자동 — 클릭 1번</td></tr>
+       <tr><td>네팅 계산</td><td class="old">계산기 + 암산</td><td class="new">즉시 (붙여넣기면 끝)</td></tr>
+       <tr><td>날짜 비교</td><td class="old">시세판 보며 수기 환산</td><td class="new">후보 + 1일당 자동</td></tr>
+       <tr><td>한도 확인</td><td class="old">다른 파일 열어 환산</td><td class="new">○▲× 신호등 자동</td></tr>
+       <tr><td>문구 작성</td><td class="old">손 타이핑 — 오타 = 사고</td><td class="new">자동 조립 + 복사</td></tr>
+       <tr><td>합계</td><td class="old">~15분 · 사고 위험 (예시)</td><td class="new">오늘 당신: ${secs.toFixed(0)}초 · ${fxClicks}클릭</td></tr>
+     </tbody></table></div>
+     <div class="eyebrow" style="margin-top:14px">Next — 공모 아이디어 (다음 버전 구상 · 아직 없음)</div>
+     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+       <span class="chip chip-next">실시간 중개 호가 연동</span>
+       <span class="chip chip-next">스왑 vs 자금거래(MM) 금리 우위 실시간 비교</span>
+       <span class="chip chip-next">컷오프 카운트다운 알림</span>
+       <span class="chip chip-next">체결 즉시 자동 기표·컨펌 대사</span>
+     </div>
+     <p class="tagline" style="margin-top:12px">판단과 체결은 사람의 몫 — 도구는 그 앞의 반복을 접습니다. (전 과정 예시 · 실거래 아님)</p>
      <div class="hero-cta" style="margin-top:14px">
-       <button class="btn btn-amber btn-sm" data-fx="restart">↺ 다른 선택으로 다시 (만점 루트 도전)</button>
+       <button class="btn btn-amber btn-sm" data-fx="restart">↺ 다른 시나리오 도전 (3코스)</button>
        <a class="btn btn-ghost btn-sm" href="#project/fxp">이 실험의 상세 →</a>
        <a class="btn btn-ghost btn-sm" href="#demo">앞 이야기 — 자금판 마감</a>
      </div></div>`;
@@ -2737,7 +2873,7 @@ function bindFx(){
   dg.addEventListener('click',e=>{
     const b=e.target.closest('[data-fx]');if(!b||b.disabled)return;
     const a=b.dataset.fx;fxClicks++;
-    if(a==='board')fxBoard();
+    if(a==='scn'){fxS=FX_SCNS[b.dataset.k];fxClicks=0;fxBoard();}
     else if(a==='cell')fxCands();
     else if(a==='cand'){fxSel=+b.dataset.i;fxPaint();}
     else if(a==='limit')fxLimit();
@@ -2754,9 +2890,11 @@ function bindFx(){
     else if(a==='deal')fxDeal();
     else if(a==='chDir')fxDir();
     else if(a==='chBrk')fxBrk();
+    else if(a==='off')fxOff();
     else if(a==='nego')fxNegoGo();
-    else if(a==='dealNow')fxDealDone('-0.98');
-    else if(a==='dealNego')fxDealDone('-1.00');
+    else if(a==='nego2')fxNego2();
+    else if(a==='dealNow')fxDealDone((fxBase()+0.02).toFixed(2));
+    else if(a==='dealNego')fxDealDone(fxBase().toFixed(2));
     else if(a==='brkPick')fxBrkDone(+b.dataset.i);
     else if(a==='report')fxReport();
     else if(a==='restart')fxIntro();
@@ -3039,52 +3177,74 @@ const PJ_ART={note:`<svg class="flowmap" viewBox="0 0 1000 400" xmlns="http://ww
 <text x="700" y="271" font-size="12" font-weight="700" fill="#35C48D">되묻는 질문 0건</text>
 <text x="30" y="392" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#5A6678">ALL TEXT ILLUSTRATIVE (예시) · 체험 데모와 동일한 규칙 · 이름·장소 가명</text>
 </svg>`,
-fxpMap:`<svg class="flowmap" viewBox="0 0 1000 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="자금판 마감 결과가 조달판에 모이고, 부족은 중개·직거래로 당겨오고 남는 돈은 굴리는 행동 지도">
-<text x="30" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">FROM · 자금판 마감</text>
-<rect x="30" y="46" width="140" height="110" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.4"/>
-<text x="46" y="72" font-size="12.5" fill="#E8EDF5" font-weight="700">마감 리포트</text>
+fxpMap:`<svg class="flowmap" viewBox="0 0 1000 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="마감 시한 안에서 통화별로 조달·운용을 나눠 중개 호가를 비교하고 직거래로 체결하는 하루의 행동 지도">
+<rect x="30" y="18" width="940" height="34" rx="9" fill="#111A28" stroke="#223047"/>
+<text x="46" y="40" font-family="'JetBrains Mono',monospace" font-size="12.5" fill="#E8EDF5" font-weight="700">PM 15:42<tspan fill="#F0545C"><animate attributeName="opacity" values="1;1;0;1" dur="1s" repeatCount="indefinite"/>:</tspan>07</text>
+<text x="150" y="40" font-family="'JetBrains Mono',monospace" font-size="11" fill="#8A94A6">— 오늘 결제분 마감(CUT-OFF)까지</text>
+<text x="392" y="40" font-family="'JetBrains Mono',monospace" font-size="12.5" fill="#F0545C" font-weight="700">47분<animate attributeName="opacity" values="1;.45;1" dur="1.6s" repeatCount="indefinite"/></text>
+<rect x="460" y="30" width="330" height="8" rx="4" fill="#1A2434"/>
+<rect x="460" y="30" width="238" height="8" rx="4" fill="#F5A742" opacity=".8"/>
+<text x="806" y="40" font-family="'JetBrains Mono',monospace" font-size="11" fill="#8A94A6">CUT-OFF <tspan fill="#F0545C" font-weight="700">16:30</tspan></text>
+<text x="30" y="92" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">FROM · 자금판 마감</text>
+<rect x="30" y="106" width="132" height="108" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.4"/>
+<text x="46" y="132" font-size="12.5" fill="#E8EDF5" font-weight="700">마감 리포트</text>
 <g font-family="'JetBrains Mono',monospace" font-size="10">
-<text x="46" y="94" fill="#F0545C">HKD 부족</text>
-<text x="46" y="112" fill="#35C48D">CNY 남음</text>
-<text x="46" y="130" fill="#8A94A6">JPY 적정</text></g>
-<path d="M170,100 C 210,100 220,180 262,180" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
-<path class="fm-flow" d="M170,100 C 210,100 220,180 262,180" stroke="#F5A742" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.4s"/>
-<text x="262" y="118" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">BOARD · 조달판</text>
-<rect x="262" y="134" width="210" height="200" rx="14" fill="#131c0e" fill-opacity="0" stroke="#F5A742" stroke-width="2"/>
-<rect x="262" y="134" width="210" height="200" rx="14" fill="#1c160b"/>
-<text x="280" y="162" font-size="13" fill="#F5A742" font-weight="800">통화 × 날짜 보드</text>
-<g font-family="'JetBrains Mono',monospace" font-size="10.5">
-<text x="280" y="188" fill="#8A94A6">내일  <tspan fill="#F0545C" font-weight="700">HKD -250</tspan></text>
-<text x="280" y="210" fill="#8A94A6">내일  <tspan fill="#35C48D" font-weight="700">CNY +200</tspan></text>
-<text x="280" y="232" fill="#8A94A6">다음주 <tspan fill="#F0545C">JPY -100</tspan></text></g>
-<text x="280" y="262" font-size="10.5" fill="#E8C468">부족 = 당겨오기(조달)</text>
-<text x="280" y="280" font-size="10.5" fill="#4CC3E8">남음 = 굴리기(운용)</text>
-<text x="280" y="316" font-size="10" fill="#5A6678">클릭 → 날짜·한도·문구 자동</text>
-<text x="640" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">TO · 시장 — 오늘의 행동</text>
+<text x="46" y="154" fill="#F0545C">HKD 부족</text>
+<text x="46" y="172" fill="#35C48D">CNY 남음</text>
+<text x="46" y="190" fill="#8A94A6">JPY 다음주</text></g>
+<path d="M162,160 C 190,160 196,160 218,160" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
+<path class="fm-flow" d="M162,160 C 190,160 196,160 218,160" stroke="#F5A742" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.2s"/>
+<text x="218" y="92" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">BOARD · 조달판 — 통화별 작전</text>
+<rect x="218" y="106" width="222" height="330" rx="14" fill="#1c160b" stroke="#F5A742" stroke-width="2"/>
 <g font-size="11">
-<rect x="640" y="46" width="130" height="44" rx="10" fill="#111A28" stroke="#223047"/><text x="656" y="64" fill="#E8EDF5" font-weight="700" font-size="11.5">중개 A</text><text x="656" y="80" fill="#5A6678" font-size="9.5" font-family="'JetBrains Mono',monospace">-1.07 / -0.98</text>
-<rect x="800" y="46" width="130" height="44" rx="10" fill="#111A28" stroke="#223047"/><text x="816" y="64" fill="#E8EDF5" font-weight="700" font-size="11.5">중개 B</text><text x="816" y="80" fill="#5A6678" font-size="9.5" font-family="'JetBrains Mono',monospace">-1.06 / -0.97</text>
-<rect x="640" y="110" width="130" height="44" rx="10" fill="#111A28" stroke="#4CC3E8" stroke-opacity=".5"/><text x="656" y="128" fill="#E8EDF5" font-weight="700" font-size="11.5">A은행 직거래</text><text x="656" y="144" fill="#4CC3E8" font-size="9.5">메신저로 바로</text>
-<rect x="800" y="110" width="130" height="44" rx="10" fill="#111A28" stroke="#4CC3E8" stroke-opacity=".5"/><text x="816" y="128" fill="#E8EDF5" font-weight="700" font-size="11.5">B은행 직거래</text><text x="816" y="144" fill="#35C48D" font-size="9.5" font-family="'JetBrains Mono',monospace">DONE ✓ 네고 성공</text>
-<rect x="640" y="188" width="130" height="44" rx="10" fill="#111A28" stroke="#223047"/><text x="656" y="206" fill="#E8EDF5" font-weight="700" font-size="11.5">C은행 MM</text><text x="656" y="222" fill="#5A6678" font-size="9.5">남는 CNY 예치</text>
-<rect x="800" y="188" width="130" height="44" rx="10" fill="#111A28" stroke="#223047"/><text x="816" y="206" fill="#E8EDF5" font-weight="700" font-size="11.5">중개 C</text><text x="816" y="222" fill="#5A6678" font-size="9.5" font-family="'JetBrains Mono',monospace">-1.08 / -1.00</text></g>
-<path d="M472,180 C 540,180 560,68 640,68" stroke="#5A6678" stroke-width="1.2" stroke-opacity=".4" stroke-dasharray="3 5" fill="none"/>
-<path d="M472,190 C 550,190 570,68 800,68" stroke="#5A6678" stroke-width="1.2" stroke-opacity=".4" stroke-dasharray="3 5" fill="none"/>
-<path d="M472,210 C 560,210 580,210 800,210" stroke="#5A6678" stroke-width="1.2" stroke-opacity=".4" stroke-dasharray="3 5" fill="none"/>
-<path d="M472,200 C 540,200 560,132 640,132" stroke="#35C48D" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
-<path class="fm-flow" d="M472,200 C 540,200 560,132 640,132" stroke="#35C48D" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.1s;animation-delay:-.5s"/>
-<path d="M472,220 C 560,220 590,132 800,132" stroke="#35C48D" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
-<path class="fm-flow" d="M472,220 C 560,220 590,132 800,132" stroke="#35C48D" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.6s;animation-delay:-1.2s"/>
-<path d="M472,240 C 540,240 560,210 640,210" stroke="#F0545C" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
-<path class="fm-flow" d="M472,240 C 540,240 560,210 640,210" stroke="#F0545C" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.9s;animation-delay:-1.8s"/>
-<g font-size="10.5">
-<text x="500" y="122" fill="#5A6678">호가 물어보고 (시세 비교)</text>
-<text x="520" y="176" fill="#35C48D">부족한 HKD — 스왑으로 당겨오기</text>
-<text x="520" y="256" fill="#F0545C">남는 CNY — 굴리러 보내기</text></g>
-<g class="fm-breathe"><rect x="620" y="290" width="310" height="64" rx="12" fill="rgba(53,196,141,.06)" stroke="#35C48D" stroke-opacity=".5"/>
-<text x="640" y="316" font-family="'JetBrains Mono',monospace" font-size="12" fill="#35C48D" font-weight="700">HKD 250mio B/S 07/21-07/27 DONE ✓</text>
-<text x="640" y="336" font-size="10" fill="#8A94A6">내일 빠질 돈, 오늘 미리 채워 둠 — 스퀘어</text></g>
-<text x="30" y="420" font-size="11" fill="#5A6678">한 판에서 여러 통화 · 여러 상대와 당기고 굴리는 하루 — 수치·상대 전부 예시, 실거래 아님</text>
+<rect x="234" y="122" width="190" height="86" rx="9" fill="rgba(240,84,92,.07)" stroke="#F0545C" stroke-opacity=".4"/>
+<text x="248" y="144" font-family="'JetBrains Mono',monospace" font-size="11.5" fill="#F0545C" font-weight="800">HKD −250 · 내일</text>
+<text x="248" y="163" font-size="10.5" fill="#E8EDF5">작전: 스왑으로 당겨오기(조달)</text>
+<text x="248" y="180" font-size="10" fill="#8A94A6">갚을 날 = 매칭 07/27 (잔여 0)</text>
+<text x="248" y="197" font-size="10" fill="#E8C468">호가 3곳 비교 → 직거래 네고</text>
+<rect x="234" y="218" width="190" height="86" rx="9" fill="rgba(53,196,141,.06)" stroke="#35C48D" stroke-opacity=".4"/>
+<text x="248" y="240" font-family="'JetBrains Mono',monospace" font-size="11.5" fill="#35C48D" font-weight="800">CNY +200 · 내일</text>
+<text x="248" y="259" font-size="10.5" fill="#E8EDF5">작전: 남는 돈 굴리기(운용)</text>
+<text x="248" y="276" font-size="10" fill="#8A94A6">스왑 S/B vs MM 예치 — 비교</text>
+<text x="248" y="293" font-size="10" fill="#E8C468">금리 우위 쪽으로 실행</text>
+<rect x="234" y="314" width="190" height="64" rx="9" fill="rgba(90,102,120,.08)" stroke="#5A6678" stroke-opacity=".4" stroke-dasharray="4 3"/>
+<text x="248" y="336" font-family="'JetBrains Mono',monospace" font-size="11.5" fill="#8A94A6" font-weight="800">JPY −100 · 다음주</text>
+<text x="248" y="355" font-size="10" fill="#5A6678">아직 여유 — 오늘은 모니터만</text>
+<text x="234" y="410" font-size="10" fill="#5A6678">클릭 → 후보·시뮬·한도·문구 자동</text></g>
+<text x="490" y="92" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">MARKET · 시한 안에 좋은 값 잡기</text>
+<g font-family="'JetBrains Mono',monospace">
+<text x="490" y="122" font-size="10.5" fill="#F0545C" font-weight="700">LANE 1 · HKD 조달 — FX SWAP</text>
+<rect x="490" y="132" width="128" height="42" rx="9" fill="#111A28" stroke="#223047"/>
+<text x="502" y="150" font-size="10.5" fill="#8A94A6">중개 A</text>
+<text x="502" y="166" font-size="10.5" fill="#5A6678">-1.07/-0.98 <tspan fill="#5A6678">✗</tspan></text>
+<rect x="632" y="132" width="128" height="42" rx="9" fill="#111A28" stroke="#223047"/>
+<text x="644" y="150" font-size="10.5" fill="#8A94A6">중개 B <tspan fill="#35C48D" font-size="9">▲</tspan></text>
+<g><text x="644" y="166" font-size="10.5" fill="#5A6678">-1.06/-0.97 ✗<animate attributeName="opacity" values="1;1;0;0;1" dur="2.6s" repeatCount="indefinite"/></text>
+<text x="644" y="166" font-size="10.5" fill="#5A6678" opacity="0">-1.06/-0.96 ✗<animate attributeName="opacity" values="0;0;1;1;0" dur="2.6s" repeatCount="indefinite"/></text></g>
+<rect x="774" y="128" width="196" height="50" rx="10" fill="rgba(53,196,141,.07)" stroke="#35C48D" stroke-width="1.6"><animate attributeName="stroke-opacity" values="1;.4;1" dur="2s" repeatCount="indefinite"/></rect>
+<text x="788" y="147" font-size="10.5" fill="#E8EDF5" font-weight="700">B은행 직거래 <tspan fill="#F5A742">BEST ✓</tspan></text>
+<text x="788" y="164" font-size="10.5" fill="#35C48D" font-weight="700">네고 -0.98 → -1.00 DONE</text>
+<path d="M440,160 C 462,160 468,153 490,153" stroke="#5A6678" stroke-width="1.1" stroke-opacity=".45" stroke-dasharray="3 5" fill="none"/>
+<path d="M618,153 L 632,153" stroke="#5A6678" stroke-width="1.1" stroke-opacity=".45" stroke-dasharray="3 5" fill="none"/>
+<path d="M760,153 L 774,153" stroke="#35C48D" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
+<path class="fm-flow" d="M440,160 C 560,160 660,153 774,153" stroke="#35C48D" stroke-width="2" stroke-opacity=".85" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.3s;animation-delay:-.6s"/>
+<text x="490" y="216" font-size="10.5" fill="#4CC3E8" font-weight="700">LANE 2 · CNY 운용 — 스왑 vs 자금거래(MM) 비교</text>
+<rect x="490" y="226" width="180" height="42" rx="9" fill="#111A28" stroke="#223047"/>
+<text x="502" y="244" font-size="10.5" fill="#8A94A6">FX 스왑 S/B 환산</text>
+<text x="502" y="260" font-size="10.5" fill="#5A6678">≒ 연 3.05% ✗</text>
+<rect x="690" y="222" width="180" height="50" rx="10" fill="rgba(76,195,232,.07)" stroke="#4CC3E8" stroke-width="1.6"/>
+<text x="702" y="241" font-size="10.5" fill="#E8EDF5" font-weight="700">C은행 MM 예치 <tspan fill="#F5A742">WIN</tspan></text>
+<text x="702" y="258" font-size="10.5" fill="#4CC3E8" font-weight="700">연 3.20% · +0.15%p DONE</text>
+<path d="M440,256 C 462,256 468,247 490,247" stroke="#5A6678" stroke-width="1.1" stroke-opacity=".45" stroke-dasharray="3 5" fill="none"/>
+<path class="fm-flow" d="M440,256 C 560,256 600,247 690,247" stroke="#4CC3E8" stroke-width="2" stroke-opacity=".85" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.7s;animation-delay:-1.3s"/>
+<text x="490" y="310" font-size="10.5" fill="#8A94A6" font-weight="700">LANE 3 · JPY — 오늘은 관망</text>
+<path d="M440,346 C 500,346 520,326 560,326" stroke="#5A6678" stroke-width="1.1" stroke-opacity=".35" stroke-dasharray="3 6" fill="none"/>
+<text x="490" y="332" font-size="10" fill="#5A6678">시세만 지켜보다가, 유리해지면 그때 —</text>
+<g class="fm-breathe"><rect x="490" y="360" width="480" height="66" rx="12" fill="rgba(53,196,141,.06)" stroke="#35C48D" stroke-opacity=".5"/>
+<text x="510" y="386" font-family="'JetBrains Mono',monospace" font-size="12" fill="#35C48D" font-weight="700">15:58 — 컷오프 32분 전, 두 딜 완료 ✓ 내일은 이미 준비됨</text>
+<text x="510" y="406" font-size="10" fill="#8A94A6">부족은 좋은 값에 당겨왔고, 남는 돈은 더 주는 곳에 굴렸습니다</text></g></g>
+<text x="30" y="470" font-size="11" fill="#5A6678">통화마다 작전을 세우고 — 조달은 호가 비교 끝에 직거래 네고로, 운용은 스왑과 자금거래를 견줘서 —</text>
+<text x="30" y="488" font-size="11" fill="#5A6678">마감 시한 안에 하나씩 DONE. 수치·상대·시각 전부 예시, 실거래 아님.</text>
 </svg>`,
 fxp:`<svg class="flowmap" viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="거래 내역 붙여넣기 → 도구가 골라내기 → 돈의 달력 → 클릭하면 답 — 쉬운 4단계">
 <text x="30" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">STEP 1 · 붙여넣기</text>
