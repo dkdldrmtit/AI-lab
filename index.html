@@ -1694,7 +1694,7 @@ const EXPERIMENTS=[
   panel:{t:'운영 스냅샷 · 예시',kv:[['통화 블록','오전 7 + 오후 7'],['코드 규모','3모듈 · ~2,800줄'],['안전장치','점검 · 중복 경고 · 로그'],['버전','v3.31']]}},
  {status:'LIVE',pid:'fxp',title:'FX 자금조달판',hanja:'資金調達板',mission:'자금판',stTxt:'LIVE · 체험 가능',
   arts:[
-   {key:'fxpMap',eyebrow:'The Action',h2:'하루의 행동 지도 — 채우고, 굴리고',hint:'통화별 과부족 게이지 → 조달판 취합 → 실시간 호가에서 고르면 → 게이지가 다시 채워집니다 (전부 예시·실거래 아님)'},
+   {key:'fxpMap',eyebrow:'The Action',h2:'하루의 행동 지도 — 채우고, 굴리고',hint:'① 부족 발견 → ② 스케줄 → ③ 호가 비교 → ④ 한도 → ⑤ 네고 → ⑥ 다시 채움 — 한 딜의 순서 그대로 (전부 예시·실거래 아님)'},
    {key:'fxp',eyebrow:'How It Works',h2:'어려운 건 접어 두고, 4단계로',hint:'붙여넣기 → 도구가 골라내기 → 돈의 달력 → 클릭하면 답 (수치 예시)'}],
   demo:{g:'fx',d:'외화 스왑 조달·운용 — 부족을 찾고 · 갚을 날을 고르고 · 체결까지, 게임처럼'},
   desc:'자금판이 마감을 끝내면 통화별로 남는 돈과 모자란 돈이 보입니다. 그 다음 일 — 모자란 통화는 FX 스왑으로 당겨오고(조달), 남는 통화는 굴리는(운용) 두 번째 도구입니다. 거래 일보를 붙여넣으면 통화×영업일 네팅 보드가 서고, 부족한 칸을 클릭하면 파 날짜 후보 → 체결 시뮬레이션 → 상대방 한도 → 요청 문구까지 한 흐름으로 이어집니다. Excel VBA(Mac·Windows 겸용)로 실전 운영을 준비 중입니다.',
@@ -3177,97 +3177,99 @@ const PJ_ART={note:`<svg class="flowmap" viewBox="0 0 1000 400" xmlns="http://ww
 <text x="700" y="271" font-size="12" font-weight="700" fill="#35C48D">되묻는 질문 0건</text>
 <text x="30" y="392" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#5A6678">ALL TEXT ILLUSTRATIVE (예시) · 체험 데모와 동일한 규칙 · 이름·장소 가명</text>
 </svg>`,
-fxpMap:`<svg class="flowmap" viewBox="0 0 1000 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="통화별 과부족 게이지 → 조달판 취합 → 실시간 호가에서 선택 → 부족 게이지가 다시 채워지는 흐름">
-<defs><pattern id="fxhgap" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="#0d1420"/><line x1="0" y1="0" x2="0" y2="7" stroke="#3a4a63" stroke-width="2.4"/></pattern>
-<pattern id="fxhexc" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="#4a1d21"/><line x1="0" y1="0" x2="0" y2="7" stroke="#F0545C" stroke-width="2.4"/></pattern></defs>
-<text x="40" y="24" font-size="13" font-weight="700" fill="#5A6678" font-family="'JetBrains Mono',monospace" letter-spacing="1.5">POSITIONS · 통화별 과부족 (자금판 인계)</text>
-<text x="600" y="24" font-size="12.5" font-weight="700" fill="#5A6678" font-family="'JetBrains Mono',monospace" letter-spacing="1">LIVE QUOTES · 실시간 호가 — 고르면 채워진다 (예시)</text>
-<text x="96" y="100" font-family="'JetBrains Mono',monospace" font-size="15" font-weight="700" fill="#E8EDF5" text-anchor="end">HKD</text>
-<rect x="112" y="87" width="200" height="16" rx="4" fill="#0d1420" stroke="#223047"/>
-<rect x="112" y="87" width="200" height="16" rx="4" fill="url(#fxhgap)"/>
-<rect class="fm-breathe" style="animation-delay:0s" x="112" y="87" width="64" height="16" rx="4" fill="#F0545C" opacity="0.9"/>
-<rect x="176" y="87" width="0" height="16" fill="#35C48D" opacity=".92" rx="2">
-  <animate attributeName="width" values="0;0;0;86;86;0" keyTimes="0;.52;.6;.68;.94;1" dur="8s" repeatCount="indefinite"/></rect>
-<line x1="262" y1="84" x2="262" y2="106" stroke="#8A94A6" stroke-width="1.5"/>
-<text x="322" y="100" font-family="'JetBrains Mono',monospace" font-size="13.5" font-weight="700" fill="#F0545C">부족 −250</text>
-<text x="96" y="170" font-family="'JetBrains Mono',monospace" font-size="15" font-weight="700" fill="#E8EDF5" text-anchor="end">CNY</text>
-<rect x="112" y="157" width="200" height="16" rx="4" fill="#0d1420" stroke="#223047"/>
-<rect class="fm-breathe" style="animation-delay:-1.4s" x="112" y="157" width="150" height="16" rx="4" fill="#F0545C" opacity="0"/>
-<rect x="112" y="157" width="150" height="16" rx="4" fill="#35C48D" opacity=".9"/>
-<rect class="fm-exc" style="animation-delay:-.6s" x="262" y="157" width="34" height="16" rx="4" fill="url(#fxhexc)"/>
-<line x1="262" y1="154" x2="262" y2="176" stroke="#8A94A6" stroke-width="1.5"/>
-<text x="322" y="170" font-family="'JetBrains Mono',monospace" font-size="13.5" font-weight="700" fill="#35C48D">과다 +200</text>
-<text x="96" y="240" font-family="'JetBrains Mono',monospace" font-size="15" font-weight="700" fill="#E8EDF5" text-anchor="end">JPY</text>
-<rect x="112" y="227" width="200" height="16" rx="4" fill="#0d1420" stroke="#223047"/>
-<rect class="fm-gauge" style="animation-duration:5.1s" x="112" y="227" width="138" height="16" rx="4" fill="#4CC3E8" opacity=".85"/>
-<line x1="262" y1="224" x2="262" y2="246" stroke="#8A94A6" stroke-width="1.5"/>
-<text x="322" y="240" font-family="'JetBrains Mono',monospace" font-size="13.5" font-weight="700" fill="#4CC3E8">다음주 −100</text>
-<text x="96" y="310" font-family="'JetBrains Mono',monospace" font-size="15" font-weight="700" fill="#E8EDF5" text-anchor="end">EUR</text>
-<rect x="112" y="297" width="200" height="16" rx="4" fill="#0d1420" stroke="#223047"/>
-<rect class="fm-gauge" style="animation-duration:6s;animation-delay:-2.2s" x="112" y="297" width="146" height="16" rx="4" fill="#4CC3E8" opacity=".85"/>
-<line x1="262" y1="294" x2="262" y2="316" stroke="#8A94A6" stroke-width="1.5"/>
-<text x="322" y="310" font-family="'JetBrains Mono',monospace" font-size="13.5" font-weight="700" fill="#4CC3E8">적정 ✓</text>
-<text x="96" y="380" font-family="'JetBrains Mono',monospace" font-size="15" font-weight="700" fill="#E8EDF5" text-anchor="end">AUD</text>
-<rect x="112" y="367" width="200" height="16" rx="4" fill="#0d1420" stroke="#223047"/>
-<rect class="fm-gauge" style="animation-duration:5.6s;animation-delay:-3.1s" x="112" y="367" width="128" height="16" rx="4" fill="#4CC3E8" opacity=".85"/>
-<line x1="262" y1="364" x2="262" y2="386" stroke="#8A94A6" stroke-width="1.5"/>
-<text x="322" y="380" font-family="'JetBrains Mono',monospace" font-size="13.5" font-weight="700" fill="#4CC3E8">적정 ✓</text>
-<path d="M312,95 C 380,95 380,235 442,235" stroke="#F0545C" stroke-width="1.4" stroke-opacity=".45" fill="none"/>
-<path class="fm-flow" d="M312,95 C 380,95 380,235 442,235" stroke="#F0545C" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.3s"/>
-<path d="M312,165 C 380,165 380,262 442,262" stroke="#35C48D" stroke-width="1.4" stroke-opacity=".45" fill="none"/>
-<path class="fm-flow" d="M312,165 C 380,165 380,262 442,262" stroke="#35C48D" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.6s;animation-delay:-1.1s"/>
-<rect x="442" y="196" width="128" height="128" rx="16" fill="#1c160b" stroke="#F5A742" stroke-width="2.4"/>
-<text x="506" y="228" text-anchor="middle" font-size="15" font-weight="800" fill="#F5A742">조달판</text>
-<g font-family="'JetBrains Mono',monospace" font-size="10.5">
-<text x="460" y="252" fill="#F0545C">HKD 250 당겨오기</text>
-<text x="460" y="272" fill="#35C48D">CNY 200 굴리기</text>
-<text x="460" y="292" fill="#8A94A6">JPY — 관망</text></g>
-<text x="506" y="344" text-anchor="middle" font-size="10" fill="#5A6678">날짜·한도·문구 자동</text>
-<path d="M570,235 C 610,235 612,120 648,120" stroke="#5A6678" stroke-width="1.1" stroke-opacity=".5" stroke-dasharray="3 5" fill="none"/>
-<path d="M570,240 C 616,240 618,190 648,190" stroke="#5A6678" stroke-width="1.1" stroke-opacity=".5" stroke-dasharray="3 5" fill="none"/>
-<path d="M570,245 C 616,245 618,260 648,260" stroke="#5A6678" stroke-width="1.1" stroke-opacity=".5" stroke-dasharray="3 5" fill="none"/>
-<path d="M570,290 C 616,290 618,330 648,330" stroke="#35C48D" stroke-width="1.4" stroke-opacity=".4" fill="none"/>
-<path class="fm-flow" d="M570,290 C 616,290 618,330 648,330" stroke="#35C48D" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.8s;animation-delay:-.4s"/>
-<g font-family="'JetBrains Mono',monospace">
-<rect x="648" y="96" width="312" height="48" rx="10" fill="#111A28" stroke="#223047" stroke-width="1.6"/>
-<text x="664" y="116" font-size="12" fill="#8A94A6" font-weight="700">중개 A</text>
-<text x="664" y="134" font-size="10" fill="#5A6678">brokerage 별도</text>
-<g><text x="948" y="126" font-size="15" font-weight="700" fill="#8A94A6" text-anchor="end">-1.07 / -0.98<animate attributeName="opacity" values="1;1;0;0;1" dur="2.2s" repeatCount="indefinite"/></text>
-<text x="948" y="126" font-size="15" font-weight="700" fill="#8A94A6" text-anchor="end" opacity="0">-1.07 / -0.97<animate attributeName="opacity" values="0;0;1;1;0" dur="2.2s" repeatCount="indefinite"/></text></g>
-<rect x="648" y="166" width="312" height="48" rx="10" fill="#111A28" stroke="#223047" stroke-width="1.6"/>
-<text x="664" y="186" font-size="12" fill="#8A94A6" font-weight="700">중개 B</text>
-<text x="664" y="204" font-size="10" fill="#5A6678">brokerage 별도</text>
-<g><text x="948" y="196" font-size="15" font-weight="700" fill="#8A94A6" text-anchor="end">-1.06 / -0.97<animate attributeName="opacity" values="1;1;0;0;1" dur="2.7s" begin="-1.2s" repeatCount="indefinite"/></text>
-<text x="948" y="196" font-size="15" font-weight="700" fill="#8A94A6" text-anchor="end" opacity="0">-1.06 / -0.96<animate attributeName="opacity" values="0;0;1;1;0" dur="2.7s" begin="-1.2s" repeatCount="indefinite"/></text></g>
-<rect x="648" y="236" width="312" height="58" rx="10" fill="rgba(53,196,141,.06)" stroke="#35C48D" stroke-width="2">
-  <animate attributeName="stroke-opacity" values="1;.45;1" dur="2s" repeatCount="indefinite"/></rect>
-<text x="664" y="258" font-size="12" fill="#E8EDF5" font-weight="700">B은행 직거래</text>
-<text x="664" y="276" font-size="10" fill="#35C48D">네고 -0.98 → -1.00</text>
-<text x="948" y="262" font-size="16" font-weight="800" fill="#35C48D" text-anchor="end">-1.07 / -1.00</text>
-<g><rect x="836" y="270" width="76" height="20" rx="6" fill="#0B0F17" stroke="#35C48D" stroke-width="1.4"/>
-<text x="874" y="284" font-size="11" font-weight="800" fill="#35C48D" text-anchor="middle">MINE ✓</text>
-<animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.5;.56;1" dur="8s" repeatCount="indefinite"/></g>
-<rect x="648" y="314" width="312" height="48" rx="10" fill="rgba(76,195,232,.05)" stroke="#4CC3E8" stroke-opacity=".55" stroke-width="1.6"/>
-<text x="664" y="334" font-size="12" fill="#E8EDF5" font-weight="700">C은행 MM 예치</text>
-<text x="664" y="352" font-size="10" fill="#4CC3E8">스왑 환산 3.05% 대비 우위</text>
-<text x="948" y="344" font-size="15" font-weight="800" fill="#4CC3E8" text-anchor="end">연 3.20% WIN</text>
-</g>
-<path d="M648,265 C 560,265 470,120 318,95" stroke="#35C48D" stroke-width="1.6" stroke-opacity=".35" fill="none"/>
-<path class="fm-flow" d="M648,265 C 560,265 470,120 318,95" stroke="#35C48D" stroke-width="2.6" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.1s;animation-delay:-.8s"/>
-<text x="470" y="140" font-size="10.5" fill="#35C48D" font-family="'JetBrains Mono',monospace">체결 → 부족 게이지가 다시 채워진다
-  <animate attributeName="opacity" values=".4;1;.4" dur="2.4s" repeatCount="indefinite"/></text>
+fxpMap:`<svg class="flowmap" viewBox="0 0 1000 590" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="1 마감에서 HKD 부족 발견, 2 스케줄에서 갚을 날 확인, 3 호가 비교, 4 한도 확인, 5 메신저 네고, 6 체결로 게이지가 다시 차는 순서도">
+<defs><pattern id="fxhgap" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="#0d1420"/><line x1="0" y1="0" x2="0" y2="7" stroke="#3a4a63" stroke-width="2.4"/></pattern></defs>
+<text x="40" y="26" font-size="13" font-weight="700" fill="#5A6678" font-family="'JetBrains Mono',monospace" letter-spacing="1.5">ONE DEAL · 부족 발견에서 다시 채우기까지 (예시)</text>
+<circle cx="54" cy="66" r="12" fill="#F5A742"/><text x="54" y="71" text-anchor="middle" font-size="13" font-weight="800" fill="#0B0F17">1</text>
+<text x="76" y="71" font-size="13" font-weight="700" fill="#E8EDF5">마감 확인 — 내일 HKD가 빈다</text>
+<text x="118" y="106" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="700" fill="#E8EDF5" text-anchor="end">HKD</text>
+<rect x="130" y="93" width="180" height="16" rx="4" fill="#0d1420" stroke="#223047"/>
+<rect x="130" y="93" width="180" height="16" rx="4" fill="url(#fxhgap)"/>
+<rect class="fm-breathe" x="130" y="93" width="58" height="16" rx="4" fill="#F0545C" opacity=".9"/>
+<rect x="188" y="93" width="0" height="16" rx="3" fill="#35C48D" opacity=".95">
+  <animate attributeName="width" values="0;0;76;76;0" keyTimes="0;.72;.8;.96;1" dur="10s" repeatCount="indefinite"/></rect>
+<line x1="264" y1="90" x2="264" y2="112" stroke="#8A94A6" stroke-width="1.5"/>
+<text x="322" y="106" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700" fill="#F0545C">−250</text>
+<g opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.74;.8;.96;1" dur="10s" repeatCount="indefinite"/>
+<text x="322" y="126" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="800" fill="#35C48D">회복 ✓</text></g>
+<path d="M180,118 C 180,140 180,144 180,158" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".4" fill="none"/>
+<path class="fm-flow" d="M180,118 C 180,140 180,144 180,158" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:1.8s"/>
+<rect x="40" y="158" width="310" height="168" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.6"/>
+<circle cx="60" cy="180" r="12" fill="#F5A742"/><text x="60" y="185" text-anchor="middle" font-size="13" font-weight="800" fill="#0B0F17">2</text>
+<text x="82" y="185" font-size="12.5" font-weight="700" fill="#E8EDF5">조달판 스케줄 — 언제 갚지?</text>
+<g font-family="'JetBrains Mono',monospace" font-size="11.5">
+<text x="66" y="216" fill="#8A94A6">07/21</text><text x="230" y="216" fill="#F0545C" text-anchor="end">(250,000,000)</text><text x="250" y="216" fill="#F0545C" font-size="10">← 빈다</text>
+<text x="66" y="240" fill="#5A6678">07/22</text><text x="230" y="240" fill="#5A6678" text-anchor="end">·</text>
+<rect x="56" y="252" width="270" height="24" rx="6" fill="rgba(53,196,141,.08)" stroke="#35C48D" stroke-opacity=".6">
+  <animate attributeName="stroke-opacity" values=".6;.2;.6" dur="1.8s" repeatCount="indefinite"/></rect>
+<text x="66" y="269" fill="#35C48D" font-weight="700">07/27</text><text x="230" y="269" fill="#35C48D" text-anchor="end" font-weight="700">+250,000,000</text><text x="240" y="269" fill="#F5A742" font-size="10.5" font-weight="700">매칭★</text>
+<text x="66" y="304" fill="#8A94A6" font-size="10.5">들어올 돈이 있는 날 — 그날 갚으면 잔여 0</text></g>
+<path d="M350,242 C 380,242 380,150 408,150" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".4" fill="none"/>
+<path class="fm-flow" d="M350,242 C 380,242 380,150 408,150" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2s;animation-delay:-.5s"/>
+<rect x="408" y="56" width="252" height="212" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.6"/>
+<circle cx="428" cy="78" r="12" fill="#F5A742"/><text x="428" y="83" text-anchor="middle" font-size="13" font-weight="800" fill="#0B0F17">3</text>
+<text x="450" y="83" font-size="12.5" font-weight="700" fill="#E8EDF5">호가 비교 — 07/21→07/27</text>
+<g font-family="'JetBrains Mono',monospace" font-size="12">
+<text x="428" y="116" fill="#8A94A6">중개 A</text>
+<g><text x="640" y="116" fill="#8A94A6" text-anchor="end" font-weight="700">-1.07 / -0.98<animate attributeName="opacity" values="1;1;0;0;1" dur="2.1s" repeatCount="indefinite"/></text>
+<text x="640" y="116" fill="#8A94A6" text-anchor="end" font-weight="700" opacity="0">-1.07 / -0.97<animate attributeName="opacity" values="0;0;1;1;0" dur="2.1s" repeatCount="indefinite"/></text></g>
+<text x="428" y="144" fill="#8A94A6">중개 B</text>
+<g><text x="640" y="144" fill="#8A94A6" text-anchor="end" font-weight="700">-1.06 / -0.97<animate attributeName="opacity" values="1;1;0;0;1" dur="2.6s" begin="-1s" repeatCount="indefinite"/></text>
+<text x="640" y="144" fill="#8A94A6" text-anchor="end" font-weight="700" opacity="0">-1.06 / -0.96<animate attributeName="opacity" values="0;0;1;1;0" dur="2.6s" begin="-1s" repeatCount="indefinite"/></text></g>
+<text x="648" y="116" fill="#5A6678" font-size="10">＋수수료</text>
+<text x="648" y="144" fill="#5A6678" font-size="10">＋수수료</text>
+<rect x="418" y="158" width="228" height="26" rx="7" fill="rgba(245,167,66,.08)" stroke="#F5A742" stroke-opacity=".6"/>
+<text x="428" y="176" fill="#F5A742" font-weight="700">B은행 직거래</text><text x="640" y="176" fill="#F5A742" text-anchor="end" font-weight="700">-1.07 / -0.98 ▶</text>
+<text x="428" y="208" fill="#8A94A6" font-size="10.5">수수료 없는 직거래로 — 대신 네고는 내 몫</text>
+<text x="428" y="228" fill="#5A6678" font-size="10.5">호가는 계속 움직인다 · 타이밍도 실력</text></g>
+<path d="M534,268 C 534,290 534,294 534,308" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".4" fill="none"/>
+<path class="fm-flow" d="M534,268 C 534,290 534,294 534,308" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:1.8s;animation-delay:-.9s"/>
+<rect x="408" y="308" width="252" height="150" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.6"/>
+<circle cx="428" cy="330" r="12" fill="#F5A742"/><text x="428" y="335" text-anchor="middle" font-size="13" font-weight="800" fill="#0B0F17">4</text>
+<text x="450" y="335" font-size="12.5" font-weight="700" fill="#E8EDF5">한도 — B은행 괜찮나?</text>
+<g font-family="'JetBrains Mono',monospace" font-size="11">
+<rect x="424" y="350" width="106" height="24" rx="7" fill="#0d1420" stroke="#223047"/><text x="434" y="367" fill="#8A94A6">○ A은행 여유</text>
+<rect x="540" y="350" width="106" height="24" rx="7" fill="rgba(76,195,232,.1)" stroke="#4CC3E8" stroke-width="1.6">
+  <animate attributeName="stroke-opacity" values="1;.4;1" dur="1.6s" repeatCount="indefinite"/></rect>
+<text x="550" y="367" fill="#4CC3E8" font-weight="700">○ B은행 ✓선택</text>
+<rect x="424" y="382" width="106" height="24" rx="7" fill="rgba(232,196,104,.07)" stroke="#E8C468" stroke-opacity=".5"/><text x="434" y="399" fill="#E8C468">▲ D은행 92%</text>
+<rect x="540" y="382" width="106" height="24" rx="7" fill="rgba(240,84,92,.07)" stroke="#F0545C" stroke-opacity=".5"/><text x="550" y="399" fill="#F0545C">× E외은 99%</text>
+<text x="428" y="436" fill="#8A94A6" font-size="10.5">신용 2,500억 중 300억 사용 — 이 딜 ≈0.4억 OK</text></g>
+<path d="M660,383 C 690,383 692,260 716,260" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".4" fill="none"/>
+<path class="fm-flow" d="M660,383 C 690,383 692,260 716,260" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2s;animation-delay:-1.3s"/>
+<rect x="716" y="56" width="248" height="402" rx="14" fill="#0d1420" stroke="#223047" stroke-width="1.8"/>
+<rect x="716" y="56" width="248" height="34" rx="14" fill="#111A28"/>
+<circle cx="738" cy="73" r="12" fill="#F5A742"/><text x="738" y="78" text-anchor="middle" font-size="13" font-weight="800" fill="#0B0F17">5</text>
+<text x="758" y="78" font-size="12" font-weight="700" fill="#E8EDF5">B은행 · DEALING</text>
+<circle cx="944" cy="73" r="4" fill="#35C48D"><animate attributeName="opacity" values="1;.3;1" dur="1.4s" repeatCount="indefinite"/></circle>
+<g font-family="'JetBrains Mono',monospace" font-size="11.5">
+<rect x="732" y="106" width="168" height="26" rx="9" fill="#111A28" stroke="#223047"/>
+<text x="744" y="124" fill="#E8EDF5">hkd 250 b/s 0721-0727?</text>
+<rect x="796" y="142" width="152" height="26" rx="9" fill="rgba(245,167,66,.1)" stroke="#F5A742" stroke-opacity=".5"/>
+<text x="936" y="160" fill="#F5A742" text-anchor="end">pls ur best :)</text>
+<rect x="732" y="178" width="140" height="26" rx="9" fill="#111A28" stroke="#223047"/>
+<text x="744" y="196" fill="#E8EDF5" font-weight="700">-1.07 / -0.98</text>
+<rect x="820" y="214" width="128" height="26" rx="9" fill="rgba(245,167,66,.1)" stroke="#F5A742" stroke-opacity=".5"/>
+<text x="936" y="232" fill="#F5A742" text-anchor="end">any better? 🙏</text>
+<rect x="732" y="250" width="180" height="26" rx="9" fill="#111A28" stroke="#223047"/>
+<text x="744" y="268" fill="#5A6678">-0.98</text><line x1="742" y1="264" x2="778" y2="264" stroke="#F0545C" stroke-width="1.6"/>
+<text x="788" y="268" fill="#35C48D" font-weight="800">→ -1.00 final</text>
+<rect x="836" y="286" width="112" height="26" rx="9" fill="rgba(53,196,141,.12)" stroke="#35C48D" stroke-opacity=".7"/>
+<text x="936" y="304" fill="#35C48D" text-anchor="end" font-weight="800">mine -1.00 ✔</text>
+<rect x="732" y="322" width="196" height="26" rx="9" fill="#111A28" stroke="#223047"/>
+<text x="744" y="340" fill="#E8EDF5">DONE ✓ conf to follow</text>
+<text x="744" y="372" fill="#5A6678" font-size="10">네고 두 마디 = 0.02p — 250mio면 밥값이 아니다</text></g>
+<g transform="rotate(-9 840 414)"><rect x="782" y="396" width="116" height="34" rx="9" fill="none" stroke="#35C48D" stroke-width="3"/>
+<text x="840" y="419" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="800" fill="#35C48D">MINE ✓</text>
+<animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.6;.66;1" dur="10s" repeatCount="indefinite"/></g>
+<circle cx="978" cy="490" r="0" fill="none"/>
+<path d="M716,440 C 500,520 260,300 196,124" stroke="#35C48D" stroke-width="1.6" stroke-opacity=".3" fill="none"/>
+<path class="fm-flow" d="M716,440 C 500,520 260,300 196,124" stroke="#35C48D" stroke-width="2.6" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.2s;animation-delay:-.4s"/>
+<circle cx="428" cy="452" r="12" fill="#35C48D"/><text x="428" y="457" text-anchor="middle" font-size="13" font-weight="800" fill="#0B0F17">6</text>
+<text x="448" y="457" font-size="12.5" font-weight="700" fill="#35C48D">조달 완료 — HKD 게이지가 다시 찬다</text>
 <g font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700">
-<rect x="112" y="522" width="14" height="14" rx="3" fill="#0d1420"/><rect x="112" y="522" width="14" height="14" rx="3" fill="url(#fxhgap)"/>
-<text x="134" y="533" fill="#9fb0c4">부족 → 조달(당겨오기)</text>
-<rect x="342" y="522" width="14" height="14" rx="3" fill="url(#fxhexc)"/>
-<text x="364" y="533" fill="#9fb0c4">과다 → 운용(굴리기)</text>
-<rect x="556" y="522" width="14" height="14" rx="3" fill="#35C48D"/>
-<text x="578" y="533" fill="#9fb0c4">체결 = 게이지 회복</text>
-<text x="960" y="533" fill="#5A6678" text-anchor="end" font-size="10.5">전부 예시 · 실거래 아님</text>
-</g>
-<text x="40" y="440" font-size="12.5" font-weight="700" fill="#5A6678" font-family="'JetBrains Mono',monospace" letter-spacing="1">BOARD · 취합과 판단</text>
-<text x="40" y="462" font-size="11" fill="#5A6678">부족·과다가 조달판으로 모이고, 판이 날짜·한도·문구를 준비하면</text>
-<text x="40" y="480" font-size="11" fill="#5A6678">사람은 실시간 호가 중 가장 좋은 줄을 고른다 — 체결 순간 게이지가 다시 찬다</text>
+<text x="40" y="530" fill="#9fb0c4">① 부족 발견 <tspan fill="#5A6678">→</tspan> ② 스케줄 <tspan fill="#5A6678">→</tspan> ③ 호가 비교 <tspan fill="#5A6678">→</tspan> ④ 한도 <tspan fill="#5A6678">→</tspan> ⑤ 네고 <tspan fill="#5A6678">→</tspan> ⑥ 다시 채움</text>
+<text x="40" y="554" fill="#5A6678" font-size="10.5">클릭 몇 번 + 네고 두 마디 — 전부 예시 · 실거래 아님 · 판단과 체결은 사람의 몫</text></g>
 </svg>`,
 fxp:`<svg class="flowmap" viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="거래 내역 붙여넣기 → 도구가 골라내기 → 돈의 달력 → 클릭하면 답 — 쉬운 4단계">
 <text x="30" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">STEP 1 · 붙여넣기</text>
