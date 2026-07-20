@@ -430,6 +430,76 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .er-bar .tgt::after{content:'목표';position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;color:var(--mut);white-space:nowrap}
 .er-deal{font-family:var(--mono);font-size:12.5px;color:var(--mut);margin-top:11px;min-height:18px;opacity:0;transition:opacity .45s}
 .er-deal.show{opacity:1}
+/* ── FX 자금조달판 데모(dg-fx) — 조달 스토리 + 거래 체험 ── */
+.fxb{border:1px solid var(--grid);border-radius:12px;background:var(--panel2);overflow-x:auto;margin:12px 0}
+.fxb table{border-collapse:collapse;width:100%;min-width:600px;font-family:var(--mono);font-size:13px}
+.fxb th{font-size:10.5px;letter-spacing:.06em;color:var(--mut);background:rgba(34,48,71,.4);padding:8px 11px;border-bottom:1px solid var(--grid);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.fxb th:first-child{text-align:center}
+.fxb th em{display:block;font-style:normal;color:var(--amb);font-size:11px;letter-spacing:.1em}
+.fxb td{padding:10px 11px;text-align:right;border-bottom:1px solid var(--grid2);font-variant-numeric:tabular-nums;color:var(--dim)}
+.fxb tr:last-child td{border-bottom:none}
+.fxb td.cc{text-align:center;color:var(--txt);font-weight:700}
+.fxb td.p{color:var(--grn)} .fxb td.m{color:var(--red)}
+.fxb td.hit{cursor:pointer;color:var(--red);font-weight:700;box-shadow:inset 0 0 0 1.6px var(--amb);border-radius:6px;animation:trpulse 1.6s ease-in-out infinite}
+.fxb td.hit:hover{background:var(--ambf)}
+.fxb.dim td:not(.hit){opacity:.6}
+@media (prefers-reduced-motion:reduce){.fxb td.hit{animation:none}}
+.fx2col{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+@media (max-width:900px){.fx2col{grid-template-columns:1fr}}
+.fxpn{border:1px solid var(--grid);border-radius:12px;background:var(--panel2);overflow:hidden}
+.fxpn .bar{display:flex;justify-content:space-between;gap:10px;background:#151d2b;padding:9px 14px;font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;color:var(--mut);border-bottom:1px solid var(--grid)}
+.fxpn .bar b{color:var(--amb)}
+.fxrow{display:grid;grid-template-columns:58px 104px 1fr 92px;gap:8px;align-items:center;padding:9px 14px;border-bottom:1px solid var(--grid2);font-family:var(--mono);font-size:12.5px;cursor:pointer;color:var(--mut);font-variant-numeric:tabular-nums;width:100%;background:none;border-left:0;border-right:0;border-top:0;text-align:left}
+.fxrow:last-child{border-bottom:none}
+.fxrow:hover{background:rgba(76,195,232,.07)}
+.fxrow .tag{font-weight:700;color:var(--cyn)} .fxrow .tag.tn{color:var(--mut)}
+.fxrow.best .tag::after{content:' ★';color:var(--amb)}
+.fxrow .sp,.fxrow .af{text-align:right}
+.fxrow .af.sq{color:var(--grn);font-weight:700}
+.fxrow.sel{background:var(--cyn)}
+.fxrow.sel,.fxrow.sel .tag,.fxrow.sel .sp,.fxrow.sel .af{color:#06141d!important;font-weight:700}
+.fxsc .r{display:grid;grid-template-columns:86px 1fr 1fr 1fr 64px;gap:6px;padding:6px 14px;border-bottom:1px solid var(--grid2);font-family:var(--mono);font-size:12px;color:var(--mut);font-variant-numeric:tabular-nums}
+.fxsc .r:last-child{border-bottom:none}
+.fxsc .r>span{text-align:right} .fxsc .r>span:first-child{text-align:center;color:var(--dim)} .fxsc .r>span:last-child{text-align:center;font-size:10.5px}
+.fxsc .r .b{color:var(--grn)} .fxsc .r .s{color:var(--red)}
+.fxsc .r.wk{opacity:.45;font-size:10.5px;background:rgba(34,48,71,.25)}
+.fxsc .r.near{background:var(--cynf);box-shadow:inset 2px 0 0 var(--cyn)}
+.fxsc .r.near>span:first-child,.fxsc .r.near>span:last-child{color:var(--cyn);font-weight:700}
+.fxsc .r .sim{color:var(--cyn)!important;font-weight:700}
+.fxsc .r.far{background:var(--cyn)}
+.fxsc .r.far>span,.fxsc .r.far .b,.fxsc .r.far .s{color:#06141d!important;font-weight:700}
+.fxsc .hd{display:grid;grid-template-columns:86px 1fr 1fr 1fr 64px;gap:6px;padding:7px 14px;border-bottom:1px solid var(--grid);font-family:var(--mono);font-size:10.5px;color:var(--mut);letter-spacing:.06em}
+.fxsc .hd>span{text-align:right} .fxsc .hd>span:first-child,.fxsc .hd>span:last-child{text-align:center}
+.fxchips{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 0}
+@media (max-width:640px){.fxchips{grid-template-columns:repeat(2,1fr)}}
+.fxchip{font-family:var(--mono);font-size:13px;font-weight:700;padding:12px 10px;border-radius:10px;border:1px solid var(--grid);background:var(--panel2);color:var(--mut);cursor:pointer;text-align:center;transition:transform .12s}
+.fxchip:hover{transform:translateY(-1px)}
+.fxchip.ok{color:var(--txt)}
+.fxchip.warn{color:var(--yel);border-color:rgba(232,196,104,.5);background:var(--yelf)}
+.fxchip.bad{color:var(--red);border-color:rgba(240,84,92,.5);background:rgba(240,84,92,.08)}
+.fxchip.sel{background:var(--cyn);color:#06141d;border-color:var(--cyn)}
+.fxchip .why{display:block;font-size:10.5px;font-weight:400;margin-top:3px;opacity:.85}
+.fxchip.no{animation:trshake .3s}
+.fxquote{font-family:var(--mono);font-weight:700;font-size:16px;letter-spacing:.02em;background:#151d2b;border:1px solid var(--grid);border-left:3px solid var(--amb);border-radius:10px;padding:14px 16px;color:var(--amb);margin:12px 0;min-height:52px}
+.fxquote .cur{display:inline-block;width:8px;background:var(--amb);animation:fxblink 1s steps(1) infinite;margin-left:2px}
+@keyframes fxblink{50%{opacity:0}}
+.fxbrk{border:1px solid var(--grid);border-radius:12px;background:var(--panel2);overflow:hidden;margin:12px 0}
+.fxbrk .r{display:grid;grid-template-columns:120px 1fr auto;gap:10px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--grid2);font-family:var(--mono);font-size:13px;color:var(--mut);font-variant-numeric:tabular-nums}
+.fxbrk .r:last-child{border-bottom:none}
+.fxbrk .r b{color:var(--txt)} .fxbrk .r .q{letter-spacing:.04em}
+.fxbrk .r.best{background:var(--ambf)} .fxbrk .r.best .q{color:var(--amb);font-weight:700}
+.fxbrk .r .bst{font-size:10.5px;color:var(--amb);font-weight:700}
+.fxchat{border:1px solid var(--grid);border-radius:12px;background:var(--panel2);padding:16px 14px;margin:12px 0;display:flex;flex-direction:column;gap:9px;min-height:180px}
+.fxchat .who{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--dim);margin-bottom:-4px}
+.fxchat .bb{max-width:82%;padding:9px 13px;border-radius:12px;font-family:var(--mono);font-size:13px;line-height:1.5;font-variant-numeric:tabular-nums;animation:fxin .25s ease-out}
+.fxchat .me{align-self:flex-end;background:var(--ambf);border:1px solid rgba(245,167,66,.4);color:var(--amb);border-bottom-right-radius:4px}
+.fxchat .them{align-self:flex-start;background:#151d2b;border:1px solid var(--grid);color:var(--txt);border-bottom-left-radius:4px}
+.fxchat .who.r{align-self:flex-end}
+@keyframes fxin{from{transform:translateY(6px);opacity:0}}
+.fxdealt{align-self:center;border:3px solid var(--grn);color:var(--grn);font-weight:800;font-size:17px;padding:6px 16px;border-radius:10px;transform:rotate(-7deg);animation:trstamp .45s cubic-bezier(.2,1.6,.4,1);font-family:var(--mono)}
+@media (prefers-reduced-motion:reduce){.fxchat .bb,.fxdealt{animation:none}}
+.fxcmp{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:13px;color:var(--mut);border:1px solid var(--grid2);border-radius:10px;padding:10px 14px;margin-top:6px}
+.fxcmp b{font-family:var(--mono);color:var(--txt)}
 /* ── 데모 허브(실험 그룹 선택) — 새 데모 = dcard 1개 + dgroup 1개 ── */
 .dsel{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-bottom:24px}
 .dcard{display:flex;flex-direction:column;gap:7px;text-align:left;border:1px solid var(--grid);border-radius:13px;background:var(--panel2);padding:15px 17px;cursor:pointer;font-family:var(--kor);transition:border-color .15s}
@@ -1178,6 +1248,19 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
   </div>
   </div><!-- /dg-jgp -->
 
+  <!-- ══ 그룹 1.5 · FX 자금조달판 — 조달 스토리 + 거래 체험 ══ -->
+  <div class="dgroup" id="dg-fx">
+    <div class="note"><span>ⓘ</span><span>실제 도구(<b>Excel VBA</b>)와 <b>같은 규칙</b>의 웹 시뮬레이션 · 수치는 전부 예시 ·
+      <b>실거래 아님</b> — 자금판 마감의 다음 이야기 · <a href="#project/fxp" style="color:var(--cyn)">이 실험의 상세 →</a></span></div>
+    <div class="card flat tour">
+      <div class="tr-top">
+        <div class="tr-steps" id="fxSteps"></div>
+        <div class="tr-watch" id="fxWatch" hidden>⏱ <b id="fxWatchV">0.0</b>s</div>
+      </div>
+      <div id="fxStage"></div>
+    </div>
+  </div><!-- /dg-fx -->
+
   <!-- ══ 그룹 2 · 쪽지 다듬기 (미션9 · 문구 개선) ══ -->
   <div class="dgroup" id="dg-note">
     <div class="note"><span>ⓘ</span><span><b>미션9 · 문구 개선</b> 체험판 — 대충 쓴 문구를 붙여넣으면 AI가 <b>필수정보 5가지</b>의
@@ -1474,6 +1557,7 @@ const mmdd=off=>{const d=new Date();d.setDate(d.getDate()+off);
 /* ── DATA ─────────────────────────────────────────────────── */
 /* 기록(LOG) — 이 실험실이 해온 일들. 새 일 = 객체 1개 추가 (최신이 위) */
 const LOGS=[
+ {d:'2026-07-19',t:'두 번째 실험 「FX 자금조달판」 공개 — 마감 다음 이야기, 조달',tag:'실험',note:'외화 스왑 자금조달 도구(Excel VBA 6모듈·Mac/Win) 웹 체험 오픈 · 네팅 보드 → 파 날짜 후보 → 시뮬레이션 → 한도 → 딜까지 게임형 스토리 · 수치 전부 예시'},
  {d:'2026-07-12',t:'건배사 100회 채점 → 규칙서 완성 · N행시 모드 추가',tag:'실험',note:'실전 채점으로 추출한 규칙과 시범 답안을 프롬프트에 탑재(v7.9) · N행시 글자 맞춤은 기계 검증 · push=자동 배포 파이프라인'},
  {d:'2026-07-11',t:'사이트 최초 실제 AI 연동 — 건배사 자판기 REAL CLAUDE 점등',tag:'실험',note:'Cloudflare Worker로 API 키 서버 보관 · 후보 3잔 중 선발(best-of-3) · 실패 시 모의 폴백 정직 라벨 · EXP.04'},
  {d:'2026-07-09',t:'체험 「건배사 자판기」 오픈 — 회식의 비상 버튼',tag:'실험',note:'상황·분위기·키워드·아재개그 수위 → 선창·후창 생성 · 모의 응답(실제 Claude 연동 준비 중) · EXP.04'},
@@ -1528,8 +1612,8 @@ function renderVersions(){
    status: DONE(완료)/DOING(진행중)/PLAN(예정) · next: 다음 착수 예정 · 자금판=대표 미션 */
 const MISSIONS=[
  {pos:3,diff:'상',status:'DOING',cell:'자금판',title:'업무혁신 AI Agent 설계·제작',
-  goal:'반복·고위험 업무를 분석해 AI Agent로 재설계. 외화자금 마감 자동화 도구 “자금판”이 이 미션의 결과물.',
-  links:[['프로젝트 상세','#project/jgp'],['라이브 데모','#demo']]},
+  goal:'반복·고위험 업무를 분석해 AI Agent로 재설계. 마감 도구 “자금판”과 그 다음 단계인 “FX 자금조달판”이 이 미션의 결과물.',
+  links:[['자금판 데모','#demo'],['FX 자금조달판 체험','#demo/fx'],['프로젝트 상세','#project/jgp']]},
  {pos:5,diff:'상',status:'PLAN',next:true,cell:'리포트',title:'AI로 나만의 리포트 만들기',
   goal:'관심 주제를 AI로 조사·분석·정리해 나만의 리포트 제작. 6주 빌드로그를 리포트로 재구성 예정.',links:[]},
  {pos:1,diff:'중',status:'PLAN',cell:'롤플레잉',title:'AI 롤플레잉으로 상담·보고 역량 향상',
@@ -1564,6 +1648,23 @@ const EXPERIMENTS=[
   chips:['EXCEL VBA','CLAUDE','규칙 엔진','자동 검증','작업 로그'],
   ctas:[['프로젝트 상세','#project/jgp','amber'],['라이브 데모 체험','#demo','ghost']],
   panel:{t:'운영 스냅샷 · 예시',kv:[['통화 블록','오전 7 + 오후 7'],['코드 규모','3모듈 · ~2,800줄'],['안전장치','점검 · 중복 경고 · 로그'],['버전','v3.31']]}},
+ {status:'LIVE',pid:'fxp',title:'FX 자금조달판',hanja:'資金調達板',mission:'자금판',stTxt:'LIVE · 체험 가능',
+  arts:[{key:'fxp',eyebrow:'Pipeline',h2:'일보 한 장이 딜이 되기까지',hint:'거래 일보 → 엔진 → 네팅 보드 → 클릭 패널 → 문구·가상 체결 — 그리고 다시 보드로 (수치 예시)'}],
+  demo:{g:'fx',d:'외화 스왑 자금조달 — 부족을 찾고 · 파 날짜를 고르고 · 딜을 던지기까지, 게임처럼'},
+  desc:'자금판이 마감을 끝내면 통화별로 남는 돈과 모자란 돈이 보입니다. 그 다음 일 — FX 스왑으로 자금을 당겨오고 밀어내는 조달·운용이 두 번째 실험입니다. 거래 일보를 붙여넣으면 통화×영업일 네팅 보드가 서고, 부족한 칸을 클릭하면 파 날짜 후보 → 체결 시뮬레이션 → 상대방 한도 → 요청 문구까지 한 흐름으로 이어집니다. Excel VBA(Mac·Windows 겸용)로 실전 운영을 준비 중입니다.',
+  chips:['EXCEL VBA','네팅 보드','체결 시뮬','한도 칩','문구 자동'],
+  story:'자금판을 쓰다 보니 마감 뒤에 똑같이 반복되는 일이 하나 더 있었습니다 — 며칠 뒤 결제 스케줄을 뒤져 반대 흐름을 찾고, 시세판과 계산기를 오가며 파 날짜를 정하고, 한도를 확인하고, 중개·상대은행에 보낼 문구를 손으로 조립하는 일. 이 판단 과정을 “클릭 몇 번”으로 접었습니다. 셀을 클릭하면 후보가 서고, 후보를 고르면 스케줄이 미리 체결된 것처럼 다시 그려지고, 한도가 스스로 손을 들며, 문구는 이미 완성돼 있습니다. 판단과 체결은 여전히 사람의 몫 — 도구는 그 앞의 반복을 대신합니다.',
+  features:{eyebrow:'Core Features',h2:'여섯 가지 핵심 장치',hint:'Excel VBA로 실제 구동되는 구성 — 화면 수치는 예시',items:[
+   ['네팅 보드','일보를 붙여넣으면 통화×앞 5영업일(TOD·TOM·SPOT…) 매트릭스가 자동으로 서고, 부족은 붉게 · 잉여는 푸르게. 오늘 처리할 것만 큐로 추려 줍니다.',['체험에서 보기','#demo/fx']],
+   ['파 날짜 후보','반대 흐름이 있는 매칭 날짜(체결하면 잔여 0)와 정규 테너(1W~6M)를 스왑포인트·1일당 비용과 함께 나란히 — 어느 날로 맞추는 게 유리한지 한눈에.'],
+   ['체결 가정 시뮬레이션','후보를 고르는 순간 그 통화의 결제 스케줄이 “체결했다면”의 세계로 다시 그려집니다. 달라지는 구간만 파란 숫자 — 감이 아니라 눈으로 확인.'],
+   ['한도 신호등','거래 금액이 정해지면 상대방별 신용·결제리스크 한도를 자동 환산해 ○ 여유 · ▲ 주의 · × 위험 칩으로. 위험한 곳은 고르기 전에 손을 듭니다.'],
+   ['요청 문구 자동','통화·금액·방향·니어/파 날짜가 실무 관례 그대로 문구로 조립되고 클립보드에 복사 — 중개·메신저에 그대로 던지면 됩니다.'],
+   ['누적 일보 엔진','매일 아래에 이어 붙이기만 하면 끝. 같은 거래가 다시 나오면 최신 행만, 취소승인이 나타나면 원거래까지 자동 제외 — 붙여넣기 실수도 흡수합니다.']]},
+  steps:[['웹 목업 설계','done'],['Excel VBA 이식 · Mac/Win','done'],['클릭 패널·시뮬·한도','done'],['실전 데이터 검증','cur'],['자금거래 연결','']],
+  stepsH:'실험 진행 상황',
+  ctas:[['조달 체험 시작','#demo/fx','amber'],['프로젝트 상세','#project/fxp','ghost']],
+  panel:{t:'도구 구성 · 실제',kv:[['런타임','Excel VBA 6모듈 (Mac·Windows 겸용)'],['반영 규칙','FX_Swap만 · 신규승인만 · 최신 행 우선'],['클릭 패널','후보 · 미니 스케줄 · 한도 칩 · 문구'],['상태','실전 이관 준비 중 · 수치는 예시']]}},
  {status:'LIVE',pid:'note',art:'note',artHint:'대충 쓴 한 줄 → AI 4단계 → 되묻지 않는 쪽지',stTxt:'LIVE · 체험 가능',title:'쪽지 다듬기',mission:'문구개선',
   story:'필수정보 5가지(참석자·시각·장소·집결시간·회신기한)를 정하고, 진단 → 보완 → 재구성 → 톤의 4단계 규칙으로 다듬게 했습니다. 부장님과의 약속과 동기와의 약속은 말투부터 달라야 하니까 메신저·이메일 톤 전환까지. 좋은 쪽지의 기준은 문장력이 아니라 "받는 사람이 되물을 게 없는가"였습니다.',
   showcase:{
@@ -2310,7 +2411,7 @@ async function trBrief(){
   const box=$('#trBriefBox');
   box.innerHTML=`<div class="tr-brief"><div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
     <span class="chip chip-next">모의 응답 · 예시</span>
-    <span style="font-size:12px;color:var(--dim)">집계 수치만 사용 · 고객정보 없음 — 실제 연동은 사내 AI 도입 후 (EXP.02)</span></div>
+    <span style="font-size:12px;color:var(--dim)">집계 수치만 사용 · 고객정보 없음 — 실제 연동은 사내 AI 도입 후</span></div>
     <div id="trBriefTxt"></div></div>
    <div class="hero-cta" style="margin-top:16px">
      <button class="btn btn-ghost btn-sm" data-act="tourRestart">↺ 다시 체험</button>
@@ -2334,6 +2435,246 @@ function bindTour(){
     else if(a==='tourRestart')trIntro();
     else if(a==='tourGoD1'){const t=$('.tab[data-t="d1"]');if(t)t.click();window.scrollTo(0,0);}
     else if(b.dataset.ccy)trAnswer(b.dataset.ccy,b.dataset.cd);
+  });
+}
+
+/* ── DEMO GROUP: FX 자금조달판(dg-fx) — 조달 스토리 + 거래 체험 ──
+   자금판 마감의 다음 이야기. 규칙은 Excel VBA 실물과 동일 · 수치는 전부 예시 · 실거래 아님 */
+const FX_STEPNM=['시작','보드','파 날짜','한도','체결','리포트'];
+const FX_COLS=[['TOD','07/20 월'],['TOM','07/21 화'],['SPOT','07/22 수'],['','07/23 목'],['+1W','07/27 월']];
+const FX_BRD=[['JPY',[0,-100,-100,0,0]],['HKD',[-50,-250,100,-100,-50]],['CNY',[0,200,-80,40,0]],['EUR',[-4,0,-8,0,-6]]];
+const FX_SCH=[ /* [mm/dd,요일,BUY,SELL,key] — HKD 결제 스케줄(예시) */
+ ['07/21','화',0,-250,''],['07/22','수',100,0,''],['07/23','목',0,-100,''],['07/24','금',0,0,''],
+ ['07/25','토',0,0,'wk'],['07/26','일',0,0,'wk'],['07/27','월',250,0,'m0'],['07/28','화',0,0,'t0'],
+ ['07/29','수',0,0,''],['07/30','목',0,-50,''],['08/01','토',0,0,'wk'],['08/02','일',0,0,'wk'],
+ ['08/04','화',0,0,'t1'],['08/05','수',250,0,'m1']];
+const FX_CANDS=[
+ {tag:'매칭',far:'07/27',days:6,sp:null,after:0,best:true,key:'m0'},
+ {tag:'매칭',far:'08/05',days:15,sp:null,after:0,key:'m1'},
+ {tag:'1W',far:'07/28',days:7,sp:-1.19,pd:-0.170,after:-250,key:'t0'},
+ {tag:'2W',far:'08/04',days:14,sp:-2.29,pd:-0.164,after:-250,key:'t1'},
+ {tag:'1M',far:'08/21',days:31,sp:-5.27,pd:-0.170,after:-250,key:'t2'}];
+const FX_CPTY=[['A은행','ok',''],['B은행','ok',''],['C은행','ok',''],
+ ['D은행','warn','파 92%'],['E외은','bad','신용 99%'],['F증권','ok','']];
+let fxBootDone=false,fxBusy=false,fxSel=-1,fxCp=-1,fxClicks=0,fxT0=0,fxTick=null;
+const fxAmt=v=>v<0?`(${fmt(-v*1e6)})`:fmt(v*1e6);
+function fxSteps(i){$('#fxSteps').innerHTML=FX_STEPNM.map((s,j)=>
+  `<span class="trs ${j<i?'done':''}${j===i?' cur':''}">${s}</span>`).join('<span class="trsl"></span>');}
+function fxWatchStart(){fxT0=performance.now();const w=$('#fxWatch');w.hidden=false;
+  fxTick=setInterval(()=>{$('#fxWatchV').textContent=((performance.now()-fxT0)/1000).toFixed(1);},100);}
+function fxWatchStop(){clearInterval(fxTick);fxTick=null;return (performance.now()-fxT0)/1000;}
+function fxIntro(){
+  fxBusy=false;fxSel=-1;fxCp=-1;fxClicks=0;fxSteps(0);$('#fxWatch').hidden=true;
+  $('#fxStage').innerHTML=`
+   <div class="tr-boot" id="fxBoot"></div>
+   <div class="tr-hero">
+     <h3>마감이 끝났습니다 — 이제 그 돈을 맞추러 갑니다</h3>
+     <p>자금판 마감 리포트에 <b style="color:var(--red)">HKD 부족</b>이 찍혔습니다.
+       며칠 뒤 결제까지 계산해 <b style="color:var(--txt)">언제 빌려서 언제 갚을지</b>(FX 스왑) 정하고,
+       한도를 확인하고, 딜을 던져야 합니다. 예전엔 시세판·계산기·전화의 일 —
+       이제 <b style="color:var(--amb)">클릭 몇 번</b>인지 직접 세어 보세요.</p>
+     <div class="hero-cta" style="margin-top:16px">
+       <button class="btn btn-amber" data-fx="board">▶ 자금조달판 열기</button>
+       <span class="tagline">수치 전부 예시 · 실거래 아님</span>
+     </div></div>`;
+  (async()=>{const box=$('#fxBoot');if(!box)return;
+    for(const l of ['SESSION PM · FX 자금조달판 GUIDED','LINK 자금판 → CLOSING 인계 · RULES LOADED']){
+      const d=document.createElement('div');box.appendChild(d);
+      for(const ch of l){if(!box.isConnected)return;d.textContent+=ch;await sleep(REDUCED?0:12);}
+      await sleep(REDUCED?0:120);}})();
+}
+function fxBoard(){
+  fxSteps(1);fxWatchStart();
+  $('#fxStage').innerHTML=`
+   <div class="tr-guide">💡 <b>네팅 보드</b> — 일보를 붙여넣으면 통화×앞 5영업일 순유출입이 자동으로 서는 판입니다.
+     <b style="color:var(--red)">빨강 = 그날 그 통화가 부족</b> · <b style="color:var(--grn)">초록 = 남음</b>.
+     <span class="n">1</span><b style="color:var(--amb)">빛나는 HKD 부족 칸</b>을 눌러 보세요 — 조달이 시작됩니다.</div>
+   <div class="fxb" ><table><thead><tr><th>통화</th>${FX_COLS.map(c=>
+     `<th>${c[0]?`<em>${c[0]}</em>`:'<em>&nbsp;</em>'}${c[1]}</th>`).join('')}</tr></thead><tbody>${
+     FX_BRD.map(([cc,vs])=>`<tr><td class="cc">${cc}</td>${vs.map((v,j)=>{
+       const hit=cc==='HKD'&&j===1;
+       return `<td class="${v>0?'p':v<0?'m':''}${hit?' hit':''}"${hit?' data-fx="cell" role="button" tabindex="0" title="클릭 = 조달 시작"':''}>${v?fxAmt(v):'·'}</td>`;
+     }).join('')}</tr>`).join('')}</tbody></table></div>
+   <p class="tagline">QUEUE ▶ <b style="color:var(--red)">HKD 07/21 250mio B/S</b> · JPY 07/21 100mio B/S · CNY 07/21 200mio S/B — 오늘 미리 처리할 것들 (TOD는 큐에서 제외 — 투데이에 유출입이 남았다면 그건 어제 못 맞춘 것)</p>`;
+}
+function fxCands(){
+  fxSteps(2);fxSel=-1;
+  $('#fxStage').innerHTML=`
+   <div class="tr-guide">💡 <b>HKD 07/21 · 250mio 부족</b> → 니어(07/21)에서 사고 파 날짜에 되파는 <b>B/S 스왑</b>.
+     남은 결정은 하나 — <b style="color:var(--txt)">파 날짜를 언제로?</b>
+     <b style="color:var(--cyn)">매칭</b> = 그날 반대 흐름이 있어 체결하면 <b>잔여 0</b>이 되는 날짜 ·
+     테너(1W~1M)는 <b>1일당 비용</b>으로 비교합니다. <span class="n">1</span>후보를 눌러 보세요 —
+     오른쪽 스케줄이 <b style="color:var(--cyn)">"체결했다면"</b>으로 다시 그려집니다.</div>
+   <div class="fx2col">
+     <div class="fxpn"><div class="bar"><span>파 날짜 후보 — 클릭 = 선택</span><b>HKD B/S 250mio</b></div><div id="fxCandList"></div></div>
+     <div class="fxpn fxsc"><div class="bar"><span id="fxSchT">HKD 스케줄 · 오늘~</span><b id="fxSchB">실제 흐름</b></div>
+       <div class="hd"><span>날짜</span><span>BUY</span><span>SELL</span><span>잔액</span><span>테너</span></div>
+       <div id="fxSched"></div></div>
+   </div>
+   <div class="hero-cta" style="margin-top:12px">
+     <button class="btn btn-amber" id="fxCandCta" data-fx="limit" disabled>한도 체크 ▶</button>
+     <span class="tagline" id="fxCandHint">후보를 먼저 선택하세요</span></div>`;
+  fxPaint();
+}
+function fxPaint(){
+  const c=fxSel>=0?FX_CANDS[fxSel]:null;
+  $('#fxCandList').innerHTML=FX_CANDS.map((k,i)=>`
+   <button type="button" class="fxrow${k.best?' best':''}${i===fxSel?' sel':''}" data-fx="cand" data-i="${i}">
+     <span class="tag${k.sp!=null?' tn':''}">${k.tag}</span><span>07/21-${k.far}</span>
+     <span class="sp">${k.sp!=null?`SP ${k.sp.toFixed(2)} · 1일 ${k.pd.toFixed(3)}`:'가격 문의'}</span>
+     <span class="af${k.after===0?' sq':''}">${k.after===0?'잔여 0 √':'잔여 '+k.after+'mio'}</span></button>`).join('');
+  const rows=FX_SCH.map(r=>({md:r[0],dow:r[1],buy:r[2],sell:r[3],key:r[4]}));
+  if(c&&!rows.some(r=>r.key===c.key)){rows.push({dots:1});rows.push({md:c.far,dow:'',buy:0,sell:0,key:c.key});}
+  const farIdx=c?rows.findIndex(r=>r.key===c.key):-1;
+  let bal=0;
+  $('#fxSched').innerHTML=rows.map((r,i)=>{
+    if(r.dots)return `<div class="r wk"><span>···</span><span></span><span></span><span></span><span></span></div>`;
+    let b=r.buy,s=r.sell,simB=0,simS=0;
+    if(c&&i===0)simB=250;
+    if(c&&r.key===c.key)simS=-250;
+    bal+=b+s+simB+simS;
+    const isFar=c&&r.key===c.key,isNear=i===0;
+    const tagNm={m0:'매칭',m1:'매칭',t0:'1W',t1:'2W',t2:'1M'}[r.key]||'';
+    const tag=isNear?'◀ 니어':isFar?'▶ 파':tagNm;
+    if(r.key==='wk')return `<div class="r wk"><span>${r.md}(${r.dow})</span><span></span><span></span><span></span><span>주말</span></div>`;
+    const balBlue=c&&i>=0&&farIdx>=0&&i<farIdx;
+    return `<div class="r${isNear?' near':''}${isFar?' far':''}">
+      <span>${r.md}${r.dow?`(${r.dow})`:''}</span>
+      <span class="b${simB?' sim':''}">${b+simB?fxAmt(b+simB):''}</span>
+      <span class="s${simS?' sim':''}">${s+simS?fxAmt(s+simS):''}</span>
+      <span class="${balBlue?'sim':''}">${fxAmt(bal)}</span><span>${tag}</span></div>`;
+  }).join('');
+  $('#fxSchB').textContent=c?'체결 가정 — 파란 숫자':'실제 흐름';
+  const cta=$('#fxCandCta'),hint=$('#fxCandHint');
+  if(cta){cta.disabled=!c;
+    if(hint)hint.innerHTML=c?(c.after===0
+      ?`<b style="color:var(--grn)">완전 스퀘어</b> — 07/21 −250이 니어 매입으로 0, ${c.far} 유입이 파 매도와 상쇄`
+      :`이 날짜로도 가능 — 다만 잔여 ${c.after}mio가 남습니다 (매칭이 있으면 그쪽이 먼저)`):'후보를 먼저 선택하세요';}
+}
+function fxLimit(){
+  fxSteps(3);fxCp=-1;
+  $('#fxStage').innerHTML=`
+   <div class="tr-guide">💡 <b>거래 전 마지막 관문 — 한도.</b> 이 거래(250mio·${FX_CANDS[fxSel].days}일)가 상대방별
+     신용·결제리스크 한도를 얼마나 먹는지 자동 환산됩니다.
+     <b style="color:var(--txt)">○ 여유</b> · <b style="color:var(--yel)">▲ 주의</b> · <b style="color:var(--red)">× 위험</b> —
+     <span class="n">1</span>거래할 곳을 고르세요.</div>
+   <p class="tagline" style="margin:0 0 4px">이 건 소진 ≈0.4억 (2W 버킷) · 결제 ≈4.4억/일 — 예시 환산</p>
+   <div class="fxchips">${FX_CPTY.map(([nm,st,why],i)=>`
+     <button type="button" class="fxchip ${st}" data-fx="cp" data-i="${i}" data-st="${st}">
+       ${st==='ok'?'○':st==='warn'?'▲':'×'} ${nm}${why?`<span class="why">${why}</span>`:'<span class="why">여유</span>'}</button>`).join('')}
+   </div>
+   <div class="hero-cta" style="margin-top:8px">
+     <button class="btn btn-amber" id="fxCpCta" data-fx="deal" disabled>요청 문구 생성 ▶</button>
+     <span class="tagline" id="fxCpHint">Excel에선 이 칩이 금액을 넣는 순간 자동으로 켜집니다</span></div>`;
+}
+async function fxDeal(){
+  if(fxBusy)return;fxBusy=true;fxSteps(4);
+  const c=FX_CANDS[fxSel],cp=FX_CPTY[fxCp][0];
+  const base=c.sp!=null?c.sp:-1.02;
+  const q=`HKD 250mio B/S 07/21-${c.far}`;
+  $('#fxStage').innerHTML=`
+   <div class="tr-guide">💡 통화·금액·방향·날짜가 <b>실무 관례 그대로</b> 문구로 조립됩니다 — Excel에선 이 순간 클립보드에 복사까지.</div>
+   <div class="fxquote" id="fxQ"><span class="cur">&nbsp;</span></div>
+   <div id="fxBrkWrap" hidden>
+     <p class="tagline" style="margin:10px 0 4px">📊 먼저 <b>중개 화면</b>에서 시세를 봅니다 — 세 곳의 호가 (예시)</p>
+     <div class="fxbrk" id="fxBrk"></div>
+     <div class="hero-cta"><button class="btn btn-amber" data-fx="chat">💬 ${cp} 직거래 메신저로 딜 던지기 ▶</button>
+       <span class="tagline">비교 끝 — 이제 진짜로 던져 봅니다</span></div>
+   </div>
+   <div id="fxChatWrap"></div>`;
+  const qEl=$('#fxQ');qEl.innerHTML='';
+  for(const ch of q){if(!qEl.isConnected)return;qEl.textContent+=ch;await sleep(REDUCED?0:34);}
+  qEl.innerHTML=qEl.textContent+'<span class="cur">&nbsp;</span>';
+  await sleep(REDUCED?0:250);
+  $('#fxBrkWrap').hidden=false;
+  const brs=[['중개A',(base-0.05).toFixed(2),(base+0.03).toFixed(2),0],
+             ['중개B',(base-0.06).toFixed(2),(base+0.04).toFixed(2),1],
+             ['중개C',(base-0.07).toFixed(2),(base+0.02).toFixed(2),0]];
+  const bk=$('#fxBrk');
+  for(const [nm,bid,ofr,best] of brs){
+    const d=document.createElement('div');d.className='r'+(best?' best':'');
+    d.innerHTML=`<b>${nm}</b><span class="q">${bid} / ${ofr}</span><span class="bst">${best?'★ 최유리':''}</span>`;
+    bk.appendChild(d);await sleep(REDUCED?30:420);
+  }
+  fxBusy=false;
+}
+async function fxChat(){
+  if(fxBusy)return;fxBusy=true;
+  const c=FX_CANDS[fxSel],cp=FX_CPTY[fxCp][0];
+  const base=c.sp!=null?c.sp:-1.02;
+  const px=(base+0.04).toFixed(2);
+  const wrap=$('#fxChatWrap');
+  wrap.innerHTML=`<p class="tagline" style="margin:12px 0 4px">💬 ${cp} 딜링 메신저 (모의) — 문구가 그대로 대화가 됩니다</p>
+    <div class="fxchat" id="fxCh"></div><div id="fxChAfter"></div>`;
+  wrap.scrollIntoView({behavior:REDUCED?'auto':'smooth',block:'nearest'});
+  const ch=$('#fxCh');
+  const put=async(who,cls,txt,type)=>{
+    const w=document.createElement('div');w.className='who'+(cls==='me'?' r':'');w.textContent=who;ch.appendChild(w);
+    const b=document.createElement('div');b.className='bb '+cls;ch.appendChild(b);
+    if(type){for(const t of txt){if(!b.isConnected)return;b.textContent+=t;await sleep(REDUCED?0:30);}}
+    else b.textContent=txt;
+    await sleep(REDUCED?30:600);};
+  await put('나 (외화자금)','me',`${cp} 안녕하세요 — HKD 250 b/s 07/21-${c.far} 가능할까요`,true);
+  await put(cp,'them',`네 잠시만요 · ${(base-0.05).toFixed(2)} / ${px} 드릴 수 있습니다`);
+  await put('나 (외화자금)','me',`${px}에 done 하겠습니다`,true);
+  await put(cp,'them',`DONE ✓ HKD 250mio B/S 07/21-${c.far} @${px} · 컨펌 나갑니다`);
+  const st=document.createElement('div');st.className='fxdealt';st.textContent='DEALT ✓';ch.appendChild(st);
+  $('#fxChAfter').innerHTML=`
+    <div class="fxcmp">⚖ 중개 최유리 <b>${(base+0.04).toFixed(2)}</b> vs 직거래 <b>${px}</b> —
+      오늘은 같은 값, 수수료만큼 직거래 이득 (예시) · <b style="color:var(--grn)">잔여 0 스퀘어</b></div>
+    <div class="hero-cta" style="margin-top:12px"><button class="btn btn-amber" data-fx="report">조달 리포트 ▶</button></div>`;
+  fxBusy=false;
+}
+function fxReport(){
+  fxSteps(5);const secs=fxWatchStop();$('#fxWatch').hidden=true;
+  const c=FX_CANDS[fxSel],cp=FX_CPTY[fxCp][0];
+  $('#fxStage').innerHTML=`
+   <div class="tr-card">
+     <span class="tr-stamp">조달 완료</span>
+     <span class="eyebrow">Funding Report · 예시</span>
+     <h3 style="margin-top:8px">HKD 250mio — 부족에서 스퀘어까지</h3>
+     <div class="tr-stat">
+       <div class="s"><em>${fxClicks}번</em><span>클릭 (부족 발견 → DEALT)</span></div>
+       <div class="s"><em>${secs.toFixed(0)}s</em><span>소요 — 시세판·계산기·수기 조립 ~15분(예시 추정)</span></div>
+       <div class="s"><em>잔여 0</em><span>${c.tag} ${c.far} 선택 — 완전 스퀘어</span></div>
+       <div class="s"><em>6곳</em><span>한도 자동 체크 (▲1 · ×1 사전 경고)</span></div>
+       <div class="s"><em>@${cp}</em><span>중개 비교 후 직거래 (모의)</span></div>
+     </div>
+     <p class="tagline" style="margin-top:6px">이 흐름 그대로 Excel VBA 도구가 돌아갑니다 — 보드·후보·시뮬·한도·문구 전부.
+       판단과 체결은 사람의 몫, 도구는 그 앞의 반복을 접습니다. (전 과정 예시 · 실거래 아님)</p>
+     <div class="hero-cta" style="margin-top:14px">
+       <button class="btn btn-ghost btn-sm" data-fx="restart">↺ 다시 체험</button>
+       <a class="btn btn-amber btn-sm" href="#project/fxp">이 실험의 상세 →</a>
+       <a class="btn btn-ghost btn-sm" href="#demo">앞 이야기 — 자금판 마감</a>
+     </div></div>`;
+}
+function bindFx(){
+  const dg=document.getElementById('dg-fx');if(!dg)return;
+  dg.addEventListener('click',e=>{
+    const b=e.target.closest('[data-fx]');if(!b||b.disabled)return;
+    const a=b.dataset.fx;fxClicks++;
+    if(a==='board')fxBoard();
+    else if(a==='cell')fxCands();
+    else if(a==='cand'){fxSel=+b.dataset.i;fxPaint();}
+    else if(a==='limit')fxLimit();
+    else if(a==='cp'){
+      const st=b.dataset.st;
+      if(st==='bad'){b.classList.remove('no');void b.offsetWidth;b.classList.add('no');
+        $('#fxCpHint').innerHTML='<b style="color:var(--red)">× 한도 초과</b> — 이곳은 오늘 안 됩니다. 다른 곳으로.';return;}
+      fxCp=+b.dataset.i;
+      $$('#dg-fx .fxchip').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');
+      $('#fxCpCta').disabled=false;
+      $('#fxCpHint').innerHTML=st==='warn'
+        ?'<b style="color:var(--yel)">▲ 주의</b> 상태 — 선택은 가능하지만 파 날짜 예외한도 92%를 알고 갑니다'
+        :`<b style="color:var(--grn)">○ ${FX_CPTY[fxCp][0]} 여유</b> — 진행합니다`;}
+    else if(a==='deal')fxDeal();
+    else if(a==='chat')fxChat();
+    else if(a==='report')fxReport();
+    else if(a==='restart')fxIntro();
+  });
+  dg.addEventListener('keydown',e=>{
+    const b=e.target.closest('[data-fx="cell"]');
+    if(b&&(e.key==='Enter'||e.key===' ')){e.preventDefault();fxClicks++;fxCands();}
   });
 }
 
@@ -2608,6 +2949,62 @@ const PJ_ART={note:`<svg class="flowmap" viewBox="0 0 1000 400" xmlns="http://ww
 <rect x="682" y="252" width="146" height="28" rx="14" fill="rgba(53,196,141,.1)" stroke="#35C48D" stroke-opacity=".45"/>
 <text x="700" y="271" font-size="12" font-weight="700" fill="#35C48D">되묻는 질문 0건</text>
 <text x="30" y="392" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#5A6678">ALL TEXT ILLUSTRATIVE (예시) · 체험 데모와 동일한 규칙 · 이름·장소 가명</text>
+</svg>`,
+fxp:`<svg class="flowmap" viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="거래 일보 → 엔진(필터·중복·취소) → 네팅 보드 → 클릭 패널(후보·시뮬·한도) → 문구·가상 체결 → 다시 보드로">
+<text x="30" y="28" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">INPUT · 누적 일보</text>
+<rect x="30" y="44" width="150" height="150" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.4"/>
+<text x="46" y="70" font-size="12.5" fill="#E8EDF5" font-weight="700">거래 일보</text>
+<text x="46" y="88" font-size="10.5" fill="#5A6678" font-family="'JetBrains Mono',monospace">1,519 rows · append</text>
+<g font-family="'JetBrains Mono',monospace" font-size="9.5">
+<text x="46" y="110" fill="#8A94A6">SWP26.. FX_Swap ✓</text>
+<text x="46" y="126" fill="#8A94A6">SWP26.. FX_Swap ✓</text>
+<text x="46" y="142" fill="#5A6678">SPT26.. FX_Spot ✗</text>
+<text x="46" y="158" fill="#F0545C">SWP26.. 취소승인 ✗</text>
+<text x="46" y="174" fill="#8A94A6">SWP26.. FX_Swap ✓</text></g>
+<text x="30" y="228" font-size="10.5" fill="#5A6678">매일 맨 아래에 붙여넣기만 —</text>
+<text x="30" y="243" font-size="10.5" fill="#5A6678">중복·정정은 엔진이 정리</text>
+<path d="M180,120 C 215,120 220,120 250,120" stroke="#4CC3E8" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
+<path class="fm-flow" d="M180,120 C 215,120 220,120 250,120" stroke="#4CC3E8" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.2s"/>
+<text x="250" y="28" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">ENGINE · 규칙</text>
+<rect x="250" y="44" width="168" height="150" rx="12" fill="#111A28" stroke="#4CC3E8" stroke-opacity=".4" stroke-width="1.4"/>
+<g font-size="11" fill="#8A94A6">
+<text x="266" y="74">✓ FX_Swap만</text>
+<text x="266" y="96">✓ 거래상태 신규승인만</text>
+<text x="266" y="118">✓ 같은 거래 = 최신 행만</text>
+<text x="266" y="140">✓ 취소 재등장 → 원거래 제외</text>
+<text x="266" y="162">✓ USD/KRW 집계 제외</text></g>
+<text x="266" y="184" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="#35C48D">1-pass array · ~0.5s</text>
+<path d="M418,120 C 450,120 455,120 486,120" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
+<path class="fm-flow" d="M418,120 C 450,120 455,120 486,120" stroke="#F5A742" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.5s;animation-delay:-.7s"/>
+<text x="486" y="28" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">BOARD · 네팅</text>
+<rect x="486" y="44" width="188" height="150" rx="12" fill="#111A28" stroke="#F5A742" stroke-opacity=".45" stroke-width="1.6"/>
+<g font-family="'JetBrains Mono',monospace" font-size="9">
+<text x="530" y="68" fill="#5A6678">TOD  TOM  SPOT</text>
+<text x="500" y="90" fill="#E8EDF5" font-weight="700">JPY</text><rect x="527" y="79" width="38" height="15" rx="3" fill="rgba(240,84,92,.14)"/><text x="531" y="90" fill="#F0545C">-100</text><text x="583" y="90" fill="#5A6678">·</text>
+<text x="500" y="116" fill="#E8EDF5" font-weight="700">HKD</text><text x="531" y="116" fill="#5A6678">·</text><rect x="553" y="105" width="42" height="16" rx="3" fill="none" stroke="#F5A742" stroke-width="1.4"><animate attributeName="stroke-opacity" values="1;.25;1" dur="1.6s" repeatCount="indefinite"/></rect><text x="557" y="116" fill="#F0545C">-250</text>
+<text x="500" y="142" fill="#E8EDF5" font-weight="700">CNY</text><rect x="527" y="131" width="38" height="15" rx="3" fill="rgba(53,196,141,.14)"/><text x="531" y="142" fill="#35C48D">+200</text>
+<text x="500" y="168" fill="#5A6678">부족 클릭 →</text></g>
+<path d="M674,120 C 706,120 711,120 742,120" stroke="#35C48D" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
+<path class="fm-flow" d="M674,120 C 706,120 711,120 742,120" stroke="#35C48D" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.8s;animation-delay:-1.4s"/>
+<text x="742" y="28" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">PANEL · 클릭</text>
+<rect x="742" y="44" width="228" height="150" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.4"/>
+<g font-family="'JetBrains Mono',monospace" font-size="9.5">
+<text x="758" y="68" fill="#8A94A6">파 날짜 후보</text>
+<rect x="754" y="76" width="204" height="16" rx="4" fill="rgba(76,195,232,.16)"/><text x="760" y="88" fill="#4CC3E8" font-weight="700">매칭 07/21-07/27  잔여 0 ★</text>
+<text x="760" y="108" fill="#5A6678">1W 07/21-07/28  1일 -0.170</text>
+<text x="758" y="130" fill="#8A94A6">스케줄 시뮬 — 달라지는 구간만 파랑</text>
+<text x="758" y="152" fill="#8A94A6">한도 <tspan fill="#35C48D">○A</tspan> <tspan fill="#35C48D">○B</tspan> <tspan fill="#E8C468">▲D</tspan> <tspan fill="#F0545C">×E</tspan></text>
+<text x="758" y="176" fill="#F5A742" font-weight="700">HKD 250mio B/S 7/21-7/27</text></g>
+<path d="M856,194 C 856,250 620,258 580,220 C 560,200 570,196 580,194" stroke="#4CC3E8" stroke-width="1.3" stroke-opacity=".35" stroke-dasharray="4 5" fill="none"/>
+<path d="M580,194 L 572,206 M580,194 L 592,200" stroke="#4CC3E8" stroke-width="1.3" stroke-opacity=".55" fill="none"/>
+<text x="620" y="276" font-size="10.5" fill="#4CC3E8" fill-opacity=".8">가상 체결 → 보드·스케줄·한도 즉시 재반영 (실거래 아님)</text>
+<g class="fm-breathe"><rect x="742" y="300" width="150" height="56" rx="10" fill="rgba(53,196,141,.07)" stroke="#35C48D" stroke-opacity=".55"/>
+<text x="762" y="324" font-size="12" fill="#35C48D" font-weight="700">DEALT ✓</text>
+<text x="762" y="342" font-size="10" fill="#8A94A6">문구 복사 → 중개·메신저로</text></g>
+<path d="M856,194 L 856,300" stroke="#35C48D" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
+<path class="fm-flow" d="M856,194 L 856,300" stroke="#35C48D" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2s;animation-delay:-.9s"/>
+<text x="30" y="330" font-size="11" fill="#5A6678">규칙은 Excel VBA 실물과 동일 · 수치는 전부 예시 —</text>
+<text x="30" y="348" font-size="11" fill="#5A6678">판단과 체결은 사람의 몫, 도구는 그 앞의 반복을 접습니다.</text>
 </svg>`,
 toast:`<svg class="flowmap" viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="나의 선택 → Cloudflare Worker(키 금고·규칙서·검증기) → Claude 후보 3잔 중 선발 → 오늘의 한 잔">
 <text x="30" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">INPUT · 나의 선택</text>
@@ -3418,6 +3815,7 @@ function demoGroup(g){
   $$('.dcard').forEach(b=>{const on=b.dataset.g===g;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);});
   $$('#dselMini button').forEach(b=>b.classList.toggle('active',b.dataset.g===g));
   $$('.dgroup').forEach(d=>d.classList.toggle('active',d.id==='dg-'+g));
+  if(g==='fx'&&!fxBootDone){fxBootDone=true;fxIntro();} /* FX 조달 스토리 첫 진입 부팅 */
 }
 /* 체험하러 내려가면 상단에 미니 탭바가 스르륵 — 카드 레이아웃은 그대로라 화면이 안 흔들린다 */
 function bindDselShrink(){
@@ -3580,7 +3978,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   $('#btnShuffle').addEventListener('click',newSample);
   $('#btnReset1').addEventListener('click',()=>{resetDemo1();if(!running)$('#btnRun').disabled=false;});
   /* demo 0: 가이드 체험 */
-  bindTour();
+  bindTour();bindFx();
   /* demo 그룹 허브 + 쪽지 다듬기 */
   bindDemoGroups();bindDselShrink();bindNote();bindBrief();bindToast();
   /* d1 끝 → 다음 체험(입력 UX) 전진 / 가이드 체험(조달·운용 스토리)은 보조 링크 */
