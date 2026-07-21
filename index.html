@@ -1694,19 +1694,19 @@ const EXPERIMENTS=[
   panel:{t:'운영 스냅샷 · 예시',kv:[['통화 블록','오전 7 + 오후 7'],['코드 규모','3모듈 · ~2,800줄'],['안전장치','점검 · 중복 경고 · 로그'],['버전','v3.31']]}},
  {status:'LIVE',pid:'fxp',title:'FX 자금조달판',hanja:'資金調達板',mission:'자금판',stTxt:'LIVE · 체험 가능',
   arts:[
-   {key:'fxpMap',eyebrow:'The Action',h2:'한 딜의 행동 지도 — 부족 확인에서 회복까지',hint:'① 부족 확인 → ② 상환 스케줄 → ③ 호가 비교 → ④ 한도 점검 → ⑤ 네고·체결 → ⑥ 포지션 회복 (전부 예시·실거래 아님)'},
-   {key:'fxp',eyebrow:'How It Works',h2:'어려운 건 접어 두고, 4단계로',hint:'붙여넣기 → 도구가 골라내기 → 돈의 달력 → 클릭하면 답 (수치 예시)'}],
+   {key:'fxpMap',eyebrow:'The Action',h2:'자금 조달, 딜 하나가 체결되기까지',hint:'① 부족 확인 → ② 상환 스케줄 → ③ 호가 비교 → ④ 한도 점검 → ⑤ 네고·체결 → ⑥ 포지션 회복 (전부 예시·실거래 아님)'},
+   {key:'fxp',eyebrow:'How It Works',h2:'수기 반복에서 4단계 자동화로',hint:'수기 — 시트 3개 대조 · 계산기 재입력 · 문구 오타 위험 · 건당 ~15분 / 자동 — 붙여넣기 · 자동 선별 · 돈의 달력 · 클릭 응답 · 건당 ~30초 (예시)'}],
   demo:{g:'fx',d:'외화 스왑 조달·운용 — 부족을 찾고 · 갚을 날을 고르고 · 체결까지, 게임처럼'},
   desc:'자금판이 마감을 끝내면 통화별로 남는 돈과 모자란 돈이 보입니다. 그 다음 일 — 모자란 통화는 FX 스왑으로 당겨오고(조달), 남는 통화는 굴리는(운용) 두 번째 도구입니다. 거래 일보를 붙여넣으면 통화×영업일 네팅 보드가 서고, 부족한 칸을 클릭하면 파 날짜 후보 → 체결 시뮬레이션 → 상대방 한도 → 요청 문구까지 한 흐름으로 이어집니다. Excel VBA(Mac·Windows 겸용)로 실전 운영을 준비 중입니다.',
   chips:['EXCEL VBA','네팅 보드','체결 시뮬','한도 칩','문구 자동'],
   story:'자금판을 쓰다 보니 마감 뒤에 똑같이 반복되는 일이 하나 더 있었습니다 — 며칠 뒤 결제 스케줄을 뒤져 반대 흐름을 찾고, 시세판과 계산기를 오가며 파 날짜를 정하고, 한도를 확인하고, 중개·상대은행에 보낼 문구를 손으로 조립하는 일. 이 판단 과정을 “클릭 몇 번”으로 접었습니다. 셀을 클릭하면 후보가 서고, 후보를 고르면 스케줄이 미리 체결된 것처럼 다시 그려지고, 한도가 스스로 손을 들며, 문구는 이미 완성돼 있습니다. 판단과 체결은 여전히 사람의 몫 — 도구는 그 앞의 반복을 대신합니다.',
-  features:{eyebrow:'Core Features',h2:'여섯 가지 핵심 장치',hint:'Excel VBA로 실제 구동되는 구성 — 화면 수치는 예시',items:[
-   ['네팅 보드','일보를 붙여넣으면 통화×앞 5영업일(TOD·TOM·SPOT…) 매트릭스가 자동으로 서고, 부족은 붉게 · 잉여는 푸르게. 오늘 처리할 것만 큐로 추려 줍니다.',['체험에서 보기','#demo/fx']],
-   ['갚을 날짜 후보','돈이 들어올 날에 맞추는 매칭(체결하면 잔여 0)과 정해진 기간(1W~6M)을 가격·하루당 비용과 함께 나란히 — 어느 날로 맞추는 게 유리한지 한눈에.'],
-   ['체결 가정 시뮬레이션','후보를 고르는 순간 그 통화의 결제 스케줄이 “체결했다면”의 세계로 다시 그려집니다. 달라지는 구간만 파란 숫자 — 감이 아니라 눈으로 확인.'],
-   ['한도 신호등','거래 금액이 정해지면 상대방별 신용·결제리스크 한도를 자동 환산해 ○ 여유 · ▲ 주의 · × 위험 칩으로. 위험한 곳은 고르기 전에 손을 듭니다.'],
-   ['요청 문구 자동','통화·금액·방향·니어/파 날짜가 실무 관례 그대로 문구로 조립되고 클립보드에 복사 — 중개·메신저에 그대로 던지면 됩니다.'],
-   ['누적 일보 엔진','매일 아래에 이어 붙이기만 하면 끝. 같은 거래가 다시 나오면 최신 행만, 취소승인이 나타나면 원거래까지 자동 제외 — 붙여넣기 실수도 흡수합니다.']]},
+  features:{eyebrow:'Core Features',h2:'여섯 가지 핵심 장치',hint:'Excel VBA 실물 구동 구성 — 수치는 예시',items:[
+   ['Netting Board','일보 붙여넣기 한 번으로 통화×영업일(TOD·TOM·SPOT) 순유출입 매트릭스 자동 생성. 부족은 적색 · 잉여는 녹색, 당일 처리 대상은 QUEUE로 자동 추출.',['체험에서 보기','#demo/fx']],
+   ['상환 스케줄 비교','반대 흐름이 있는 매칭일(체결 시 잔여 0)과 정형 테너(1W~6M)를 가격·1일당 비용과 함께 정렬 — 상환일 선정 근거를 한 화면에.'],
+   ['거래 시뮬레이션','후보 선택 즉시 결제 스케줄을 체결 가정으로 재계산, 달라지는 구간만 청색 표시 — 체결 전 결과 확인.'],
+   ['실시간 한도 모니터','금액 확정과 동시에 상대방별 신용·결제 한도 소진을 자동 환산 — ○ 여유 · ▲ 주의 · × 초과 신호로 표시.'],
+   ['거래 연동 문구 생성','통화·금액·방향·니어/파 날짜를 실무 관례 문구로 자동 조립 후 클립보드 복사 — 전달 오타 원천 차단.'],
+   ['데이터 자동 적재','매일 일보를 맨 아래 붙여넣기만으로 연간 누적. 중복은 최신 행 우선, 취소 재등장 시 원거래까지 자동 제외.']]},
   showcase:{
     title:'조달판 전과 후 — 같은 아침, 다른 하루',
     hint:'수기 시절의 실제 순서 재구성 · 시간은 예시 추정',
@@ -1723,8 +1723,8 @@ const EXPERIMENTS=[
     after:['① 부족 칸 클릭 — 갚을 날 후보·달력 미리보기 자동','② 후보 선택 — “체결했다면”을 눈으로 확인',
       '③ 한도 신호등 — ○▲× 로 즉시 (환산 자동)','④ 문구 자동 완성 → 복사 → 메신저',
       '검증·기록·재계산은 전부 도구가 — 사람은 판단만']},
-  steps:[['웹 목업 설계','done'],['Excel VBA 이식 · Mac/Win','done'],['클릭 패널·시뮬·한도','done'],['실전 데이터 검증','cur'],['자금거래 연결','']],
-  stepsH:'실험 진행 상황',
+  steps:[['설계','done'],['Excel 이식','done'],['클릭 패널','done'],['실전 검증','cur'],['자금거래 연결','']],
+  stepsH:'진행 상황',
   ctas:[['조달 체험 시작','#demo/fx','amber'],['프로젝트 상세','#project/fxp','ghost']],
   panel:{t:'도구 구성 · 실제',kv:[['런타임','Excel VBA 6모듈 (Mac·Windows 겸용)'],['반영 규칙','FX_Swap만 · 신규승인만 · 최신 행 우선'],['클릭 패널','후보 · 미니 스케줄 · 한도 칩 · 문구'],['상태','실전 이관 준비 중 · 수치는 예시']]}},
  {status:'LIVE',pid:'note',art:'note',artHint:'대충 쓴 한 줄 → AI 4단계 → 되묻지 않는 쪽지',stTxt:'LIVE · 체험 가능',title:'쪽지 다듬기',mission:'문구개선',
@@ -3339,50 +3339,50 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/200
 fxp:`<svg class="flowmap" viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="거래 내역 붙여넣기 → 도구가 골라내기 → 돈의 달력 → 클릭하면 답 — 쉬운 4단계">
 <text x="30" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">STEP 1 · 붙여넣기</text>
 <rect x="30" y="46" width="190" height="150" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.4"/>
-<text x="48" y="74" font-size="13" fill="#E8EDF5" font-weight="700">어제 한 거래들</text>
+<text x="48" y="74" font-size="13" fill="#E8EDF5" font-weight="700">전일 거래 내역</text>
 <g font-family="'JetBrains Mono',monospace" font-size="10">
 <text x="48" y="98" fill="#8A94A6">▤ ▤ ▤ ▤ ▤ ▤ ▤</text>
 <text x="48" y="116" fill="#8A94A6">▤ ▤ ▤ ▤ ▤ ▤ ▤</text>
 <text x="48" y="134" fill="#8A94A6">▤ ▤ ▤ ▤ ▤ ▤ ▤</text></g>
-<text x="48" y="164" font-size="10.5" fill="#5A6678">내역서를 통째로 붙여넣으면 끝</text>
-<text x="48" y="182" font-size="10.5" fill="#5A6678">매일 아래에 이어 붙이기만</text>
+<text x="48" y="164" font-size="10.5" fill="#5A6678">내역서 통째 붙여넣기 — 입력 완료</text>
+<text x="48" y="182" font-size="10.5" fill="#5A6678">매일 하단에 누적 적재</text>
 <path d="M220,120 C 250,120 255,120 282,120" stroke="#4CC3E8" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
 <path class="fm-flow" d="M220,120 C 250,120 255,120 282,120" stroke="#4CC3E8" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.2s"/>
-<text x="282" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">STEP 2 · 골라내기</text>
+<text x="282" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">STEP 2 · 자동 선별</text>
 <rect x="282" y="46" width="190" height="150" rx="12" fill="#111A28" stroke="#4CC3E8" stroke-opacity=".4" stroke-width="1.4"/>
-<text x="300" y="74" font-size="13" fill="#E8EDF5" font-weight="700">도구가 정리합니다</text>
+<text x="300" y="74" font-size="13" fill="#E8EDF5" font-weight="700">규칙 기반 자동 선별</text>
 <g font-size="11" fill="#8A94A6">
-<text x="300" y="100">✓ 스왑 거래만 골라내고</text>
-<text x="300" y="122">✓ 취소된 거래는 빼고</text>
-<text x="300" y="144">✓ 실수로 두 번 붙여도 안전</text></g>
-<text x="300" y="176" font-size="10.5" fill="#35C48D" font-family="'JetBrains Mono',monospace">사람 손 0번 · 0.5초</text>
+<text x="300" y="100">✓ 스왑 거래만 선별</text>
+<text x="300" y="122">✓ 취소 거래 자동 제외</text>
+<text x="300" y="144">✓ 중복 붙여넣기 자동 흡수</text></g>
+<text x="300" y="176" font-size="10.5" fill="#35C48D" font-family="'JetBrains Mono',monospace">수작업 0회 · 0.5초</text>
 <path d="M472,120 C 502,120 507,120 534,120" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
 <path class="fm-flow" d="M472,120 C 502,120 507,120 534,120" stroke="#F5A742" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.5s;animation-delay:-.7s"/>
 <text x="534" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">STEP 3 · 돈의 달력</text>
 <rect x="534" y="46" width="190" height="150" rx="12" fill="#111A28" stroke="#F5A742" stroke-opacity=".45" stroke-width="1.6"/>
-<text x="552" y="74" font-size="13" fill="#E8EDF5" font-weight="700">언제 · 얼마가 비나</text>
+<text x="552" y="74" font-size="13" fill="#E8EDF5" font-weight="700">시점별 과부족 현황</text>
 <g font-family="'JetBrains Mono',monospace" font-size="10">
 <text x="552" y="100" fill="#8A94A6">오늘   <tspan fill="#8A94A6">괜찮음</tspan></text>
 <text x="552" y="122" fill="#8A94A6">내일   <tspan fill="#F0545C" font-weight="700">JPY 부족!</tspan></text>
 <text x="552" y="144" fill="#8A94A6">모레   <tspan fill="#35C48D">CNY 남음</tspan></text></g>
 <rect x="601" y="111" width="70" height="16" rx="4" fill="none" stroke="#F5A742" stroke-width="1.4"><animate attributeName="stroke-opacity" values="1;.25;1" dur="1.6s" repeatCount="indefinite"/></rect>
-<text x="552" y="176" font-size="10.5" fill="#5A6678">빨간 칸이 오늘의 할 일</text>
+<text x="552" y="176" font-size="10.5" fill="#5A6678">적색 칸 = 당일 처리 대상</text>
 <path d="M724,120 C 754,120 759,120 786,120" stroke="#35C48D" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
 <path class="fm-flow" d="M724,120 C 754,120 759,120 786,120" stroke="#35C48D" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.8s;animation-delay:-1.4s"/>
 <text x="786" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">STEP 4 · 클릭 → 답</text>
 <rect x="786" y="46" width="184" height="150" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.4"/>
 <g font-size="11" fill="#8A94A6">
-<text x="802" y="76">📅 언제 갚을까 — 후보</text>
-<text x="802" y="100">🔵 체결하면? — 미리보기</text>
-<text x="802" y="124">🚦 어디까지 거래 가능 — 한도</text>
-<text x="802" y="148">💬 보낼 말 — 문구 완성</text></g>
-<text x="802" y="178" font-size="10.5" fill="#F5A742" font-family="'JetBrains Mono',monospace" font-weight="700">클릭 4번이면 딜 준비 끝</text>
+<text x="802" y="76">📅 상환 스케줄 비교</text>
+<text x="802" y="100">🔵 거래 시뮬레이션</text>
+<text x="802" y="124">🚦 실시간 한도 확인</text>
+<text x="802" y="148">💬 거래 연동 문구 생성</text></g>
+<text x="802" y="178" font-size="10.5" fill="#F5A742" font-family="'JetBrains Mono',monospace" font-weight="700">클릭 4번 — 딜 준비 완료</text>
 <g class="fm-breathe"><rect x="534" y="242" width="270" height="58" rx="12" fill="rgba(53,196,141,.06)" stroke="#35C48D" stroke-opacity=".5"/>
-<text x="554" y="268" font-size="12.5" fill="#35C48D" font-weight="700">DEALT ✓ — 내일 빠질 돈, 오늘 채워 둠</text>
-<text x="554" y="288" font-size="10" fill="#8A94A6">체결하면 달력이 즉시 다시 계산됩니다</text></g>
+<text x="554" y="268" font-size="12.5" fill="#35C48D" font-weight="700">DEALT ✓ — 익일 유출분 사전 조달</text>
+<text x="554" y="288" font-size="10" fill="#8A94A6">체결 즉시 달력 자동 재계산</text></g>
 <path d="M878,196 C 878,242 830,262 806,268" stroke="#35C48D" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
 <path class="fm-flow" d="M878,196 C 878,242 830,262 806,268" stroke="#35C48D" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2s;animation-delay:-.9s"/>
-<text x="30" y="330" font-size="11" fill="#5A6678">어려운 건 도구 속에 접어 두고, 화면엔 결정만 남겼습니다 — 규칙은 Excel 실물과 동일 · 수치는 예시</text>
+<text x="30" y="330" font-size="11" fill="#5A6678">수기 — 시트 3개 대조 · 계산기 재입력 · 손 타이핑 · 건당 ~15분 / 4단계 — 전 과정 자동 · 건당 ~30초 · 실수 소지 제거 (규칙은 Excel 실물과 동일 · 수치 예시)</text>
 </svg>`,
 toast:`<svg class="flowmap" viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="나의 선택 → Cloudflare Worker(키 금고·규칙서·검증기) → Claude 후보 3잔 중 선발 → 오늘의 한 잔">
 <text x="30" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">INPUT · 나의 선택</text>
