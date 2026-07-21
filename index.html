@@ -3181,8 +3181,8 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/200
 <defs><pattern id="fxhgap" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="#0d1420"/><line x1="0" y1="0" x2="0" y2="7" stroke="#3a4a63" stroke-width="2.4"/></pattern></defs>
 <text x="40" y="26" font-size="13" font-weight="700" fill="#5A6678" font-family="'JetBrains Mono',monospace" letter-spacing="1.5">ONE DEAL · 부족 확인 → 포지션 회복 (예시)</text>
 <circle cx="54" cy="66" r="12" fill="#F5A742"/><text x="54" y="71" text-anchor="middle" font-size="13" font-weight="800" fill="#0B0F17">1</text>
-<text x="76" y="71" font-size="13" font-weight="700" fill="#E8EDF5">마감 확인 — 익일 HKD 조달 필요</text>
-<text x="118" y="106" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="700" fill="#E8EDF5" text-anchor="end">HKD</text>
+<text x="76" y="71" font-size="13" font-weight="700" fill="#E8EDF5">마감 확인 — 익일 JPY 조달 필요</text>
+<text x="118" y="106" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="700" fill="#E8EDF5" text-anchor="end">JPY</text>
 <rect x="130" y="93" width="180" height="16" rx="4" fill="#0d1420" stroke="#223047"/>
 <rect x="130" y="93" width="180" height="16" rx="4" fill="url(#fxhgap)"/>
 <rect class="fm-breathe" x="130" y="93" width="58" height="16" rx="4" fill="#F0545C" opacity=".9"/>
@@ -3246,6 +3246,7 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/200
 <text x="446" y="210" fill="#8A94A6">C은행 직</text>
 <g><text x="640" y="210" fill="#8A94A6" text-anchor="end" font-weight="700">-1.09 / -0.99<animate attributeName="opacity" calcMode="discrete" values="1;0;1" keyTimes="0;.5;.68" dur="1.4s" repeatCount="indefinite"/></text>
 <text x="640" y="210" fill="#8A94A6" text-anchor="end" font-weight="700" opacity="0">-1.09 / -1.00<animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.5;.68" dur="1.4s" repeatCount="indefinite"/></text></g>
+<text x="652" y="210" fill="#E8C468" font-size="10" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.48" dur="11s" repeatCount="indefinite"/>▲한도</text>
 <text x="428" y="114" fill="#F5A742" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.38;.42" dur="11s" repeatCount="indefinite"/>▶</text>
 <text x="428" y="138" fill="#F5A742" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.42;.45" dur="11s" repeatCount="indefinite"/>▶</text>
 <text x="428" y="162" fill="#F5A742" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.45;.48" dur="11s" repeatCount="indefinite"/>▶</text>
@@ -3255,21 +3256,29 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/200
 <rect x="420" y="173" width="226" height="19" rx="6" fill="rgba(245,167,66,.12)" stroke="#F5A742" stroke-width="1.6"/>
 <text x="428" y="186" fill="#F5A742" font-weight="800">▶</text>
 <text x="652" y="186" fill="#F5A742" font-size="10.5" font-weight="800">포착✓</text></g>
-<text x="446" y="238" fill="#8A94A6" font-size="10.5">5개 호가 실시간 교차 — 최선(▶) 순환 후 적기 포착</text>
-<text x="446" y="258" fill="#5A6678" font-size="10.5">직거래 선택 — 수수료 없음 · 네고 여지</text></g>
+<text x="446" y="238" fill="#8A94A6" font-size="10.5">5개 호가 교차 + 상대방 한도 동시 대조 — 적기 포착</text>
+<text x="446" y="258" fill="#5A6678" font-size="10.5">최저가 C은행은 한도 ▲ — 차선 B은행 선택 · 수수료 없음</text></g>
 <path d="M534,280 C 534,296 534,300 534,308" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".4" fill="none"/>
 <path class="fm-flow" d="M534,280 C 534,296 534,300 534,308" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:1.8s;animation-delay:-.9s"/>
 <rect x="408" y="308" width="252" height="150" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.6"/>
 <circle cx="428" cy="330" r="12" fill="#F5A742"/><text x="428" y="335" text-anchor="middle" font-size="13" font-weight="800" fill="#0B0F17">4</text>
-<text x="450" y="335" font-size="12.5" font-weight="700" fill="#E8EDF5">상대방 한도 점검</text>
+<text x="450" y="335" font-size="12.5" font-weight="700" fill="#E8EDF5">상대방 한도 — ③ 스캔과 실시간 연동</text>
 <g font-family="'JetBrains Mono',monospace" font-size="11">
 <rect x="424" y="350" width="106" height="24" rx="7" fill="#0d1420" stroke="#223047"/><text x="434" y="367" fill="#8A94A6">○ A은행 여유</text>
-<rect x="540" y="350" width="106" height="24" rx="7" fill="rgba(76,195,232,.1)" stroke="#4CC3E8" stroke-width="1.6">
-  <animate attributeName="stroke-opacity" values="1;.4;1" dur="1.6s" repeatCount="indefinite"/></rect>
-<text x="550" y="367" fill="#4CC3E8" font-weight="700">○ B은행 선정✓</text>
-<rect x="424" y="382" width="106" height="24" rx="7" fill="rgba(232,196,104,.07)" stroke="#E8C468" stroke-opacity=".5"/><text x="434" y="399" fill="#E8C468">▲ D은행 92%</text>
+<rect x="540" y="350" width="106" height="24" rx="7" fill="#0d1420" stroke="#223047"/><text x="550" y="367" fill="#8A94A6">○ B은행 여유</text>
+<rect x="424" y="382" width="106" height="24" rx="7" fill="rgba(232,196,104,.07)" stroke="#E8C468" stroke-opacity=".5"/><text x="434" y="399" fill="#E8C468">▲ C은행 92%</text>
 <rect x="540" y="382" width="106" height="24" rx="7" fill="rgba(240,84,92,.07)" stroke="#F0545C" stroke-opacity=".5"/><text x="550" y="399" fill="#F0545C">× E외은 99%</text>
-<text x="428" y="436" fill="#8A94A6" font-size="10.5">신용한도 2,500억 중 300억 소진 · 본건 ≈0.4억 — 여유</text></g>
+<rect x="424" y="350" width="106" height="24" rx="7" fill="rgba(245,167,66,.16)" stroke="#F5A742" stroke-width="1.8" opacity="0">
+  <animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.45;.48" dur="11s" repeatCount="indefinite"/></rect>
+<rect x="424" y="382" width="106" height="24" rx="7" fill="rgba(245,167,66,.16)" stroke="#F5A742" stroke-width="1.8" opacity="0">
+  <animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.48;.51" dur="11s" repeatCount="indefinite"/></rect>
+<rect x="540" y="350" width="106" height="24" rx="7" fill="rgba(245,167,66,.16)" stroke="#F5A742" stroke-width="1.8" opacity="0">
+  <animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.51;.56" dur="11s" repeatCount="indefinite"/></rect>
+<g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.56" dur="11s" repeatCount="indefinite"/>
+<rect x="540" y="350" width="106" height="24" rx="7" fill="#0E1520" stroke="#4CC3E8" stroke-width="1.6">
+  <animate attributeName="stroke-opacity" values="1;.4;1" dur="1.6s" repeatCount="indefinite"/></rect>
+<text x="550" y="367" fill="#4CC3E8" font-weight="700">○ B은행 선정✓</text></g>
+<text x="428" y="436" fill="#8A94A6" font-size="10.5">호가를 짚는 순간 그 상대 한도가 점등 · 본건 ≈0.4억</text></g>
 <path d="M676,383 C 698,383 700,260 716,260" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".4" fill="none"/>
 <path class="fm-flow" d="M676,383 C 698,383 700,260 716,260" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2s;animation-delay:-1.3s"/>
 <rect x="716" y="56" width="248" height="402" rx="14" fill="#0d1420" stroke="#223047" stroke-width="1.8"/>
@@ -3280,7 +3289,7 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/200
 <g font-family="'JetBrains Mono',monospace" font-size="11.5">
 <g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.58" dur="11s" repeatCount="indefinite"/>
 <rect x="770" y="102" width="178" height="26" rx="9" fill="rgba(245,167,66,.1)" stroke="#F5A742" stroke-opacity=".5"/>
-<text x="936" y="120" fill="#F5A742" text-anchor="end">hkd 250 b/s 0721-0727?</text>
+<text x="936" y="120" fill="#F5A742" text-anchor="end">jpy 250 b/s 0721-0727?</text>
 <text x="762" y="120" fill="#5A6678" font-size="9" text-anchor="end">15:41</text></g>
 <g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.61" dur="11s" repeatCount="indefinite"/>
 <rect x="820" y="138" width="128" height="26" rx="9" fill="rgba(245,167,66,.1)" stroke="#F5A742" stroke-opacity=".5"/>
