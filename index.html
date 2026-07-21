@@ -3336,53 +3336,78 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/200
 <text x="40" y="556" fill="#9fb0c4">① 부족 확인 <tspan fill="#5A6678">→</tspan> ② 상환 스케줄 <tspan fill="#5A6678">→</tspan> ③ 호가 비교 <tspan fill="#5A6678">→</tspan> ④ 한도 점검 <tspan fill="#5A6678">→</tspan> ⑤ 네고·체결 <tspan fill="#5A6678">→</tspan> ⑥ 포지션 회복</text>
 <text x="40" y="580" fill="#5A6678" font-size="10.5">②③④는 조달판이 자동 준비 (~30초) — 전 과정 예시 · 실거래 아님 · 판단과 체결은 사람의 몫</text></g>
 </svg>`,
-fxp:`<svg class="flowmap" viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="거래 내역 붙여넣기 → 도구가 골라내기 → 돈의 달력 → 클릭하면 답 — 쉬운 4단계">
-<text x="30" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">STEP 1 · 붙여넣기</text>
-<rect x="30" y="46" width="190" height="150" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.4"/>
-<text x="48" y="74" font-size="13" fill="#E8EDF5" font-weight="700">전일 거래 내역</text>
+fxp:`<svg class="flowmap" viewBox="0 0 1000 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="위: 수기 5단계(시트 대조, 계산기, 시세판, 한도 파일, 손 타이핑, 건당 15분·실수 위험) 아래: 조달판 4단계 자동화(붙여넣기, 자동 선별, 돈의 달력, 클릭 응답, 건당 30초)">
+<text x="30" y="30" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" letter-spacing="1.5" fill="#F0545C">BEFORE · 수기 — 건당 ~15분 (예시)</text>
+<text x="970" y="30" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="800" fill="#F0545C" text-anchor="end">~15분</text>
+<g font-size="10.5">
+<rect x="30" y="44" width="168" height="92" rx="10" fill="#111A28" stroke="#F0545C" stroke-opacity=".35" stroke-width="1.3"/>
+<text x="44" y="66" font-size="12" fill="#E8EDF5" font-weight="700">📄 시트 3개 대조</text>
+<text x="44" y="86" fill="#8A94A6">결제 스케줄 육안 확인</text>
+<text x="44" y="104" fill="#F0545C">⚠ 한 줄 누락 위험</text>
+<rect x="224" y="44" width="168" height="92" rx="10" fill="#111A28" stroke="#F0545C" stroke-opacity=".35" stroke-width="1.3"/>
+<text x="238" y="66" font-size="12" fill="#E8EDF5" font-weight="700">🖩 계산기 재입력</text>
+<text x="238" y="86" fill="#8A94A6">통화별 네팅 수기 합산</text>
+<text x="238" y="104" fill="#F0545C">⚠ 자릿수 실수 위험</text>
+<rect x="418" y="44" width="168" height="92" rx="10" fill="#111A28" stroke="#F0545C" stroke-opacity=".35" stroke-width="1.3"/>
+<text x="432" y="66" font-size="12" fill="#E8EDF5" font-weight="700">📈 시세판 수기 대조</text>
+<text x="432" y="86" fill="#8A94A6">테너별 포인트 손 비교</text>
+<text x="432" y="104" fill="#F0545C">⚠ 적기 놓침</text>
+<rect x="612" y="44" width="168" height="92" rx="10" fill="#111A28" stroke="#F0545C" stroke-opacity=".35" stroke-width="1.3"/>
+<text x="626" y="66" font-size="12" fill="#E8EDF5" font-weight="700">🗂 한도 별도 파일</text>
+<text x="626" y="86" fill="#8A94A6">환산 후 수기 확인</text>
+<text x="626" y="104" fill="#F0545C">⚠ 바쁠 땐 생략 빈번</text>
+<rect x="806" y="44" width="164" height="92" rx="10" fill="#111A28" stroke="#F0545C" stroke-opacity=".35" stroke-width="1.3"/>
+<text x="820" y="66" font-size="12" fill="#E8EDF5" font-weight="700">⌨ 문구 손 타이핑</text>
+<text x="820" y="86" fill="#8A94A6">날짜·금액 직접 입력</text>
+<text x="820" y="104" fill="#F0545C">⚠ 오타 = 금액 사고</text>
+<path d="M198,90 L224,90 M392,90 L418,90 M586,90 L612,90 M780,90 L806,90" stroke="#F0545C" stroke-opacity=".45" stroke-width="1.4" stroke-dasharray="4 4"/>
+<text x="30" y="162" fill="#5A6678" font-size="10.5">매일 아침 반복 · 판단이 아닌 "찾고 베끼는 일"에 소요 — 실수 소지 5곳</text></g>
+<g><path d="M500,186 L500,238" stroke="#F5A742" stroke-width="2.4" fill="none"/>
+<path d="M500,238 L492,226 M500,238 L508,226" stroke="#F5A742" stroke-width="2.4" fill="none"/>
+<rect x="380" y="196" width="240" height="26" rx="13" fill="#0B0F17" stroke="#F5A742" stroke-opacity=".7"/>
+<text x="500" y="214" text-anchor="middle" font-size="12" font-weight="800" fill="#F5A742">조달판 — 전 과정 자동화 · ≈30배 단축</text></g>
+<text x="30" y="272" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700" letter-spacing="1.5" fill="#35C48D">AFTER · 조달판 4단계 — 건당 ~30초 (예시)</text>
+<text x="970" y="272" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="800" fill="#35C48D" text-anchor="end">~30초</text>
+<g font-size="11">
+<rect x="30" y="288" width="210" height="164" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.4"/>
+<text x="46" y="312" font-size="12.5" fill="#E8EDF5" font-weight="700">1 · 붙여넣기</text>
+<g font-family="'JetBrains Mono',monospace" font-size="10"><text x="46" y="336" fill="#8A94A6">▤ ▤ ▤ ▤ ▤ ▤</text><text x="46" y="352" fill="#8A94A6">▤ ▤ ▤ ▤ ▤ ▤</text></g>
+<text x="46" y="378" fill="#8A94A6" font-size="10.5">내역서 통째 — 입력 완료</text>
+<text x="46" y="396" fill="#5A6678" font-size="10.5">매일 하단에 누적 적재</text>
+<text x="46" y="436" fill="#35C48D" font-size="10.5">✓ 손 입력 0회</text>
+<rect x="276" y="288" width="210" height="164" rx="12" fill="#111A28" stroke="#4CC3E8" stroke-opacity=".4" stroke-width="1.4"/>
+<text x="292" y="312" font-size="12.5" fill="#E8EDF5" font-weight="700">2 · 자동 선별</text>
+<text x="292" y="340" fill="#8A94A6">✓ 스왑 거래만 선별</text>
+<text x="292" y="362" fill="#8A94A6">✓ 취소 거래 자동 제외</text>
+<text x="292" y="384" fill="#8A94A6">✓ 중복 붙여넣기 흡수</text>
+<text x="292" y="436" fill="#35C48D" font-size="10.5" font-family="'JetBrains Mono',monospace">✓ 수작업 0회 · 0.5초</text>
+<rect x="522" y="288" width="210" height="164" rx="12" fill="#111A28" stroke="#F5A742" stroke-opacity=".45" stroke-width="1.6"/>
+<text x="538" y="312" font-size="12.5" fill="#E8EDF5" font-weight="700">3 · 돈의 달력</text>
 <g font-family="'JetBrains Mono',monospace" font-size="10">
-<text x="48" y="98" fill="#8A94A6">▤ ▤ ▤ ▤ ▤ ▤ ▤</text>
-<text x="48" y="116" fill="#8A94A6">▤ ▤ ▤ ▤ ▤ ▤ ▤</text>
-<text x="48" y="134" fill="#8A94A6">▤ ▤ ▤ ▤ ▤ ▤ ▤</text></g>
-<text x="48" y="164" font-size="10.5" fill="#5A6678">내역서 통째 붙여넣기 — 입력 완료</text>
-<text x="48" y="182" font-size="10.5" fill="#5A6678">매일 하단에 누적 적재</text>
-<path d="M220,120 C 250,120 255,120 282,120" stroke="#4CC3E8" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
-<path class="fm-flow" d="M220,120 C 250,120 255,120 282,120" stroke="#4CC3E8" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.2s"/>
-<text x="282" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">STEP 2 · 자동 선별</text>
-<rect x="282" y="46" width="190" height="150" rx="12" fill="#111A28" stroke="#4CC3E8" stroke-opacity=".4" stroke-width="1.4"/>
-<text x="300" y="74" font-size="13" fill="#E8EDF5" font-weight="700">규칙 기반 자동 선별</text>
-<g font-size="11" fill="#8A94A6">
-<text x="300" y="100">✓ 스왑 거래만 선별</text>
-<text x="300" y="122">✓ 취소 거래 자동 제외</text>
-<text x="300" y="144">✓ 중복 붙여넣기 자동 흡수</text></g>
-<text x="300" y="176" font-size="10.5" fill="#35C48D" font-family="'JetBrains Mono',monospace">수작업 0회 · 0.5초</text>
-<path d="M472,120 C 502,120 507,120 534,120" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
-<path class="fm-flow" d="M472,120 C 502,120 507,120 534,120" stroke="#F5A742" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.5s;animation-delay:-.7s"/>
-<text x="534" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">STEP 3 · 돈의 달력</text>
-<rect x="534" y="46" width="190" height="150" rx="12" fill="#111A28" stroke="#F5A742" stroke-opacity=".45" stroke-width="1.6"/>
-<text x="552" y="74" font-size="13" fill="#E8EDF5" font-weight="700">시점별 과부족 현황</text>
-<g font-family="'JetBrains Mono',monospace" font-size="10">
-<text x="552" y="100" fill="#8A94A6">오늘   <tspan fill="#8A94A6">괜찮음</tspan></text>
-<text x="552" y="122" fill="#8A94A6">내일   <tspan fill="#F0545C" font-weight="700">JPY 부족!</tspan></text>
-<text x="552" y="144" fill="#8A94A6">모레   <tspan fill="#35C48D">CNY 남음</tspan></text></g>
-<rect x="601" y="111" width="70" height="16" rx="4" fill="none" stroke="#F5A742" stroke-width="1.4"><animate attributeName="stroke-opacity" values="1;.25;1" dur="1.6s" repeatCount="indefinite"/></rect>
-<text x="552" y="176" font-size="10.5" fill="#5A6678">적색 칸 = 당일 처리 대상</text>
-<path d="M724,120 C 754,120 759,120 786,120" stroke="#35C48D" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
-<path class="fm-flow" d="M724,120 C 754,120 759,120 786,120" stroke="#35C48D" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.8s;animation-delay:-1.4s"/>
-<text x="786" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">STEP 4 · 클릭 → 답</text>
-<rect x="786" y="46" width="184" height="150" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.4"/>
-<g font-size="11" fill="#8A94A6">
-<text x="802" y="76">📅 상환 스케줄 비교</text>
-<text x="802" y="100">🔵 거래 시뮬레이션</text>
-<text x="802" y="124">🚦 실시간 한도 확인</text>
-<text x="802" y="148">💬 거래 연동 문구 생성</text></g>
-<text x="802" y="178" font-size="10.5" fill="#F5A742" font-family="'JetBrains Mono',monospace" font-weight="700">클릭 4번 — 딜 준비 완료</text>
-<g class="fm-breathe"><rect x="534" y="242" width="270" height="58" rx="12" fill="rgba(53,196,141,.06)" stroke="#35C48D" stroke-opacity=".5"/>
-<text x="554" y="268" font-size="12.5" fill="#35C48D" font-weight="700">DEALT ✓ — 익일 유출분 사전 조달</text>
-<text x="554" y="288" font-size="10" fill="#8A94A6">체결 즉시 달력 자동 재계산</text></g>
-<path d="M878,196 C 878,242 830,262 806,268" stroke="#35C48D" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
-<path class="fm-flow" d="M878,196 C 878,242 830,262 806,268" stroke="#35C48D" stroke-width="2" stroke-opacity=".9" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2s;animation-delay:-.9s"/>
-<text x="30" y="330" font-size="11" fill="#5A6678">수기 — 시트 3개 대조 · 계산기 재입력 · 손 타이핑 · 건당 ~15분 / 4단계 — 전 과정 자동 · 건당 ~30초 · 실수 소지 제거 (규칙은 Excel 실물과 동일 · 수치 예시)</text>
+<text x="538" y="340" fill="#8A94A6">오늘   <tspan fill="#8A94A6">적정</tspan></text>
+<text x="538" y="362" fill="#8A94A6">내일   <tspan fill="#F0545C" font-weight="700">JPY 부족!</tspan></text>
+<text x="538" y="384" fill="#8A94A6">모레   <tspan fill="#35C48D">CNY 잉여</tspan></text></g>
+<rect x="586" y="351" width="76" height="16" rx="4" fill="none" stroke="#F5A742" stroke-width="1.4"><animate attributeName="stroke-opacity" values="1;.25;1" dur="1.6s" repeatCount="indefinite"/></rect>
+<text x="538" y="436" fill="#35C48D" font-size="10.5">✓ 적색 칸 = 당일 처리 대상</text>
+<rect x="768" y="288" width="202" height="164" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.4"/>
+<text x="784" y="312" font-size="12.5" fill="#E8EDF5" font-weight="700">4 · 클릭 = 답</text>
+<text x="784" y="340" fill="#8A94A6" font-size="10.5">📅 상환 스케줄 비교</text>
+<text x="784" y="360" fill="#8A94A6" font-size="10.5">🔵 거래 시뮬레이션</text>
+<text x="784" y="380" fill="#8A94A6" font-size="10.5">🚦 실시간 한도 확인</text>
+<text x="784" y="400" fill="#8A94A6" font-size="10.5">💬 거래 연동 문구 생성</text>
+<text x="784" y="436" fill="#F5A742" font-size="10.5" font-family="'JetBrains Mono',monospace" font-weight="700">클릭 4번 — 딜 준비 완료</text>
+<path d="M240,370 L276,370" stroke="#35C48D" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
+<path class="fm-flow" d="M240,370 L276,370" stroke="#35C48D" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:1.6s"/>
+<path d="M486,370 L522,370" stroke="#35C48D" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
+<path class="fm-flow" d="M486,370 L522,370" stroke="#35C48D" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:1.6s;animation-delay:-.5s"/>
+<path d="M732,370 L768,370" stroke="#35C48D" stroke-width="1.4" stroke-opacity=".3" fill="none"/>
+<path class="fm-flow" d="M732,370 L768,370" stroke="#35C48D" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:1.6s;animation-delay:-1s"/>
+</g>
+<g class="fm-breathe"><rect x="700" y="478" width="270" height="52" rx="12" fill="rgba(53,196,141,.06)" stroke="#35C48D" stroke-opacity=".5"/>
+<text x="718" y="500" font-family="'JetBrains Mono',monospace" font-size="12" fill="#35C48D" font-weight="700">DEALT ✓ — 익일 유출분 사전 조달</text>
+<text x="718" y="518" font-size="10" fill="#8A94A6">체결 즉시 달력 자동 재계산</text></g>
+<text x="30" y="506" font-size="10.5" fill="#5A6678">검증·기록·재계산 전부 자동 — 실수 소지 5곳 제거 · 사람은 판단만</text>
+<text x="30" y="524" font-size="10.5" fill="#5A6678">규칙은 Excel 실물과 동일 · 수치 예시</text>
 </svg>`,
 toast:`<svg class="flowmap" viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="나의 선택 → Cloudflare Worker(키 금고·규칙서·검증기) → Claude 후보 3잔 중 선발 → 오늘의 한 잔">
 <text x="30" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">INPUT · 나의 선택</text>
