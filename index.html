@@ -430,7 +430,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .er-bar .tgt::after{content:'목표';position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;color:var(--mut);white-space:nowrap}
 .er-deal{font-family:var(--mono);font-size:12.5px;color:var(--mut);margin-top:11px;min-height:18px;opacity:0;transition:opacity .45s}
 .er-deal.show{opacity:1}
-/* ── FX 자금조달판 데모(dg-fx) — 조달 스토리 + 거래 체험 ── */
+/* ── FX조달판 데모(dg-fx) — 조달 스토리 + 거래 체험 ── */
 .fxb{border:1px solid var(--grid);border-radius:12px;background:var(--panel2);overflow-x:auto;margin:12px 0}
 .fxb table{border-collapse:collapse;width:100%;min-width:600px;font-family:var(--mono);font-size:13px}
 .fxb th{font-size:10.5px;letter-spacing:.06em;color:var(--mut);background:rgba(34,48,71,.4);padding:8px 11px;border-bottom:1px solid var(--grid);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -1292,10 +1292,10 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
   </div>
   </div><!-- /dg-jgp -->
 
-  <!-- ══ 그룹 1.5 · FX 자금조달판 — 조달 스토리 + 거래 체험 ══ -->
+  <!-- ══ 그룹 1.5 · FX조달판 — 조달 스토리 + 거래 체험 ══ -->
   <div class="dgroup" id="dg-fx">
     <div class="note"><span>ⓘ</span><span>실제 도구(<b>Excel VBA</b>)와 <b>같은 규칙</b>의 웹 시뮬레이션 · 수치는 전부 예시 ·
-      <b>실거래 아님</b> — 자금판 마감의 다음 이야기 · <a href="#project/fxp" style="color:var(--cyn)">이 실험의 상세 →</a></span></div>
+      <b>실거래 아님</b> — 외화 조달·운용 실험 · <a href="#project/fxp" style="color:var(--cyn)">이 실험의 상세 →</a></span></div>
     <div class="card flat tour">
       <div class="tr-top">
         <div class="tr-steps" id="fxSteps"></div>
@@ -1601,7 +1601,7 @@ const mmdd=off=>{const d=new Date();d.setDate(d.getDate()+off);
 /* ── DATA ─────────────────────────────────────────────────── */
 /* 기록(LOG) — 이 실험실이 해온 일들. 새 일 = 객체 1개 추가 (최신이 위) */
 const LOGS=[
- {d:'2026-07-19',t:'두 번째 실험 「FX 자금조달판」 공개 — 마감 다음 이야기, 조달',tag:'실험',note:'외화 스왑 자금조달 도구(Excel VBA 6모듈·Mac/Win) 웹 체험 오픈 · 네팅 보드 → 갚을 날 고르기 → 체결 시뮬레이션 → 한도 → 체결까지 게임형 스토리 · 수치 전부 예시'},
+ {d:'2026-07-19',t:'새 실험 「FX조달판」 공개 — 외화 조달·운용의 재설계',tag:'실험',note:'외화 스왑 조달·운용 도구(Excel VBA 6모듈·Mac/Win) 웹 체험 오픈 · 네팅 보드 → 갚을 날 고르기 → 체결 시뮬레이션 → 한도 → 체결까지 게임형 스토리 · 수치 전부 예시'},
  {d:'2026-07-12',t:'건배사 100회 채점 → 규칙서 완성 · N행시 모드 추가',tag:'실험',note:'실전 채점으로 추출한 규칙과 시범 답안을 프롬프트에 탑재(v7.9) · N행시 글자 맞춤은 기계 검증 · push=자동 배포 파이프라인'},
  {d:'2026-07-11',t:'사이트 최초 실제 AI 연동 — 건배사 자판기 REAL CLAUDE 점등',tag:'실험',note:'Cloudflare Worker로 API 키 서버 보관 · 후보 3잔 중 선발(best-of-3) · 실패 시 모의 폴백 정직 라벨 · EXP.04'},
  {d:'2026-07-09',t:'체험 「건배사 자판기」 오픈 — 회식의 비상 버튼',tag:'실험',note:'상황·분위기·키워드·아재개그 수위 → 선창·후창 생성 · 모의 응답(실제 Claude 연동 준비 중) · EXP.04'},
@@ -1656,16 +1656,17 @@ function renderVersions(){
    status: DONE(완료)/DOING(진행중)/PLAN(예정) · next: 다음 착수 예정 · 자금판=대표 미션 */
 const MISSIONS=[
  {pos:3,diff:'상',status:'DOING',cell:'자금판',title:'업무혁신 AI Agent 설계·제작',
-  goal:'반복·고위험 업무를 분석해 AI Agent로 재설계. 마감 도구 “자금판”과 그 다음 단계인 “FX 자금조달판”이 이 미션의 결과물.',
-  links:[['자금판 데모','#demo'],['FX 자금조달판 체험','#demo/fx'],['프로젝트 상세','#project/jgp']]},
+  goal:'반복·고위험 업무를 분석해 AI Agent로 재설계. 외화자금 마감 도구 “자금판”이 이 미션의 결과물.',
+  links:[['자금판 데모','#demo'],['프로젝트 상세','#project/jgp']]},
  {pos:5,diff:'상',status:'PLAN',next:true,cell:'리포트',title:'AI로 나만의 리포트 만들기',
   goal:'관심 주제를 AI로 조사·분석·정리해 나만의 리포트 제작. 6주 빌드로그를 리포트로 재구성 예정.',links:[]},
  {pos:1,diff:'중',status:'PLAN',cell:'롤플레잉',title:'AI 롤플레잉으로 상담·보고 역량 향상',
   goal:'AI에 구체적 역할을 부여해 질문·반박·피드백을 받으며 상담·보고·커뮤니케이션 역량을 키움.',links:[]},
  {pos:4,diff:'중',status:'PLAN',cell:'비교분석',title:'AI로 비교·분석하고 한눈에 정리',
   goal:'둘 이상의 대상을 특정 관점으로 비교·분석하고 표·차트로 정리, 본인의 결론까지 도출.',links:[]},
- {pos:7,diff:'중',status:'PLAN',cell:'업무진단',title:'AI로 업무 진단·혁신 기회 찾기',
-  goal:'반복·비효율 업무를 AI로 진단해 자동화 가능 지점을 발굴. 상 미션(자금판)과 연계.',links:[]},
+ {pos:7,diff:'중',status:'DOING',cell:'업무진단',title:'AI로 업무 진단·혁신 기회 찾기',
+  goal:'반복·비효율 업무를 AI로 진단해 자동화 지점을 발굴. 두 번째 재설계 「FX조달판」(외화 조달·운용)이 이 미션의 결과물.',
+  links:[['FX조달판 체험','#demo/fx'],['프로젝트 상세','#project/fxp']]},
  {pos:0,diff:'하',status:'DOING',cell:'노하우',title:'나만의 AI 활용 노하우 공유',
   goal:'반복 사용하는 프롬프트·활용법을 정리해 공유. 체험판 「건배사 자판기」 공개.',links:[['건배사 자판기 체험','#demo/toast']]},
  {pos:2,diff:'하',status:'PLAN',cell:'요약',title:'뉴스·보고서·회의 콘텐츠 요약',
@@ -1692,21 +1693,21 @@ const EXPERIMENTS=[
   chips:['EXCEL VBA','CLAUDE','규칙 엔진','자동 검증','작업 로그'],
   ctas:[['프로젝트 상세','#project/jgp','amber'],['라이브 데모 체험','#demo','ghost']],
   panel:{t:'운영 스냅샷 · 예시',kv:[['통화 블록','오전 7 + 오후 7'],['코드 규모','3모듈 · ~2,800줄'],['안전장치','점검 · 중복 경고 · 로그'],['버전','v3.31']]}},
- {status:'LIVE',pid:'fxp',title:'FX 자금조달판',hanja:'資金調達板',mission:'자금판',stTxt:'LIVE · 체험 가능',
+ {status:'LIVE',pid:'fxp',title:'<sup style="font-size:.55em;vertical-align:.55em;letter-spacing:.08em">FX</sup>조달판',hanja:'調達板',mission:'업무진단',stTxt:'LIVE · 체험 가능',
   arts:[
    {key:'fxpMap',eyebrow:'The Action',h2:'자금 조달, 딜 하나가 체결되기까지',hint:'① 부족 확인 → ② 상환 스케줄 → ③ 호가 비교 → ④ 한도 점검 → ⑤ 네고·체결 → ⑥ 포지션 회복 (전부 예시·실거래 아님)'},
    {key:'fxp',eyebrow:'How It Works',h2:'같은 일, 다른 구조 — 거미줄에서 한 판으로',hint:'수기 — 도구 다섯을 사람이 직접 연결(붉은 선이 전부 발품) · 조달판 — 판이 품고 사람은 클릭 한 번 (전부 예시)'}],
   demo:{g:'fx',d:'외화 스왑 조달·운용 — 부족을 찾고 · 갚을 날을 고르고 · 체결까지, 게임처럼'},
-  desc:'자금판이 마감을 끝내면 통화별로 남는 돈과 모자란 돈이 보입니다. 그 다음 일 — 모자란 통화는 FX 스왑으로 당겨오고(조달), 남는 통화는 굴리는(운용) 두 번째 도구입니다. 거래 일보를 붙여넣으면 통화×영업일 네팅 보드가 서고, 부족한 칸을 클릭하면 파 날짜 후보 → 체결 시뮬레이션 → 상대방 한도 → 요청 문구까지 한 흐름으로 이어집니다. Excel VBA(Mac·Windows 겸용)로 실전 운영을 준비 중입니다.',
+  desc:'하루 마감이 끝나면 통화마다 모자란 돈과 남는 돈이 남습니다. 모자라면 FX 스왑으로 당겨오고(조달), 남으면 굴리는(운용) — 외화자금 데스크의 또 하나의 반복 업무를 재설계한 실험입니다. 거래 일보를 붙여넣으면 통화×영업일 네팅 보드가 서고, 부족한 칸을 클릭하면 상환 스케줄 비교 → 체결 시뮬레이션 → 상대방 한도 → 요청 문구까지 한 흐름으로 이어집니다. Excel VBA(Mac·Windows 겸용)로 실전 운영을 준비 중입니다.',
   chips:['EXCEL VBA','네팅 보드','체결 시뮬','한도 칩','문구 자동'],
-  story:'자금판을 쓰다 보니 마감 뒤에 똑같이 반복되는 일이 하나 더 있었습니다 — 며칠 뒤 결제 스케줄을 뒤져 반대 흐름을 찾고, 시세판과 계산기를 오가며 파 날짜를 정하고, 한도를 확인하고, 중개·상대은행에 보낼 문구를 손으로 조립하는 일. 이 판단 과정을 “클릭 몇 번”으로 접었습니다. 셀을 클릭하면 후보가 서고, 후보를 고르면 스케줄이 미리 체결된 것처럼 다시 그려지고, 한도가 스스로 손을 들며, 문구는 이미 완성돼 있습니다. 판단과 체결은 여전히 사람의 몫 — 도구는 그 앞의 반복을 대신합니다.',
+  story:'마감이 끝나도 책상에는 똑같이 반복되는 일이 하나 더 남아 있었습니다 — 며칠 뒤 결제 스케줄을 뒤져 반대 흐름을 찾고, 시세판과 계산기를 오가며 파 날짜를 정하고, 한도를 확인하고, 중개·상대은행에 보낼 문구를 손으로 조립하는 일. 이 판단 과정을 “클릭 몇 번”으로 접었습니다. 셀을 클릭하면 후보가 서고, 후보를 고르면 스케줄이 미리 체결된 것처럼 다시 그려지고, 한도가 스스로 손을 들며, 문구는 이미 완성돼 있습니다. 판단과 체결은 여전히 사람의 몫 — 도구는 그 앞의 반복을 대신합니다.',
   features:{eyebrow:'Core Features',h2:'여섯 가지 핵심 장치',hint:'Excel VBA 실물 구동 구성 — 수치는 예시',items:[
-   ['Netting Board','일보 붙여넣기 한 번으로 통화×영업일(TOD·TOM·SPOT) 순유출입 매트릭스 자동 생성. 부족은 적색 · 잉여는 녹색, 당일 처리 대상은 QUEUE로 자동 추출.',['체험에서 보기','#demo/fx']],
-   ['상환 스케줄 비교','반대 흐름이 있는 매칭일(체결 시 잔여 0)과 정형 테너(1W~6M)를 가격·1일당 비용과 함께 정렬 — 상환일 선정 근거를 한 화면에.'],
-   ['거래 시뮬레이션','후보 선택 즉시 결제 스케줄을 체결 가정으로 재계산, 달라지는 구간만 청색 표시 — 체결 전 결과 확인.'],
-   ['실시간 한도 모니터','금액 확정과 동시에 상대방별 신용·결제 한도 소진을 자동 환산 — ○ 여유 · ▲ 주의 · × 초과 신호로 표시.'],
-   ['거래 연동 문구 생성','통화·금액·방향·니어/파 날짜를 실무 관례 문구로 자동 조립 후 클립보드 복사 — 전달 오타 원천 차단.'],
-   ['데이터 자동 적재','매일 일보를 맨 아래 붙여넣기만으로 연간 누적. 중복은 최신 행 우선, 취소 재등장 시 원거래까지 자동 제외.']]},
+   ['Netting Board','일보 붙여넣기 한 번으로 통화×영업일 순유출입 매트릭스가 완성 — 부족은 적색, 잉여는 녹색, 당일 대상은 QUEUE로.',['체험에서 보기','#demo/fx']],
+   ['상환 스케줄 비교','반대 흐름이 있는 매칭일과 정형 테너(1W~6M)를 가격·1일당 비용과 함께 정렬 — 상환일 선정 근거를 한 화면에.'],
+   ['거래 시뮬레이션','후보 선택 즉시 결제 스케줄을 체결 가정으로 재계산, 달라지는 구간만 청색 표시 — 체결 전에 결과를 미리 확인.'],
+   ['실시간 한도 모니터','금액 확정과 동시에 상대방별 신용·결제 한도 소진율을 자동 환산 — ○ 여유 · ▲ 주의 · × 초과 신호로 표시.'],
+   ['거래 연동 문구 생성','통화·금액·방향·니어/파 날짜를 실무 관례 문구로 자동 조립해 클립보드 복사 — 전달 과정의 오타 원천 차단.'],
+   ['데이터 자동 적재','매일 일보를 맨 아래 붙여넣기만으로 연간 누적 — 중복은 최신 행 우선, 취소 재등장 시 원거래까지 자동 제외.']]},
   showcase:{
     title:'조달판 전과 후 — 같은 아침, 다른 하루',
     hint:'수기 시절의 실제 순서 재구성 · 시간은 예시 추정',
@@ -2500,8 +2501,8 @@ function bindTour(){
   });
 }
 
-/* ── DEMO GROUP: FX 자금조달판(dg-fx) — 조달·운용 스토리 + 거래 게임 ──
-   자금판 마감의 다음 이야기. 규칙은 Excel VBA 실물과 동일 · 수치는 전부 예시 · 실거래 아님 */
+/* ── DEMO GROUP: FX조달판(dg-fx) — 조달·운용 스토리 + 거래 게임 ──
+   외화 조달·운용의 재설계. 규칙은 Excel VBA 실물과 동일 · 수치는 전부 예시 · 실거래 아님 */
 const FX_STEPNM=['시나리오','보드','갚을 날','한도','체결','결과'];
 const FX_COLS=[['TOD','07/20 월'],['TOM','07/21 화'],['SPOT','07/22 수'],['','07/23 목'],['+1W','07/27 월']];
 const FX_BRD=[['JPY',[0,-100,-100,0,0]],['HKD',[-50,-250,100,-100,-50]],['CNY',[0,200,-80,40,0]],['EUR',[-4,0,-8,0,-6]]];
@@ -2575,7 +2576,7 @@ function fxIntro(){
      </div>
      <p class="tagline">수치 전부 예시 · 실거래 아님 · 세 코스 모두 2분이면 끝</p></div>`;
   (async()=>{const box=$('#fxBoot');if(!box)return;
-    for(const l of ['SESSION PM · FX 자금조달판 GUIDED','LINK 자금판 → CLOSING 인계 · RULES LOADED']){
+    for(const l of ['SESSION PM · FX조달판 GUIDED','NETTING RULES LOADED · BOARD READY']){
       const d=document.createElement('div');box.appendChild(d);
       for(const ch of l){if(!box.isConnected)return;d.textContent+=ch;await sleep(REDUCED?0:12);}
       await sleep(REDUCED?0:120);}})();
@@ -2865,7 +2866,6 @@ function fxReport(){
      <div class="hero-cta" style="margin-top:14px">
        <button class="btn btn-amber btn-sm" data-fx="restart">↺ 다른 시나리오 도전 (3코스)</button>
        <a class="btn btn-ghost btn-sm" href="#project/fxp">이 실험의 상세 →</a>
-       <a class="btn btn-ghost btn-sm" href="#demo">앞 이야기 — 자금판 마감</a>
      </div></div>`;
 }
 function bindFx(){
@@ -3224,7 +3224,7 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/200
 <text x="338" y="398" fill="#F0545C" text-anchor="end" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="1;0" keyTimes="0;.1" dur="11s" repeatCount="indefinite"/>−170,000,000 · 미달</text>
 <text x="338" y="398" fill="#E8C468" text-anchor="end" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.1;.2" dur="11s" repeatCount="indefinite"/>0 · 15일 원거리</text>
 <text x="338" y="398" fill="#35C48D" text-anchor="end" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.2" dur="11s" repeatCount="indefinite"/>0 · 6일 — 스퀘어 ✓</text></g>
-<text x="66" y="428" fill="#5A6678" font-size="10.5">후보를 짚을 때마다 잔여 재계산 — 0이 되는 날짜로 선정</text></g>
+<text x="66" y="428" fill="#5A6678" font-size="10.5">후보마다 잔여 재계산 — 0이 되는 날짜 선정</text></g>
 <path d="M350,306 C 380,306 380,150 408,150" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".4" fill="none"/>
 <path class="fm-flow" d="M350,306 C 380,306 380,150 408,150" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2s;animation-delay:-.5s"/>
 <rect x="408" y="60" width="252" height="220" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.6"/>
@@ -3246,7 +3246,7 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/200
 <text x="446" y="210" fill="#8A94A6">D은행 직</text>
 <g><text x="640" y="210" fill="#8A94A6" text-anchor="end" font-weight="700">-1.09 / -0.99<animate attributeName="opacity" calcMode="discrete" values="1;0;1" keyTimes="0;.5;.68" dur="1.4s" repeatCount="indefinite"/></text>
 <text x="640" y="210" fill="#8A94A6" text-anchor="end" font-weight="700" opacity="0">-1.09 / -1.00<animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.5;.68" dur="1.4s" repeatCount="indefinite"/></text></g>
-<text x="652" y="210" fill="#E8C468" font-size="10" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.48" dur="11s" repeatCount="indefinite"/>▲한도</text>
+<text x="414" y="210" text-anchor="middle" fill="#E8C468" font-size="10" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.48" dur="11s" repeatCount="indefinite"/>▲</text>
 <text x="428" y="114" fill="#F5A742" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.38;.42" dur="11s" repeatCount="indefinite"/>▶</text>
 <text x="428" y="138" fill="#F5A742" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.42;.45" dur="11s" repeatCount="indefinite"/>▶</text>
 <text x="428" y="162" fill="#F5A742" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.45;.48" dur="11s" repeatCount="indefinite"/>▶</text>
@@ -3255,14 +3255,14 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/200
 <g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.56" dur="11s" repeatCount="indefinite"/>
 <rect x="420" y="173" width="226" height="19" rx="6" fill="rgba(245,167,66,.12)" stroke="#F5A742" stroke-width="1.6"/>
 <text x="428" y="186" fill="#F5A742" font-weight="800">▶</text>
-<text x="652" y="186" fill="#F5A742" font-size="10.5" font-weight="800">포착✓</text></g>
-<text x="446" y="238" fill="#8A94A6" font-size="10.5">5개 호가 교차 + 상대방 한도 동시 대조 — 적기 포착</text>
-<text x="446" y="258" fill="#5A6678" font-size="10.5">최저가 D은행은 한도 ▲ — 차선 B은행 선택 · 수수료 없음</text></g>
+<text x="414" y="186" text-anchor="middle" fill="#F5A742" font-size="10.5" font-weight="800">✓</text></g>
+<text x="446" y="238" fill="#8A94A6" font-size="10.5">호가·한도 동시 스캔 — 적기 포착</text>
+<text x="446" y="258" fill="#5A6678" font-size="10.5">최저가 D은행 ▲ → 차선 B은행 · 수수료 없음</text></g>
 <path d="M534,280 C 534,296 534,300 534,308" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".4" fill="none"/>
 <path class="fm-flow" d="M534,280 C 534,296 534,300 534,308" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:1.8s;animation-delay:-.9s"/>
 <rect x="408" y="308" width="252" height="150" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.6"/>
 <circle cx="428" cy="330" r="12" fill="#F5A742"/><text x="428" y="335" text-anchor="middle" font-size="13" font-weight="800" fill="#0B0F17">4</text>
-<text x="450" y="335" font-size="12.5" font-weight="700" fill="#E8EDF5">상대방 한도 — ③ 스캔과 실시간 연동</text>
+<text x="450" y="335" font-size="12.5" font-weight="700" fill="#E8EDF5">상대방 한도 — ③ 스캔과 연동</text>
 <g font-family="'JetBrains Mono',monospace" font-size="11">
 <rect x="424" y="350" width="106" height="24" rx="7" fill="#0d1420" stroke="#223047"/><text x="434" y="367" fill="#8A94A6">○ A은행 여유</text>
 <rect x="540" y="350" width="106" height="24" rx="7" fill="#0d1420" stroke="#223047"/><text x="550" y="367" fill="#8A94A6">○ B은행 여유</text>
@@ -3278,7 +3278,7 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/200
 <rect x="540" y="350" width="106" height="24" rx="7" fill="#0E1520" stroke="#4CC3E8" stroke-width="1.6">
   <animate attributeName="stroke-opacity" values="1;.4;1" dur="1.6s" repeatCount="indefinite"/></rect>
 <text x="550" y="367" fill="#4CC3E8" font-weight="700">○ B은행 선정✓</text></g>
-<text x="428" y="436" fill="#8A94A6" font-size="10.5">호가를 짚는 순간 그 상대 한도가 점등 · 본건 ≈0.4억</text></g>
+<text x="428" y="436" fill="#8A94A6" font-size="10.5">짚는 순간 그 상대 점등 · 본건 ≈0.4억</text></g>
 <path d="M676,383 C 698,383 700,260 716,260" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".4" fill="none"/>
 <path class="fm-flow" d="M676,383 C 698,383 700,260 716,260" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2s;animation-delay:-1.3s"/>
 <rect x="716" y="56" width="248" height="402" rx="14" fill="#0d1420" stroke="#223047" stroke-width="1.8"/>
@@ -3323,7 +3323,7 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/200
 <rect x="732" y="322" width="196" height="26" rx="9" fill="#111A28" stroke="#223047"/>
 <text x="744" y="340" fill="#E8EDF5">DONE ✓ conf to follow</text>
 </g>
-<text x="744" y="368" fill="#5A6678" font-size="10">네고 0.02p 개선 — 250mio 기준 유의미한 절감</text></g>
+<text x="744" y="368" fill="#5A6678" font-size="10">네고 0.02p — 250mio 기준 유의미한 절감</text></g>
 <g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.82" dur="11s" repeatCount="indefinite"/>
 <g transform="rotate(-9 826 396)"><rect x="768" y="379" width="116" height="34" rx="9" fill="none" stroke="#35C48D" stroke-width="3"/>
 <text x="826" y="402" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="800" fill="#35C48D">DONE ✓</text></g>
@@ -3339,7 +3339,9 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/200
 fxp:`<svg class="flowmap" viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="왼쪽: 수기 - 사람이 시트, 계산기, 시세판, 한도 파일, 메신저 다섯 도구 사이를 직접 오가는 붉은 거미줄. 오른쪽: 조달판 - 다섯 도구가 판 안에 담기고 사람은 클릭 한 번, 판 내부가 자동으로 연결되어 DEALT로 출력">
 <text x="40" y="30" font-size="13" font-weight="700" fill="#5A6678" font-family="'JetBrains Mono',monospace" letter-spacing="1.5">SAME WORK · 다른 구조 (예시)</text>
 <line x1="502" y1="46" x2="502" y2="480" stroke="#223047" stroke-width="1.2" stroke-dasharray="2 6"/>
-<text x="40" y="66" font-size="13.5" font-weight="800" fill="#F0545C">수기 — 사람이 곧 연결선 · ~15분</text>
+<rect x="40" y="50" width="72" height="21" rx="4" fill="rgba(240,84,92,.1)" stroke="#F0545C" stroke-opacity=".55"/>
+<text x="76" y="64.5" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="800" fill="#F0545C" letter-spacing="2">BEFORE</text>
+<text x="124" y="66" font-size="13.5" font-weight="800" fill="#E8EDF5">수기 — 사람이 곧 연결선 · <tspan fill="#F0545C">~15분</tspan></text>
 <g stroke="#F0545C" stroke-opacity=".3" stroke-width="1.3" stroke-dasharray="4 4" fill="none">
 <path d="M140,252 L118,148"/><path d="M146,252 L204,130"/><path d="M152,254 L288,150"/>
 <path d="M128,270 L92,306"/><path d="M158,276 L318,376"/><path d="M160,268 L398,282"/>
@@ -3364,9 +3366,13 @@ fxp:`<svg class="flowmap" viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/s
 <text x="140" y="308" text-anchor="middle" font-size="10" fill="#8A94A6">나</text>
 <circle r="6" fill="#F0545C">
 <animateMotion dur="9s" repeatCount="indefinite" path="M140,258 L110,140 L140,258 L100,320 L140,258 L390,160 L140,258 L340,380 L140,258 L410,280 L140,258 L216,110 L140,258"/></circle>
-<text x="196" y="216" font-size="11" fill="#F0545C">⚠</text><text x="268" y="318" font-size="11" fill="#F0545C">⚠</text><text x="352" y="240" font-size="11" fill="#F0545C">⚠</text>
+<g><circle cx="200" cy="212" r="7.5" fill="rgba(240,84,92,.12)" stroke="#F0545C" stroke-opacity=".6"/><text x="200" y="215.5" text-anchor="middle" font-size="10" font-weight="800" fill="#F0545C">!</text>
+<circle cx="272" cy="314" r="7.5" fill="rgba(240,84,92,.12)" stroke="#F0545C" stroke-opacity=".6"/><text x="272" y="317.5" text-anchor="middle" font-size="10" font-weight="800" fill="#F0545C">!</text>
+<circle cx="356" cy="236" r="7.5" fill="rgba(240,84,92,.12)" stroke="#F0545C" stroke-opacity=".6"/><text x="356" y="239.5" text-anchor="middle" font-size="10" font-weight="800" fill="#F0545C">!</text></g>
 <text x="40" y="466" font-size="11" fill="#8A94A6">도구 다섯을 사람이 직접 오가는 구조 — 이동이 곧 시간, 손끝이 곧 실수 지점</text>
-<text x="540" y="66" font-size="13.5" font-weight="800" fill="#35C48D">조달판 — 연결은 판이, 판단은 사람 · ~30초</text>
+<rect x="540" y="50" width="62" height="21" rx="4" fill="rgba(53,196,141,.1)" stroke="#35C48D" stroke-opacity=".55"/>
+<text x="571" y="64.5" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="800" fill="#35C48D" letter-spacing="2">AFTER</text>
+<text x="614" y="66" font-size="13.5" font-weight="800" fill="#E8EDF5">조달판 — 연결은 판이, 판단은 사람 · <tspan fill="#35C48D">~30초</tspan></text>
 <circle cx="560" cy="240" r="11" fill="#111A28" stroke="#8A94A6" stroke-width="2"/>
 <path d="M540,286 C540,262 580,262 580,286" fill="#111A28" stroke="#8A94A6" stroke-width="2"/>
 <text x="560" y="308" text-anchor="middle" font-size="10" fill="#8A94A6">나</text>
@@ -3387,7 +3393,7 @@ fxp:`<svg class="flowmap" viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/s
 <rect x="722" y="236" width="222" height="40" rx="9" fill="#111A28" stroke="#223047"/><text x="790" y="261" fill="#E8EDF5">시세 비교</text><text x="922" y="261" fill="#35C48D" text-anchor="end" font-weight="800">✓ 자동</text>
 <rect x="722" y="288" width="222" height="40" rx="9" fill="#111A28" stroke="#223047"/><text x="790" y="313" fill="#E8EDF5">한도 감시</text><text x="922" y="313" fill="#35C48D" text-anchor="end" font-weight="800">✓ 자동</text>
 <rect x="722" y="340" width="222" height="40" rx="9" fill="#111A28" stroke="#223047"/><text x="790" y="365" fill="#E8EDF5">문구 생성</text><text x="922" y="365" fill="#35C48D" text-anchor="end" font-weight="800">✓ 자동</text></g>
-<text x="736" y="158" font-size="13">📄</text><text x="736" y="210" font-size="13">🖩</text><text x="736" y="262" font-size="13">📈</text><text x="736" y="314" font-size="13">🚦</text><text x="736" y="366" font-size="13">💬</text>
+<g font-family="'JetBrains Mono',monospace" font-size="11" font-weight="800" fill="#F5A742" opacity=".9"><text x="736" y="157">01</text><text x="736" y="209">02</text><text x="736" y="261">03</text><text x="736" y="313">04</text><text x="736" y="365">05</text></g>
 <path d="M833,426 L833,452" stroke="#35C48D" stroke-width="2" fill="none"/>
 <path d="M833,452 L827,442 M833,452 L839,442" stroke="#35C48D" stroke-width="2" fill="none"/>
 <g transform="rotate(-6 833 476)"><rect x="781" y="462" width="104" height="30" rx="8" fill="none" stroke="#35C48D" stroke-width="2.6"/>
