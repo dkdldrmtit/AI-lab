@@ -3177,7 +3177,7 @@ const PJ_ART={note:`<svg class="flowmap" viewBox="0 0 1000 400" xmlns="http://ww
 <text x="700" y="271" font-size="12" font-weight="700" fill="#35C48D">되묻는 질문 0건</text>
 <text x="30" y="392" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#5A6678">ALL TEXT ILLUSTRATIVE (예시) · 체험 데모와 동일한 규칙 · 이름·장소 가명</text>
 </svg>`,
-fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="1 부족 확인 후, 조달판 구역 안에서 2 상환 스케줄 스캔(후보마다 체결 시 잔여가 바뀌다 0에서 선정), 3 다섯 호가 교차 후 포착, 4 한도 점검, 5 메신저 네고·체결, 6 포지션 회복">
+fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="1 부족 확인, 조달판 구역에서 2 상환 스케줄 스캔·선정, 3 호가 교차 포착, 4 한도 점검, 5 메신저 네고가 실시간 재생되며 체결, 6 포지션 회복">
 <defs><pattern id="fxhgap" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="#0d1420"/><line x1="0" y1="0" x2="0" y2="7" stroke="#3a4a63" stroke-width="2.4"/></pattern></defs>
 <text x="40" y="26" font-size="13" font-weight="700" fill="#5A6678" font-family="'JetBrains Mono',monospace" letter-spacing="1.5">ONE DEAL · 부족 확인 → 포지션 회복 (예시)</text>
 <circle cx="54" cy="66" r="12" fill="#F5A742"/><text x="54" y="71" text-anchor="middle" font-size="13" font-weight="800" fill="#0B0F17">1</text>
@@ -3187,13 +3187,14 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/200
 <rect x="130" y="93" width="180" height="16" rx="4" fill="url(#fxhgap)"/>
 <rect class="fm-breathe" x="130" y="93" width="58" height="16" rx="4" fill="#F0545C" opacity=".9"/>
 <rect x="188" y="93" width="0" height="16" rx="3" fill="#35C48D" opacity=".95">
-  <animate attributeName="width" values="0;0;76;76;0" keyTimes="0;.74;.8;.97;1" dur="11s" repeatCount="indefinite"/></rect>
+  <animate attributeName="width" values="0;0;76;76;0" keyTimes="0;.84;.9;.97;1" dur="11s" repeatCount="indefinite"/></rect>
 <line x1="264" y1="90" x2="264" y2="112" stroke="#8A94A6" stroke-width="1.5"/>
 <text x="322" y="106" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700" fill="#F0545C">−250</text>
-<g opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.76;.81;.97;1" dur="11s" repeatCount="indefinite"/>
-<text x="322" y="126" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="800" fill="#35C48D">회복 ✓</text></g>
-<path d="M396,44 H676 V478 H28 V150 H396 Z" fill="rgba(245,167,66,.025)" stroke="#F5A742" stroke-opacity=".35" stroke-width="1.6" stroke-dasharray="7 6"/>
-<rect x="412" y="34" width="250" height="20" rx="10" fill="#0B0F17" stroke="#F5A742" stroke-opacity=".6"/>
+<g opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.86;.9;.97;1" dur="11s" repeatCount="indefinite"/>
+<circle cx="316" cy="122" r="9" fill="#35C48D"/><text x="316" y="126" text-anchor="middle" font-size="10" font-weight="800" fill="#0B0F17">6</text>
+<text x="332" y="126" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="800" fill="#35C48D">포지션 회복 ✓</text></g>
+<path d="M396,44 H676 V478 H28 V150 H396 Z" fill="rgba(245,167,66,.07)" stroke="#F5A742" stroke-opacity=".6" stroke-width="1.8" stroke-dasharray="7 6"/>
+<rect x="412" y="34" width="250" height="20" rx="10" fill="#0B0F17" stroke="#F5A742" stroke-opacity=".75"/>
 <text x="537" y="48" text-anchor="middle" font-size="11" font-weight="700" fill="#F5A742">조달판 구역 — ②③④ 자동 준비 · 사람은 선택만</text>
 <path d="M180,118 C 180,140 180,148 180,162" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".4" fill="none"/>
 <path class="fm-flow" d="M180,118 C 180,140 180,148 180,162" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:1.8s"/>
@@ -3246,11 +3247,11 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/200
 <g><text x="640" y="210" fill="#8A94A6" text-anchor="end" font-weight="700">-1.09 / -0.99<animate attributeName="opacity" calcMode="discrete" values="1;0;1" keyTimes="0;.5;.68" dur="1.4s" repeatCount="indefinite"/></text>
 <text x="640" y="210" fill="#8A94A6" text-anchor="end" font-weight="700" opacity="0">-1.09 / -1.00<animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.5;.68" dur="1.4s" repeatCount="indefinite"/></text></g>
 <text x="428" y="114" fill="#F5A742" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.38;.42" dur="11s" repeatCount="indefinite"/>▶</text>
-<text x="428" y="138" fill="#F5A742" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.42;.46" dur="11s" repeatCount="indefinite"/>▶</text>
-<text x="428" y="162" fill="#F5A742" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.46;.5" dur="11s" repeatCount="indefinite"/>▶</text>
-<text x="428" y="210" fill="#F5A742" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.5;.54" dur="11s" repeatCount="indefinite"/>▶</text>
-<text x="428" y="186" fill="#F5A742" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.54;.58" dur="11s" repeatCount="indefinite"/>▶</text>
-<g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.6" dur="11s" repeatCount="indefinite"/>
+<text x="428" y="138" fill="#F5A742" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.42;.45" dur="11s" repeatCount="indefinite"/>▶</text>
+<text x="428" y="162" fill="#F5A742" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.45;.48" dur="11s" repeatCount="indefinite"/>▶</text>
+<text x="428" y="210" fill="#F5A742" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.48;.51" dur="11s" repeatCount="indefinite"/>▶</text>
+<text x="428" y="186" fill="#F5A742" font-weight="800" opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.51;.55" dur="11s" repeatCount="indefinite"/>▶</text>
+<g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.56" dur="11s" repeatCount="indefinite"/>
 <rect x="420" y="173" width="226" height="19" rx="6" fill="rgba(245,167,66,.12)" stroke="#F5A742" stroke-width="1.6"/>
 <text x="428" y="186" fill="#F5A742" font-weight="800">▶</text>
 <text x="652" y="186" fill="#F5A742" font-size="10.5" font-weight="800">포착✓</text></g>
@@ -3277,29 +3278,51 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/200
 <text x="758" y="78" font-size="12" font-weight="700" fill="#E8EDF5">B은행 · DEALING — 네고·체결</text>
 <circle cx="944" cy="73" r="4" fill="#35C48D"><animate attributeName="opacity" values="1;.3;1" dur="1.4s" repeatCount="indefinite"/></circle>
 <g font-family="'JetBrains Mono',monospace" font-size="11.5">
-<rect x="732" y="106" width="168" height="26" rx="9" fill="#111A28" stroke="#223047"/>
-<text x="744" y="124" fill="#E8EDF5">hkd 250 b/s 0721-0727?</text>
-<rect x="796" y="142" width="152" height="26" rx="9" fill="rgba(245,167,66,.1)" stroke="#F5A742" stroke-opacity=".5"/>
-<text x="936" y="160" fill="#F5A742" text-anchor="end">pls ur best :)</text>
-<rect x="732" y="178" width="140" height="26" rx="9" fill="#111A28" stroke="#223047"/>
-<text x="744" y="196" fill="#E8EDF5" font-weight="700">-1.07 / -0.98</text>
-<rect x="820" y="214" width="128" height="26" rx="9" fill="rgba(245,167,66,.1)" stroke="#F5A742" stroke-opacity=".5"/>
-<text x="936" y="232" fill="#F5A742" text-anchor="end">any better? 🙏</text>
-<rect x="732" y="250" width="180" height="26" rx="9" fill="#111A28" stroke="#223047"/>
-<text x="744" y="268" fill="#5A6678">-0.98</text><line x1="742" y1="264" x2="778" y2="264" stroke="#F0545C" stroke-width="1.6"/>
-<text x="788" y="268" fill="#35C48D" font-weight="800">→ -1.00 final</text>
-<rect x="836" y="286" width="112" height="26" rx="9" fill="rgba(53,196,141,.12)" stroke="#35C48D" stroke-opacity=".7"/>
-<text x="936" y="304" fill="#35C48D" text-anchor="end" font-weight="800">done -1.00 ✔</text>
+<g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.58" dur="11s" repeatCount="indefinite"/>
+<rect x="770" y="102" width="178" height="26" rx="9" fill="rgba(245,167,66,.1)" stroke="#F5A742" stroke-opacity=".5"/>
+<text x="936" y="120" fill="#F5A742" text-anchor="end">hkd 250 b/s 0721-0727?</text>
+<text x="762" y="120" fill="#5A6678" font-size="9" text-anchor="end">15:41</text></g>
+<g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.61" dur="11s" repeatCount="indefinite"/>
+<rect x="820" y="138" width="128" height="26" rx="9" fill="rgba(245,167,66,.1)" stroke="#F5A742" stroke-opacity=".5"/>
+<text x="936" y="156" fill="#F5A742" text-anchor="end">pls ur best :)</text></g>
+<g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.63;.66" dur="11s" repeatCount="indefinite"/>
+<rect x="732" y="174" width="56" height="26" rx="9" fill="#111A28" stroke="#223047"/>
+<circle cx="750" cy="187" r="3" fill="#5A6678"><animate attributeName="opacity" values="1;.2;1" dur=".8s" repeatCount="indefinite"/></circle>
+<circle cx="760" cy="187" r="3" fill="#5A6678"><animate attributeName="opacity" values=".2;1;.2" dur=".8s" repeatCount="indefinite"/></circle>
+<circle cx="770" cy="187" r="3" fill="#5A6678"><animate attributeName="opacity" values=".6;.2;.6" dur=".8s" repeatCount="indefinite"/></circle></g>
+<g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.66" dur="11s" repeatCount="indefinite"/>
+<rect x="732" y="174" width="140" height="26" rx="9" fill="#111A28" stroke="#223047"/>
+<text x="744" y="192" fill="#E8EDF5" font-weight="700">-1.07 / -0.98</text></g>
+<g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.69" dur="11s" repeatCount="indefinite"/>
+<rect x="820" y="210" width="128" height="26" rx="9" fill="rgba(245,167,66,.1)" stroke="#F5A742" stroke-opacity=".5"/>
+<text x="936" y="228" fill="#F5A742" text-anchor="end">any better? 🙏</text></g>
+<g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1;0" keyTimes="0;.71;.745" dur="11s" repeatCount="indefinite"/>
+<rect x="732" y="246" width="56" height="26" rx="9" fill="#111A28" stroke="#223047"/>
+<circle cx="750" cy="259" r="3" fill="#5A6678"><animate attributeName="opacity" values="1;.2;1" dur=".8s" repeatCount="indefinite"/></circle>
+<circle cx="760" cy="259" r="3" fill="#5A6678"><animate attributeName="opacity" values=".2;1;.2" dur=".8s" repeatCount="indefinite"/></circle>
+<circle cx="770" cy="259" r="3" fill="#5A6678"><animate attributeName="opacity" values=".6;.2;.6" dur=".8s" repeatCount="indefinite"/></circle></g>
+<g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.745" dur="11s" repeatCount="indefinite"/>
+<rect x="732" y="246" width="180" height="26" rx="9" fill="#111A28" stroke="#223047"/>
+<text x="744" y="264" fill="#5A6678">-0.98</text><line x1="742" y1="260" x2="778" y2="260" stroke="#F0545C" stroke-width="1.6"/>
+<text x="788" y="264" fill="#35C48D" font-weight="800">→ -1.00 final</text></g>
+<g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.775" dur="11s" repeatCount="indefinite"/>
+<rect x="836" y="282" width="112" height="26" rx="9" fill="rgba(53,196,141,.12)" stroke="#35C48D" stroke-opacity=".7"/>
+<text x="936" y="300" fill="#35C48D" text-anchor="end" font-weight="800">done -1.00 ✔</text>
+<g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.84" dur="11s" repeatCount="indefinite"/>
+<circle cx="836" cy="308" r="9" fill="#111A28" stroke="#35C48D" stroke-opacity=".6"/><text x="836" y="312" text-anchor="middle" font-size="9">👍</text></g></g>
+<g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.8" dur="11s" repeatCount="indefinite"/>
 <rect x="732" y="322" width="196" height="26" rx="9" fill="#111A28" stroke="#223047"/>
 <text x="744" y="340" fill="#E8EDF5">DONE ✓ conf to follow</text>
-<text x="744" y="372" fill="#5A6678" font-size="10">네고 0.02p 개선 — 250mio 기준 유의미한 절감</text></g>
-<g transform="rotate(-9 840 414)"><rect x="782" y="396" width="116" height="34" rx="9" fill="none" stroke="#35C48D" stroke-width="3"/>
-<text x="840" y="419" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="800" fill="#35C48D">DONE ✓</text>
-<animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.64;.7;1" dur="11s" repeatCount="indefinite"/></g>
-<path d="M716,446 C 620,530 300,532 120,508 C 34,496 22,380 22,280 C 22,190 50,140 118,110" stroke="#35C48D" stroke-width="1.6" stroke-opacity=".3" fill="none"/>
-<path class="fm-flow" d="M716,446 C 620,530 300,532 120,508 C 34,496 22,380 22,280 C 22,190 50,140 118,110" stroke="#35C48D" stroke-width="2.6" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.4s;animation-delay:-.4s"/>
-<circle cx="452" cy="500" r="12" fill="#35C48D"/><text x="452" y="505" text-anchor="middle" font-size="13" font-weight="800" fill="#0B0F17">6</text>
-<text x="472" y="505" font-size="12.5" font-weight="700" fill="#35C48D">조달 완료 — HKD 포지션 회복</text>
+<text x="936" y="340" fill="#5A6678" font-size="9" text-anchor="start"> </text></g>
+<text x="744" y="368" fill="#5A6678" font-size="10">네고 0.02p 개선 — 250mio 기준 유의미한 절감</text></g>
+<g opacity="0"><animate attributeName="opacity" calcMode="discrete" values="0;1" keyTimes="0;.82" dur="11s" repeatCount="indefinite"/>
+<g transform="rotate(-9 826 396)"><rect x="768" y="379" width="116" height="34" rx="9" fill="none" stroke="#35C48D" stroke-width="3"/>
+<text x="826" y="402" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="800" fill="#35C48D">DONE ✓</text></g>
+<text x="916" y="392" font-size="14">🎉</text></g>
+<rect x="730" y="424" width="218" height="22" rx="11" fill="#111A28" stroke="#223047"/>
+<text x="742" y="439" font-size="10" fill="#5A6678">메시지 입력…</text>
+<line x1="806" y1="429" x2="806" y2="441" stroke="#F5A742" stroke-width="1.4"><animate attributeName="opacity" values="1;0;1" dur="1.1s" calcMode="discrete" keyTimes="0;.5;1" repeatCount="indefinite"/></line>
+<circle cx="936" cy="435" r="9" fill="#F5A742"/><text x="936" y="439" text-anchor="middle" font-size="10" font-weight="800" fill="#0B0F17">➤</text>
 <g font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700">
 <text x="40" y="556" fill="#9fb0c4">① 부족 확인 <tspan fill="#5A6678">→</tspan> ② 상환 스케줄 <tspan fill="#5A6678">→</tspan> ③ 호가 비교 <tspan fill="#5A6678">→</tspan> ④ 한도 점검 <tspan fill="#5A6678">→</tspan> ⑤ 네고·체결 <tspan fill="#5A6678">→</tspan> ⑥ 포지션 회복</text>
 <text x="40" y="580" fill="#5A6678" font-size="10.5">②③④는 조달판이 자동 준비 (~30초) — 전 과정 예시 · 실거래 아님 · 판단과 체결은 사람의 몫</text></g>
