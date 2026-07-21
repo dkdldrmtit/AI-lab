@@ -1694,7 +1694,7 @@ const EXPERIMENTS=[
   panel:{t:'운영 스냅샷 · 예시',kv:[['통화 블록','오전 7 + 오후 7'],['코드 규모','3모듈 · ~2,800줄'],['안전장치','점검 · 중복 경고 · 로그'],['버전','v3.31']]}},
  {status:'LIVE',pid:'fxp',title:'FX 자금조달판',hanja:'資金調達板',mission:'자금판',stTxt:'LIVE · 체험 가능',
   arts:[
-   {key:'fxpMap',eyebrow:'The Action',h2:'하루의 행동 지도 — 채우고, 굴리고',hint:'① 부족 발견 → ② 스케줄 → ③ 호가 비교 → ④ 한도 → ⑤ 네고 → ⑥ 다시 채움 — 한 딜의 순서 그대로 (전부 예시·실거래 아님)'},
+   {key:'fxpMap',eyebrow:'The Action',h2:'하루의 행동 지도 — 채우고, 굴리고',hint:'① 부족 확인 → ② 상환 스케줄 → ③ 호가 비교 → ④ 한도 점검 → ⑤ 네고·체결 → ⑥ 포지션 회복 (전부 예시·실거래 아님)'},
    {key:'fxp',eyebrow:'How It Works',h2:'어려운 건 접어 두고, 4단계로',hint:'붙여넣기 → 도구가 골라내기 → 돈의 달력 → 클릭하면 답 (수치 예시)'}],
   demo:{g:'fx',d:'외화 스왑 조달·운용 — 부족을 찾고 · 갚을 날을 고르고 · 체결까지, 게임처럼'},
   desc:'자금판이 마감을 끝내면 통화별로 남는 돈과 모자란 돈이 보입니다. 그 다음 일 — 모자란 통화는 FX 스왑으로 당겨오고(조달), 남는 통화는 굴리는(운용) 두 번째 도구입니다. 거래 일보를 붙여넣으면 통화×영업일 네팅 보드가 서고, 부족한 칸을 클릭하면 파 날짜 후보 → 체결 시뮬레이션 → 상대방 한도 → 요청 문구까지 한 흐름으로 이어집니다. Excel VBA(Mac·Windows 겸용)로 실전 운영을 준비 중입니다.',
@@ -2729,7 +2729,7 @@ async function fxDir(){
     `${S.ccy} ${S.unit}mio, ${S.near}에 ${S.amt<0?'빌리고':'맡기고'} ${c.far}에 ${S.amt<0?'갚는':'되찾는'} 가격 부탁해요`,true);
   await fxChatPut(cp,'them','sec pls','잠시만요 — 가격 산출 중');
   await fxChatPut(cp,'them',`${bid} / ${ofr}`,`사자/팔자 호가 — 이 거래엔 오른쪽 ${ofr}이 적용됩니다`);
-  fxChatOpt([[`👍 mine ${ofr} — 바로 체결`,'dealNow'],['🙏 any better? — 네고 시도','nego',1],['😎 off today — 오늘 안 해요','off',1]]);
+  fxChatOpt([[`👍 done ${ofr} — 바로 체결`,'dealNow'],['🙏 any better? — 네고 시도','nego',1],['😎 off today — 오늘 안 해요','off',1]]);
   fxBusy=false;
 }
 async function fxOff(){
@@ -2742,7 +2742,7 @@ async function fxOff(){
   s.textContent='…라고 할 뻔! 내일이면 돈이 빠져나갑니다. 마음을 다잡고 다시 —';ch.appendChild(s);ch.scrollTop=ch.scrollHeight;
   await sleep(REDUCED?50:900);
   const base=fxBase(),ofr=(base+0.02).toFixed(2);
-  fxChatOpt([[`👍 mine ${ofr} — 바로 체결`,'dealNow'],['🙏 any better? — 네고 시도','nego',1]]);
+  fxChatOpt([[`👍 done ${ofr} — 바로 체결`,'dealNow'],['🙏 any better? — 네고 시도','nego',1]]);
   fxBusy=false;
 }
 async function fxNegoGo(){
@@ -3177,11 +3177,11 @@ const PJ_ART={note:`<svg class="flowmap" viewBox="0 0 1000 400" xmlns="http://ww
 <text x="700" y="271" font-size="12" font-weight="700" fill="#35C48D">되묻는 질문 0건</text>
 <text x="30" y="392" font-family="'JetBrains Mono',monospace" font-size="10.5" fill="#5A6678">ALL TEXT ILLUSTRATIVE (예시) · 체험 데모와 동일한 규칙 · 이름·장소 가명</text>
 </svg>`,
-fxpMap:`<svg class="flowmap" viewBox="0 0 1000 590" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="1 마감에서 HKD 부족 발견, 2 스케줄에서 갚을 날 확인, 3 호가 비교, 4 한도 확인, 5 메신저 네고, 6 체결로 게이지가 다시 차는 순서도">
+fxpMap:`<svg class="flowmap" viewBox="0 0 1000 590" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="1 부족 확인, 2 상환 스케줄, 3 호가 비교(최선이 오가다 포착), 4 한도 점검, 5 네고·체결, 6 포지션 회복의 순서도">
 <defs><pattern id="fxhgap" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="#0d1420"/><line x1="0" y1="0" x2="0" y2="7" stroke="#3a4a63" stroke-width="2.4"/></pattern></defs>
-<text x="40" y="26" font-size="13" font-weight="700" fill="#5A6678" font-family="'JetBrains Mono',monospace" letter-spacing="1.5">ONE DEAL · 부족 발견에서 다시 채우기까지 (예시)</text>
+<text x="40" y="26" font-size="13" font-weight="700" fill="#5A6678" font-family="'JetBrains Mono',monospace" letter-spacing="1.5">ONE DEAL · 부족 확인 → 포지션 회복 (예시)</text>
 <circle cx="54" cy="66" r="12" fill="#F5A742"/><text x="54" y="71" text-anchor="middle" font-size="13" font-weight="800" fill="#0B0F17">1</text>
-<text x="76" y="71" font-size="13" font-weight="700" fill="#E8EDF5">마감 확인 — 내일 HKD가 빈다</text>
+<text x="76" y="71" font-size="13" font-weight="700" fill="#E8EDF5">마감 확인 — 익일 HKD 조달 필요</text>
 <text x="118" y="106" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="700" fill="#E8EDF5" text-anchor="end">HKD</text>
 <rect x="130" y="93" width="180" height="16" rx="4" fill="#0d1420" stroke="#223047"/>
 <rect x="130" y="93" width="180" height="16" rx="4" fill="url(#fxhgap)"/>
@@ -3196,51 +3196,59 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 590" xmlns="http://www.w3.org/200
 <path class="fm-flow" d="M180,118 C 180,140 180,144 180,158" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:1.8s"/>
 <rect x="40" y="158" width="310" height="168" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.6"/>
 <circle cx="60" cy="180" r="12" fill="#F5A742"/><text x="60" y="185" text-anchor="middle" font-size="13" font-weight="800" fill="#0B0F17">2</text>
-<text x="82" y="185" font-size="12.5" font-weight="700" fill="#E8EDF5">조달판 스케줄 — 언제 갚지?</text>
+<text x="82" y="185" font-size="12.5" font-weight="700" fill="#E8EDF5">상환 스케줄 확인 — 상환일 선정</text>
 <g font-family="'JetBrains Mono',monospace" font-size="11.5">
-<text x="66" y="216" fill="#8A94A6">07/21</text><text x="230" y="216" fill="#F0545C" text-anchor="end">(250,000,000)</text><text x="250" y="216" fill="#F0545C" font-size="10">← 빈다</text>
+<text x="66" y="216" fill="#8A94A6">07/21</text><text x="230" y="216" fill="#F0545C" text-anchor="end">(250,000,000)</text><text x="240" y="216" fill="#F0545C" font-size="10">← 조달 대상</text>
 <text x="66" y="240" fill="#5A6678">07/22</text><text x="230" y="240" fill="#5A6678" text-anchor="end">·</text>
 <rect x="56" y="252" width="270" height="24" rx="6" fill="rgba(53,196,141,.08)" stroke="#35C48D" stroke-opacity=".6">
   <animate attributeName="stroke-opacity" values=".6;.2;.6" dur="1.8s" repeatCount="indefinite"/></rect>
 <text x="66" y="269" fill="#35C48D" font-weight="700">07/27</text><text x="230" y="269" fill="#35C48D" text-anchor="end" font-weight="700">+250,000,000</text><text x="240" y="269" fill="#F5A742" font-size="10.5" font-weight="700">매칭★</text>
-<text x="66" y="304" fill="#8A94A6" font-size="10.5">들어올 돈이 있는 날 — 그날 갚으면 잔여 0</text></g>
+<text x="66" y="304" fill="#8A94A6" font-size="10.5">유입 예정일 — 당일 상환 시 잔여 0</text></g>
 <path d="M350,242 C 380,242 380,150 408,150" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".4" fill="none"/>
 <path class="fm-flow" d="M350,242 C 380,242 380,150 408,150" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2s;animation-delay:-.5s"/>
 <rect x="408" y="56" width="252" height="212" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.6"/>
 <circle cx="428" cy="78" r="12" fill="#F5A742"/><text x="428" y="83" text-anchor="middle" font-size="13" font-weight="800" fill="#0B0F17">3</text>
 <text x="450" y="83" font-size="12.5" font-weight="700" fill="#E8EDF5">호가 비교 — 07/21→07/27</text>
 <g font-family="'JetBrains Mono',monospace" font-size="12">
-<text x="428" y="116" fill="#8A94A6">중개 A</text>
+<text x="446" y="116" fill="#8A94A6">중개 A</text>
 <g><text x="640" y="116" fill="#8A94A6" text-anchor="end" font-weight="700">-1.07 / -0.98<animate attributeName="opacity" values="1;1;0;0;1" dur="2.1s" repeatCount="indefinite"/></text>
-<text x="640" y="116" fill="#8A94A6" text-anchor="end" font-weight="700" opacity="0">-1.07 / -0.97<animate attributeName="opacity" values="0;0;1;1;0" dur="2.1s" repeatCount="indefinite"/></text></g>
-<text x="428" y="144" fill="#8A94A6">중개 B</text>
+<text x="640" y="116" fill="#8A94A6" text-anchor="end" font-weight="700" opacity="0">-1.07 / -0.99<animate attributeName="opacity" values="0;0;1;1;0" dur="2.1s" repeatCount="indefinite"/></text></g>
+<text x="646" y="116" fill="#5A6678" font-size="10">＋수수료</text>
+<text x="446" y="144" fill="#8A94A6">중개 B</text>
 <g><text x="640" y="144" fill="#8A94A6" text-anchor="end" font-weight="700">-1.06 / -0.97<animate attributeName="opacity" values="1;1;0;0;1" dur="2.6s" begin="-1s" repeatCount="indefinite"/></text>
-<text x="640" y="144" fill="#8A94A6" text-anchor="end" font-weight="700" opacity="0">-1.06 / -0.96<animate attributeName="opacity" values="0;0;1;1;0" dur="2.6s" begin="-1s" repeatCount="indefinite"/></text></g>
-<text x="648" y="116" fill="#5A6678" font-size="10">＋수수료</text>
-<text x="648" y="144" fill="#5A6678" font-size="10">＋수수료</text>
-<rect x="418" y="158" width="228" height="26" rx="7" fill="rgba(245,167,66,.08)" stroke="#F5A742" stroke-opacity=".6"/>
-<text x="428" y="176" fill="#F5A742" font-weight="700">B은행 직거래</text><text x="640" y="176" fill="#F5A742" text-anchor="end" font-weight="700">-1.07 / -0.98 ▶</text>
-<text x="428" y="208" fill="#8A94A6" font-size="10.5">수수료 없는 직거래로 — 대신 네고는 내 몫</text>
-<text x="428" y="228" fill="#5A6678" font-size="10.5">호가는 계속 움직인다 · 타이밍도 실력</text></g>
+<text x="640" y="144" fill="#8A94A6" text-anchor="end" font-weight="700" opacity="0">-1.06 / -0.99<animate attributeName="opacity" values="0;0;1;1;0" dur="2.6s" begin="-1s" repeatCount="indefinite"/></text></g>
+<text x="646" y="144" fill="#5A6678" font-size="10">＋수수료</text>
+<text x="446" y="172" fill="#E8EDF5">B은행 직거래</text>
+<text x="640" y="172" fill="#E8EDF5" text-anchor="end" font-weight="700">-1.07 / -0.98</text>
+<g opacity="0"><animate attributeName="opacity" values="1;1;0;0;1;1;0;0" keyTimes="0;.14;.16;.44;.46;.55;.57;1" dur="10s" repeatCount="indefinite"/>
+<text x="428" y="116" fill="#F5A742" font-weight="800">▶</text></g>
+<g opacity="0"><animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;.16;.18;.44;.46;1" dur="10s" repeatCount="indefinite"/>
+<text x="428" y="144" fill="#F5A742" font-weight="800">▶</text></g>
+<g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.57;.6;1" dur="10s" repeatCount="indefinite"/>
+<rect x="418" y="158" width="228" height="22" rx="7" fill="rgba(245,167,66,.1)" stroke="#F5A742" stroke-width="1.6"/>
+<text x="428" y="172" fill="#F5A742" font-weight="800">▶</text>
+<text x="652" y="172" fill="#F5A742" font-size="10.5" font-weight="800">포착✓</text></g>
+<text x="446" y="204" fill="#8A94A6" font-size="10.5">호가 변동에 따라 최선(▶)도 교차 — 적기 포착</text>
+<text x="446" y="226" fill="#5A6678" font-size="10.5">직거래 선택 — 수수료 없음 · 네고 여지</text></g>
 <path d="M534,268 C 534,290 534,294 534,308" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".4" fill="none"/>
 <path class="fm-flow" d="M534,268 C 534,290 534,294 534,308" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:1.8s;animation-delay:-.9s"/>
 <rect x="408" y="308" width="252" height="150" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.6"/>
 <circle cx="428" cy="330" r="12" fill="#F5A742"/><text x="428" y="335" text-anchor="middle" font-size="13" font-weight="800" fill="#0B0F17">4</text>
-<text x="450" y="335" font-size="12.5" font-weight="700" fill="#E8EDF5">한도 — B은행 괜찮나?</text>
+<text x="450" y="335" font-size="12.5" font-weight="700" fill="#E8EDF5">상대방 한도 점검</text>
 <g font-family="'JetBrains Mono',monospace" font-size="11">
 <rect x="424" y="350" width="106" height="24" rx="7" fill="#0d1420" stroke="#223047"/><text x="434" y="367" fill="#8A94A6">○ A은행 여유</text>
 <rect x="540" y="350" width="106" height="24" rx="7" fill="rgba(76,195,232,.1)" stroke="#4CC3E8" stroke-width="1.6">
   <animate attributeName="stroke-opacity" values="1;.4;1" dur="1.6s" repeatCount="indefinite"/></rect>
-<text x="550" y="367" fill="#4CC3E8" font-weight="700">○ B은행 ✓선택</text>
+<text x="550" y="367" fill="#4CC3E8" font-weight="700">○ B은행 선정✓</text>
 <rect x="424" y="382" width="106" height="24" rx="7" fill="rgba(232,196,104,.07)" stroke="#E8C468" stroke-opacity=".5"/><text x="434" y="399" fill="#E8C468">▲ D은행 92%</text>
 <rect x="540" y="382" width="106" height="24" rx="7" fill="rgba(240,84,92,.07)" stroke="#F0545C" stroke-opacity=".5"/><text x="550" y="399" fill="#F0545C">× E외은 99%</text>
-<text x="428" y="436" fill="#8A94A6" font-size="10.5">신용 2,500억 중 300억 사용 — 이 딜 ≈0.4억 OK</text></g>
+<text x="428" y="436" fill="#8A94A6" font-size="10.5">신용한도 2,500억 중 300억 소진 · 본건 ≈0.4억 — 여유</text></g>
 <path d="M660,383 C 690,383 692,260 716,260" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".4" fill="none"/>
 <path class="fm-flow" d="M660,383 C 690,383 692,260 716,260" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2s;animation-delay:-1.3s"/>
 <rect x="716" y="56" width="248" height="402" rx="14" fill="#0d1420" stroke="#223047" stroke-width="1.8"/>
 <rect x="716" y="56" width="248" height="34" rx="14" fill="#111A28"/>
 <circle cx="738" cy="73" r="12" fill="#F5A742"/><text x="738" y="78" text-anchor="middle" font-size="13" font-weight="800" fill="#0B0F17">5</text>
-<text x="758" y="78" font-size="12" font-weight="700" fill="#E8EDF5">B은행 · DEALING</text>
+<text x="758" y="78" font-size="12" font-weight="700" fill="#E8EDF5">B은행 · DEALING — 네고·체결</text>
 <circle cx="944" cy="73" r="4" fill="#35C48D"><animate attributeName="opacity" values="1;.3;1" dur="1.4s" repeatCount="indefinite"/></circle>
 <g font-family="'JetBrains Mono',monospace" font-size="11.5">
 <rect x="732" y="106" width="168" height="26" rx="9" fill="#111A28" stroke="#223047"/>
@@ -3255,21 +3263,20 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 590" xmlns="http://www.w3.org/200
 <text x="744" y="268" fill="#5A6678">-0.98</text><line x1="742" y1="264" x2="778" y2="264" stroke="#F0545C" stroke-width="1.6"/>
 <text x="788" y="268" fill="#35C48D" font-weight="800">→ -1.00 final</text>
 <rect x="836" y="286" width="112" height="26" rx="9" fill="rgba(53,196,141,.12)" stroke="#35C48D" stroke-opacity=".7"/>
-<text x="936" y="304" fill="#35C48D" text-anchor="end" font-weight="800">mine -1.00 ✔</text>
+<text x="936" y="304" fill="#35C48D" text-anchor="end" font-weight="800">done -1.00 ✔</text>
 <rect x="732" y="322" width="196" height="26" rx="9" fill="#111A28" stroke="#223047"/>
 <text x="744" y="340" fill="#E8EDF5">DONE ✓ conf to follow</text>
-<text x="744" y="372" fill="#5A6678" font-size="10">네고 두 마디 = 0.02p — 250mio면 밥값이 아니다</text></g>
+<text x="744" y="372" fill="#5A6678" font-size="10">네고 0.02p 개선 — 250mio 기준 유의미한 절감</text></g>
 <g transform="rotate(-9 840 414)"><rect x="782" y="396" width="116" height="34" rx="9" fill="none" stroke="#35C48D" stroke-width="3"/>
-<text x="840" y="419" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="800" fill="#35C48D">MINE ✓</text>
+<text x="840" y="419" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="800" fill="#35C48D">DONE ✓</text>
 <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;.6;.66;1" dur="10s" repeatCount="indefinite"/></g>
-<circle cx="978" cy="490" r="0" fill="none"/>
 <path d="M716,440 C 500,520 260,300 196,124" stroke="#35C48D" stroke-width="1.6" stroke-opacity=".3" fill="none"/>
 <path class="fm-flow" d="M716,440 C 500,520 260,300 196,124" stroke="#35C48D" stroke-width="2.6" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:2.2s;animation-delay:-.4s"/>
 <circle cx="428" cy="452" r="12" fill="#35C48D"/><text x="428" y="457" text-anchor="middle" font-size="13" font-weight="800" fill="#0B0F17">6</text>
-<text x="448" y="457" font-size="12.5" font-weight="700" fill="#35C48D">조달 완료 — HKD 게이지가 다시 찬다</text>
+<text x="448" y="457" font-size="12.5" font-weight="700" fill="#35C48D">조달 완료 — HKD 포지션 회복</text>
 <g font-family="'JetBrains Mono',monospace" font-size="12" font-weight="700">
-<text x="40" y="530" fill="#9fb0c4">① 부족 발견 <tspan fill="#5A6678">→</tspan> ② 스케줄 <tspan fill="#5A6678">→</tspan> ③ 호가 비교 <tspan fill="#5A6678">→</tspan> ④ 한도 <tspan fill="#5A6678">→</tspan> ⑤ 네고 <tspan fill="#5A6678">→</tspan> ⑥ 다시 채움</text>
-<text x="40" y="554" fill="#5A6678" font-size="10.5">클릭 몇 번 + 네고 두 마디 — 전부 예시 · 실거래 아님 · 판단과 체결은 사람의 몫</text></g>
+<text x="40" y="530" fill="#9fb0c4">① 부족 확인 <tspan fill="#5A6678">→</tspan> ② 상환 스케줄 <tspan fill="#5A6678">→</tspan> ③ 호가 비교 <tspan fill="#5A6678">→</tspan> ④ 한도 점검 <tspan fill="#5A6678">→</tspan> ⑤ 네고·체결 <tspan fill="#5A6678">→</tspan> ⑥ 포지션 회복</text>
+<text x="40" y="554" fill="#5A6678" font-size="10.5">전 과정 예시 · 실거래 아님 — 판단과 체결은 사람의 몫</text></g>
 </svg>`,
 fxp:`<svg class="flowmap" viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="거래 내역 붙여넣기 → 도구가 골라내기 → 돈의 달력 → 클릭하면 답 — 쉬운 4단계">
 <text x="30" y="30" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" letter-spacing="1.5" fill="#5A6678">STEP 1 · 붙여넣기</text>
