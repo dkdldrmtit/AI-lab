@@ -1665,7 +1665,7 @@ const MISSIONS=[
  {pos:4,diff:'중',status:'PLAN',cell:'비교분석',title:'AI로 비교·분석하고 한눈에 정리',
   goal:'둘 이상의 대상을 특정 관점으로 비교·분석하고 표·차트로 정리, 본인의 결론까지 도출.',links:[]},
  {pos:7,diff:'중',status:'DOING',cell:'업무진단',title:'AI로 업무 진단·혁신 기회 찾기',
-  goal:'반복·비효율 업무를 AI로 진단해 자동화 지점을 발굴. 두 번째 재설계 「FX조달판」(외화 조달·운용)이 이 미션의 결과물.',
+  goal:'마감 후 통화 컷오프까지 채 1시간 — 스케줄·시세·한도·문구가 흩어져 있던 수기 조달 업무를 AI로 진단해 자동화·간소화. 그 결과물이 「FX조달판」.',
   links:[['FX조달판 체험','#demo/fx'],['프로젝트 상세','#project/fxp']]},
  {pos:0,diff:'하',status:'DOING',cell:'노하우',title:'나만의 AI 활용 노하우 공유',
   goal:'반복 사용하는 프롬프트·활용법을 정리해 공유. 체험판 「건배사 자판기」 공개.',links:[['건배사 자판기 체험','#demo/toast']]},
@@ -1696,18 +1696,18 @@ const EXPERIMENTS=[
  {status:'LIVE',pid:'fxp',title:'<sup style="font-size:.55em;vertical-align:.55em;letter-spacing:.08em">FX</sup>조달판',hanja:'調達板',mission:'업무진단',stTxt:'LIVE · 체험 가능',
   arts:[
    {key:'fxpMap',eyebrow:'The Action',h2:'자금 조달, 딜 하나가 체결되기까지',hint:'① 부족 확인 → ② 상환 스케줄 → ③ 호가 비교 → ④ 한도 점검 → ⑤ 네고·체결 → ⑥ 포지션 회복 (전부 예시·실거래 아님)'},
-   {key:'fxp',eyebrow:'How It Works',h2:'같은 일, 다른 구조 — 거미줄에서 한 판으로',hint:'수기 — 도구 다섯을 사람이 직접 연결(붉은 선이 전부 발품) · 조달판 — 판이 품고 사람은 클릭 한 번 (전부 예시)'}],
+   {key:'fxp',eyebrow:'How It Works',h2:'같은 일, 다른 구조 — 연결의 주인이 바뀌었다',hint:'BEFORE — 모든 연결이 사람을 경유(붉은 선 = 발품) · AFTER — 연결은 판 내부, 사람은 클릭 한 번 (전부 예시)'}],
   demo:{g:'fx',d:'외화 스왑 조달·운용 — 부족을 찾고 · 갚을 날을 고르고 · 체결까지, 게임처럼'},
   desc:'하루 마감이 끝나면 통화마다 모자란 돈과 남는 돈이 남습니다. 모자라면 FX 스왑으로 당겨오고(조달), 남으면 굴리는(운용) — 외화자금 데스크의 또 하나의 반복 업무를 재설계한 실험입니다. 거래 일보를 붙여넣으면 통화×영업일 네팅 보드가 서고, 부족한 칸을 클릭하면 상환 스케줄 비교 → 체결 시뮬레이션 → 상대방 한도 → 요청 문구까지 한 흐름으로 이어집니다. Excel VBA(Mac·Windows 겸용)로 실전 운영을 준비 중입니다.',
   chips:['EXCEL VBA','네팅 보드','체결 시뮬','한도 칩','문구 자동'],
-  story:'마감이 끝나도 책상에는 똑같이 반복되는 일이 하나 더 남아 있었습니다 — 며칠 뒤 결제 스케줄을 뒤져 반대 흐름을 찾고, 시세판과 계산기를 오가며 파 날짜를 정하고, 한도를 확인하고, 중개·상대은행에 보낼 문구를 손으로 조립하는 일. 이 판단 과정을 “클릭 몇 번”으로 접었습니다. 셀을 클릭하면 후보가 서고, 후보를 고르면 스케줄이 미리 체결된 것처럼 다시 그려지고, 한도가 스스로 손을 들며, 문구는 이미 완성돼 있습니다. 판단과 체결은 여전히 사람의 몫 — 도구는 그 앞의 반복을 대신합니다.',
+  story:'진단에서 출발한 실험입니다. 오전 10시에 자금 마감을 넘기면 오전 통화의 거래 마감(11시)까지 남는 시간은 채 한 시간 — 그 사이에 결제 스케줄을 뒤져 반대 흐름을 찾고, 시세판과 계산기를 오가며 상환일을 정하고, 다른 파일을 열어 한도를 확인하고, 보낼 문구를 손으로 조립하고 있었습니다. 이 한 시간을 AI와 함께 분해해 보니 판단이 필요한 일은 “어느 날짜에, 누구와” 둘뿐 — 나머지는 전부 찾고 옮겨 적는 일이었습니다. 그래서 찾고 옮겨 적는 단계를 전부 자동화하고, 흩어져 있던 절차를 클릭 한 흐름으로 묶었습니다. 셀을 클릭하면 후보가 서고, 후보를 고르면 스케줄이 미리 체결된 것처럼 다시 그려지고, 한도가 스스로 손을 들며, 문구는 이미 완성돼 있습니다. 판단과 체결은 여전히 사람의 몫 — 도구는 그 앞의 반복을 대신합니다.',
   features:{eyebrow:'Core Features',h2:'여섯 가지 핵심 장치',hint:'Excel VBA 실물 구동 구성 — 수치는 예시',items:[
-   ['Netting Board','일보 붙여넣기 한 번으로 통화×영업일 순유출입 매트릭스가 완성 — 부족은 적색, 잉여는 녹색, 당일 대상은 QUEUE로.',['체험에서 보기','#demo/fx']],
-   ['상환 스케줄 비교','반대 흐름이 있는 매칭일과 정형 테너(1W~6M)를 가격·1일당 비용과 함께 정렬 — 상환일 선정 근거를 한 화면에.'],
-   ['거래 시뮬레이션','후보 선택 즉시 결제 스케줄을 체결 가정으로 재계산, 달라지는 구간만 청색 표시 — 체결 전에 결과를 미리 확인.'],
-   ['실시간 한도 모니터','금액 확정과 동시에 상대방별 신용·결제 한도 소진율을 자동 환산 — ○ 여유 · ▲ 주의 · × 초과 신호로 표시.'],
-   ['거래 연동 문구 생성','통화·금액·방향·니어/파 날짜를 실무 관례 문구로 자동 조립해 클립보드 복사 — 전달 과정의 오타 원천 차단.'],
-   ['데이터 자동 적재','매일 일보를 맨 아래 붙여넣기만으로 연간 누적 — 중복은 최신 행 우선, 취소 재등장 시 원거래까지 자동 제외.']]},
+   ['Netting Board','일보 붙여넣기 한 번 → 통화×영업일 순유출입 매트릭스 — 부족·잉여 구분.',['체험에서 보기','#demo/fx']],
+   ['상환 스케줄 비교','매칭일과 정형 테너(1W~6M)를 가격·1일당 비용 순 정렬 — 상환일 선정 근거.'],
+   ['거래 시뮬레이션','후보 선택 즉시 체결 가정으로 재계산 — 달라지는 구간만 청색 표시.'],
+   ['실시간 한도 모니터','금액 확정과 동시에 상대방별 한도 소진율 자동 환산 — ○▲× 신호로 표시.'],
+   ['거래 연동 문구 생성','통화·금액·방향·날짜를 실무 관례 문구로 조립해 복사 — 전달 오타 차단.'],
+   ['데이터 자동 적재','일보를 맨 아래 붙여넣기만으로 연간 누적 — 중복·취소 재등장은 자동 정리.']]},
   showcase:{
     title:'조달판 전과 후 — 같은 아침, 다른 하루',
     hint:'수기 시절의 실제 순서 재구성 · 시간은 예시 추정',
@@ -1715,7 +1715,7 @@ const EXPERIMENTS=[
     aTag:'AFTER — 조달판 (한 건 ~30초 · 클릭 4번)',
     ckTitle:'⚠ 수기 한 건에 숨어 있던 함정들',
     before:'결제 스케줄 시트 3개를 열어 눈으로 대조 → 통화별 유출입을 계산기로 두드려 네팅 → 시세판을 보며 파 날짜별 포인트를 수기로 견줌 → 한도는 또 다른 파일을 열어 환산 → 문구를 손으로 타이핑 → 전화·메신저로 확인.',
-    missNote:'매일 아침 반복 · 한 곳만 놓쳐도 마감 사고 — 판단이 아니라 “찾고 베끼는 일”에 시간이 샜습니다',
+    missNote:'마감 후 통화 컷오프까지 채 1시간 · 한 곳만 놓쳐도 사고 — 판단이 아니라 “찾고 베끼는 일”에 시간이 샜습니다',
     checks:[['miss','스케줄 대조 — 시트 3개를 눈으로 오가다 한 줄 놓침'],
       ['miss','네팅 계산 — 계산기 재입력 중 자릿수 실수'],
       ['vague','한도 확인 — 다른 파일 열어 수기 환산 · 아침엔 자주 생략'],
@@ -2565,18 +2565,19 @@ function fxIntro(){
   $('#fxStage').innerHTML=`
    <div class="tr-boot" id="fxBoot"></div>
    <div class="tr-hero">
-     <h3>마감은 끝났고, 내일이 문제입니다</h3>
-     <p>돈이 빠질 날 <b style="color:var(--txt)">하루 먼저</b> 움직이면 — ① 계좌가 갑자기 비는 사고가 없고
-       ② 서두르지 않으니 <b style="color:var(--txt)">가격도 유리</b>합니다.
-       모자라면 미리 당겨오는 게 <b style="color:var(--cyn)">조달</b>, 남으면 굴리는 게 <b style="color:var(--cyn)">운용</b>입니다.
-       마지막엔 <b style="color:var(--amb)">딜 점수</b>가 나옵니다 — 오늘의 시나리오를 고르세요.</p>
+     <h3>마감은 끝났고, 컷오프까지 한 시간</h3>
+     <p>오전 <b style="color:var(--txt)">10시</b>에 자금 마감을 넘기면 통화 거래 마감(<b style="color:var(--txt)">11시</b>)까지 채 한 시간 —
+       그 안에 내일 빌 돈을 채워야 합니다. 돈이 빠질 날 <b style="color:var(--txt)">하루 먼저</b> 움직이면 계좌가 갑자기 비는 사고가 없고,
+       서두르지 않으니 <b style="color:var(--txt)">가격도 유리</b>합니다.
+       모자라면 미리 당겨오는 게 <b style="color:var(--cyn)">조달</b>, 남으면 굴리는 게 <b style="color:var(--cyn)">운용</b> —
+       마지막엔 <b style="color:var(--amb)">딜 점수</b>가 나옵니다. 오늘의 시나리오를 고르세요.</p>
      <div class="fxscn">${Object.values(FX_SCNS).map(s=>`
        <button data-fx="scn" data-k="${s.key}"><span class="lv">${s.lv}</span>
          <span class="t">${s.h}</span><span class="d">${s.d}</span></button>`).join('')}
      </div>
      <p class="tagline">수치 전부 예시 · 실거래 아님 · 세 코스 모두 2분이면 끝</p></div>`;
   (async()=>{const box=$('#fxBoot');if(!box)return;
-    for(const l of ['SESSION PM · FX조달판 GUIDED','NETTING RULES LOADED · BOARD READY']){
+    for(const l of ['SESSION AM 10:05 · FX조달판 GUIDED','CUTOFF 11:00 · NETTING RULES LOADED']){
       const d=document.createElement('div');box.appendChild(d);
       for(const ch of l){if(!box.isConnected)return;d.textContent+=ch;await sleep(REDUCED?0:12);}
       await sleep(REDUCED?0:120);}})();
@@ -3256,8 +3257,8 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/200
 <rect x="420" y="173" width="226" height="19" rx="6" fill="rgba(245,167,66,.12)" stroke="#F5A742" stroke-width="1.6"/>
 <text x="428" y="186" fill="#F5A742" font-weight="800">▶</text>
 <text x="414" y="186" text-anchor="middle" fill="#F5A742" font-size="10.5" font-weight="800">✓</text></g>
-<text x="446" y="238" fill="#8A94A6" font-size="10.5">호가·한도 동시 스캔 — 적기 포착</text>
-<text x="446" y="258" fill="#5A6678" font-size="10.5">최저가 D은행 ▲ → 차선 B은행 · 수수료 없음</text></g>
+<text x="446" y="238" fill="#8A94A6" font-size="10">호가·한도 동시 스캔 — 적기 포착</text>
+<text x="446" y="258" fill="#5A6678" font-size="10">최저가 D은행 ▲ → B은행 · 수수료 없음</text></g>
 <path d="M534,280 C 534,296 534,300 534,308" stroke="#F5A742" stroke-width="1.4" stroke-opacity=".4" fill="none"/>
 <path class="fm-flow" d="M534,280 C 534,296 534,300 534,308" stroke="#F5A742" stroke-width="2.2" stroke-opacity=".95" fill="none" stroke-dasharray="0.1 13.9" style="animation-duration:1.8s;animation-delay:-.9s"/>
 <rect x="408" y="308" width="252" height="150" rx="12" fill="#111A28" stroke="#223047" stroke-width="1.6"/>
@@ -3336,40 +3337,44 @@ fxpMap:`<svg class="flowmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/200
 <text x="40" y="556" fill="#9fb0c4">① 부족 확인 <tspan fill="#5A6678">→</tspan> ② 상환 스케줄 <tspan fill="#5A6678">→</tspan> ③ 호가 비교 <tspan fill="#5A6678">→</tspan> ④ 한도 점검 <tspan fill="#5A6678">→</tspan> ⑤ 네고·체결 <tspan fill="#5A6678">→</tspan> ⑥ 포지션 회복</text>
 <text x="40" y="580" fill="#5A6678" font-size="10.5">②③④는 조달판이 자동 준비 (~30초) — 전 과정 예시 · 실거래 아님 · 판단과 체결은 사람의 몫</text></g>
 </svg>`,
-fxp:`<svg class="flowmap" viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="왼쪽: 수기 - 사람이 시트, 계산기, 시세판, 한도 파일, 메신저 다섯 도구 사이를 직접 오가는 붉은 거미줄. 오른쪽: 조달판 - 다섯 도구가 판 안에 담기고 사람은 클릭 한 번, 판 내부가 자동으로 연결되어 DEALT로 출력">
+fxp:`<svg class="flowmap" viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="왼쪽 BEFORE: 수기 - 결제 시트, 시세판, 메신저, 한도 파일, 계산기 다섯 도구가 사람을 중심으로 방사형으로 이어져 사람이 모든 연결을 왕복. 오른쪽 AFTER: 조달판 - 다섯 도구가 판 안에 담기고 사람은 클릭 한 번, 판 내부가 자동으로 연결되어 DEALT로 출력">
 <text x="40" y="30" font-size="13" font-weight="700" fill="#5A6678" font-family="'JetBrains Mono',monospace" letter-spacing="1.5">SAME WORK · 다른 구조 (예시)</text>
 <line x1="502" y1="46" x2="502" y2="480" stroke="#223047" stroke-width="1.2" stroke-dasharray="2 6"/>
 <rect x="40" y="50" width="72" height="21" rx="4" fill="rgba(240,84,92,.1)" stroke="#F0545C" stroke-opacity=".55"/>
 <text x="76" y="64.5" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="800" fill="#F0545C" letter-spacing="2">BEFORE</text>
 <text x="124" y="66" font-size="13.5" font-weight="800" fill="#E8EDF5">수기 — 사람이 곧 연결선 · <tspan fill="#F0545C">~15분</tspan></text>
-<g stroke="#F0545C" stroke-opacity=".3" stroke-width="1.3" stroke-dasharray="4 4" fill="none">
-<path d="M140,252 L118,148"/><path d="M146,252 L204,130"/><path d="M152,254 L288,150"/>
-<path d="M128,270 L92,306"/><path d="M158,276 L318,376"/><path d="M160,268 L398,282"/>
-<path d="M150,258 L372,160"/>
-<path d="M112,306 L106,150"/><path d="M382,186 L400,258"/><path d="M330,372 L398,296"/></g>
+<circle cx="255" cy="258" r="150" fill="none" stroke="#223047" stroke-width="1" stroke-dasharray="2 6"/>
+<g stroke="#F0545C" stroke-opacity=".32" stroke-width="1.2" stroke-dasharray="3 5" fill="none">
+<path d="M255,236 L255,146"/>
+<path d="M268,250 L362,222"/>
+<path d="M264,280 L322,352"/>
+<path d="M246,280 L190,352"/>
+<path d="M242,250 L146,222"/></g>
 <g>
-<rect x="76" y="102" width="84" height="50" rx="7" fill="#111A28" stroke="#223047"/><line x1="76" y1="116" x2="160" y2="116" stroke="#223047" stroke-width="1.4"/><text x="88" y="140" font-size="10.5" fill="#8A94A6">시트 1</text>
-<rect x="168" y="84" width="84" height="50" rx="7" fill="#111A28" stroke="#223047"/><line x1="168" y1="98" x2="252" y2="98" stroke="#223047" stroke-width="1.4"/><text x="180" y="122" font-size="10.5" fill="#8A94A6">시트 2</text>
-<rect x="260" y="106" width="84" height="50" rx="7" fill="#111A28" stroke="#223047"/><line x1="260" y1="120" x2="344" y2="120" stroke="#223047" stroke-width="1.4"/><text x="272" y="144" font-size="10.5" fill="#8A94A6">시트 3</text>
-<rect x="352" y="134" width="76" height="52" rx="7" fill="#111A28" stroke="#223047"/>
-<rect x="362" y="144" width="8" height="18" fill="#35C48D" opacity=".6"/><rect x="376" y="152" width="8" height="10" fill="#F0545C" opacity=".6"/><rect x="390" y="140" width="8" height="22" fill="#35C48D" opacity=".5"/><rect x="404" y="150" width="8" height="12" fill="#F0545C" opacity=".5"/>
-<text x="362" y="200" font-size="10.5" fill="#8A94A6">시세판</text>
-<rect x="66" y="296" width="52" height="64" rx="7" fill="#111A28" stroke="#223047"/>
-<g fill="#5A6678"><rect x="76" y="306" width="32" height="10" rx="2"/><circle cx="82" cy="330" r="3.4"/><circle cx="96" cy="330" r="3.4"/><circle cx="110" cy="330" r="3.4"/><circle cx="82" cy="344" r="3.4"/><circle cx="96" cy="344" r="3.4"/><circle cx="110" cy="344" r="3.4"/></g>
-<text x="66" y="378" font-size="10.5" fill="#8A94A6">계산기</text>
-<path d="M306,356 L322,356 L330,364 L378,364 L378,398 L306,398 Z" fill="#111A28" stroke="#223047"/>
-<text x="314" y="384" font-size="10.5" fill="#8A94A6">한도 파일</text>
-<path d="M392,258 h64 a8,8 0 0 1 8,8 v22 a8,8 0 0 1 -8,8 h-40 l-12,12 v-12 h-12 a8,8 0 0 1 -8,-8 v-22 a8,8 0 0 1 8,-8 Z" fill="#111A28" stroke="#223047"/>
-<text x="404" y="278" font-size="10.5" fill="#8A94A6">메신저</text></g>
-<circle cx="140" cy="240" r="11" fill="#111A28" stroke="#8A94A6" stroke-width="2"/>
-<path d="M120,286 C120,262 160,262 160,286" fill="#111A28" stroke="#8A94A6" stroke-width="2"/>
-<text x="140" y="308" text-anchor="middle" font-size="10" fill="#8A94A6">나</text>
-<circle r="6" fill="#F0545C">
-<animateMotion dur="9s" repeatCount="indefinite" path="M140,258 L110,140 L140,258 L100,320 L140,258 L390,160 L140,258 L340,380 L140,258 L410,280 L140,258 L216,110 L140,258"/></circle>
-<g><circle cx="200" cy="212" r="7.5" fill="rgba(240,84,92,.12)" stroke="#F0545C" stroke-opacity=".6"/><text x="200" y="215.5" text-anchor="middle" font-size="10" font-weight="800" fill="#F0545C">!</text>
-<circle cx="272" cy="314" r="7.5" fill="rgba(240,84,92,.12)" stroke="#F0545C" stroke-opacity=".6"/><text x="272" y="317.5" text-anchor="middle" font-size="10" font-weight="800" fill="#F0545C">!</text>
-<circle cx="356" cy="236" r="7.5" fill="rgba(240,84,92,.12)" stroke="#F0545C" stroke-opacity=".6"/><text x="356" y="239.5" text-anchor="middle" font-size="10" font-weight="800" fill="#F0545C">!</text></g>
-<text x="40" y="466" font-size="11" fill="#8A94A6">도구 다섯을 사람이 직접 오가는 구조 — 이동이 곧 시간, 손끝이 곧 실수 지점</text>
+<rect x="221" y="86" width="62" height="40" rx="6" fill="#111A28" stroke="#223047"/>
+<rect x="227" y="79" width="62" height="40" rx="6" fill="#111A28" stroke="#223047"/>
+<rect x="233" y="72" width="62" height="40" rx="6" fill="#111A28" stroke="#223047"/>
+<line x1="233" y1="85" x2="295" y2="85" stroke="#223047" stroke-width="1.4"/>
+<text x="304" y="100" font-size="10.5" fill="#8A94A6">결제 시트 ×3</text>
+<rect x="366" y="180" width="74" height="52" rx="7" fill="#111A28" stroke="#223047"/>
+<rect x="376" y="192" width="8" height="18" fill="#35C48D" opacity=".6"/><rect x="390" y="200" width="8" height="10" fill="#F0545C" opacity=".6"/><rect x="404" y="188" width="8" height="22" fill="#35C48D" opacity=".5"/><rect x="418" y="198" width="8" height="12" fill="#F0545C" opacity=".5"/>
+<text x="403" y="248" text-anchor="middle" font-size="10.5" fill="#8A94A6">시세판</text>
+<path d="M308,354 h60 a8,8 0 0 1 8,8 v22 a8,8 0 0 1 -8,8 h-36 l-12,12 v-12 h-12 a8,8 0 0 1 -8,-8 v-22 a8,8 0 0 1 8,-8 Z" fill="#111A28" stroke="#223047"/>
+<text x="343" y="376" text-anchor="middle" font-size="10.5" fill="#8A94A6">메신저</text>
+<path d="M136,358 L152,358 L160,366 L206,366 L206,398 L136,398 Z" fill="#111A28" stroke="#223047"/>
+<text x="171" y="386" text-anchor="middle" font-size="10.5" fill="#8A94A6">한도 파일</text>
+<rect x="88" y="186" width="52" height="64" rx="7" fill="#111A28" stroke="#223047"/>
+<g fill="#5A6678"><rect x="98" y="196" width="32" height="10" rx="2"/><circle cx="104" cy="220" r="3.4"/><circle cx="118" cy="220" r="3.4"/><circle cx="132" cy="220" r="3.4"/><circle cx="104" cy="234" r="3.4"/><circle cx="118" cy="234" r="3.4"/><circle cx="132" cy="234" r="3.4"/></g>
+<text x="114" y="268" text-anchor="middle" font-size="10.5" fill="#8A94A6">계산기</text></g>
+<circle cx="255" cy="232" r="10" fill="#111A28" stroke="#8A94A6" stroke-width="2"/>
+<path d="M236,274 C236,252 274,252 274,274" fill="#111A28" stroke="#8A94A6" stroke-width="2"/>
+<text x="255" y="292" text-anchor="middle" font-size="10" fill="#8A94A6">나</text>
+<circle r="5" fill="#F0545C">
+<animateMotion dur="10s" repeatCount="indefinite" path="M255,244 L255,120 L255,244 L380,215 L255,244 L330,365 L255,244 L180,365 L255,244 L130,215 L255,244"/></circle>
+<g><circle cx="270" cy="182" r="7.5" fill="rgba(240,84,92,.12)" stroke="#F0545C" stroke-opacity=".6"/><text x="270" y="185.5" text-anchor="middle" font-size="10" font-weight="800" fill="#F0545C">!</text>
+<circle cx="322" cy="222" r="7.5" fill="rgba(240,84,92,.12)" stroke="#F0545C" stroke-opacity=".6"/><text x="322" y="225.5" text-anchor="middle" font-size="10" font-weight="800" fill="#F0545C">!</text>
+<circle cx="206" cy="322" r="7.5" fill="rgba(240,84,92,.12)" stroke="#F0545C" stroke-opacity=".6"/><text x="206" y="325.5" text-anchor="middle" font-size="10" font-weight="800" fill="#F0545C">!</text></g>
+<text x="40" y="466" font-size="11" fill="#8A94A6">모든 연결이 나를 지나는 구조 — 이동이 곧 시간, 손끝이 곧 실수 지점</text>
 <rect x="540" y="50" width="62" height="21" rx="4" fill="rgba(53,196,141,.1)" stroke="#35C48D" stroke-opacity=".55"/>
 <text x="571" y="64.5" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="800" fill="#35C48D" letter-spacing="2">AFTER</text>
 <text x="614" y="66" font-size="13.5" font-weight="800" fill="#E8EDF5">조달판 — 연결은 판이, 판단은 사람 · <tspan fill="#35C48D">~30초</tspan></text>
