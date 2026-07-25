@@ -532,6 +532,50 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .fxscn button:nth-child(3) .lv{color:var(--cyn);border-color:rgba(76,195,232,.45)}
 .fxscn .t{display:block;font-weight:800;font-size:14.5px;color:var(--txt)}
 .fxscn .d{display:block;font-size:12px;color:var(--mut);margin-top:5px;line-height:1.55}
+/* ── 아케이드: 컷오프 러시 ── */
+.arcstart{display:flex;align-items:center;gap:14px;width:100%;text-align:left;margin:14px 0 2px;padding:16px 18px;border-radius:14px;cursor:pointer;
+  background:linear-gradient(120deg,rgba(245,167,66,.16),rgba(240,84,92,.10));border:1.5px solid var(--amb);transition:transform .12s;font:inherit}
+.arcstart:hover{transform:translateY(-2px)}
+.arcstart .ico{font-size:27px}
+.arcstart .t{display:block;font-weight:800;font-size:16px;color:var(--txt)}
+.arcstart .d{display:block;font-size:12px;color:var(--mut);margin-top:3px}
+.arc-top{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono)}
+.arc-top .tt{font-size:28px;font-weight:800;color:var(--txt)}
+.arc-top .sc{font-size:14px;color:var(--amb);font-weight:800;letter-spacing:.06em}
+.arcbarw{height:13px;border-radius:8px;background:var(--panel2);border:1px solid var(--grid);overflow:hidden;margin:8px 0 4px}
+.arcbar{height:100%;background:var(--grn);transition:width .1s linear}
+.arc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+@media(max-width:760px){.arc-grid{grid-template-columns:repeat(2,1fr)}}
+.arc-cell{position:relative;border-radius:12px;border:2px solid rgba(240,84,92,.55);background:rgba(240,84,92,.08);padding:13px 8px;text-align:center;cursor:pointer;font-family:var(--mono);font:inherit}
+.arc-cell b{display:block;font-family:var(--mono);font-size:15px;color:var(--txt)}
+.arc-cell span{display:block;font-family:var(--mono);font-size:17px;font-weight:800;color:var(--red);margin-top:3px}
+.arc-cell.hot{animation:arcblink 1s infinite}
+.arc-cell.done{border-color:rgba(53,196,141,.6);background:rgba(53,196,141,.10);cursor:default;animation:none}
+.arc-cell.done span{color:var(--grn)}
+.arc-cell .gr{position:absolute;top:-11px;right:-6px;font-family:var(--mono);font-weight:800;font-size:14px;padding:1px 9px;border-radius:99px;background:#0B0F17;border:2px solid var(--amb);color:var(--amb)}
+@keyframes arcblink{0%,100%{box-shadow:0 0 0 0 rgba(240,84,92,0)}50%{box-shadow:0 0 0 5px rgba(240,84,92,.22)}}
+.arc-stage{border:1px solid var(--grid);border-radius:14px;background:var(--panel2);padding:18px;margin-top:4px;min-height:210px;position:relative;overflow:hidden}
+.arc-q{font-family:var(--mono);font-weight:800;font-size:15px;color:var(--txt);margin:0 0 4px}
+.arc-q small{color:var(--mut);font-weight:600;font-family:inherit}
+.arc-chips{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.arc-chip{padding:13px;border-radius:12px;border:1.5px solid var(--grid);background:var(--panel);cursor:pointer;text-align:center;font-family:var(--mono);font-weight:800;font-size:16px;color:var(--txt);font:inherit}
+.arc-chip b{font-family:var(--mono);font-size:16px}
+.arc-chip small{display:block;font-weight:600;font-size:11.5px;color:var(--mut);margin-top:4px}
+.arc-chip:hover{border-color:var(--amb)}
+.arc-quote{font-family:var(--mono);font-weight:800;font-size:56px;text-align:center;color:var(--txt);margin:8px 0 0;font-variant-numeric:tabular-nums}
+.arc-gaugew{height:16px;border-radius:8px;background:linear-gradient(90deg,rgba(240,84,92,.55),rgba(232,196,104,.55) 55%,rgba(53,196,141,.7));position:relative;margin:14px 6px 4px}
+.arc-needle{position:absolute;top:-6px;width:4px;height:28px;border-radius:2px;background:#fff;box-shadow:0 0 7px rgba(255,255,255,.75)}
+.arc-snipe{display:block;width:100%;margin-top:14px;padding:15px;border-radius:12px;border:none;background:var(--amb);color:#0B0F17;font-weight:800;font-size:18px;cursor:pointer;font-family:inherit}
+.arc-pop{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);font-family:var(--mono);font-weight:800;font-size:30px;pointer-events:none;animation:arcpop .95s forwards;z-index:3;text-shadow:0 2px 14px rgba(0,0,0,.6)}
+@keyframes arcpop{0%{opacity:0;transform:translate(-50%,-28%) scale(.6)}22%{opacity:1;transform:translate(-50%,-50%) scale(1.18)}70%{opacity:1}100%{opacity:0;transform:translate(-50%,-95%) scale(1)}}
+.arc-shake{animation:arcshake .35s}
+@keyframes arcshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}}
+.arc-res{text-align:center;padding:6px 0}
+.arc-rank{font-family:var(--mono);font-size:76px;font-weight:800;line-height:1}
+.arc-title{font-size:19px;font-weight:800;margin-top:6px;color:var(--txt)}
+.arc-stats{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:14px 0 4px}
+.arc-stats span{font-family:var(--mono);font-size:12px;border:1px solid var(--grid);border-radius:99px;padding:5px 12px;color:var(--mut)}
+@media (prefers-reduced-motion:reduce){.arc-cell.hot,.arc-pop,.arc-shake{animation:none}}
 .fxchat .xl{font-size:10.5px;color:var(--dim);margin:-4px 4px 0;max-width:82%}
 .fxchat .xl.r{align-self:flex-end;text-align:right}
 .fxbrk .q.tick{animation:fxtick .5s}
@@ -1601,6 +1645,7 @@ const mmdd=off=>{const d=new Date();d.setDate(d.getDate()+off);
 /* ── DATA ─────────────────────────────────────────────────── */
 /* 기록(LOG) — 이 실험실이 해온 일들. 새 일 = 객체 1개 추가 (최신이 위) */
 const LOGS=[
+ {d:'2026-07-23',t:'조달 체험에 아케이드 모드 「컷오프 러시」 추가',tag:'실험',note:'60초 타임어택 — 갚을 날 매칭 · 호가 스나이핑 · 한도 순간판단 · 등급/콤보/점수 카드 · 게임 한 판이면 업무 흐름이 손에 남게 · 수치 전부 예시'},
  {d:'2026-07-19',t:'새 실험 「FX조달판」 공개 — 외화 조달·운용의 재설계',tag:'실험',note:'외화 스왑 조달·운용 도구(Excel VBA 6모듈·Mac/Win) 웹 체험 오픈 · 네팅 보드 → 갚을 날 고르기 → 체결 시뮬레이션 → 한도 → 체결까지 게임형 스토리 · 수치 전부 예시'},
  {d:'2026-07-12',t:'건배사 100회 채점 → 규칙서 완성 · N행시 모드 추가',tag:'실험',note:'실전 채점으로 추출한 규칙과 시범 답안을 프롬프트에 탑재(v7.9) · N행시 글자 맞춤은 기계 검증 · push=자동 배포 파이프라인'},
  {d:'2026-07-11',t:'사이트 최초 실제 AI 연동 — 건배사 자판기 REAL CLAUDE 점등',tag:'실험',note:'Cloudflare Worker로 API 키 서버 보관 · 후보 3잔 중 선발(best-of-3) · 실패 시 모의 폴백 정직 라벨 · EXP.04'},
@@ -1697,7 +1742,7 @@ const EXPERIMENTS=[
   arts:[
    {key:'fxpMap',eyebrow:'The Action',h2:'자금 조달, 딜 하나가 체결되기까지',hint:'① 부족 확인 → ② 상환 스케줄 → ③ 호가 비교 → ④ 한도 점검 → ⑤ 네고·체결 → ⑥ 포지션 회복 (전부 예시·실거래 아님)'},
    {key:'fxp',eyebrow:'How It Works',h2:'같은 일, 다른 구조 — 연결의 주인이 바뀌었다',hint:'BEFORE — 모든 연결이 사람을 경유(붉은 선 = 발품) · AFTER — 연결은 판 내부, 사람은 클릭 한 번 (전부 예시)'}],
-  demo:{g:'fx',d:'외화 스왑 조달·운용 — 부족을 찾고 · 갚을 날을 고르고 · 체결까지, 게임처럼'},
+  demo:{g:'fx',d:'외화 스왑 조달·운용 — 60초 아케이드 「컷오프 러시」 + 차근차근 배우는 3코스'},
   desc:'하루 마감이 끝나면 통화마다 모자란 돈과 남는 돈이 남습니다. 모자라면 FX 스왑으로 당겨오고(조달), 남으면 굴리는(운용) — 외화자금 데스크의 또 하나의 반복 업무를 재설계한 실험입니다. 거래 일보를 붙여넣으면 통화×영업일 네팅 보드가 서고, 부족한 칸을 클릭하면 상환 스케줄 비교 → 체결 시뮬레이션 → 상대방 한도 → 요청 문구까지 한 흐름으로 이어집니다. Excel VBA(Mac·Windows 겸용)로 실전 운영을 준비 중입니다.',
   chips:['EXCEL VBA','네팅 보드','체결 시뮬','한도 칩','문구 자동'],
   story:'진단에서 출발한 실험입니다. 오전 10시에 자금 마감을 넘기면 오전 통화의 거래 마감(11시)까지 남는 시간은 채 한 시간 — 그 사이에 결제 스케줄을 뒤져 반대 흐름을 찾고, 시세판과 계산기를 오가며 상환일을 정하고, 다른 파일을 열어 한도를 확인하고, 보낼 문구를 손으로 조립하고 있었습니다. 이 한 시간을 AI와 함께 분해해 보니 판단이 필요한 일은 “어느 날짜에, 누구와” 둘뿐 — 나머지는 전부 찾고 옮겨 적는 일이었습니다. 그래서 찾고 옮겨 적는 단계를 전부 자동화하고, 흩어져 있던 절차를 클릭 한 흐름으로 묶었습니다. 셀을 클릭하면 후보가 서고, 후보를 고르면 스케줄이 미리 체결된 것처럼 다시 그려지고, 한도가 스스로 손을 들며, 문구는 이미 완성돼 있습니다. 판단과 체결은 여전히 사람의 몫 — 도구는 그 앞의 반복을 대신합니다.',
@@ -2570,7 +2615,11 @@ function fxIntro(){
        그 안에 내일 빌 돈을 채워야 합니다. 돈이 빠질 날 <b style="color:var(--txt)">하루 먼저</b> 움직이면 계좌가 갑자기 비는 사고가 없고,
        서두르지 않으니 <b style="color:var(--txt)">가격도 유리</b>합니다.
        모자라면 미리 당겨오는 게 <b style="color:var(--cyn)">조달</b>, 남으면 굴리는 게 <b style="color:var(--cyn)">운용</b> —
-       마지막엔 <b style="color:var(--amb)">딜 점수</b>가 나옵니다. 오늘의 시나리오를 고르세요.</p>
+       마지막엔 <b style="color:var(--amb)">딜 점수</b>가 나옵니다.</p>
+     <button class="arcstart" data-arc="start"><span class="ico">🎮</span><span>
+       <span class="t">컷오프 러시 — 60초 아케이드</span>
+       <span class="d">설명 없음. 한 판이면 이 업무가 뭔지 손이 먼저 압니다 · 수치 전부 예시</span></span></button>
+     <p class="tagline" style="margin:12px 0 0">…또는 차근차근 배우는 모드 — 오늘의 시나리오를 고르세요:</p>
      <div class="fxscn">${Object.values(FX_SCNS).map(s=>`
        <button data-fx="scn" data-k="${s.key}"><span class="lv">${s.lv}</span>
          <span class="t">${s.h}</span><span class="d">${s.d}</span></button>`).join('')}
@@ -2903,6 +2952,194 @@ function bindFx(){
   dg.addEventListener('keydown',e=>{
     const b=e.target.closest('[data-fx="cell"]');
     if(b&&(e.key==='Enter'||e.key===' ')){e.preventDefault();fxClicks++;fxCands();}
+  });
+}
+
+/* ── 아케이드: 컷오프 러시 — 60초 안에 부족 통화를 전부 0으로 (수치 전부 예시·실거래 아님) ──
+   게임 루프: 부족 통화 탭 → 갚을 날 매칭 → 호가 스나이핑 → 한도 순간판단 → 등급·콤보.
+   규칙은 실제 도구(FX조달판)와 동일 구조 — 한 판이면 업무 흐름이 손에 남게 설계 */
+const ARC_CCYS=[{c:'JPY',a:'-250'},{c:'HKD',a:'-120'},{c:'EUR',a:'-80'},{c:'AUD',a:'-150'}];
+const ARC_BANKS=['A은행','B은행','C은행','D은행','E외은','F증권'];
+const ARC_RANKS=[[.82,'S','컷오프의 지배자','var(--grn)'],[.64,'A','에이스 딜러','var(--amb)'],[.45,'B','오늘의 데스크','var(--cyn)'],[0,'C','수습 딜러','var(--mut)']];
+let arcS=null,arcTk=null,arcQk=null;
+function arcStop(){clearInterval(arcTk);clearInterval(arcQk);arcTk=arcQk=null;}
+function arcPop(txt,col){const st=$('#arcStage');if(!st)return;
+  const s=document.createElement('span');s.className='arc-pop';s.style.color=col;s.textContent=txt;
+  st.appendChild(s);setTimeout(()=>s.remove(),950);}
+function arcShake(){const st=$('#arcStage');if(!st)return;
+  st.classList.remove('arc-shake');void st.offsetWidth;st.classList.add('arc-shake');}
+function arcStart(){
+  arcStop();fxWatchStop&&clearInterval(fxTick);
+  arcS={t:60.0,score:0,combo:0,cur:-1,deal:null,crash:false,
+        list:ARC_CCYS.map(x=>({...x,done:false,gr:''}))};
+  $('#fxSteps').innerHTML='';const w=$('#fxWatch');if(w)w.hidden=true;
+  $('#fxStage').innerHTML=`<div id="arcRoot">
+    <div class="arc-top"><span class="tt" id="arcClock">60.0</span><span class="sc">SCORE <span id="arcScore">0</span></span></div>
+    <div class="arcbarw"><div class="arcbar" id="arcBar" style="width:100%"></div></div>
+    <div class="arc-grid" id="arcGrid"></div>
+    <div class="arc-stage" id="arcStage"></div>
+    <p class="tagline">전부 예시 · 실거래 아님 · 규칙은 실제 도구와 동일</p></div>`;
+  arcTk=setInterval(()=>{
+    if(!$('#arcRoot')){arcStop();return;}
+    arcS.t=Math.max(0,arcS.t-0.1);
+    $('#arcClock').textContent=arcS.t.toFixed(1);
+    const bar=$('#arcBar');bar.style.width=(arcS.t/60*100)+'%';
+    bar.style.background=arcS.t>20?'var(--grn)':arcS.t>10?'var(--yel)':'var(--red)';
+    if(arcS.t<=0)arcEnd();
+  },100);
+  arcBoard(true);
+}
+function arcGrid(){
+  $('#arcGrid').innerHTML=arcS.list.map((x,i)=>x.done
+    ?`<div class="arc-cell done"><b>${x.c}</b><span>0 ✓</span><span class="gr">${x.gr}</span></div>`
+    :`<button class="arc-cell hot" data-arc="pick" data-i="${i}"><b>${x.c}</b><span>${x.a}</span></button>`).join('');
+}
+function arcBoard(first){
+  if(!$('#arcRoot'))return;
+  arcGrid();
+  $('#arcStage').innerHTML=`<p class="arc-q" style="text-align:center;margin-top:70px">
+    ${first?'빨간 통화를 눌러 조달 시작!':'다음 통화!'} <small>내일 계좌가 비기 전에</small></p>`;
+}
+function arcPick(i){
+  arcS.cur=i;arcS.deal={t0:arcS.t,pts:0,safe:true};
+  const x=arcS.list[i];
+  const chips=[
+    {l:mmdd(4+i),s:'잔여 0 · 매칭 ★',v:100,k:'m'},
+    {l:mmdd(8+i),s:'1W',v:60,k:'t'},
+    {l:mmdd(15+i),s:'2W',v:45,k:'t'},
+    {l:mmdd(6+i),s:'휴장 · 결제 불가',v:-50,k:'h'}]
+    .sort(()=>((i*7+3)%5)-2);   /* 통화마다 배치 섞기(결정적) */
+  $('#arcStage').innerHTML=`
+    <p class="arc-q">${x.c} ${x.a} · <b style="color:var(--amb)">갚을 날</b>을 고르세요 <small>— 반대 흐름과 딱 맞으면 최고점</small></p>
+    <div class="arc-chips">${chips.map(c=>`
+      <button class="arc-chip" data-arc="date" data-v="${c.v}" data-k="${c.k}"><b>${c.l}</b><small>${c.s}</small></button>`).join('')}
+    </div>`;
+}
+function arcDate(v,k){
+  arcS.deal.pts+=v;
+  if(k==='h'){arcPop('-50 휴장!','var(--red)');arcShake();arcS.deal.safe=false;setTimeout(arcQuote,600);}
+  else{arcPop(k==='m'?'+100 매칭!':'+'+v,k==='m'?'var(--grn)':'var(--yel)');setTimeout(arcQuote,450);}
+}
+function arcQuote(){
+  if(!$('#arcRoot'))return;
+  const x=arcS.list[arcS.cur];
+  arcS.qv=30;
+  $('#arcStage').innerHTML=`
+    <p class="arc-q">호가가 움직입니다 · <b style="color:var(--amb)">초록 구간</b>에서 잡으세요</p>
+    <div class="arc-quote" id="arcQ">-1.00</div>
+    <div class="arc-gaugew"><div class="arc-needle" id="arcNd" style="left:30%"></div></div>
+    <button class="arc-snipe" data-arc="snipe">잡기!</button>`;
+  arcQk=setInterval(()=>{
+    if(!$('#arcQ')){clearInterval(arcQk);return;}
+    let dv=(Math.random()*26-13);
+    if(Math.random()<.12)dv+=(Math.random()<.5?-1:1)*28;   /* 가끔 튀는 시세 */
+    arcS.qv=Math.max(0,Math.min(100,arcS.qv+dv));
+    $('#arcQ').textContent=(-1.12+arcS.qv*0.0018).toFixed(2);
+    $('#arcQ').style.color=arcS.qv>=72?'var(--grn)':arcS.qv>=42?'var(--txt)':'var(--red)';
+    $('#arcNd').style.left=arcS.qv+'%';
+  },REDUCED?400:110);
+}
+function arcSnipe(){
+  clearInterval(arcQk);arcQk=null;
+  const v=Math.round(arcS.qv);arcS.deal.pts+=v;
+  arcPop(v>=72?`+${v} 스나이프!`:v>=42?`+${v} 무난`:`+${v} 급했다…`,
+         v>=72?'var(--grn)':v>=42?'var(--yel)':'var(--red)');
+  setTimeout(arcCp,520);
+}
+function arcCp(){
+  if(!$('#arcRoot'))return;
+  const i=arcS.cur;
+  const b1=ARC_BANKS[(i*2)%6],b2=ARC_BANKS[(i*2+1)%6];
+  const r=((i*13+arcS.score)%10)/10;   /* 판마다 달라지는 결정적 랜덤 */
+  arcS.cpSt=r<.4?'ok':r<.75?'warn':'bad';
+  $('#arcStage').innerHTML=`
+    <p class="arc-q">마지막 관문 · <b style="color:var(--amb)">한도</b> 보고 상대를 고르세요 <small>— 한도는 전 데스크 공유</small></p>
+    <div class="arc-chips">
+      <button class="arc-chip" data-arc="cp" data-p="1"><b>${b1} · 최저가</b>
+        <small style="color:${arcS.cpSt==='ok'?'var(--grn)':arcS.cpSt==='warn'?'var(--yel)':'var(--red)'}">
+        한도 ${arcS.cpSt==='ok'?'○ 여유':arcS.cpSt==='warn'?'▲ 92%':'× 99%'}</small></button>
+      <button class="arc-chip" data-arc="cp" data-p="2"><b>${b2} · 차선</b><small style="color:var(--grn)">한도 ○ 여유</small></button>
+    </div>`;
+}
+function arcCpPick(p){
+  const st=arcS.cpSt;let v,msg,col;
+  if(p===1){
+    if(st==='ok'){v=50;msg='+50 최저가 클리어!';col='var(--grn)';}
+    else if(st==='warn'){v=15;msg='+15 아슬아슬…';col='var(--yel)';}
+    else{v=-100;msg='사고! 한도 초과 -100';col='var(--red)';arcS.crash=true;arcS.deal.safe=false;arcShake();}
+  }else{
+    v=st==='bad'?50:35;msg=st==='bad'?'+50 나이스 세이브!':'+35 안전 운행';col='var(--grn)';
+  }
+  arcS.deal.pts+=v;arcPop(msg,col);
+  setTimeout(arcDealDone,620);
+}
+function arcDealDone(){
+  if(!$('#arcRoot'))return;
+  const d=arcS.deal,spent=d.t0-arcS.t;
+  d.pts+=Math.max(0,Math.round(36-spent*3));            /* 스피드 보너스 */
+  const gr=d.pts>=210?'S':d.pts>=165?'A':d.pts>=110?'B':'C';
+  arcS.combo=(gr==='S'||gr==='A')&&d.safe?arcS.combo+1:0;
+  const cb=arcS.combo>1?arcS.combo*15:0;
+  arcS.score+=Math.max(0,d.pts)+cb;
+  $('#arcScore').textContent=arcS.score.toLocaleString();
+  const x=arcS.list[arcS.cur];x.done=true;x.gr=gr;
+  arcPop(`${x.c} 스퀘어! ${gr}등급${cb?` · 콤보 x${arcS.combo}`:''}`,'var(--grn)');
+  if(arcS.list.every(y=>y.done))setTimeout(arcEnd,700);
+  else setTimeout(arcBoard,650);
+}
+function arcEnd(){
+  arcStop();if(!$('#arcRoot'))return;
+  const doneN=arcS.list.filter(x=>x.done).length;
+  const ratio=arcS.score/1140;
+  let rk=ARC_RANKS.find(r=>ratio>=r[0]);
+  if(doneN<ARC_CCYS.length)rk=ARC_RANKS[3];
+  const [_,R,T,C]=rk;
+  arcS.res={R,T:arcS.crash?'사고 딜러 (한도는 꼭 확인!)':T,C:arcS.crash?'var(--red)':C,doneN};
+  arcGrid();
+  $('#arcStage').innerHTML=`<div class="arc-res">
+    <div class="arc-rank" style="color:${arcS.res.C}">${R}</div>
+    <div class="arc-title">${arcS.res.T}</div>
+    <div class="arc-stats">
+      <span>SCORE ${arcS.score.toLocaleString()}</span><span>처리 ${doneN}/${ARC_CCYS.length}통화</span>
+      <span>${arcS.t>0?`남긴 시간 ${arcS.t.toFixed(1)}s`:'컷오프 초과!'}</span>
+      <span>${arcS.crash?'사고 1건 ×':'무사고 ✓'}</span></div>
+    <p class="tagline" style="margin:6px 0 14px">방금 하신 것 — 부족 확인 → 갚을 날 매칭 → 좋은 가격 잡기 → 한도 확인 → 체결.<br>
+      이게 외화자금 데스크의 매일 아침입니다. (전부 예시)</p>
+    <div class="hero-cta" style="justify-content:center">
+      <button class="btn btn-amber btn-sm" data-arc="start">↺ 다시 한 판</button>
+      <button class="btn btn-ghost btn-sm" data-arc="save">📸 점수 카드 저장</button>
+      <button class="btn btn-ghost btn-sm" data-arc="learn">천천히 배우는 모드</button>
+    </div></div>`;
+}
+function arcCard(){
+  const s=arcS&&arcS.res?arcS:null;if(!s)return;
+  const cv=document.createElement('canvas');cv.width=900;cv.height=470;
+  const c=cv.getContext('2d');
+  c.fillStyle='#0B0F17';c.fillRect(0,0,900,470);
+  c.strokeStyle='#223047';c.lineWidth=3;c.strokeRect(14,14,872,442);
+  c.fillStyle='#F5A742';c.font='700 17px monospace';c.fillText('CUTOFF RUSH · FX조달판 아케이드',40,58);
+  c.fillStyle=s.res.C.startsWith('var')?'#35C48D':s.res.C;
+  c.fillStyle=s.crash?'#F0545C':(s.res.R==='S'?'#35C48D':s.res.R==='A'?'#F5A742':s.res.R==='B'?'#4CC3E8':'#8A94A6');
+  c.font='800 150px monospace';c.fillText(s.res.R,40,230);
+  c.fillStyle='#E8EDF5';c.font='800 34px Pretendard, "Malgun Gothic", sans-serif';c.fillText(s.res.T,40,290);
+  c.fillStyle='#8A94A6';c.font='600 20px Pretendard, "Malgun Gothic", sans-serif';
+  c.fillText(`SCORE ${s.score.toLocaleString()} · ${s.res.doneN}/${ARC_CCYS.length}통화 · ${s.crash?'사고 1건':'무사고'}`,40,330);
+  c.fillStyle='#5A6678';c.font='500 16px Pretendard, "Malgun Gothic", sans-serif';
+  c.fillText('직접 해보기: dkdldrmtit.github.io/AI-lab  ·  수치 전부 예시 · 실거래 아님',40,420);
+  const a=document.createElement('a');a.download='컷오프러시_점수카드.png';a.href=cv.toDataURL('image/png');a.click();
+}
+function bindArc(){
+  const dg=document.getElementById('dg-fx');if(!dg)return;
+  dg.addEventListener('click',e=>{
+    const b=e.target.closest('[data-arc]');if(!b)return;
+    const a=b.dataset.arc;
+    if(a==='start')arcStart();
+    else if(a==='pick')arcPick(+b.dataset.i);
+    else if(a==='date')arcDate(+b.dataset.v,b.dataset.k);
+    else if(a==='snipe')arcSnipe();
+    else if(a==='cp')arcCpPick(+b.dataset.p);
+    else if(a==='save')arcCard();
+    else if(a==='learn'){arcStop();fxIntro();}
   });
 }
 
@@ -4378,7 +4615,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   $('#btnShuffle').addEventListener('click',newSample);
   $('#btnReset1').addEventListener('click',()=>{resetDemo1();if(!running)$('#btnRun').disabled=false;});
   /* demo 0: 가이드 체험 */
-  bindTour();bindFx();
+  bindTour();bindFx();bindArc();
   /* demo 그룹 허브 + 쪽지 다듬기 */
   bindDemoGroups();bindDselShrink();bindNote();bindBrief();bindToast();
   /* d1 끝 → 다음 체험(입력 UX) 전진 / 가이드 체험(조달·운용 스토리)은 보조 링크 */
