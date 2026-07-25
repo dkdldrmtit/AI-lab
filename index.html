@@ -575,7 +575,28 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .arc-title{font-size:19px;font-weight:800;margin-top:6px;color:var(--txt)}
 .arc-stats{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:14px 0 4px}
 .arc-stats span{font-family:var(--mono);font-size:12px;border:1px solid var(--grid);border-radius:99px;padding:5px 12px;color:var(--mut)}
-@media (prefers-reduced-motion:reduce){.arc-cell.hot,.arc-pop,.arc-shake{animation:none}}
+.arc-need{margin:8px 0 12px}
+.arc-srows{display:flex;flex-direction:column;gap:8px}
+.arc-srow{display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;border-radius:10px;border:1.5px solid var(--grid);background:var(--panel);cursor:pointer;font:inherit}
+button.arc-srow:hover{border-color:var(--amb)}
+.arc-srow .dt{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--mut);width:52px;text-align:left;flex:none}
+.arc-sbarw{flex:1;height:15px;border-radius:7px;background:var(--panel2);overflow:hidden}
+.arc-sbar{height:100%;border-radius:7px;background:var(--grn)}
+.arc-sbar.red{background:var(--red)}
+.arc-sbar.hol{background:repeating-linear-gradient(45deg,rgba(53,196,141,.5) 0 7px,rgba(53,196,141,.14) 7px 14px)}
+.arc-srow b{font-family:var(--mono);font-size:13px;color:var(--grn);min-width:52px;text-align:right;flex:none}
+.arc-hol{font-size:10px;color:var(--yel);border:1px solid rgba(232,196,104,.5);border-radius:99px;padding:1px 7px;font-family:var(--mono);flex:none}
+.arc-banks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+@media(max-width:760px){.arc-banks{grid-template-columns:1fr}}
+.arc-bank{padding:12px;border-radius:12px;border:1.5px solid var(--grid);background:var(--panel);cursor:pointer;text-align:left;font:inherit;position:relative}
+.arc-bank:hover{border-color:var(--amb)}
+.arc-bank b{display:block;font-size:14px;color:var(--txt);font-weight:800}
+.arc-bank .px{display:block;font-family:var(--mono);font-size:12px;color:var(--amb);margin:3px 0 9px}
+.arc-lgw{height:12px;border-radius:6px;background:var(--panel2);border:1px solid var(--grid);overflow:hidden}
+.arc-lg{height:100%;background:var(--grn);transition:width .14s linear}
+.arc-bank .lgt{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:12px;font-weight:800;color:var(--mut)}
+.arc-bank.bad{border-color:var(--red);animation:arcblink .8s infinite}
+@media (prefers-reduced-motion:reduce){.arc-cell.hot,.arc-pop,.arc-shake,.arc-bank.bad{animation:none}}
 .fxchat .xl{font-size:10.5px;color:var(--dim);margin:-4px 4px 0;max-width:82%}
 .fxchat .xl.r{align-self:flex-end;text-align:right}
 .fxbrk .q.tick{animation:fxtick .5s}
@@ -2961,8 +2982,8 @@ function bindFx(){
 const ARC_CCYS=[{c:'JPY',a:'-250'},{c:'HKD',a:'-120'},{c:'EUR',a:'-80'},{c:'AUD',a:'-150'}];
 const ARC_BANKS=['A은행','B은행','C은행','D은행','E외은','F증권'];
 const ARC_RANKS=[[.82,'S','컷오프의 지배자','var(--grn)'],[.64,'A','에이스 딜러','var(--amb)'],[.45,'B','오늘의 데스크','var(--cyn)'],[0,'C','수습 딜러','var(--mut)']];
-let arcS=null,arcTk=null,arcQk=null;
-function arcStop(){clearInterval(arcTk);clearInterval(arcQk);arcTk=arcQk=null;}
+let arcS=null,arcTk=null,arcQk=null,arcLk=null;
+function arcStop(){clearInterval(arcTk);clearInterval(arcQk);clearInterval(arcLk);arcTk=arcQk=arcLk=null;}
 function arcPop(txt,col){const st=$('#arcStage');if(!st)return;
   const s=document.createElement('span');s.className='arc-pop';s.style.color=col;s.textContent=txt;
   st.appendChild(s);setTimeout(()=>s.remove(),950);}
@@ -3002,23 +3023,33 @@ function arcBoard(first){
 }
 function arcPick(i){
   arcS.cur=i;arcS.deal={t0:arcS.t,pts:0,safe:true};
-  const x=arcS.list[i];
-  const chips=[
-    {l:mmdd(4+i),s:'잔여 0 · 매칭 ★',v:100,k:'m'},
-    {l:mmdd(8+i),s:'1W',v:60,k:'t'},
-    {l:mmdd(15+i),s:'2W',v:45,k:'t'},
-    {l:mmdd(6+i),s:'휴장 · 결제 불가',v:-50,k:'h'}]
-    .sort(()=>((i*7+3)%5)-2);   /* 통화마다 배치 섞기(결정적) */
+  const x=arcS.list[i],amt=Math.abs(parseInt(x.a));
+  /* 막대 길이 맞추기: 부족(빨강)과 딱 맞는 유입(초록)을 눈으로 스캔 — 빗금 = 휴장 함정 */
+  const mk=(w,lab)=>({w,lab});
+  let rows=[
+    {...mk(82,amt),d:mmdd(4+i),v:100,k:'m'},
+    {...mk(60,Math.round(amt*0.73)),d:mmdd(9+i),v:55,k:'n'},
+    {...mk(30,Math.round(amt*0.37)),d:mmdd(13+i),v:30,k:'s'},
+    {...mk(82,amt),d:mmdd(6+i),v:-50,k:'h'}];
+  const rot=i%4;rows=rows.slice(rot).concat(rows.slice(0,rot));   /* 통화마다 배치 회전 */
   $('#arcStage').innerHTML=`
-    <p class="arc-q">${x.c} ${x.a} · <b style="color:var(--amb)">갚을 날</b>을 고르세요 <small>— 반대 흐름과 딱 맞으면 최고점</small></p>
-    <div class="arc-chips">${chips.map(c=>`
-      <button class="arc-chip" data-arc="date" data-v="${c.v}" data-k="${c.k}"><b>${c.l}</b><small>${c.s}</small></button>`).join('')}
+    <p class="arc-q">${x.c} · <b style="color:var(--amb)">길이가 딱 맞는 날</b>을 찾으세요 <small>— 반대 흐름과 같으면 스퀘어</small></p>
+    <div class="arc-need"><div class="arc-srow" style="cursor:default;border-color:rgba(240,84,92,.5)">
+      <span class="dt" style="color:var(--red)">부족</span>
+      <div class="arc-sbarw"><div class="arc-sbar red" style="width:82%"></div></div>
+      <b style="color:var(--red)">${x.a}</b></div></div>
+    <div class="arc-srows">${rows.map(r=>`
+      <button class="arc-srow${r.k==='h'?' holr':''}" data-arc="sd" data-v="${r.v}" data-k="${r.k}">
+        <span class="dt">${r.d}</span>
+        <div class="arc-sbarw"><div class="arc-sbar${r.k==='h'?' hol':''}" style="width:${r.w}%"></div></div>
+        <b>+${r.lab}</b>${r.k==='h'?'<span class="arc-hol">휴장</span>':''}</button>`).join('')}
     </div>`;
 }
 function arcDate(v,k){
   arcS.deal.pts+=v;
-  if(k==='h'){arcPop('-50 휴장!','var(--red)');arcShake();arcS.deal.safe=false;setTimeout(arcQuote,600);}
-  else{arcPop(k==='m'?'+100 매칭!':'+'+v,k==='m'?'var(--grn)':'var(--yel)');setTimeout(arcQuote,450);}
+  if(k==='h'){arcPop('-50 휴장! 결제 불가','var(--red)');arcShake();arcS.deal.safe=false;setTimeout(arcQuote,650);}
+  else if(k==='m'){arcPop('+100 매칭! 스퀘어','var(--grn)');setTimeout(arcQuote,450);}
+  else{arcPop(`+${v} 잔여가 남는데…`,'var(--yel)');setTimeout(arcQuote,500);}
 }
 function arcQuote(){
   if(!$('#arcRoot'))return;
@@ -3049,27 +3080,39 @@ function arcSnipe(){
 function arcCp(){
   if(!$('#arcRoot'))return;
   const i=arcS.cur;
-  const b1=ARC_BANKS[(i*2)%6],b2=ARC_BANKS[(i*2+1)%6];
-  const r=((i*13+arcS.score)%10)/10;   /* 판마다 달라지는 결정적 랜덤 */
-  arcS.cpSt=r<.4?'ok':r<.75?'warn':'bad';
+  /* 한도 레이스: 게이지가 실시간으로 차오름(전 데스크 공유) — 최저가가 안전할 때 낚아채기 */
+  const seed=(i*37+Math.round(arcS.score))%100;
+  arcS.banks=[
+    {n:ARC_BANKS[(i*2)%6],  px:50,tag:'-1.00 · 최저가',u:62+seed%22,inc:0.9+((seed%5)*0.22)},
+    {n:ARC_BANKS[(i*2+1)%6],px:35,tag:'-0.99',        u:38+seed%14,inc:0.35},
+    {n:ARC_BANKS[(i*2+3)%6],px:20,tag:'-0.97',        u:16+seed%10,inc:0.2}];
   $('#arcStage').innerHTML=`
-    <p class="arc-q">마지막 관문 · <b style="color:var(--amb)">한도</b> 보고 상대를 고르세요 <small>— 한도는 전 데스크 공유</small></p>
-    <div class="arc-chips">
-      <button class="arc-chip" data-arc="cp" data-p="1"><b>${b1} · 최저가</b>
-        <small style="color:${arcS.cpSt==='ok'?'var(--grn)':arcS.cpSt==='warn'?'var(--yel)':'var(--red)'}">
-        한도 ${arcS.cpSt==='ok'?'○ 여유':arcS.cpSt==='warn'?'▲ 92%':'× 99%'}</small></button>
-      <button class="arc-chip" data-arc="cp" data-p="2"><b>${b2} · 차선</b><small style="color:var(--grn)">한도 ○ 여유</small></button>
+    <p class="arc-q">한도 레이스 · <b style="color:var(--amb)">차오르기 전에</b> 잡으세요 <small>— 한도는 전 데스크가 실시간 공유</small></p>
+    <div class="arc-banks">${arcS.banks.map((b,j)=>`
+      <button class="arc-bank" data-arc="cp" data-p="${j}" id="arcBk${j}"><b>${b.n}</b>
+        <span class="px">${b.tag}</span>
+        <div class="arc-lgw"><div class="arc-lg" id="arcLg${j}" style="width:${b.u}%"></div></div>
+        <span class="lgt" id="arcLt${j}">${Math.round(b.u)}%</span></button>`).join('')}
     </div>`;
+  arcLk=setInterval(()=>{
+    if(!$('#arcLg0')){clearInterval(arcLk);arcLk=null;return;}
+    arcS.banks.forEach((b,j)=>{
+      b.u=Math.min(99.4,b.u+Math.random()*b.inc);
+      const g=$('#arcLg'+j),t=$('#arcLt'+j),card=$('#arcBk'+j);
+      g.style.width=b.u+'%';
+      g.style.background=b.u<88?'var(--grn)':b.u<96?'var(--yel)':'var(--red)';
+      t.textContent=Math.round(b.u)+'%';
+      t.style.color=b.u<88?'var(--mut)':b.u<96?'var(--yel)':'var(--red)';
+      card.classList.toggle('bad',b.u>=96);
+    });
+  },REDUCED?500:150);
 }
 function arcCpPick(p){
-  const st=arcS.cpSt;let v,msg,col;
-  if(p===1){
-    if(st==='ok'){v=50;msg='+50 최저가 클리어!';col='var(--grn)';}
-    else if(st==='warn'){v=15;msg='+15 아슬아슬…';col='var(--yel)';}
-    else{v=-100;msg='사고! 한도 초과 -100';col='var(--red)';arcS.crash=true;arcS.deal.safe=false;arcShake();}
-  }else{
-    v=st==='bad'?50:35;msg=st==='bad'?'+50 나이스 세이브!':'+35 안전 운행';col='var(--grn)';
-  }
+  clearInterval(arcLk);arcLk=null;
+  const b=arcS.banks[p];let v,msg,col;
+  if(b.u<88){v=b.px;msg=`+${v} ${p===0?'최저가 세이프!':'안전 운행'}`;col='var(--grn)';}
+  else if(b.u<96){v=Math.round(b.px*0.4);msg=`+${v} 아슬아슬…`;col='var(--yel)';}
+  else{v=-100;msg='사고! 한도 초과 -100';col='var(--red)';arcS.crash=true;arcS.deal.safe=false;arcShake();}
   arcS.deal.pts+=v;arcPop(msg,col);
   setTimeout(arcDealDone,620);
 }
@@ -3135,7 +3178,7 @@ function bindArc(){
     const a=b.dataset.arc;
     if(a==='start')arcStart();
     else if(a==='pick')arcPick(+b.dataset.i);
-    else if(a==='date')arcDate(+b.dataset.v,b.dataset.k);
+    else if(a==='sd')arcDate(+b.dataset.v,b.dataset.k);
     else if(a==='snipe')arcSnipe();
     else if(a==='cp')arcCpPick(+b.dataset.p);
     else if(a==='save')arcCard();
