@@ -654,8 +654,20 @@ button.arc-pc:hover{border-color:var(--grn);transform:translateY(-2px)}
 .arc-firmw .fp{display:block;font-family:var(--mono);font-size:46px;font-weight:800;color:var(--txt);margin:2px 0 8px;font-variant-numeric:tabular-nums}
 .arc-firmw .fp.good{color:var(--grn);text-shadow:0 0 16px rgba(var(--grnR),.5)}
 .arc-firmw .fp.bad{color:var(--red)}
-.arc-fbarw{height:8px;border-radius:4px;background:var(--panel2);overflow:hidden;margin-bottom:10px}
+.arc-fbarw{height:8px;border-radius:4px;background:var(--panel2);overflow:hidden;margin-bottom:10px;position:relative}
+.arc-fbarw::after{content:'';position:absolute;top:0;bottom:0;left:25%;width:15%;background:rgba(var(--ambR),.38);pointer-events:none} /* JUST 존 */
 .arc-fbar{height:100%;width:100%;background:var(--grn);border-radius:4px}
+/* 딜 정산 오버레이 */
+.arc-setw{display:grid;place-items:center;min-height:200px;padding:4px 0}
+.arc-set{width:min(320px,88%);background:var(--panel);border:2px solid var(--amb);border-radius:14px;padding:13px 18px 15px;box-shadow:0 14px 40px rgba(var(--shR),.3)}
+.arc-set .h{font-family:var(--mono);font-weight:800;font-size:13px;color:var(--mut);letter-spacing:.08em;margin-bottom:6px}
+.arc-set .r{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:14px;padding:2.5px 0;animation:arcrow .16s ease-out}
+.arc-set .r span{color:var(--txt)}
+.arc-set .r b{font-family:var(--mono)}
+@keyframes arcrow{from{opacity:0;transform:translateX(-9px)}to{opacity:1;transform:none}}
+.arc-set .tot{display:flex;align-items:center;border-top:1px dashed var(--grid-hi);margin-top:8px;padding-top:9px;font-family:var(--mono);font-weight:800;font-size:14px;color:var(--mut)}
+.arc-set .tot b{font-size:19px;color:var(--txt)}
+.arc-set .g{font-size:18px;font-weight:800;padding:1px 10px;border-radius:8px;border:2px solid var(--amb);color:var(--amb);margin-left:10px;font-family:var(--mono)}
 .arc-fbt{display:flex;gap:8px}
 .arc-hit{flex:1.6;padding:11px;border:none;border-radius:10px;background:var(--amb);color:var(--ink);font-weight:800;font-size:16px;cursor:pointer;font-family:inherit}
 .arc-hit:hover{filter:brightness(1.08)}
@@ -3248,9 +3260,11 @@ function arcBoard(first){
     ${first?'빨간 통화를 눌러 조달 시작!':'다음 통화!'} <small>내일 계좌가 비기 전에</small></p>`;
 }
 function arcPick(i){
-  arcS.cur=i;arcS.deal={t0:arcS.t,pts:0,safe:true};
+  arcS.cur=i;arcS.deal={t0:arcS.t,pts:0,parts:[],safe:true};
   arcPz(i);
 }
+/* 점수는 전부 여기로: 딜 종료 시 정산 연출(항목별로 딱딱딱 쌓임)에 쓰인다 */
+function arcAdd(t,v){arcS.deal.pts+=v;arcS.deal.parts.push([t,v]);}
 /* ── 1단계: 조각 퍼즐 - 만기·금액이 다른 '들어올 돈' 조각으로 부족을 딱 0으로(역테트리스) ──
    함정 = 빨간 유출 조각 · 빗금 휴장 조각(정답과 같은 금액!) · 과다는 안 들어감. 되돌리기 가능 */
 function arcPz(i){
@@ -3283,13 +3297,13 @@ function arcPzDraw(){
 }
 function arcPzTap(j){
   const z=arcS.pz,p=z.ps.find(y=>y.j===j);if(!p||p.used||z.rem===0)return;
-  if(p.k==='r'){p.used=true;arcS.deal.pts-=40;arcS.deal.safe=false;arcPop('-40 그건 나갈 돈!','var(--red)');arcShake();arcPzDraw();return;}
-  if(p.k==='h'){p.used=true;arcS.deal.pts-=30;arcS.deal.safe=false;arcPop('-30 휴장일! 결제 불가','var(--red)');arcShake();arcPzDraw();return;}
-  if(p.a>z.rem){arcS.deal.pts-=10;arcPop('-10 과다! 안 들어가요','var(--yel)');arcShake();return;}
+  if(p.k==='r'){p.used=true;arcAdd('유출 조각 클릭',-40);arcS.deal.safe=false;arcPop('-40 그건 나갈 돈!','var(--red)');arcShake();arcPzDraw();return;}
+  if(p.k==='h'){p.used=true;arcAdd('휴장 조각 클릭',-30);arcS.deal.safe=false;arcPop('-30 휴장일! 결제 불가','var(--red)');arcShake();arcPzDraw();return;}
+  if(p.a>z.rem){arcAdd('과다 시도',-10);arcPop('-10 과다! 안 들어가요','var(--yel)');arcShake();return;}
   p.used=true;z.put.push(p);z.rem-=p.a;arcPzDraw();
   if(z.rem===0){
-    const bo=z.put.length<=2?30:0;
-    arcS.deal.pts+=100+bo;
+    arcAdd('스케줄 스퀘어',100);
+    const bo=z.put.length<=2;if(bo)arcAdd('최소 딜 보너스',30);
     arcPop(bo?'+130 스퀘어! 최소 딜 보너스':'+100 스퀘어!','var(--grn)');
     setTimeout(arcDesk,620);
   }
@@ -3313,7 +3327,8 @@ function arcDesk(){
     {n:nm(1),cur:-0.989,anchor:-0.990,u:34+seed%16,inc:1.4},
     {n:nm(3),cur:-0.977,anchor:-0.978,u:15+seed%12,inc:1.0}];
   const ord=[[0,1,2],[1,0,2],[2,0,1],[1,2,0]][i%4];banks=ord.map(j=>banks[j]);   /* 자리 섞기 */
-  arcS.dk={tk:0,spike:false,willSpike:doneN===arcS.spikeDeal,firm:null,banks};
+  const pace=1+doneN*0.15;banks.forEach(b=>b.inc*=pace);   /* 와리오웨어식 가속: 딜마다 판이 빨라짐 */
+  arcS.dk={tk:0,pace,spike:false,willSpike:doneN===arcS.spikeDeal,firm:null,banks};
   $('#arcStage').innerHTML=`
     <p class="arc-q">은행을 <b style="color:var(--amb)">☎ 콜</b>하면 확정가가 옵니다 <small>— 낮을수록 유리 · 한도 찬 곳은 거절당해요</small></p>
     <div id="arcNews" style="display:none;text-align:center;font-family:var(--mono);font-weight:800;font-size:15px;color:var(--red);margin:2px 0">🔔 지표 발표! 변동성 급증 — 대박 or 쪽박</div>
@@ -3332,7 +3347,7 @@ function arcDesk(){
     if(d.spike&&d.tk===12){d.spike=false;const n=$('#arcNews');if(n)n.style.display='none';}
     d.banks.forEach((b,j)=>{
       if(b.dead)return;
-      const w=(Math.random()-.5)*(d.spike?0.024:0.009);
+      const w=(Math.random()-.5)*(d.spike?0.024:0.009)*d.pace;
       b.cur+= w+(b.anchor-b.cur)*0.04;   /* 랜덤워크 + 제자리 복원력 — 최저가가 ~5초마다 뒤바뀜 */
       const el=$('#arcIn'+j);if(!el)return;
       el.textContent=b.cur.toFixed(3);
@@ -3379,12 +3394,12 @@ function arcCall(j){
   setTimeout(()=>{
     if(!$('#arcRoot')||arcS.dk!==d)return;
     if(rej){
-      b.dead=true;b.calling=false;d.firm=null;arcS.deal.pts-=20;arcS.deal.safe=false;
+      b.dead=true;b.calling=false;d.firm=null;arcAdd('한도 소진 — 거절',-20);arcS.deal.safe=false;
       arcPop('-20 한도 소진 — 거절!','var(--red)');arcShake();
       const c=$('#arcBk'+j);if(c){c.classList.remove('calling');c.classList.add('off');}
       const s=$('#arcSt'+j);if(s)s.textContent='거절 ✕';
       if(d.banks.every(y=>y.dead)){   /* 전 은행 거절 - 브로커 경유 비상 조달 */
-        arcS.deal.pts+=15;setTimeout(()=>{arcPop('+15 브로커 비상 조달…','var(--yel)');setTimeout(arcDealDone,650);},500);}
+        arcAdd('브로커 비상 조달',15);setTimeout(()=>{arcPop('+15 브로커 비상 조달…','var(--yel)');setTimeout(arcDealDone,650);},500);}
       return;
     }
     arcFirm(j);
@@ -3427,8 +3442,10 @@ function arcHit(){
   const lb=f.tier===2?(d.spike?'스파이크 특가!! 🔔':'특가 히트!'):f.tier===1?'무난한 체결':'슬리피지…';
   const col=f.tier===2?'var(--grn)':f.tier===1?'var(--yel)':'var(--red)';
   if(f.tier===0)arcS.deal.safe=false;
-  arcS.deal.pts+=f.pts;
+  arcAdd(lb,f.pts);
   arcPop(`${f.pts>=0?'+':''}${f.pts} ${lb}`,col);
+  /* JUST 타이밍: 카운트다운 바가 골드 존(25~40%)에 있을 때 잡으면 보너스 */
+  if(f.left>=.25&&f.left<=.40){arcAdd('JUST 타이밍',15);setTimeout(()=>arcPop('JUST! +15','var(--amb)'),280);}
   const el=$('#arcFm');if(el)el.remove();
   setTimeout(arcDealDone,620);
 }
@@ -3437,7 +3454,7 @@ function arcPassOut(timeout){
   clearInterval(arcFk);arcFk=null;
   const j=d.firm.j;d.firm=null;
   const b=d.banks[j];b.cool=REDUCED?4:12;b.calling=false;   /* 재호가까지 잠깐 대기 */
-  if(timeout){arcS.deal.pts-=10;arcPop('-10 머뭇… 호가 회수','var(--yel)');}
+  if(timeout){arcAdd('머뭇 — 호가 회수',-10);arcPop('-10 머뭇… 호가 회수','var(--yel)');}
   else arcPop('패스 — 다시 읽는다','var(--cyn)');
   const el=$('#arcFm');if(el)el.remove();
   const c=$('#arcBk'+j);if(c)c.classList.remove('calling');
@@ -3446,20 +3463,47 @@ function arcPassOut(timeout){
 function arcDealDone(){
   if(!$('#arcRoot'))return;
   const d=arcS.deal,spent=d.t0-arcS.t;
-  d.pts+=Math.max(0,Math.round(40-spent*2.5));          /* 스피드 보너스 */
-  /* 컷오프 직전 세이브: 5초 미만 남기고 스퀘어 = 짜릿한 보너스 */
+  const sp=Math.max(0,Math.round(40-spent*2.5));if(sp)arcAdd('스피드 보너스',sp);
   const cc=arcS.list[arcS.cur],leftS=cc.dl-(60-arcS.t);
-  const clutch=leftS>0&&leftS<5;
-  if(clutch){d.pts+=25;setTimeout(()=>arcPop('컷오프 직전 세이브 +25!','var(--cyn)'),380);}
+  if(leftS>0&&leftS<5)arcAdd('컷오프 직전 세이브',25);   /* 5초 미만 스퀘어 = 짜릿한 보너스 */
   const gr=d.pts>=235?'S':d.pts>=180?'A':d.pts>=120?'B':'C';
   arcS.combo=(gr==='S'||gr==='A')&&d.safe?arcS.combo+1:0;
   const cb=arcS.combo>1?arcS.combo*15:0;
+  if(cb)d.parts.push([`콤보 ×${arcS.combo}`,cb]);
   arcS.score+=Math.max(0,d.pts)+cb;
   $('#arcScore').textContent=arcS.score.toLocaleString();
   const x=arcS.list[arcS.cur];x.done=true;x.gr=gr;
-  arcPop(`${x.c} 스퀘어! ${gr}등급${cb?` · 콤보 x${arcS.combo}`:''}`,'var(--grn)');
-  if(arcS.list.every(y=>y.done))setTimeout(arcEnd,700);
-  else setTimeout(arcBoard,650);
+  arcSettle(gr);
+}
+/* 딜 정산 연출 — 항목이 딱·딱·딱 쌓이고 등급 도장 (점수의 이유가 손에 잡히게) */
+function arcSettle(gr){
+  const d=arcS.deal,x=arcS.list[arcS.cur];
+  arcGrid();
+  $('#arcStage').innerHTML=`<div class="arc-setw"><div class="arc-set">
+    <div class="h">${x.c} 딜 정산</div><div id="arcSetRows"></div>
+    <div class="tot" id="arcSetTot" style="visibility:hidden">TOTAL <span style="margin-left:auto"><b id="arcSetSum">0</b><span class="g">${gr}</span></span></div>
+  </div></div>`;
+  const rows=d.parts;let i=0;
+  const iv=setInterval(()=>{
+    const box=$('#arcSetRows');
+    if(!box){clearInterval(iv);return;}
+    if(i<rows.length){
+      const [t,v]=rows[i];i++;
+      box.insertAdjacentHTML('beforeend',
+        `<div class="r"><span>${t}</span><b style="color:${v>=0?'var(--grn)':'var(--red)'}">${v>=0?'+':''}${v}</b></div>`);
+    }else{
+      clearInterval(iv);
+      const tot=$('#arcSetTot');
+      if(tot){tot.style.visibility='visible';
+        $('#arcSetSum').textContent=(rows.reduce((s,r)=>s+r[1],0)).toLocaleString();}
+      setTimeout(()=>{
+        if(!$('#arcRoot'))return;
+        if(arcS.list.every(y=>y.done||y.dead))arcEnd();
+        else{arcBoard();
+          if(arcS.list.filter(y=>y.done).length>=2)arcPop('⚡ 판이 빨라진다!','var(--yel)');}
+      },700);
+    }
+  },REDUCED?300:150);
 }
 function arcEnd(){
   arcStop();if(!$('#arcRoot'))return;
