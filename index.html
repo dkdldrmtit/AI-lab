@@ -594,6 +594,10 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .arc-cut{height:100%;border-radius:3px;background:var(--cyn);transition:width .1s linear}
 .arc-cutt{position:absolute;top:6px;right:8px;font-style:normal;font-family:var(--mono);font-size:10.5px;color:var(--dim)}
 .arc-cell .gr{position:absolute;top:-11px;right:-6px;font-family:var(--mono);font-weight:800;font-size:14px;padding:1px 9px;border-radius:99px;background:var(--bg);border:2px solid var(--amb);color:var(--amb)}
+.arc-cell.hot.warn{animation-duration:.55s}
+.arc-cell.hot.crit{animation:arcblink .32s infinite;border-color:var(--red);background:rgba(var(--redR),.16)}
+.arc-cell.crit .arc-cutt{color:var(--red);font-weight:800}
+.arc-seg .x{font-style:normal;opacity:.6;margin-left:5px;font-size:11px;font-weight:800}
 @keyframes arcblink{0%,100%{box-shadow:0 0 0 0 rgba(var(--redR),0)}50%{box-shadow:0 0 0 5px rgba(var(--redR),.22)}}
 .arc-stage{border:1px solid var(--grid);border-radius:14px;background:var(--panel2);padding:18px;margin-top:4px;min-height:210px;position:relative;overflow:hidden}
 .arc-q{font-family:var(--mono);font-weight:800;font-size:15px;color:var(--txt);margin:0 0 4px}
@@ -3215,6 +3219,9 @@ function arcStart(){
         cb.style.width=(r*100)+'%';
         cb.style.background=r>.4?'var(--cyn)':r>.18?'var(--yel)':'var(--red)';
         const ct=$('#arcCutT'+i);if(ct)ct.textContent=Math.max(0,x.dl-el).toFixed(0)+'s';
+        /* 임박할수록 급한 표정: 40% 이하 빠른 깜빡임 → 18% 이하 빨간 경보 */
+        const cell=cb.closest('.arc-cell');
+        if(cell){cell.classList.toggle('warn',r<=.4&&r>.18);cell.classList.toggle('crit',r<=.18);}
       }
     });
     if(changed){arcGrid();arcPop('컷오프 마감! 통화를 놓쳤다','var(--red)');arcShake();
@@ -3266,7 +3273,7 @@ function arcPz(i){
 function arcPzDraw(){
   const z=arcS.pz;if(!$('#arcGap'))return;
   $('#arcGap').innerHTML=z.put.map((p,q)=>
-    `<button class="arc-seg" data-arc="pzu" data-q="${q}" style="width:${(p.a/z.T*100).toFixed(1)}%" title="빼기">+${p.a}</button>`).join('');
+    `<button class="arc-seg" data-arc="pzu" data-q="${q}" style="width:${(p.a/z.T*100).toFixed(1)}%" title="빼기">+${p.a}<i class="x">×</i></button>`).join('');
   $('#arcPcs').innerHTML=z.ps.map(p=>{
     const w=`flex-basis:${(p.a/z.T*60+15).toFixed(1)}%`;
     if(p.used)return `<span class="arc-pc x" style="${w}"><i>${p.d}</i>${p.k==='r'?'-':'+'}${p.a}</span>`;
@@ -3299,21 +3306,25 @@ function arcDesk(){
   const i=arcS.cur,doneN=arcS.list.filter(y=>y.done).length;
   const seed=(i*31+Math.round(arcS.score))%97;
   const nm=j=>ARC_BANKS[(i*2+j)%6];
-  arcS.dk={tk:0,spike:false,willSpike:doneN===arcS.spikeDeal,firm:null,
-    banks:[
-      {n:nm(0),base:-1.000,q0:130,u:62+seed%22,inc:2.6,tag:'최저가권'},
-      {n:nm(1),base:-0.985,q0:75, u:34+seed%16,inc:1.4,tag:''},
-      {n:nm(3),base:-0.965,q0:40, u:15+seed%12,inc:1.0,tag:''}]};
+  /* 가격은 살아 있다: 각 은행 호가가 천천히 표류 → '최저가'가 수시로 바뀜.
+     싼 집일수록 한도가 급하게 참(다들 거기로 몰리니까) → 거절 리스크 트레이드오프 */
+  let banks=[
+    {n:nm(0),cur:-0.996,anchor:-0.994,u:62+seed%22,inc:2.6},
+    {n:nm(1),cur:-0.989,anchor:-0.990,u:34+seed%16,inc:1.4},
+    {n:nm(3),cur:-0.977,anchor:-0.978,u:15+seed%12,inc:1.0}];
+  const ord=[[0,1,2],[1,0,2],[2,0,1],[1,2,0]][i%4];banks=ord.map(j=>banks[j]);   /* 자리 섞기 */
+  arcS.dk={tk:0,spike:false,willSpike:doneN===arcS.spikeDeal,firm:null,banks};
   $('#arcStage').innerHTML=`
     <p class="arc-q">은행을 <b style="color:var(--amb)">☎ 콜</b>하면 확정가가 옵니다 <small>— 낮을수록 유리 · 한도 찬 곳은 거절당해요</small></p>
     <div id="arcNews" style="display:none;text-align:center;font-family:var(--mono);font-weight:800;font-size:15px;color:var(--red);margin:2px 0">🔔 지표 발표! 변동성 급증 — 대박 or 쪽박</div>
-    <div class="arc-banks">${arcS.dk.banks.map((b,j)=>`
-      <button class="arc-bank" data-arc="call" data-j="${j}" id="arcBk${j}"><b>${b.n}</b>${b.tag?`<span class="bt">${b.tag}</span>`:''}
-        <span class="ind" id="arcIn${j}">${b.base.toFixed(3)}</span>
+    <div class="arc-banks">${banks.map((b,j)=>`
+      <button class="arc-bank" data-arc="call" data-j="${j}" id="arcBk${j}"><b>${b.n}</b><span class="bt" id="arcBt${j}" hidden>최저가</span>
+        <span class="ind" id="arcIn${j}">${b.cur.toFixed(3)}</span>
         <div class="arc-lgw"><div class="arc-lg" id="arcLg${j}" style="width:${b.u}%"></div></div>
         <span class="lgt" id="arcLt${j}">한도 ${Math.round(b.u)}%</span>
         <span class="cst" id="arcSt${j}">☎ 콜</span></button>`).join('')}</div>`;
-  /* 참고호가 플리커: 확정가가 아니라서 계속 흔들린다 */
+  arcBest();
+  /* 참고호가 표류 + 플리커 */
   arcQk=setInterval(()=>{
     const d=arcS.dk;if(!$('#arcIn0')||!d){clearInterval(arcQk);arcQk=null;return;}
     d.tk++;
@@ -3321,19 +3332,21 @@ function arcDesk(){
     if(d.spike&&d.tk===12){d.spike=false;const n=$('#arcNews');if(n)n.style.display='none';}
     d.banks.forEach((b,j)=>{
       if(b.dead)return;
-      const w=(Math.random()-.5)*(d.spike?0.06:0.016);
+      const w=(Math.random()-.5)*(d.spike?0.024:0.009);
+      b.cur+= w+(b.anchor-b.cur)*0.04;   /* 랜덤워크 + 제자리 복원력 — 최저가가 ~5초마다 뒤바뀜 */
       const el=$('#arcIn'+j);if(!el)return;
-      el.textContent=(b.base+w).toFixed(3);
+      el.textContent=b.cur.toFixed(3);
       el.classList.remove('up','dn');void el.offsetWidth;
       el.classList.add(w<0?'up':'dn');   /* 내려가면(더 싸짐) 초록 */
     });
+    arcBest();
   },REDUCED?800:430);
-  /* 한도 게이지: 차다가 줄었다 반복 - 최저가권이 제일 급하게 참 */
+  /* 한도 게이지: 차다가 줄었다 반복 */
   arcLk=setInterval(()=>{
     const d=arcS.dk;if(!$('#arcLg0')||!d){clearInterval(arcLk);arcLk=null;return;}
     d.banks.forEach((b,j)=>{
       if(b.dead)return;
-      if(b.cool>0){b.cool--;if(b.cool===0){const s=$('#arcSt'+j);if(s)s.textContent='☎ 콜';}}
+      if(b.cool>0)b.cool--;
       const dip=Math.random()<.26;
       b.u+= dip? -Math.random()*b.inc*2.1 : Math.random()*b.inc;
       b.u=Math.max(10,Math.min(99.4,b.u));
@@ -3343,20 +3356,30 @@ function arcDesk(){
       t.textContent='한도 '+Math.round(b.u)+'%';
       t.style.color=b.u<88?'var(--mut)':b.u<96?'var(--yel)':'var(--red)';
       card.classList.toggle('bad',b.u>=96);
+      /* 한도가 행동으로 이어지게: 콜 버튼 라벨이 곧 경고 */
+      const s=$('#arcSt'+j);
+      if(s&&!b.calling)s.innerHTML=b.cool>0?'재호가 대기…':b.u>=88?'<b style="color:var(--red)">⚠ 거절 위험</b>':'☎ 콜';
     });
   },REDUCED?500:150);
+}
+function arcBest(){   /* 지금 제일 싼 집에 최저가 배지 */
+  const d=arcS.dk;if(!d)return;
+  let bi=-1,bv=1e9;
+  d.banks.forEach((b,j)=>{if(!b.dead&&b.cur<bv){bv=b.cur;bi=j;}});
+  d.banks.forEach((b,j)=>{const t=$('#arcBt'+j);if(t)t.hidden=(j!==bi||b.dead);});
 }
 function arcCall(j){
   const d=arcS.dk;if(!d)return;
   const b=d.banks[j];if(!b||b.dead||d.firm||b.cool>0)return;
   const rej=b.u>=96||(b.u>=88&&Math.random()<(b.u-86)/12);   /* 한도 찬 만큼 거절 확률 */
+  b.calling=true;
   const st=$('#arcSt'+j);if(st)st.textContent='☎ 콜 중…';
   const card=$('#arcBk'+j);if(card)card.classList.add('calling');
   d.firm='wait';
   setTimeout(()=>{
     if(!$('#arcRoot')||arcS.dk!==d)return;
     if(rej){
-      b.dead=true;d.firm=null;arcS.deal.pts-=20;arcS.deal.safe=false;
+      b.dead=true;b.calling=false;d.firm=null;arcS.deal.pts-=20;arcS.deal.safe=false;
       arcPop('-20 한도 소진 — 거절!','var(--red)');arcShake();
       const c=$('#arcBk'+j);if(c){c.classList.remove('calling');c.classList.add('off');}
       const s=$('#arcSt'+j);if(s)s.textContent='거절 ✕';
@@ -3369,13 +3392,16 @@ function arcCall(j){
 }
 function arcFirm(j){
   const d=arcS.dk,b=d.banks[j];
+  /* 점수 기반 = 콜 시점의 가격 순위: 지금 싼 집을 잡아야 크게 받는다 */
+  const rank=[...d.banks].filter(x=>!x.dead).sort((a,c)=>a.cur-c.cur).indexOf(b);
+  const q0=rank===0?130:rank===1?75:40;
   /* 확정가 롤: 참고호가보다 좋게 올 수도, 슬리피지가 날 수도. 스파이크 중엔 양극단 */
   const r=Math.random();
   const tier=d.spike?(r<.40?2:r<.68?1:0):(r<.28?2:r<.74?1:0);   /* 2특가/1무난/0슬리피지 */
   const off=tier===2?-0.014-Math.random()*0.008:tier===1?(Math.random()-.5)*0.006:0.022+Math.random()*0.02;
-  let pts=tier===2?b.q0+25:tier===1?b.q0:Math.round(b.q0*0.45);
+  let pts=tier===2?q0+25:tier===1?q0:Math.round(q0*0.45);
   if(d.spike)pts=tier===2?Math.round(pts*1.3):tier===0?pts-20:pts;
-  d.firm={j,px:b.base+off,pts,tier,left:1};
+  d.firm={j,px:b.cur+off,pts,tier,left:1};
   $('#arcStage').insertAdjacentHTML('beforeend',`
     <div class="arc-firmw" id="arcFm">
       <span class="fl">${b.n} 확정가${d.spike?' · 🔔 변동성!':''} — 지나가면 회수됩니다</span>
@@ -3397,6 +3423,7 @@ function arcHit(){
   const d=arcS.dk;if(!d||!d.firm||d.firm==='wait')return;
   clearInterval(arcFk);arcFk=null;
   const f=d.firm;d.firm=null;
+  const bb=d.banks[f.j];if(bb)bb.calling=false;
   const lb=f.tier===2?(d.spike?'스파이크 특가!! 🔔':'특가 히트!'):f.tier===1?'무난한 체결':'슬리피지…';
   const col=f.tier===2?'var(--grn)':f.tier===1?'var(--yel)':'var(--red)';
   if(f.tier===0)arcS.deal.safe=false;
@@ -3409,7 +3436,7 @@ function arcPassOut(timeout){
   const d=arcS.dk;if(!d||!d.firm||d.firm==='wait')return;
   clearInterval(arcFk);arcFk=null;
   const j=d.firm.j;d.firm=null;
-  const b=d.banks[j];b.cool=REDUCED?4:12;   /* 재호가까지 잠깐 대기 */
+  const b=d.banks[j];b.cool=REDUCED?4:12;b.calling=false;   /* 재호가까지 잠깐 대기 */
   if(timeout){arcS.deal.pts-=10;arcPop('-10 머뭇… 호가 회수','var(--yel)');}
   else arcPop('패스 — 다시 읽는다','var(--cyn)');
   const el=$('#arcFm');if(el)el.remove();
@@ -3420,6 +3447,10 @@ function arcDealDone(){
   if(!$('#arcRoot'))return;
   const d=arcS.deal,spent=d.t0-arcS.t;
   d.pts+=Math.max(0,Math.round(40-spent*2.5));          /* 스피드 보너스 */
+  /* 컷오프 직전 세이브: 5초 미만 남기고 스퀘어 = 짜릿한 보너스 */
+  const cc=arcS.list[arcS.cur],leftS=cc.dl-(60-arcS.t);
+  const clutch=leftS>0&&leftS<5;
+  if(clutch){d.pts+=25;setTimeout(()=>arcPop('컷오프 직전 세이브 +25!','var(--cyn)'),380);}
   const gr=d.pts>=235?'S':d.pts>=180?'A':d.pts>=120?'B':'C';
   arcS.combo=(gr==='S'||gr==='A')&&d.safe?arcS.combo+1:0;
   const cb=arcS.combo>1?arcS.combo*15:0;
