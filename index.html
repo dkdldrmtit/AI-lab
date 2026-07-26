@@ -3063,7 +3063,7 @@ function arcPick(i){
     {...mk(82,amt),d:mmdd(11+i),v:-60,k:'r'}];
   const rot=(i*2)%5;rows=rows.slice(rot).concat(rows.slice(0,rot));   /* 통화마다 배치 회전 */
   $('#arcStage').innerHTML=`
-    <p class="arc-q">${x.c} · <b style="color:var(--amb)">길이가 딱 맞는 날</b>을 찾으세요 <small>— 반대 흐름과 같으면 스퀘어</small></p>
+    <p class="arc-q">${x.c} · 부족과 <b style="color:var(--grn)">길이가 딱 맞는 초록</b>을 찾으세요 <small>— 들어올 돈으로 메워야 스퀘어</small></p>
     <div class="arc-need"><div class="arc-srow" style="cursor:default;border-color:rgba(240,84,92,.5)">
       <span class="dt" style="color:var(--red)">부족</span>
       <div class="arc-sbarw"><div class="arc-sbar red" style="width:82%"></div></div>
@@ -3073,7 +3073,8 @@ function arcPick(i){
         <span class="dt">${r.d}</span>
         <div class="arc-sbarw"><div class="arc-sbar${r.k==='h'?' hol':r.k==='r'?' red':''}" style="width:${r.w}%"></div></div>
         <b style="${r.k==='r'?'color:var(--red)':''}">${r.k==='r'?'-':'+'}${r.lab}</b>${r.k==='h'?'<span class="arc-hol">휴장</span>':''}</button>`).join('')}
-    </div>`;
+    </div>
+    <p class="tagline" style="margin:10px 2px 0">🟢 들어올 돈 · 🔴 나갈 돈(고르면 부족이 더 커져요!) · 빗금 = 휴장</p>`;
 }
 function arcDate(v,k){
   arcS.deal.pts+=v;
@@ -3093,15 +3094,17 @@ function arcQuote(){
     <div class="arc-quote" id="arcQ">-1.00</div>
     <div class="arc-gaugew"><div class="arc-needle" id="arcNd" style="left:30%"></div></div>
     <button class="arc-snipe" data-arc="snipe">잡기!</button>`;
+  arcS.qPh=Math.random()*6.28;
   arcQk=setInterval(()=>{
     if(!$('#arcQ')){clearInterval(arcQk);return;}
     arcS.qTicks++;
     if(willSpike&&arcS.qTicks===10){arcS.spike=true;$('#arcNews').style.display='block';arcShake();}
     if(arcS.spike&&arcS.qTicks===38){arcS.spike=false;$('#arcNews').style.display='none';}
-    const amp=arcS.spike?52:26,jp=arcS.spike?.3:.12;
-    let dv=(Math.random()*amp-amp/2);
-    if(Math.random()<jp)dv+=(Math.random()<.5?-1:1)*(arcS.spike?52:28);
-    arcS.qv=Math.max(0,Math.min(100,arcS.qv+dv));
+    /* 사인 스윕 + 노이즈: 2초에 한 번쯤 초록을 '스치고' 지나감 - 머무르진 않음 */
+    const spd=arcS.spike?0.58:0.34, swing=arcS.spike?46:36, noise=arcS.spike?26:13;
+    let v=(arcS.spike?48:44)+swing*Math.sin(arcS.qTicks*spd+arcS.qPh)+(Math.random()*noise-noise/2);
+    if(Math.random()<(arcS.spike?.22:.08))v+=(Math.random()<.5?-1:1)*(arcS.spike?40:22);
+    arcS.qv=Math.max(0,Math.min(100,v));
     $('#arcQ').textContent=(-1.12+arcS.qv*0.0018).toFixed(2);
     $('#arcQ').style.color=arcS.qv>=72?'var(--grn)':arcS.qv>=42?'var(--txt)':'var(--red)';
     $('#arcQ').style.textShadow=arcS.spike?'0 0 18px rgba(240,84,92,.55)':'';
