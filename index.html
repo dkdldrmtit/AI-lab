@@ -552,6 +552,11 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .arc-cell.hot{animation:arcblink 1s infinite}
 .arc-cell.done{border-color:rgba(53,196,141,.6);background:rgba(53,196,141,.10);cursor:default;animation:none}
 .arc-cell.done span{color:var(--grn)}
+.arc-cell.dead{border-color:var(--grid);background:var(--panel2);cursor:default;animation:none;opacity:.55}
+.arc-cell.dead span{color:var(--dim)}
+.arc-cutw{height:5px;border-radius:3px;background:rgba(255,255,255,.06);margin-top:8px;overflow:hidden}
+.arc-cut{height:100%;border-radius:3px;background:var(--cyn);transition:width .1s linear}
+.arc-cutt{position:absolute;top:6px;right:8px;font-style:normal;font-family:var(--mono);font-size:10.5px;color:var(--dim)}
 .arc-cell .gr{position:absolute;top:-11px;right:-6px;font-family:var(--mono);font-weight:800;font-size:14px;padding:1px 9px;border-radius:99px;background:#0B0F17;border:2px solid var(--amb);color:var(--amb)}
 @keyframes arcblink{0%,100%{box-shadow:0 0 0 0 rgba(240,84,92,0)}50%{box-shadow:0 0 0 5px rgba(240,84,92,.22)}}
 .arc-stage{border:1px solid var(--grid);border-radius:14px;background:var(--panel2);padding:18px;margin-top:4px;min-height:210px;position:relative;overflow:hidden}
@@ -2979,7 +2984,8 @@ function bindFx(){
 /* ── 아케이드: 컷오프 러시 — 60초 안에 부족 통화를 전부 0으로 (수치 전부 예시·실거래 아님) ──
    게임 루프: 부족 통화 탭 → 갚을 날 매칭 → 호가 스나이핑 → 한도 순간판단 → 등급·콤보.
    규칙은 실제 도구(FX조달판)와 동일 구조 — 한 판이면 업무 흐름이 손에 남게 설계 */
-const ARC_CCYS=[{c:'JPY',a:'-250'},{c:'HKD',a:'-120'},{c:'EUR',a:'-80'},{c:'AUD',a:'-150'}];
+/* dl = 통화별 컷오프(경과초) - 도쿄가 먼저 닫는다: JPY가 제일 급함 */
+const ARC_CCYS=[{c:'JPY',a:'-250',dl:24},{c:'HKD',a:'-120',dl:34},{c:'EUR',a:'-80',dl:46},{c:'AUD',a:'-150',dl:57}];
 const ARC_BANKS=['A은행','B은행','C은행','D은행','E외은','F증권'];
 const ARC_RANKS=[[.82,'S','컷오프의 지배자','var(--grn)'],[.64,'A','에이스 딜러','var(--amb)'],[.45,'B','오늘의 데스크','var(--cyn)'],[0,'C','수습 딜러','var(--mut)']];
 let arcS=null,arcTk=null,arcQk=null,arcLk=null;
@@ -2991,8 +2997,9 @@ function arcShake(){const st=$('#arcStage');if(!st)return;
   st.classList.remove('arc-shake');void st.offsetWidth;st.classList.add('arc-shake');}
 function arcStart(){
   arcStop();fxWatchStop&&clearInterval(fxTick);
-  arcS={t:60.0,score:0,combo:0,cur:-1,deal:null,crash:false,
-        list:ARC_CCYS.map(x=>({...x,done:false,gr:''}))};
+  arcS={t:60.0,score:0,combo:0,cur:-1,deal:null,crash:false,missed:0,
+        spikeDeal:1+Math.floor(Math.random()*3),   /* 2~4번째 딜 중 하나에서 지표 발표 */
+        list:ARC_CCYS.map(x=>({...x,done:false,dead:false,gr:''}))};
   $('#fxSteps').innerHTML='';const w=$('#fxWatch');if(w)w.hidden=true;
   $('#fxStage').innerHTML=`<div id="arcRoot">
     <div class="arc-top"><span class="tt" id="arcClock">60.0</span><span class="sc">SCORE <span id="arcScore">0</span></span></div>
@@ -3006,14 +3013,34 @@ function arcStart(){
     $('#arcClock').textContent=arcS.t.toFixed(1);
     const bar=$('#arcBar');bar.style.width=(arcS.t/60*100)+'%';
     bar.style.background=arcS.t>20?'var(--grn)':arcS.t>10?'var(--yel)':'var(--red)';
+    /* 통화별 컷오프 진행 + 만료 처리 (진행 중인 딜은 봐줌) */
+    const el=60-arcS.t;let changed=false;
+    arcS.list.forEach((x,i)=>{
+      if(!x.done&&!x.dead&&el>=x.dl&&arcS.cur!==i){x.dead=true;arcS.missed++;changed=true;}
+      const cb=$('#arcCut'+i);
+      if(cb&&!x.done&&!x.dead){
+        const r=Math.max(0,(x.dl-el)/x.dl);
+        cb.style.width=(r*100)+'%';
+        cb.style.background=r>.4?'var(--cyn)':r>.18?'var(--yel)':'var(--red)';
+        const ct=$('#arcCutT'+i);if(ct)ct.textContent=Math.max(0,x.dl-el).toFixed(0)+'s';
+      }
+    });
+    if(changed){arcGrid();arcPop('컷오프 마감! 통화를 놓쳤다','var(--red)');arcShake();
+      if(arcS.list.every(y=>y.done||y.dead)){setTimeout(arcEnd,700);return;}}
     if(arcS.t<=0)arcEnd();
   },100);
   arcBoard(true);
 }
 function arcGrid(){
-  $('#arcGrid').innerHTML=arcS.list.map((x,i)=>x.done
-    ?`<div class="arc-cell done"><b>${x.c}</b><span>0 ✓</span><span class="gr">${x.gr}</span></div>`
-    :`<button class="arc-cell hot" data-arc="pick" data-i="${i}"><b>${x.c}</b><span>${x.a}</span></button>`).join('');
+  const el=60-(arcS?arcS.t:0);
+  $('#arcGrid').innerHTML=arcS.list.map((x,i)=>{
+    if(x.done)return `<div class="arc-cell done"><b>${x.c}</b><span>0 ✓</span><span class="gr">${x.gr}</span></div>`;
+    if(x.dead)return `<div class="arc-cell dead"><b>${x.c}</b><span>마감 ✕</span></div>`;
+    const r=Math.max(0,(x.dl-el)/x.dl);
+    return `<button class="arc-cell hot" data-arc="pick" data-i="${i}"><b>${x.c}</b><span>${x.a}</span>
+      <div class="arc-cutw"><div class="arc-cut" id="arcCut${i}" style="width:${r*100}%"></div></div>
+      <em class="arc-cutt" id="arcCutT${i}">${Math.max(0,x.dl-el).toFixed(0)}s</em></button>`;
+  }).join('');
 }
 function arcBoard(first){
   if(!$('#arcRoot'))return;
@@ -3024,14 +3051,17 @@ function arcBoard(first){
 function arcPick(i){
   arcS.cur=i;arcS.deal={t0:arcS.t,pts:0,safe:true};
   const x=arcS.list[i],amt=Math.abs(parseInt(x.a));
-  /* 막대 길이 맞추기: 부족(빨강)과 딱 맞는 유입(초록)을 눈으로 스캔 — 빗금 = 휴장 함정 */
+  /* 막대 길이 맞추기: 부족(빨강)과 딱 맞는 '유입(초록)'을 스캔.
+     함정 3종 - 같은 길이의 빗금(휴장) · 같은 길이의 빨강(방향 반대=유출!) · 아슬아슬 근사치 */
+  const near=i<2?0.86:0.93;   /* 뒤로 갈수록 근사치가 정답에 가까워짐 */
   const mk=(w,lab)=>({w,lab});
   let rows=[
     {...mk(82,amt),d:mmdd(4+i),v:100,k:'m'},
-    {...mk(60,Math.round(amt*0.73)),d:mmdd(9+i),v:55,k:'n'},
-    {...mk(30,Math.round(amt*0.37)),d:mmdd(13+i),v:30,k:'s'},
-    {...mk(82,amt),d:mmdd(6+i),v:-50,k:'h'}];
-  const rot=i%4;rows=rows.slice(rot).concat(rows.slice(0,rot));   /* 통화마다 배치 회전 */
+    {...mk(Math.round(82*near),Math.round(amt*near)),d:mmdd(9+i),v:55,k:'n'},
+    {...mk(38,Math.round(amt*0.46)),d:mmdd(13+i),v:30,k:'s'},
+    {...mk(82,amt),d:mmdd(6+i),v:-50,k:'h'},
+    {...mk(82,amt),d:mmdd(11+i),v:-60,k:'r'}];
+  const rot=(i*2)%5;rows=rows.slice(rot).concat(rows.slice(0,rot));   /* 통화마다 배치 회전 */
   $('#arcStage').innerHTML=`
     <p class="arc-q">${x.c} · <b style="color:var(--amb)">길이가 딱 맞는 날</b>을 찾으세요 <small>— 반대 흐름과 같으면 스퀘어</small></p>
     <div class="arc-need"><div class="arc-srow" style="cursor:default;border-color:rgba(240,84,92,.5)">
@@ -3041,40 +3071,55 @@ function arcPick(i){
     <div class="arc-srows">${rows.map(r=>`
       <button class="arc-srow${r.k==='h'?' holr':''}" data-arc="sd" data-v="${r.v}" data-k="${r.k}">
         <span class="dt">${r.d}</span>
-        <div class="arc-sbarw"><div class="arc-sbar${r.k==='h'?' hol':''}" style="width:${r.w}%"></div></div>
-        <b>+${r.lab}</b>${r.k==='h'?'<span class="arc-hol">휴장</span>':''}</button>`).join('')}
+        <div class="arc-sbarw"><div class="arc-sbar${r.k==='h'?' hol':r.k==='r'?' red':''}" style="width:${r.w}%"></div></div>
+        <b style="${r.k==='r'?'color:var(--red)':''}">${r.k==='r'?'-':'+'}${r.lab}</b>${r.k==='h'?'<span class="arc-hol">휴장</span>':''}</button>`).join('')}
     </div>`;
 }
 function arcDate(v,k){
   arcS.deal.pts+=v;
   if(k==='h'){arcPop('-50 휴장! 결제 불가','var(--red)');arcShake();arcS.deal.safe=false;setTimeout(arcQuote,650);}
+  else if(k==='r'){arcPop('-60 방향 반대! 그날도 유출이야','var(--red)');arcShake();arcS.deal.safe=false;setTimeout(arcQuote,700);}
   else if(k==='m'){arcPop('+100 매칭! 스퀘어','var(--grn)');setTimeout(arcQuote,450);}
   else{arcPop(`+${v} 잔여가 남는데…`,'var(--yel)');setTimeout(arcQuote,500);}
 }
 function arcQuote(){
   if(!$('#arcRoot'))return;
-  const x=arcS.list[arcS.cur];
-  arcS.qv=30;
+  const doneN=arcS.list.filter(y=>y.done).length;
+  arcS.qv=30;arcS.spike=false;arcS.qTicks=0;
+  const willSpike=(doneN===arcS.spikeDeal);   /* 이번 딜에 지표 발표 */
   $('#arcStage').innerHTML=`
     <p class="arc-q">호가가 움직입니다 · <b style="color:var(--amb)">초록 구간</b>에서 잡으세요</p>
+    <div id="arcNews" style="display:none;text-align:center;font-family:var(--mono);font-weight:800;font-size:15px;color:var(--red);margin:2px 0">🔔 지표 발표! 변동성 급증 — 대박 or 쪽박</div>
     <div class="arc-quote" id="arcQ">-1.00</div>
     <div class="arc-gaugew"><div class="arc-needle" id="arcNd" style="left:30%"></div></div>
     <button class="arc-snipe" data-arc="snipe">잡기!</button>`;
   arcQk=setInterval(()=>{
     if(!$('#arcQ')){clearInterval(arcQk);return;}
-    let dv=(Math.random()*26-13);
-    if(Math.random()<.12)dv+=(Math.random()<.5?-1:1)*28;   /* 가끔 튀는 시세 */
+    arcS.qTicks++;
+    if(willSpike&&arcS.qTicks===10){arcS.spike=true;$('#arcNews').style.display='block';arcShake();}
+    if(arcS.spike&&arcS.qTicks===38){arcS.spike=false;$('#arcNews').style.display='none';}
+    const amp=arcS.spike?52:26,jp=arcS.spike?.3:.12;
+    let dv=(Math.random()*amp-amp/2);
+    if(Math.random()<jp)dv+=(Math.random()<.5?-1:1)*(arcS.spike?52:28);
     arcS.qv=Math.max(0,Math.min(100,arcS.qv+dv));
     $('#arcQ').textContent=(-1.12+arcS.qv*0.0018).toFixed(2);
     $('#arcQ').style.color=arcS.qv>=72?'var(--grn)':arcS.qv>=42?'var(--txt)':'var(--red)';
+    $('#arcQ').style.textShadow=arcS.spike?'0 0 18px rgba(240,84,92,.55)':'';
     $('#arcNd').style.left=arcS.qv+'%';
   },REDUCED?400:110);
 }
 function arcSnipe(){
   clearInterval(arcQk);arcQk=null;
-  const v=Math.round(arcS.qv);arcS.deal.pts+=v;
-  arcPop(v>=72?`+${v} 스나이프!`:v>=42?`+${v} 무난`:`+${v} 급했다…`,
-         v>=72?'var(--grn)':v>=42?'var(--yel)':'var(--red)');
+  let v=Math.round(arcS.qv),msg,col;
+  if(arcS.spike){   /* 발표 한복판에서 잡기 = 하이 리스크 하이 리턴 */
+    if(v>=72){v=Math.round(v*1.5);msg=`+${v} 스파이크 캐치!! 🔔`;col='var(--grn)';}
+    else if(v>=42){msg=`+${v} 변동성 속 무난`;col='var(--yel)';}
+    else{v-=20;msg=`${v>=0?'+':''}${v} 급변동에 잡혔다…`;col='var(--red)';}
+  }else{
+    msg=v>=72?`+${v} 스나이프!`:v>=42?`+${v} 무난`:`+${v} 급했다…`;
+    col=v>=72?'var(--grn)':v>=42?'var(--yel)':'var(--red)';
+  }
+  arcS.deal.pts+=v;arcPop(msg,col);
   setTimeout(arcCp,520);
 }
 function arcCp(){
@@ -3083,9 +3128,9 @@ function arcCp(){
   /* 한도 레이스: 게이지가 실시간으로 차오름(전 데스크 공유) — 최저가가 안전할 때 낚아채기 */
   const seed=(i*37+Math.round(arcS.score))%100;
   arcS.banks=[
-    {n:ARC_BANKS[(i*2)%6],  px:50,tag:'-1.00 · 최저가',u:62+seed%22,inc:0.9+((seed%5)*0.22)},
-    {n:ARC_BANKS[(i*2+1)%6],px:35,tag:'-0.99',        u:38+seed%14,inc:0.35},
-    {n:ARC_BANKS[(i*2+3)%6],px:20,tag:'-0.97',        u:16+seed%10,inc:0.2}];
+    {n:ARC_BANKS[(i*2)%6],  px:50,tag:'-1.00 · 최저가',u:66+seed%20,inc:2.4+((seed%5)*0.4)},
+    {n:ARC_BANKS[(i*2+1)%6],px:35,tag:'-0.99',        u:40+seed%16,inc:1.3},
+    {n:ARC_BANKS[(i*2+3)%6],px:20,tag:'-0.97',        u:18+seed%12,inc:0.9}];
   $('#arcStage').innerHTML=`
     <p class="arc-q">한도 레이스 · <b style="color:var(--amb)">차오르기 전에</b> 잡으세요 <small>— 한도는 전 데스크가 실시간 공유</small></p>
     <div class="arc-banks">${arcS.banks.map((b,j)=>`
@@ -3097,7 +3142,10 @@ function arcCp(){
   arcLk=setInterval(()=>{
     if(!$('#arcLg0')){clearInterval(arcLk);arcLk=null;return;}
     arcS.banks.forEach((b,j)=>{
-      b.u=Math.min(99.4,b.u+Math.random()*b.inc);
+      /* 한도는 차기만 하지 않는다 - 다른 데스크가 갚으면 여유가 생겼다가 다시 참 */
+      const dip=Math.random()<.26;
+      b.u+= dip? -Math.random()*b.inc*2.1 : Math.random()*b.inc;
+      b.u=Math.max(10,Math.min(99.4,b.u));
       const g=$('#arcLg'+j),t=$('#arcLt'+j),card=$('#arcBk'+j);
       g.style.width=b.u+'%';
       g.style.background=b.u<88?'var(--grn)':b.u<96?'var(--yel)':'var(--red)';
@@ -3133,9 +3181,9 @@ function arcDealDone(){
 function arcEnd(){
   arcStop();if(!$('#arcRoot'))return;
   const doneN=arcS.list.filter(x=>x.done).length;
-  const ratio=arcS.score/1140;
+  const ratio=arcS.score/1200;
   let rk=ARC_RANKS.find(r=>ratio>=r[0]);
-  if(doneN<ARC_CCYS.length)rk=ARC_RANKS[3];
+  if(doneN<ARC_CCYS.length&&ARC_RANKS.indexOf(rk)<2)rk=ARC_RANKS[2];   /* 놓친 통화가 있으면 B가 상한 */
   const [_,R,T,C]=rk;
   arcS.res={R,T:arcS.crash?'사고 딜러 (한도는 꼭 확인!)':T,C:arcS.crash?'var(--red)':C,doneN};
   arcGrid();
@@ -3145,6 +3193,7 @@ function arcEnd(){
     <div class="arc-stats">
       <span>SCORE ${arcS.score.toLocaleString()}</span><span>처리 ${doneN}/${ARC_CCYS.length}통화</span>
       <span>${arcS.t>0?`남긴 시간 ${arcS.t.toFixed(1)}s`:'컷오프 초과!'}</span>
+      ${arcS.missed?`<span style="color:var(--red)">컷오프 놓침 ${arcS.missed}</span>`:''}
       <span>${arcS.crash?'사고 1건 ×':'무사고 ✓'}</span></div>
     <p class="tagline" style="margin:6px 0 14px">방금 하신 것 — 부족 확인 → 갚을 날 매칭 → 좋은 가격 잡기 → 한도 확인 → 체결.<br>
       이게 외화자금 데스크의 매일 아침입니다. (전부 예시)</p>
