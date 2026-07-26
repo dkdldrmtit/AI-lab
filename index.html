@@ -597,6 +597,13 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .arc-cell.hot.warn{animation-duration:.55s}
 .arc-cell.hot.crit{animation:arcblink .32s infinite;border-color:var(--red);background:rgba(var(--redR),.16)}
 .arc-cell.crit .arc-cutt{color:var(--red);font-weight:800}
+/* 딜 진행 중: 지금 통화 = 앰버 태그 · 나머지 = 흐리게(임박 경보만 예외로 계속 울림) */
+.arc-cell.curd{border-color:var(--amb);background:rgba(var(--ambR),.10);cursor:default}
+.arc-nowtag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);white-space:nowrap;
+  background:var(--amb);color:var(--ink);font-style:normal;font-family:var(--mono);font-weight:800;
+  font-size:11px;border-radius:99px;padding:2px 10px}
+.arc-cell.holdc{opacity:.5;cursor:default}
+.arc-cell.holdc.crit{opacity:1;animation:arcblink .32s infinite;border-color:var(--red);background:rgba(var(--redR),.16)}
 .arc-seg .x{font-style:normal;opacity:.6;margin-left:5px;font-size:11px;font-weight:800}
 @keyframes arcblink{0%,100%{box-shadow:0 0 0 0 rgba(var(--redR),0)}50%{box-shadow:0 0 0 5px rgba(var(--redR),.22)}}
 .arc-stage{border:1px solid var(--grid);border-radius:14px;background:var(--panel2);padding:18px;margin-top:4px;min-height:210px;position:relative;overflow:hidden}
@@ -3244,23 +3251,29 @@ function arcStart(){
 }
 function arcGrid(){
   const el=60-(arcS?arcS.t:0);
+  const busy=arcS.cur>=0;   /* 딜 진행 중: 다른 통화는 잠잠하게(누르라는 신호 아님) */
   $('#arcGrid').innerHTML=arcS.list.map((x,i)=>{
     if(x.done)return `<div class="arc-cell done"><b>${x.c}</b><span>0 ✓</span><span class="gr">${x.gr}</span></div>`;
     if(x.dead)return `<div class="arc-cell dead"><b>${x.c}</b><span>마감 ✕</span></div>`;
     const r=Math.max(0,(x.dl-el)/x.dl);
-    return `<button class="arc-cell hot" data-arc="pick" data-i="${i}"><b>${x.c}</b><span>${x.a}</span>
+    const inner=`<b>${x.c}</b><span>${x.a}</span>
       <div class="arc-cutw"><div class="arc-cut" id="arcCut${i}" style="width:${r*100}%"></div></div>
-      <em class="arc-cutt" id="arcCutT${i}">${Math.max(0,x.dl-el).toFixed(0)}s</em></button>`;
+      <em class="arc-cutt" id="arcCutT${i}">${Math.max(0,x.dl-el).toFixed(0)}s</em>`;
+    if(busy&&i===arcS.cur)return `<div class="arc-cell curd">${inner}<em class="arc-nowtag">▶ 진행 중</em></div>`;
+    if(busy)return `<div class="arc-cell holdc">${inner}</div>`;
+    return `<button class="arc-cell hot" data-arc="pick" data-i="${i}">${inner}</button>`;
   }).join('');
 }
 function arcBoard(first){
   if(!$('#arcRoot'))return;
+  arcS.cur=-1;   /* 딜 종료 → 다시 선택 모드 */
   arcGrid();
   $('#arcStage').innerHTML=`<p class="arc-q" style="text-align:center;margin-top:70px">
     ${first?'빨간 통화를 눌러 조달 시작!':'다음 통화!'} <small>내일 계좌가 비기 전에</small></p>`;
 }
 function arcPick(i){
   arcS.cur=i;arcS.deal={t0:arcS.t,pts:0,parts:[],safe:true};
+  arcGrid();   /* 진행 중 표시 + 나머지 통화 잠잠하게 */
   arcPz(i);
 }
 /* 점수는 전부 여기로: 딜 종료 시 정산 연출(항목별로 딱딱딱 쌓임)에 쓰인다 */
@@ -3507,6 +3520,7 @@ function arcSettle(gr){
 }
 function arcEnd(){
   arcStop();if(!$('#arcRoot'))return;
+  arcS.cur=-1;
   const doneN=arcS.list.filter(x=>x.done).length;
   const ratio=arcS.score/1200;
   let rk=ARC_RANKS.find(r=>ratio>=r[0]);
