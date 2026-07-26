@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- build sync 2026-07-06a — Pages 재배포 트리거 -->
-<html lang="ko">
+<html lang="ko" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
 <meta property="og:title" content="AI Lab — 업무 × AI 연구실">
 <meta property="og:description" content="반복 업무를 AI로 다시 설계하는 개인 AI 연구실. 자금판·쪽지 다듬기·건배사 자판기를 라이브 데모로 직접 체험해 보세요.">
 <meta property="og:url" content="https://ai-bingo.dev/">
-<meta name="theme-color" content="#0B0F17">
+<meta name="theme-color" content="#EDF1F7">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23F5A742'/%3E%3Ctext x='32' y='44' font-family='monospace' font-size='36' font-weight='700' fill='%230B0F17' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -1037,9 +1037,9 @@ button.arc-pc:hover{border-color:var(--grn);transform:translateY(-2px)}
 [data-theme="light"] .tr-boot{color:#0B6B49;opacity:1}                  /* 부팅 텍스트 대비(opacity 감쇠가 라이트에선 워시아웃) */
 [data-theme="light"] .arc-hit{background:#9A5F09}                       /* 흰 글씨 대비 AA */
 </style>
-<script>/* 저장된 테마 즉시 적용 (FOUC 방지) — 색상값은 applyTheme와 일치 유지 */
-try{if(localStorage.getItem('ailab-theme')==='light'){document.documentElement.setAttribute('data-theme','light');
-var _tm=document.querySelector('meta[name="theme-color"]');if(_tm)_tm.setAttribute('content','#EDF1F7');}}catch(e){}</script>
+<script>/* 저장된 테마 즉시 적용 (FOUC 방지) — 라이트 기본, 다크는 저장된 선택일 때만. 색상값은 applyTheme와 일치 유지 */
+try{if(localStorage.getItem('ailab-theme')==='dark'){document.documentElement.removeAttribute('data-theme');
+var _tm=document.querySelector('meta[name="theme-color"]');if(_tm)_tm.setAttribute('content','#0B0F17');}}catch(e){}</script>
 </head>
 <body>
 
@@ -1064,7 +1064,7 @@ var _tm=document.querySelector('meta[name="theme-color"]');if(_tm)_tm.setAttribu
     <a href="#log" data-v="log">LOG<span class="ko">기록</span></a>
     <a href="#about" data-v="about">ABOUT</a>
   </nav>
-  <button class="theme-tg" id="themeTg" type="button" aria-label="라이트 테마로 전환" title="라이트/다크 테마 전환"><span class="ic" aria-hidden="true">☀</span><span class="lb">LIGHT</span></button>
+  <button class="theme-tg" id="themeTg" type="button" aria-label="다크 테마로 전환" title="라이트/다크 테마 전환"><span class="ic" aria-hidden="true">☾</span><span class="lb">DARK</span></button>
 </div></header>
 
 <main class="wrap">
