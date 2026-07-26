@@ -33,6 +33,10 @@
   /* 반투명 서피스(글래스·스크림·줄무늬·트랙·행 틴트) */
   --glass:rgba(11,15,23,.88); --scrim:rgba(5,8,13,.72);
   --hol:rgba(17,26,40,.65); --track:rgba(255,255,255,.06); --rowtint:rgba(20,28,43,.5);
+  /* SMIL 아트 전용 중간톤 */
+  --artAmbp:#1c160b; --artAmb2:#B87A24; --artAmb3:#8A6E3A; --artKhaki:#B9A67C;
+  --artHi:#C8D2E0; --artHi2:#9fb0c4; --artCyn2:#2E7D96; --artCyn3:#7FB8CC; --artWell:#0d1420;
+  --artMap:#16233A; --artMap2:#33507A; --artMap3:#1B2E4C; --artMap4:#3E5F90; --artRedF:#4a1d21; --artGray:#6b7789;
   --kor:'Pretendard Variable',Pretendard,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;
   --mono:'JetBrains Mono','SFMono-Regular',Consolas,'Malgun Gothic',monospace;
   color-scheme:dark;
@@ -52,6 +56,9 @@
   --gridR:148,163,184; --bgR:237,241,247; --shR:23,32,46;
   --glass:rgba(255,255,255,.88); --scrim:rgba(23,32,46,.48);
   --hol:rgba(255,255,255,.72); --track:rgba(23,32,46,.08); --rowtint:rgba(226,233,242,.6);
+  --artAmbp:#F8ECD9; --artAmb2:#A87014; --artAmb3:#9A833F; --artKhaki:#877340;
+  --artHi:#3E4E64; --artHi2:#54657E; --artCyn2:#22758E; --artCyn3:#2E7D96; --artWell:#E4EBF4;
+  --artMap:#D9E3F0; --artMap2:#9FB4CE; --artMap3:#C9D6E7; --artMap4:#7E97B8; --artRedF:#F7DEE1; --artGray:#76859B;
   color-scheme:light;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -1025,7 +1032,6 @@ button.arc-pc:hover{border-color:var(--grn);transform:translateY(-2px)}
 @media (max-width:640px){.theme-tg{padding:6px 9px}.theme-tg .lb{display:none}}
 
 /* ── 라이트 테마 보정 — 다크 전용 연출(그림자·글로우·모니터 아트)의 페이퍼 버전 ── */
-[data-theme="light"] .flowwrap{background:#0E1520;border-color:#223047}  /* SMIL 아트 = 다크 모니터 유지 */
 [data-theme="light"] .card,[data-theme="light"] .stat,[data-theme="light"] .blk{box-shadow:0 1px 2px rgba(23,32,46,.05)}
 [data-theme="light"] .modal{box-shadow:0 24px 80px rgba(23,32,46,.28)}
 [data-theme="light"] .bcell:hover{box-shadow:0 10px 28px rgba(23,32,46,.14)}
@@ -1037,6 +1043,58 @@ button.arc-pc:hover{border-color:var(--grn);transform:translateY(-2px)}
 [data-theme="light"] .ctab{background:var(--panel)}                     /* 표 밑 그리드 패턴 차단 */
 [data-theme="light"] .tr-boot{color:#0B6B49;opacity:1}                  /* 부팅 텍스트 대비(opacity 감쇠가 라이트에선 워시아웃) */
 [data-theme="light"] .arc-hit{background:#9A5F09}                       /* 흰 글씨 대비 AA */
+
+/* ── SMIL 아트 테마 연동 — 프레젠테이션 속성을 CSS로 오버라이드(CSS가 속성보다 우선) ── */
+.flowmap [fill="#F5A742"]{fill:var(--amb)}.flowmap [stroke="#F5A742"]{stroke:var(--amb)}
+.flowmap [fill="#35C48D"]{fill:var(--grn)}.flowmap [stroke="#35C48D"]{stroke:var(--grn)}
+.flowmap [fill="#4CC3E8"]{fill:var(--cyn)}.flowmap [stroke="#4CC3E8"]{stroke:var(--cyn)}
+.flowmap [fill="#F0545C"]{fill:var(--red)}.flowmap [stroke="#F0545C"]{stroke:var(--red)}
+.flowmap [fill="#E8C468"]{fill:var(--yel)}.flowmap [stroke="#E8C468"]{stroke:var(--yel)}
+.flowmap [fill="#E8EDF5"]{fill:var(--txt)}.flowmap [stroke="#E8EDF5"]{stroke:var(--txt)}
+.flowmap [fill="#8A94A6"]{fill:var(--mut)}.flowmap [stroke="#8A94A6"]{stroke:var(--mut)}
+.flowmap [fill="#5A6678"]{fill:var(--dim)}.flowmap [stroke="#5A6678"]{stroke:var(--dim)}
+.flowmap [fill="#223047"]{fill:var(--grid)}.flowmap [stroke="#223047"]{stroke:var(--grid)}
+.flowmap [fill="#111A28"]{fill:var(--panel)}.flowmap [stroke="#111A28"]{stroke:var(--panel)}
+.flowmap [fill="#1A2434"]{fill:var(--grid2)}.flowmap [stroke="#1A2434"]{stroke:var(--grid2)}
+.flowmap [fill="#0E1520"]{fill:var(--panel2)}.flowmap [stroke="#0E1520"]{stroke:var(--panel2)}
+.flowmap [fill="#241C0E"]{fill:var(--ambf)}.flowmap [stroke="#241C0E"]{stroke:var(--ambf)}
+.flowmap [fill="#0d1420"]{fill:var(--artWell)}.flowmap [stroke="#0d1420"]{stroke:var(--artWell)}
+.flowmap [fill="#0c1420"]{fill:var(--artWell)}.flowmap [stroke="#0c1420"]{stroke:var(--artWell)}
+.flowmap [fill="#3a4a63"]{fill:var(--grid-hi)}.flowmap [stroke="#3a4a63"]{stroke:var(--grid-hi)}
+.flowmap [fill="#1c160b"]{fill:var(--artAmbp)}.flowmap [stroke="#1c160b"]{stroke:var(--artAmbp)}
+.flowmap [fill="#B87A24"]{fill:var(--artAmb2)}.flowmap [stroke="#B87A24"]{stroke:var(--artAmb2)}
+.flowmap [fill="#8A6E3A"]{fill:var(--artAmb3)}.flowmap [stroke="#8A6E3A"]{stroke:var(--artAmb3)}
+.flowmap [fill="#B9A67C"]{fill:var(--artKhaki)}.flowmap [stroke="#B9A67C"]{stroke:var(--artKhaki)}
+.flowmap [fill="#C8D2E0"]{fill:var(--artHi)}.flowmap [stroke="#C8D2E0"]{stroke:var(--artHi)}
+.flowmap [fill="#9fb0c4"]{fill:var(--artHi2)}.flowmap [stroke="#9fb0c4"]{stroke:var(--artHi2)}
+.flowmap [fill="#2E7D96"]{fill:var(--artCyn2)}.flowmap [stroke="#2E7D96"]{stroke:var(--artCyn2)}
+.flowmap [fill="#7FB8CC"]{fill:var(--artCyn3)}.flowmap [stroke="#7FB8CC"]{stroke:var(--artCyn3)}
+.flowmap [fill="rgba(232,196,104,.06)"]{fill:rgba(var(--yelR),.06)}.flowmap [stroke="rgba(232,196,104,.06)"]{stroke:rgba(var(--yelR),.06)}
+.flowmap [fill="rgba(232,196,104,.07)"]{fill:rgba(var(--yelR),.07)}.flowmap [stroke="rgba(232,196,104,.07)"]{stroke:rgba(var(--yelR),.07)}
+.flowmap [fill="rgba(240,84,92,.06)"]{fill:rgba(var(--redR),.06)}.flowmap [stroke="rgba(240,84,92,.06)"]{stroke:rgba(var(--redR),.06)}
+.flowmap [fill="rgba(240,84,92,.07)"]{fill:rgba(var(--redR),.07)}.flowmap [stroke="rgba(240,84,92,.07)"]{stroke:rgba(var(--redR),.07)}
+.flowmap [fill="rgba(240,84,92,.1)"]{fill:rgba(var(--redR),.1)}.flowmap [stroke="rgba(240,84,92,.1)"]{stroke:rgba(var(--redR),.1)}
+.flowmap [fill="rgba(240,84,92,.12)"]{fill:rgba(var(--redR),.12)}.flowmap [stroke="rgba(240,84,92,.12)"]{stroke:rgba(var(--redR),.12)}
+.flowmap [fill="rgba(245,167,66,.05)"]{fill:rgba(var(--ambR),.05)}.flowmap [stroke="rgba(245,167,66,.05)"]{stroke:rgba(var(--ambR),.05)}
+.flowmap [fill="rgba(245,167,66,.07)"]{fill:rgba(var(--ambR),.07)}.flowmap [stroke="rgba(245,167,66,.07)"]{stroke:rgba(var(--ambR),.07)}
+.flowmap [fill="rgba(245,167,66,.1)"]{fill:rgba(var(--ambR),.1)}.flowmap [stroke="rgba(245,167,66,.1)"]{stroke:rgba(var(--ambR),.1)}
+.flowmap [fill="rgba(245,167,66,.12)"]{fill:rgba(var(--ambR),.12)}.flowmap [stroke="rgba(245,167,66,.12)"]{stroke:rgba(var(--ambR),.12)}
+.flowmap [fill="rgba(245,167,66,.15)"]{fill:rgba(var(--ambR),.15)}.flowmap [stroke="rgba(245,167,66,.15)"]{stroke:rgba(var(--ambR),.15)}
+.flowmap [fill="rgba(245,167,66,.16)"]{fill:rgba(var(--ambR),.16)}.flowmap [stroke="rgba(245,167,66,.16)"]{stroke:rgba(var(--ambR),.16)}
+.flowmap [fill="rgba(53,196,141,.08)"]{fill:rgba(var(--grnR),.08)}.flowmap [stroke="rgba(53,196,141,.08)"]{stroke:rgba(var(--grnR),.08)}
+.flowmap [fill="rgba(53,196,141,.1)"]{fill:rgba(var(--grnR),.1)}.flowmap [stroke="rgba(53,196,141,.1)"]{stroke:rgba(var(--grnR),.1)}
+.flowmap [fill="rgba(53,196,141,.12)"]{fill:rgba(var(--grnR),.12)}.flowmap [stroke="rgba(53,196,141,.12)"]{stroke:rgba(var(--grnR),.12)}
+.flowmap [fill="rgba(76,195,232,.07)"]{fill:rgba(var(--cynR),.07)}.flowmap [stroke="rgba(76,195,232,.07)"]{stroke:rgba(var(--cynR),.07)}
+.flowmap [fill="rgba(76,195,232,.15)"]{fill:rgba(var(--cynR),.15)}.flowmap [stroke="rgba(76,195,232,.15)"]{stroke:rgba(var(--cynR),.15)}
+.flowmap [fill="#16233A"]{fill:var(--artMap)}.flowmap [stroke="#16233A"]{stroke:var(--artMap)}
+.flowmap [fill="#33507A"]{fill:var(--artMap2)}.flowmap [stroke="#33507A"]{stroke:var(--artMap2)}
+.flowmap [fill="#1B2E4C"]{fill:var(--artMap3)}.flowmap [stroke="#1B2E4C"]{stroke:var(--artMap3)}
+.flowmap [fill="#3E5F90"]{fill:var(--artMap4)}.flowmap [stroke="#3E5F90"]{stroke:var(--artMap4)}
+.flowmap [fill="#4a1d21"]{fill:var(--artRedF)}.flowmap [stroke="#4a1d21"]{stroke:var(--artRedF)}
+.flowmap [fill="#6b7789"]{fill:var(--artGray)}.flowmap [stroke="#6b7789"]{stroke:var(--artGray)}
+.flowmap text[fill="#0B0F17"]{fill:var(--ink)}
+.flowmap path[stroke="#0B0F17"]{stroke:var(--ink)}
+.flowmap rect[fill="#0B0F17"]{fill:var(--artWell)}
 
 /* ── 가독성: 긴 문단 폭 제한 (풀폭 줄은 시선 이동이 길어 읽기 어려움) ── */
 .ppage p,.lead{max-width:76ch}
