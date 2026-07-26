@@ -330,6 +330,7 @@ footer{border-top:1px solid var(--grid);padding:30px 0 44px;margin-top:40px}
 .mlayout{display:grid;grid-template-columns:minmax(0,520px) minmax(0,1fr);gap:30px;align-items:start}
 .bingo-wrap{overflow:hidden}
 .nowrun{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;align-items:center}
+.card.nowrun{padding:26px}
 .nowrun .bpanel{background:var(--panel2)}
 .nowrun .kv{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;color:var(--mut);padding:7px 0;border-top:1px solid var(--grid2)}
 .nowrun .kv:first-of-type{border-top:none}
@@ -1036,6 +1037,36 @@ button.arc-pc:hover{border-color:var(--grn);transform:translateY(-2px)}
 [data-theme="light"] .ctab{background:var(--panel)}                     /* 표 밑 그리드 패턴 차단 */
 [data-theme="light"] .tr-boot{color:#0B6B49;opacity:1}                  /* 부팅 텍스트 대비(opacity 감쇠가 라이트에선 워시아웃) */
 [data-theme="light"] .arc-hit{background:#9A5F09}                       /* 흰 글씨 대비 AA */
+
+/* ── 가독성: 긴 문단 폭 제한 (풀폭 줄은 시선 이동이 길어 읽기 어려움) ── */
+.ppage p,.lead{max-width:76ch}
+.exp-desc{max-width:70ch}
+
+/* ── 긴 섹션 접기(모바일) — data-mclamp="px" 지정 요소가 화면 ≤640px에서 접힘 ── */
+.mclamp{overflow:hidden;position:relative;transition:max-height .35s ease}
+.mclamp:not(.open)::after{content:'';position:absolute;left:0;right:0;bottom:0;height:70px;
+  background:linear-gradient(rgba(var(--bgR),0),var(--bg));pointer-events:none}
+.morebtn{display:block;width:100%;margin:10px 0 0;padding:11px;border:1px dashed var(--grid-hi);
+  border-radius:10px;background:var(--panel);color:var(--mut);font-weight:700;font-size:13.5px;
+  cursor:pointer;font-family:inherit}
+.morebtn:hover{color:var(--txt);border-color:var(--amb)}
+
+/* ── 모바일 세로 길이 압축: 여백·카드·통계·본문 밀도 조정 ── */
+@media (max-width:640px){
+  .view{padding:24px 0 46px}
+  .sec{margin-top:44px}
+  .sec-h{margin-bottom:14px}
+  .card{padding:16px}
+  .card.nowrun{padding:18px}
+  .stats{gap:10px;margin-top:26px}
+  .stat{padding:12px 14px}
+  .stat b{font-size:22px}
+  h1{margin:10px 0 12px}
+  .lead{font-size:15.5px;line-height:1.7}
+  .hero-cta{margin-top:18px;gap:10px}
+  .vrow{padding:9px 0 9px 22px}
+  .exp-desc{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden}
+}
 </style>
 <script>/* 저장된 테마 즉시 적용 (FOUC 방지) — 라이트 기본, 다크는 저장된 선택일 때만. 색상값은 applyTheme와 일치 유지 */
 try{if(localStorage.getItem('ailab-theme')==='dark'){document.documentElement.removeAttribute('data-theme');
@@ -1263,7 +1294,7 @@ var _tm=document.querySelector('meta[name="theme-color"]');if(_tm)_tm.setAttribu
 
   <div class="sec">
     <div class="sec-h"><div><span class="eyebrow">Core Features</span><h2>여섯 가지 핵심 기능</h2></div></div>
-    <div class="grid3">
+    <div class="grid3" data-mclamp="380">
       <div class="card flat"><h3>자동 분배</h3><p>필터 3단 통과 건을 통화 블록의 빈 행에 배열 일괄 기록. 출처·시각 자동.</p><a class="tagline" href="#demo/d1">데모 ①에서 체험 →</a></div>
       <div class="card flat"><h3>마감 점검</h3><p>미처리 거래, 기준 대비 CLOSING 부족(&lt;50%)·주의(&lt;80%)·과다(&gt;150%), FT 미반영을 한 번에 검사.</p><a class="tagline" href="#demo/d3">데모 ③에서 체험 →</a></div>
       <div class="card flat"><h3>알림 + 체크리스트</h3><p>마감 10분 전 자동 알림이 미완료 항목만 콕 집어 알려줌. 10항목 자동 체크.</p></div>
@@ -1285,7 +1316,7 @@ var _tm=document.querySelector('meta[name="theme-color"]');if(_tm)_tm.setAttribu
   <div class="sec">
     <div class="sec-h"><div><span class="eyebrow">Build Story</span><h2>버전으로 남은 여정</h2></div>
       <span class="hint">하루 만에 나온 도구가 아닙니다 — 6주 연재와 버전 번호가 그 기록입니다</span></div>
-    <div class="vline" id="verList"></div>
+    <div class="vline" id="verList" data-mclamp="400"></div>
   </div>
 
   <div class="sec">
@@ -1297,7 +1328,7 @@ var _tm=document.querySelector('meta[name="theme-color"]');if(_tm)_tm.setAttribu
       <tr><td>운영 정착</td><td>매일(오전·오후) 실사용</td><td><span class="st st-wait">집계 중</span> <span class="tagline">매일 2회 운영 로그 자동 기록</span></td></tr>
       <tr><td>재사용성</td><td>다른 담당자·데스크 적용</td><td><span class="st st-out">예정</span> <span class="tagline">인수인계 점검 후 확인</span></td></tr>
     </tbody></table>
-    <div class="term" style="margin-top:14px" aria-label="작업 로그 발췌(형식 예시)">
+    <div class="term" style="margin-top:14px" data-mclamp="150" aria-label="작업 로그 발췌(형식 예시)">
 <span class="d">[작업 로그 — 도구가 매 실행 자동 기록하는 형식 · 아래 수치는 예시]</span><br>
 2026-07-06 07:41:23 | 마이스타 반영 | 47건 | 1.2s | 경고 1(중복 의심)<br>
 2026-07-06 07:44:05 | 마감 점검   | 14블록 | 적정 12 · 부족 1 · 과다 1<br>
@@ -1945,7 +1976,7 @@ function renderExperiments(){
       ?`<div class="blk bpanel"><div class="eyebrow eyebrow-ko" style="margin-bottom:10px">${e.panel.t}</div>${
           e.panel.kv.map(([k,v])=>`<div class="kv"><span>${k}</span><b>${v}</b></div>`).join('')}</div>`
       :`<div class="blk bpanel tease"><div class="sk" style="width:82%"></div><div class="sk" style="width:64%"></div><div class="sk" style="width:74%"></div><div class="sk" style="width:48%"></div><div class="lock"><span>${e.tease}</span></div></div>`;
-    return `<div class="expslide"><div class="card nowrun" style="padding:26px"><div>
+    return `<div class="expslide"><div class="card nowrun"><div>
       <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
         <span class="expno">EXP.${String(i+1).padStart(2,'0')}</span>
         <h2 style="margin:0">${e.title}${e.hanja?` <span style="color:var(--dim);font-weight:600">${e.hanja}</span>`:''}</h2>
@@ -1980,6 +2011,26 @@ function renderExperiments(){
   wrap.addEventListener('pointerup',dEnd);wrap.addEventListener('pointercancel',dEnd);
   wrap.addEventListener('mouseleave',dEnd);
   wrap.addEventListener('click',e=>{if(drag){e.preventDefault();e.stopPropagation();drag=false}},true);
+}
+
+/* ── 긴 섹션 접기(모바일 전용) — data-mclamp="px" 요소를 접고 '전체 보기' 버튼을 붙임 ── */
+function mclampInit(){
+  if(!matchMedia('(max-width:640px)').matches)return;
+  $$('[data-mclamp]').forEach(el=>{
+    if(el.dataset.mcDone)return;
+    const lim=+el.dataset.mclamp;
+    if(el.offsetParent===null||el.scrollHeight<=lim+120)return;   /* 숨김 상태·짧으면 통과 */
+    el.dataset.mcDone=1;el.classList.add('mclamp');el.style.maxHeight=lim+'px';
+    const b=document.createElement('button');
+    b.type='button';b.className='morebtn';b.textContent='전체 보기 ▾';
+    el.after(b);
+    b.addEventListener('click',()=>{
+      const open=el.classList.toggle('open');
+      el.style.maxHeight=open?el.scrollHeight+'px':lim+'px';
+      b.textContent=open?'접기 ▴':'전체 보기 ▾';
+      if(!open)el.scrollIntoView({block:'nearest'});
+    });
+  });
 }
 
 /* ── ROUTER ───────────────────────────────────────────────── */
@@ -2026,6 +2077,7 @@ function route(){
     if(card){requestAnimationFrame(()=>{card.scrollIntoView({behavior:REDUCED?'auto':'smooth',block:'center'});
       card.style.boxShadow='0 0 0 2px var(--amb)';setTimeout(()=>card.style.boxShadow='',1300);});}
   }
+  requestAnimationFrame(mclampInit);   /* 화면 전환 후 긴 섹션 접기(모바일) — 보이는 요소만 계측 가능 */
 }
 addEventListener('hashchange',route);
 
@@ -2041,12 +2093,20 @@ function renderLogSide(){
 }
 function renderLog(){
   const range=LOGS[LOGS.length-1].d.slice(0,7)+' ~ '+LOGS[0].d.slice(0,7);
-  $('#logList').innerHTML=`<div class="tagline" style="margin-bottom:4px">기록 ${LOGS.length}건 · ${range} · <span style="white-space:nowrap">계속 쌓이는 중</span></div>`+LOGS.map((l,i)=>`
+  const row=(l,i)=>`
    <div class="card flat ${i===0?'hot':''}">
      <div style="display:flex;gap:12px;align-items:baseline;flex-wrap:wrap">
        <span class="wk">${l.d}</span><h3 style="font-size:15.5px">${l.t}</h3>
        <span class="chip" style="margin-left:auto">${l.tag}</span></div>
-     ${l.note?`<p style="margin-top:6px">${l.note}</p>`:''}</div>`).join('');
+     ${l.note?`<p style="margin-top:6px">${l.note}</p>`:''}</div>`;
+  const N=8,head=LOGS.slice(0,N),rest=LOGS.slice(N);   /* 최근 N건만 먼저 — 세로 길이 절약 */
+  $('#logList').innerHTML=
+    `<div class="tagline" style="margin-bottom:4px">기록 ${LOGS.length}건 · ${range} · <span style="white-space:nowrap">계속 쌓이는 중</span></div>`
+    +head.map(row).join('')
+    +(rest.length?`<div id="logRest" hidden>${rest.map((l,i)=>row(l,i+N)).join('')}</div>
+      <button type="button" class="morebtn" id="logMoreBtn">이전 기록 ${rest.length}건 더 보기 ▾</button>`:'');
+  const mb=$('#logMoreBtn');
+  if(mb)mb.addEventListener('click',()=>{$('#logRest').hidden=false;mb.remove();});
 }
 
 /* ── RENDER: bingo board + missions ───────────────────────── */
@@ -4112,7 +4172,7 @@ function renderProjGen(e,i){
   const feats=e.features?`
    <div class="sec-h" style="margin-top:34px"><div><span class="eyebrow">${e.features.eyebrow||'Core Features'}</span><h2>${e.features.h2||'핵심 기능'}</h2></div>
      ${e.features.hint?`<span class="hint">${e.features.hint}</span>`:''}</div>
-   <div class="grid3">${e.features.items.map(([t,d,link],j)=>`<div class="card flat"><h3>
+   <div class="grid3" data-mclamp="380">${e.features.items.map(([t,d,link],j)=>`<div class="card flat"><h3>
      <span style="font-family:var(--mono);font-weight:800;color:var(--amb);margin-right:7px">${String(j+1).padStart(2,'0')}</span>${t}</h3><p>${d}</p>${
      link?`<a class="tagline" href="${link[1]}">${link[0]} →</a>`:''}</div>`).join('')}</div>`:'';
   /* showcase(선택) — 등록 글의 실사례 Before→After + AI 점검을 그대로 보여주는 블록 */
