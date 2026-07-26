@@ -4699,6 +4699,16 @@ function bindFeedback(){
   const hasKey=typeof FB_ACCESS_KEY==='string'&&FB_ACCESS_KEY.trim().length>0;
   if(!hasKey){send.style.display='none';copy.classList.remove('btn-ghost');copy.classList.add('btn-amber');}
 
+  /* 방문 집계(운영 확인용 · 화면 미표시) — 라이브 도메인에서 세션당 1회만.
+     확인: https://abacus.jasoncameron.dev/get/ai-bingo-dev/visit · 숫자가 의미 있어지면 공개 여부 결정 */
+  try{
+    if(/^https?:$/.test(location.protocol)&&!/localhost|127\./.test(location.hostname)
+       &&!sessionStorage.getItem('ailab-v')){
+      sessionStorage.setItem('ailab-v','1');
+      fetch('https://abacus.jasoncameron.dev/hit/ai-bingo-dev/visit').catch(()=>{});
+    }
+  }catch(e){}
+
   /* 참여 카운터 — 실제 도착 건수만 표시(무료 카운터 API·전송 성공 시에만 +1).
      정직 규칙: 서비스 실패·0건이면 숫자를 아예 숨김(부풀리기 없음) */
   const CNT='https://abacus.jasoncameron.dev',CNT_PATH='ai-bingo-dev/openlab-feedback';
