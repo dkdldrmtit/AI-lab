@@ -940,6 +940,78 @@ button.arc-pc:hover{border-color:var(--grn);transform:translateY(-2px)}
 .ts-dots span:nth-child(3){animation-delay:.4s}
 @keyframes tsdot{0%,60%,100%{opacity:0}30%{opacity:1}}
 #tsGo:disabled{opacity:.75;cursor:wait}
+/* ── 행낭마켓(아이디어 체험) — 지점 간 비품 나눔 시뮬레이션 ── */
+.hn-wrap{display:grid;grid-template-columns:minmax(0,430px) 1fr;gap:24px;align-items:start}
+@media(max-width:860px){.hn-wrap{grid-template-columns:1fr}}
+.hn-phone{border:1px solid var(--grid);border-radius:24px;background:var(--panel2);overflow:hidden}
+.hn-top{display:flex;align-items:center;gap:10px;padding:12px 15px;border-bottom:1px solid var(--grid2);background:var(--panel)}
+.hn-logo{width:30px;height:30px;border-radius:9px;background:var(--amb);color:var(--ink);font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center}
+.hn-top b{font-size:15px;color:var(--txt)}
+.hn-me{margin-left:auto;font-family:var(--mono);font-size:11.5px;font-weight:700;color:var(--amb);background:var(--ambf);border:1px solid rgba(var(--ambR),.32);padding:4px 10px;border-radius:99px;white-space:nowrap}
+.hn-tabs{display:flex;gap:6px;padding:10px 12px;background:var(--panel);border-bottom:1px solid var(--grid2)}
+.hn-tab{flex:1;font-family:var(--kor);font-weight:700;font-size:13px;padding:9px 4px;border-radius:9px;border:1px solid var(--grid2);background:var(--panel2);color:var(--mut);cursor:pointer}
+.hn-tab.on{background:var(--ambf);border-color:var(--amb);color:var(--amb)}
+.hn-pane{padding:12px;min-height:340px}
+.hn-feed{display:flex;flex-direction:column;gap:10px;max-height:470px;overflow:auto;scrollbar-width:thin}
+.hn-card{border:1px solid var(--grid2);border-radius:13px;background:var(--panel);padding:12px 13px}
+.hn-card.mine{border-color:rgba(var(--ambR),.45)}
+.hn-ct{display:flex;gap:10px;align-items:flex-start}
+.hn-emo{width:44px;height:44px;border-radius:11px;background:var(--well);border:1px solid var(--grid2);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.hn-ci{flex:1;min-width:0}
+.hn-ci b{font-size:14px;color:var(--txt);line-height:1.35;display:block}
+.hn-ci .m{font-size:11.5px;color:var(--mut);margin-top:3px}
+.hn-ci .m .tp{color:var(--amb);font-weight:800;font-family:var(--mono)}
+.hn-bdg{font-size:10.5px;font-weight:800;font-family:var(--kor);padding:4px 8px;border-radius:7px;white-space:nowrap;flex-shrink:0}
+.hn-bdg.give{background:rgba(var(--grnR),.14);color:var(--grn)}
+.hn-bdg.need{background:rgba(var(--redR),.13);color:var(--red)}
+.hn-bdg.done{background:var(--well);color:var(--mut)}
+.hn-cmt{margin-top:9px;border-left:2px solid var(--grid);padding:6px 10px;font-size:12px;color:var(--mut);background:var(--well);border-radius:0 9px 9px 0;line-height:1.5}
+.hn-cmt b{color:var(--txt)}
+.hn-act{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.hn-btn{font-family:var(--kor);font-weight:800;font-size:12.5px;padding:9px 13px;border-radius:9px;border:1px solid var(--amb);background:var(--amb);color:var(--ink);cursor:pointer}
+.hn-btn.ghost{background:transparent;color:var(--amb)}
+.hn-btn.mut{border-color:var(--grid);background:var(--panel2);color:var(--mut)}
+.hn-btn:disabled{opacity:.45;cursor:default}
+.hn-thx{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.hn-thx button{font-family:var(--kor);font-size:11.5px;padding:7px 10px;border-radius:99px;border:1px dashed var(--grid-hi);background:transparent;color:var(--mut);cursor:pointer}
+.hn-thx button:hover{border-color:var(--amb);color:var(--amb)}
+.hn-l{display:block;font-size:12px;font-weight:800;color:var(--mut);margin:14px 0 7px}
+.hn-l:first-child{margin-top:2px}
+.hn-l em{font-style:normal;font-weight:500;color:var(--dim)}
+.hn-seg{display:flex;gap:8px}
+.hn-seg button{flex:1;font-family:var(--kor);font-weight:800;font-size:13px;padding:11px;border-radius:11px;border:1px solid var(--grid);background:var(--panel);color:var(--mut);cursor:pointer}
+.hn-seg button.on{border-color:var(--grn);color:var(--grn);background:rgba(var(--grnR),.1)}
+.hn-seg button.on.need{border-color:var(--red);color:var(--red);background:rgba(var(--redR),.09)}
+.hn-chips{display:flex;gap:7px;flex-wrap:wrap}
+.hn-chip{font-family:var(--kor);font-size:12.5px;padding:8px 12px;border-radius:99px;border:1px solid var(--grid);background:var(--panel);color:var(--mut);cursor:pointer}
+.hn-chip.on{border-color:var(--amb);color:var(--amb);background:var(--ambf)}
+.hn-inp{width:100%;font-family:var(--kor);font-size:14px;padding:11px 13px;border-radius:11px;border:1px solid var(--grid);background:var(--panel);color:var(--txt)}
+.hn-inp:focus{outline:none;border-color:var(--amb)}
+.hn-step{display:inline-flex;align-items:center;border:1px solid var(--grid);border-radius:11px;overflow:hidden}
+.hn-step button{font-size:16px;font-weight:800;width:38px;padding:8px 0;border:none;background:var(--panel2);color:var(--mut);cursor:pointer}
+.hn-step b{font-family:var(--mono);font-size:14px;padding:0 14px;color:var(--txt)}
+.hn-ai{margin-top:12px;border:1px dashed rgba(var(--cynR),.5);border-radius:11px;padding:10px 12px;font-size:12px;color:var(--cyn);line-height:1.55;background:rgba(var(--cynR),.06)}
+.hn-gauge{height:10px;border-radius:99px;background:linear-gradient(90deg,var(--cyn),var(--amb),var(--red));position:relative;margin:14px 2px 4px;opacity:.9}
+.hn-mk{position:absolute;top:-5px;width:20px;height:20px;border-radius:50%;background:var(--panel);border:4px solid var(--amb);transform:translateX(-50%);transition:left .6s cubic-bezier(.2,.8,.3,1)}
+.hn-gs{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--dim);margin:0 2px}
+.hn-tempbig{font-family:var(--mono);font-weight:800;font-size:34px;color:var(--amb);text-align:center;margin-top:6px}
+.hn-tempbig small{font-family:var(--kor);font-size:13px;color:var(--mut);font-weight:600;margin-left:6px}
+.hn-stats{display:flex;gap:8px;margin-top:14px}
+.hn-st{flex:1;border:1px solid var(--grid2);border-radius:11px;background:var(--panel);padding:10px;text-align:center}
+.hn-st b{font-family:var(--mono);font-size:18px;color:var(--txt);display:block}
+.hn-st span{font-size:11px;color:var(--mut)}
+.hn-badges{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px;justify-content:center}
+.hn-badge{font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:99px;border:1px solid var(--grid);color:var(--dim);background:var(--panel)}
+.hn-badge.got{border-color:rgba(var(--ambR),.5);color:var(--amb);background:var(--ambf)}
+.hn-log{list-style:none;display:flex;flex-direction:column;gap:8px;max-height:300px;overflow:auto;scrollbar-width:thin}
+.hn-log li{font-size:12.5px;color:var(--mut);line-height:1.55;border-left:2px solid var(--grid);padding-left:10px}
+.hn-log li b{color:var(--txt)}
+.hn-log li.hot{border-color:var(--amb)}
+.hn-log li .d{font-family:var(--mono);font-size:10.5px;color:var(--dim);display:block}
+.hn-rules{margin-top:16px;font-size:12px;color:var(--mut);line-height:1.7;border:1px dashed var(--grid-hi);border-radius:11px;padding:11px 13px}
+.hn-rules b{color:var(--amb)}
+@keyframes hnPop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+.hn-pop{animation:hnPop .45s ease}
 /* ── 브리핑 룸(미션1-ⓑ) — 상태 조작판 + 모의 AI 브리핑 ── */
 .br-gen{display:grid;grid-template-columns:.95fr 1.05fr;gap:24px;align-items:start}
 @media (max-width:820px){.br-gen{grid-template-columns:1fr}}
@@ -1825,6 +1897,75 @@ var _tm=document.querySelector('meta[name="theme-color"]');if(_tm)_tm.setAttribu
     <p class="bnote">⚠ 데모 버전은 회식 자리에서의 웃음을 보장하지 않습니다 · 아재개그 '퍼붓기' 선택 시 분위기는 본인 책임 ·
       건배사·이름은 전부 예시(가명) · API 키는 서버(Cloudflare Worker)에만 보관 · 연동 실패 시 모의 응답 라벨로 정직하게 전환됩니다.</p>
   </div><!-- /dg-toast -->
+
+  <!-- ══ 그룹 6 · 행낭마켓 (아이디어 체험 — 지점 간 비품 나눔 시뮬레이션) ══ -->
+  <div class="dgroup" id="dg-hn">
+    <div class="note"><span>ⓘ</span><span><b>행낭마켓</b> — 지점 간 비품 나눔(사내 당근) <b>아이디어 체험판</b> ·
+      매일 도는 행낭이 배송을 대신합니다 · 지점·글·온도 전부 가상 예시, 실제 시스템 아님 —
+      <a href="#project/hn" style="color:var(--cyn)">이 아이디어의 소개 →</a></span></div>
+
+    <div class="hn-wrap">
+      <!-- 폰 시뮬레이터: 나 = 성수지점 담당자 -->
+      <div class="hn-phone">
+        <div class="hn-top"><div class="hn-logo">행</div><b>행낭마켓</b><span class="hn-me">성수지점(나) <span id="hnMeT">36.5°</span></span></div>
+        <div class="hn-tabs">
+          <button type="button" class="hn-tab on" data-p="feed">피드</button>
+          <button type="button" class="hn-tab" data-p="write">글쓰기</button>
+          <button type="button" class="hn-tab" data-p="my">내 지점</button>
+        </div>
+        <div class="hn-pane" id="hnpFeed"><div class="hn-feed" id="hnFeed"></div></div>
+        <div class="hn-pane" id="hnpWrite" hidden>
+          <span class="hn-l">구분</span>
+          <div class="hn-seg" id="hnKind">
+            <button type="button" class="on" data-k="give">📦 나눔해요</button>
+            <button type="button" data-k="need">🙋 필요해요</button>
+          </div>
+          <span class="hn-l">품목</span>
+          <div class="hn-chips" id="hnCat">
+            <button type="button" class="hn-chip on" data-e="📎" data-n="더블클립">📎 클립·집게</button>
+            <button type="button" class="hn-chip" data-e="🗂" data-n="바인더">🗂 바인더</button>
+            <button type="button" class="hn-chip" data-e="🖨" data-n="토너">🖨 토너</button>
+            <button type="button" class="hn-chip" data-e="✉️" data-n="서류봉투">✉️ 봉투·전표</button>
+            <button type="button" class="hn-chip" data-e="🎁" data-n="판촉 쇼핑백">🎁 판촉물</button>
+          </div>
+          <span class="hn-l">제목 <em>· 🤖 버튼이 품목·수량으로 자동 작성(모의)</em></span>
+          <input class="hn-inp" id="hnTitle" placeholder="예: 더블클립 3통 나눔해요" autocomplete="off" aria-label="글 제목">
+          <div style="display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap">
+            <div class="hn-step"><button type="button" id="hnQm">−</button><b id="hnQty">3</b><button type="button" id="hnQp">＋</button></div>
+            <button type="button" class="hn-btn ghost" id="hnAuto">🤖 자동 작성</button>
+            <button type="button" class="hn-btn" id="hnPost">등록하기</button>
+          </div>
+          <div class="hn-ai">💡 실제 구상에서는 사진을 올리면 AI가 품목·수량을 자동 인식하고,
+            지금 올라와 있는 반대편 글(필요해요↔나눔해요) 중 맞는 지점을 찾아 추천합니다 — 이 체험판은 그 흐름의 모의 버전.</div>
+        </div>
+        <div class="hn-pane" id="hnpMy" hidden>
+          <div class="hn-tempbig"><span id="hnMeT2">36.5°</span><small>성수지점 나눔온도</small></div>
+          <div class="hn-gauge"><div class="hn-mk" id="hnMk" style="left:0%"></div></div>
+          <div class="hn-gs"><span>36.5°</span><span>40°</span><span>45°+</span></div>
+          <div class="hn-stats">
+            <div class="hn-st"><b id="hnStS">0</b><span>나눔</span></div>
+            <div class="hn-st"><b id="hnStR">0</b><span>받음</span></div>
+            <div class="hn-st"><b id="hnStT">0</b><span>감사 카드</span></div>
+          </div>
+          <div class="hn-badges" id="hnBadges"></div>
+          <div style="text-align:center;margin-top:16px"><button type="button" class="hn-btn mut" id="hnReset">↺ 처음부터 다시</button></div>
+        </div>
+      </div>
+
+      <!-- 옆 패널: 행낭 로그 + 온도 규칙 -->
+      <div>
+        <div class="card flat">
+          <div class="eyebrow eyebrow-ko" style="margin-bottom:10px">행낭 로그 — 지금 무슨 일이</div>
+          <ul class="hn-log" id="hnLog"></ul>
+        </div>
+        <div class="hn-rules">🌡 <b>나눔온도 규칙(안)</b> — 모든 지점 36.5°에서 시작 ·
+          수령 확인 <b>+0.2°</b> · 감사 카드 <b>+0.1°</b> · 매칭 후 미발송 −0.5° ·
+          배송은 <b>매일 도는 행낭</b>이 담당(배송비 0원 · 물류 신설 없음)</div>
+      </div>
+    </div>
+    <p class="bnote">지점명·담당자·글·온도는 전부 가상 예시입니다 · 실제 사내 시스템이 아닌 <b>아이디어 단계의 시뮬레이션</b> ·
+      실현 시에는 사내 인트라 웹 + 행낭 운영 절차 협의가 필요합니다.</p>
+  </div><!-- /dg-hn -->
 </section>
 
 <!-- ═══════════ LOG (기록) ═══════════ -->
@@ -1925,6 +2066,7 @@ const mmdd=off=>{const d=new Date();d.setDate(d.getDate()+off);
 /* ── DATA ─────────────────────────────────────────────────── */
 /* 기록(LOG) — 이 실험실이 해온 일들. 새 일 = 객체 1개 추가 (최신이 위) */
 const LOGS=[
+ {d:'2026-07-29',t:'새 실험 「행낭마켓」 아이디어 체험 오픈 — 지점 간 비품 나눔',tag:'실험',note:'사내 당근 구상 — 매일 도는 행낭이 배송 담당(비용 0원) · 나눔온도(당근 매너온도 오마주) · 글 등록→매칭→행낭 발송→수령 확인 전 과정을 웹 시뮬레이션으로 · 지점·수치 전부 가상 예시 · EXP.05'},
  {d:'2026-07-23',t:'조달 체험에 아케이드 모드 「컷오프 러시」 추가',tag:'실험',note:'60초 타임어택 — 갚을 날 매칭 · 호가 스나이핑 · 한도 순간판단 · 등급/콤보/점수 카드 · 게임 한 판이면 업무 흐름이 손에 남게 · 수치 전부 예시'},
  {d:'2026-07-19',t:'새 실험 「FX조달판」 공개 — 외화 조달·운용의 재설계',tag:'실험',note:'외화 스왑 조달·운용 도구(Excel VBA 6모듈·Mac/Win) 웹 체험 오픈 · 네팅 보드 → 갚을 날 고르기 → 체결 시뮬레이션 → 한도 → 체결까지 게임형 스토리 · 수치 전부 예시'},
  {d:'2026-07-12',t:'건배사 100회 채점 → 규칙서 완성 · N행시 모드 추가',tag:'실험',note:'실전 채점으로 추출한 규칙과 시범 답안을 프롬프트에 탑재(v7.9) · N행시 글자 맞춤은 기계 검증 · push=자동 배포 파이프라인'},
@@ -2104,7 +2246,16 @@ const EXPERIMENTS=[
       '그래도 팀장님은 항상 저희를 웃게 만들었으니, 아기도 웃게 만드실 거라 생각합니다.',
       '선창 "팀장님은!" → 후창 "집에서도 에이스!"']},
   ctas:[['진짜 Claude로 뽑아보기','#demo/toast','amber'],['미션 보드 보기','#missions/노하우','ghost']],
-  panel:{t:'엔진 구성 · 실제',kv:[['생성','Claude — 후보 3잔 → 자평 → 선발'],['규칙서','실전 채점 100회에서 추출 · v7.9'],['키 보관','Cloudflare Worker(서버) — 브라우저 미노출'],['검증','N행시 글자 맞춤 기계 검사 · 실패 시 재시도'],['안전','월 지출 한도 · 5초 쿨다운 · 실패 시 모의 폴백 라벨']]}}
+  panel:{t:'엔진 구성 · 실제',kv:[['생성','Claude — 후보 3잔 → 자평 → 선발'],['규칙서','실전 채점 100회에서 추출 · v7.9'],['키 보관','Cloudflare Worker(서버) — 브라우저 미노출'],['검증','N행시 글자 맞춤 기계 검사 · 실패 시 재시도'],['안전','월 지출 한도 · 5초 쿨다운 · 실패 시 모의 폴백 라벨']]}},
+ {status:'LIVE',pid:'hn',stTxt:'LIVE · 아이디어 체험',title:'행낭마켓',hanja:'行囊',
+  demo:{g:'hn',d:'지점 간 비품 나눔 — 사내 당근 시뮬레이션 · 글 올리고, 행낭으로 주고받고, 온도 올리기'},
+  desc:'남는 클립은 우리 지점에, 모자란 토너는 옆 지점에 — 지점끼리 비품을 나누는 사내 당근마켓 아이디어입니다. 핵심은 배송: 어차피 매일 도는 행낭(行囊)에 싣기만 하면 되니 배송비 0원, 물류 신설도 없습니다. 나눔·수령·감사가 쌓이면 지점의 \'나눔온도\'가 올라갑니다. 지금은 아이디어 단계 — 전체 흐름을 웹 시뮬레이션으로 먼저 만들어 봤습니다.',
+  chips:['아이디어 실험','행낭 물류','나눔온도','웹 시뮬레이션','AI 매칭 구상'],
+  story:'어느 지점 서랍에는 클립이 몇 년치 잠들어 있고, 옆 지점은 그 클립이 없어 새로 주문합니다. 사내 게시판에 "남는 클립 있으신가요" 글이 올라오고, 어느 지점이 행낭으로 보내주는 걸 보고 생각했습니다 — 이 훈훈한 우연을 구조로 만들면 어떨까. 은행에는 이미 매일 전 지점을 도는 물류망(행낭)이 있으니, 필요한 건 매칭 게시판 하나뿐입니다. 당근마켓의 매너온도처럼 나눔온도를 붙이면 참여할 이유도 생깁니다. 실현하려면 사내 인트라 웹과 행낭 운영 절차 협의가 필요해서, 우선 전체 흐름을 눌러볼 수 있는 시뮬레이션으로 아이디어를 검증하는 단계입니다.',
+  steps:[['아이디어·컨셉 목업','done'],['웹 시뮬레이션 체험','done'],['AI 자동 분류·매칭 설계','cur'],['사내 제안·절차 협의','']],
+  stepsH:'아이디어 → 실현 로드맵',
+  ctas:[['행낭마켓 체험','#demo/hn','amber'],['프로젝트 상세','#project/hn','ghost']],
+  panel:{t:'아이디어 스냅샷 · 전부 예시',kv:[['배송','매일 도는 행낭 — 비용 0원'],['글 구분','나눔해요 · 필요해요 양방향'],['참여 장치','나눔온도(36.5° 시작) · 감사 카드'],['AI 구상','사진 → 품목·수량 인식 · 자동 매칭 추천'],['상태','아이디어 단계 · 시뮬레이션만 공개']]}}
 ];
 
 /* 홈 실험 캐러셀 렌더 + 스와이프(터치 네이티브)/마우스 드래그/화살표/도트 */
@@ -5170,6 +5321,111 @@ function bindBrief(){
   $('#brCopy').addEventListener('click',()=>ntDoCopy($('#brMsg').innerText.trim(),$('#brCopy')));
   brRenderPanel();brWrite(brText());
 }
+/* ── 행낭마켓 시뮬레이션 — 나 = 성수지점 담당자 · 지점·글·온도 전부 가상 예시 ── */
+function bindHn(){
+  const root=$('#dg-hn');if(!root)return;
+  const T0=36.5,TMAX=45.5;
+  let S,posts,pid=0;
+  const fmt=v=>v.toFixed(1)+'°';
+  const seed=()=>[
+    {id:++pid,kind:'give',emoji:'📎',title:'대형 더블클립 3통 나눔해요',br:'여의도지점',tp:41.2,time:'10분 전',state:'open'},
+    {id:++pid,kind:'need',emoji:'🖨',title:'HP 토너 CF280A 급히 구합니다',br:'동탄지점',tp:37.8,time:'1시간 전',state:'open'},
+    {id:++pid,kind:'give',emoji:'🎁',title:'명절 판촉 쇼핑백 120장 남았습니다',br:'부평지점',tp:39.8,time:'3시간 전',state:'open'},
+    {id:++pid,kind:'give',emoji:'✉️',title:'서류봉투(대) 5묶음 → 강서지점 발송 완료',br:'마포지점',tp:40.4,time:'어제',state:'closed',
+     cmt:'강서지점 👏 “다음날 바로 도착했어요. 감사합니다!”'}
+  ];
+  const log=(html,hot)=>{const li=document.createElement('li');if(hot)li.className='hot';
+    li.innerHTML=`<span class="d">DAY ${S.day}</span>${html}`;$('#hnLog').prepend(li);};
+  const bump=(dv,why)=>{S.t=Math.round((S.t+dv)*10)/10;
+    log(`🌡 성수지점 나눔온도 <b>${fmt(S.t)}</b> <span style="color:var(--grn)">(+${dv.toFixed(1)}°)</span> — ${why}`,true);};
+  const BADGES=[['🥇 첫 나눔',()=>S.sent>0],['🤲 첫 받음',()=>S.recv>0],['🔥 온기 37°',()=>S.t>=37],['💌 감사 수집가',()=>S.thx>=2]];
+  const THX=['따뜻하게 잘 쓰겠습니다 🙏','지점 살리셨어요 👏','최고의 이웃 지점!'];
+  function btns(p){
+    const B=(a,t,g)=>`<button type="button" class="hn-btn${g?' ghost':''}" data-act="${a}" data-id="${p.id}">${t}</button>`;
+    switch(p.state){
+      case 'open':return `<div class="hn-act">${p.kind==='give'?B('ask','🙋 저희 지점 필요해요'):B('offer','📦 저희가 보내드릴게요')}</div>`;
+      case 'matched':case 'offered':return `<div class="hn-act">${B('nextday','🌙 다음 날 아침으로 ▶',1)}</div>`;
+      case 'arrived':return `<div class="hn-act">${B('recv','✅ 잘 받았어요')}</div>`;
+      case 'thanks':return `<div class="hn-thx">${THX.map((t,i)=>`<button type="button" data-act="thx" data-id="${p.id}" data-i="${i}">👏 ${t}</button>`).join('')}</div>`;
+      case 'promised':case 'requested':return `<div class="hn-act">${B('ship','📦 행낭 발송 등록')}</div>`;
+      case 'shipped':return `<div class="hn-act">${B('nextship','🌙 다음 날 아침으로 ▶',1)}</div>`;
+      case 'waiting':return `<div class="hn-cmt">⏳ 다른 지점의 반응을 기다리는 중…</div>`;
+      default:return '';
+    }
+  }
+  function paint(){
+    $('#hnFeed').innerHTML=posts.map(p=>`
+      <div class="hn-card${p.mine?' mine':''}${p.pop?' hn-pop':''}">
+        <div class="hn-ct"><div class="hn-emo">${p.emoji}</div>
+          <div class="hn-ci"><b>${esc(p.title)}</b>
+            <div class="m">${p.br} <span class="tp">${fmt(p.tp)}</span> · ${p.time}</div></div>
+          <span class="hn-bdg ${p.state==='closed'?'done':p.kind}">${p.state==='closed'?'나눔 완료':p.kind==='give'?'나눔해요':'필요해요'}</span></div>
+        ${p.cmt?`<div class="hn-cmt">${p.cmt}</div>`:''}${btns(p)}
+      </div>`).join('');
+    posts.forEach(p=>p.pop=false);
+    $('#hnMeT').textContent=fmt(S.t);$('#hnMeT2').textContent=fmt(S.t);
+    $('#hnMk').style.left=Math.min(100,Math.max(0,(S.t-T0)/(TMAX-T0)*100))+'%';
+    $('#hnStS').textContent=S.sent;$('#hnStR').textContent=S.recv;$('#hnStT').textContent=S.thx;
+    $('#hnBadges').innerHTML=BADGES.map(([n,ok])=>`<span class="hn-badge${ok()?' got':''}">${n}</span>`).join('');
+  }
+  const find=id=>posts.find(p=>p.id===+id);
+  function act(a,p,el){
+    if(a==='ask'){p.state='matched';p.cmt=`<b>성수지점(나)</b> · “저희 지점 필요합니다!” → ${p.br}이 수신처를 <b>성수지점</b>으로 확정했습니다`;
+      log(`🤝 매칭 확정 — ${p.br} → 성수지점 · 내일 아침 행낭 편에 적재 예약`);}
+    else if(a==='offer'){p.state='promised';p.cmt=`<b>성수지점(나)</b> · “저희 창고에 여분 있어요, 보내드릴게요!”`;
+      log(`🤝 매칭 확정 — 성수지점 → ${p.br} · 발송 등록을 눌러 행낭에 실어주세요`);}
+    else if(a==='nextday'){S.day++;p.state='arrived';log(`🌅 아침 — 행낭이 <b>성수지점</b>에 도착했습니다`);}
+    else if(a==='recv'){p.state='thanks';S.recv++;p.tp=Math.round((p.tp+0.2)*10)/10;bump(0.2,'수령 확인');
+      log(`✅ 수령 확인 — 보낸 ${p.br}의 온도도 +0.2° 올랐습니다 · 감사 카드를 골라 보내보세요`);}
+    else if(a==='thx'){const t=THX[+el.dataset.i];S.thx++;p.state='closed';p.cmt=`성수지점(나) 👏 “${t}”`;bump(0.1,'감사 카드 전송');}
+    else if(a==='ship'){p.state='shipped';log(`📦 행낭 발송 등록 — 내일 아침 수발 편 · 싣기만 하면 끝, 배송비 0원`);}
+    else if(a==='nextship'){S.day++;p.state='closed';S.sent++;
+      log(`🌅 아침 — 행낭이 <b>${p.br==='성수지점(나)'?'여의도지점':p.br}</b>에 도착했습니다`);
+      bump(0.2,'상대 지점 수령 확인');
+      setTimeout(()=>{S.thx++;p.cmt=`${p.mine?'여의도지점':p.br} 👏 “정말 감사합니다. 지점 살리셨어요!”`;
+        bump(0.1,'감사 카드 도착');paint();},900);}
+    paint();
+  }
+  /* 글쓰기 */
+  let wKind='give',wCat={e:'📎',n:'더블클립',u:'통'},wQty=3;
+  const UNITS={'더블클립':'통','바인더':'권','토너':'개','서류봉투':'묶음','판촉 쇼핑백':'장'};
+  const autoTitle=()=>`${wCat.n} ${wQty}${UNITS[wCat.n]||'개'} ${wKind==='give'?'나눔해요':'급히 구합니다'}`;
+  function post(){
+    const title=($('#hnTitle').value.trim()||autoTitle());
+    const p={id:++pid,mine:true,kind:wKind,emoji:wCat.e,title,br:'성수지점(나)',tp:S.t,time:'방금',state:'waiting',pop:true};
+    posts.unshift(p);
+    log(`📝 글 등록 — “${esc(title)}” (${wKind==='give'?'나눔해요':'필요해요'})`);
+    $('#hnTitle').value='';tab('feed');paint();
+    setTimeout(()=>{
+      if(p.kind==='give'){p.state='requested';p.cmt=`<b>여의도지점 41.2°</b> · “저희 지점 필요합니다! 행낭 코드 Y-101이에요” 🙏`;
+        log(`💬 여의도지점이 신청했습니다 — 발송 등록을 눌러 행낭에 실어주세요`);}
+      else{p.state='offered';p.cmt=`<b>여의도지점 41.2°</b> · “저희 창고에 있어요! 내일 아침 행낭에 실어 보낼게요” 📦`;
+        log(`💬 여의도지점이 보내주기로 했습니다 — 내일 아침 행낭을 기다려 보세요`);}
+      paint();},1600);
+  }
+  function tab(k){
+    $$('#dg-hn .hn-tab').forEach(b=>b.classList.toggle('on',b.dataset.p===k));
+    $('#hnpFeed').hidden=k!=='feed';$('#hnpWrite').hidden=k!=='write';$('#hnpMy').hidden=k!=='my';
+  }
+  function reset(){S={t:T0,sent:0,recv:0,thx:0,day:1};pid=0;posts=seed();$('#hnLog').innerHTML='';
+    log('행낭마켓 체험 시작 — 당신은 <b>성수지점</b> 담당자입니다. 피드 글에 신청하거나, 직접 글을 올려보세요. (전부 가상 예시)');
+    paint();}
+  root.addEventListener('click',e=>{
+    const tb=e.target.closest('.hn-tab');if(tb){tab(tb.dataset.p);return;}
+    const kb=e.target.closest('#hnKind button');
+    if(kb){wKind=kb.dataset.k;$$('#hnKind button').forEach(b=>{b.classList.toggle('on',b===kb);b.classList.toggle('need',b===kb&&wKind==='need');});
+      $('#hnTitle').placeholder='예: '+autoTitle();return;}
+    const cb=e.target.closest('#hnCat .hn-chip');
+    if(cb){wCat={e:cb.dataset.e,n:cb.dataset.n};$$('#hnCat .hn-chip').forEach(b=>b.classList.toggle('on',b===cb));
+      $('#hnTitle').placeholder='예: '+autoTitle();return;}
+    if(e.target.id==='hnQm'||e.target.id==='hnQp'){wQty=Math.min(99,Math.max(1,wQty+(e.target.id==='hnQp'?1:-1)));$('#hnQty').textContent=wQty;return;}
+    if(e.target.id==='hnAuto'){$('#hnTitle').value=autoTitle();return;}
+    if(e.target.id==='hnPost'){post();return;}
+    if(e.target.id==='hnReset'){reset();return;}
+    const ab=e.target.closest('[data-act]');if(ab){const p=find(ab.dataset.id);if(p)act(ab.dataset.act,p,ab);}
+  });
+  reset();
+}
 /* 데모 허브 카드 — EXPERIMENTS의 demo 필드에서 자동 렌더(상태 칩 단일 소스) */
 function renderDemoCards(){
   const box=$('#dsel');if(!box)return;
@@ -5371,7 +5627,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   /* demo 0: 가이드 체험 */
   bindTour();bindFx();bindArc();
   /* demo 그룹 허브 + 쪽지 다듬기 */
-  bindDemoGroups();bindDselShrink();bindNote();bindBrief();bindToast();
+  bindDemoGroups();bindDselShrink();bindNote();bindBrief();bindToast();bindHn();
   /* d1 끝 → 다음 체험(입력 UX) 전진 / 가이드 체험(조달·운용 스토리)은 보조 링크 */
   const gn=$('#goNext1');if(gn)gn.addEventListener('click',()=>{
     const t=$('.tab[data-t="d2"]');if(t)t.click();window.scrollTo({top:0,behavior:REDUCED?'auto':'smooth'});});
