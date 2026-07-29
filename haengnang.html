@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>행낭마켓 — 지점 간 비품 나눔 (체험판)</title>
+<!-- ═══════════════════════════════════════════════════════════════
+     행낭마켓 · AI Lab EXP.05 — "사이트 안의 사이트"
+     실제로 작동하는 미니 사이트: 글·댓글·사진 업로드·알림·나눔온도가
+     전부 브라우저(localStorage)에 저장됩니다. 서버 없음.
+     다른 지점들은 가상 지점(봇)이 시간차를 두고 반응 — 전부 예시.
+     행낭 하루 = 체험에서는 약 30초 (⏩ 빨리감기 제공)
+     ═══════════════════════════════════════════════════════════════ -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --bg:#EDF1F7; --panel:#FFFFFF; --well:#F7F9FC; --line:#E2E9F1; --line2:#D5DEE9;
+  --txt:#16202E; --mut:#5C6B80; --dim:#8A94A6; --faint:#A6B0BF;
+  --amb:#F5A742; --ambd:#B9730B; --ambbg:#FFF3E0; --ink:#1A2434;
+  --grn:#0F8A5F; --grnbg:#E7F6EF; --red:#C2410C; --redbg:#FDEEE7;
+  --hot:#E8801A; --cool:#3D8BD4;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Pretendard','Malgun Gothic',sans-serif;background:var(--bg);color:var(--txt);
+  min-height:100dvh;display:flex;justify-content:center}
+#app{width:100%;max-width:520px;min-height:100dvh;background:var(--well);display:flex;flex-direction:column;
+  box-shadow:0 0 40px rgba(30,40,60,.08);position:relative}
+button{font-family:inherit;cursor:pointer}
+input,textarea,select{font-family:inherit}
+a{color:inherit;text-decoration:none}
+/* ── 헤더 ── */
+header{position:sticky;top:0;z-index:20;background:var(--panel);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:10px;padding:12px 16px}
+.logo{width:34px;height:34px;border-radius:10px;background:var(--amb);color:var(--ink);font-weight:900;
+  font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+header b{font-size:17px}
+header .beta{font-size:10px;font-weight:800;color:var(--ambd);background:var(--ambbg);border-radius:6px;padding:3px 6px;letter-spacing:.05em}
+.hd-me{margin-left:auto;font-size:12px;font-weight:800;color:var(--ambd);background:var(--ambbg);
+  border-radius:99px;padding:6px 12px;white-space:nowrap;border:none}
+.hd-bell{position:relative;border:none;background:none;font-size:19px;padding:4px 2px}
+.hd-bell .dot{position:absolute;top:2px;right:-2px;width:9px;height:9px;border-radius:50%;background:var(--red);display:none}
+.hd-bell.unread .dot{display:block}
+/* ── 메인 ── */
+main{flex:1;padding:14px 14px calc(86px + env(safe-area-inset-bottom));overflow-x:hidden}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--ambd);margin:4px 2px 8px}
+/* 검색·필터 */
+.search{display:flex;align-items:center;gap:8px;background:var(--panel);border:1.5px solid var(--line);
+  border-radius:12px;padding:10px 13px;margin-bottom:10px}
+.search input{border:none;outline:none;flex:1;font-size:14px;background:none;color:var(--txt);min-width:0}
+.ftabs{display:flex;gap:7px;margin-bottom:8px}
+.ftab{flex:1;border:1.5px solid var(--line);background:var(--panel);color:var(--mut);font-weight:700;
+  font-size:12.5px;padding:8px 4px;border-radius:99px}
+.ftab.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.cats{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:6px;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cat{border:1.5px solid var(--line);background:var(--panel);color:var(--mut);font-size:12px;font-weight:600;
+  padding:7px 12px;border-radius:99px;white-space:nowrap}
+.cat.on{border-color:var(--amb);color:var(--ambd);background:var(--ambbg)}
+/* 피드 카드 */
+.pcard{display:flex;gap:12px;background:var(--panel);border:1.5px solid var(--line);border-radius:16px;
+  padding:13px;margin-bottom:10px;width:100%;text-align:left}
+.pcard.mine{border-color:rgba(245,167,66,.55)}
+.pthumb{width:74px;height:74px;border-radius:12px;flex-shrink:0;background:var(--well);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;font-size:34px;overflow:hidden}
+.pthumb img{width:100%;height:100%;object-fit:cover}
+.pinfo{flex:1;min-width:0}
+.pinfo b{font-size:14.5px;line-height:1.35;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pinfo .m{font-size:12px;color:var(--dim);margin-top:3px}
+.tp{color:var(--hot);font-weight:800}
+.prow{display:flex;align-items:center;gap:6px;margin-top:7px;flex-wrap:wrap}
+.bdg{font-size:10.5px;font-weight:800;padding:4px 8px;border-radius:7px;white-space:nowrap}
+.bdg.give{background:var(--grnbg);color:var(--grn)}
+.bdg.need{background:var(--redbg);color:var(--red)}
+.bdg.done{background:var(--bg);color:var(--dim)}
+.bdg.busy{background:var(--ambbg);color:var(--ambd)}
+.pfoot{font-size:11px;color:var(--faint)}
+.empty{padding:44px 20px;text-align:center;color:var(--dim);font-size:13.5px;line-height:1.7}
+/* 상세 */
+.back{border:none;background:none;font-size:13px;font-weight:700;color:var(--mut);padding:2px 0 12px}
+.hero{border-radius:16px;background:linear-gradient(135deg,#E8EEF6,#CBD8E8);height:190px;display:flex;
+  align-items:center;justify-content:center;font-size:70px;overflow:hidden;margin-bottom:14px;border:1px solid var(--line)}
+.hero img{width:100%;height:100%;object-fit:cover}
+.dtitle{font-size:19px;font-weight:800;line-height:1.35}
+.dmeta{font-size:12.5px;color:var(--dim);margin:6px 0 12px}
+.dbody{background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:14px;font-size:14px;line-height:1.65;margin-bottom:14px;white-space:pre-wrap}
+.tl{background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px}
+.tl h4{font-size:12px;color:var(--mut);margin-bottom:10px}
+.tls{display:flex;gap:0;align-items:flex-start}
+.tli{flex:1;text-align:center;position:relative}
+.tli .ic{width:26px;height:26px;border-radius:50%;background:var(--line);color:var(--dim);font-size:12px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 5px;position:relative;z-index:1}
+.tli.on .ic{background:var(--amb);color:var(--ink)}
+.tli span{font-size:10.5px;color:var(--dim);display:block;line-height:1.3}
+.tli.on span{color:var(--ambd);font-weight:700}
+.tli::before{content:'';position:absolute;top:13px;left:-50%;width:100%;height:2px;background:var(--line)}
+.tli:first-child::before{display:none}
+.tli.on::before{background:var(--amb)}
+.act{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.btn{border:none;border-radius:13px;background:var(--amb);color:var(--ink);font-weight:800;font-size:15px;padding:14px;text-align:center;width:100%}
+.btn.ghost{background:var(--panel);border:2px solid var(--amb);color:var(--ambd)}
+.btn.mut{background:var(--panel);border:1.5px solid var(--line2);color:var(--mut);font-weight:700}
+.btn:disabled{opacity:.5;cursor:default}
+.wait{display:flex;align-items:center;gap:9px;background:var(--ambbg);border:1.5px dashed rgba(185,115,11,.4);
+  color:var(--ambd);border-radius:13px;padding:12px 14px;font-size:13px;font-weight:600;line-height:1.5}
+.thx-pick{display:flex;flex-wrap:wrap;gap:7px}
+.thx-pick button{border:1.5px dashed var(--line2);background:var(--panel);color:var(--mut);font-size:12px;
+  padding:9px 12px;border-radius:99px}
+/* 댓글 */
+.cm{display:flex;gap:9px;margin-bottom:11px}
+.cm .av{width:34px;height:34px;border-radius:50%;background:#DCE6F0;color:var(--mut);font-size:14px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cm.me .av{background:var(--ambbg);color:var(--ambd)}
+.cm .bd{background:var(--panel);border:1px solid var(--line);border-radius:0 13px 13px 13px;padding:9px 12px;
+  font-size:13px;line-height:1.5;min-width:0}
+.cm .who{font-size:11px;color:var(--dim);margin-bottom:2px}
+.cm .who .tp{font-size:11px}
+.cwrite{display:flex;gap:8px;margin-top:4px}
+.cwrite input{flex:1;border:1.5px solid var(--line);border-radius:11px;padding:11px 13px;font-size:13px;outline:none;background:var(--panel);min-width:0}
+.cwrite input:focus{border-color:var(--amb)}
+.cwrite button{border:none;border-radius:11px;background:var(--ink);color:#fff;font-weight:700;font-size:13px;padding:0 16px}
+/* 글쓰기 */
+.lbl{display:block;font-size:12.5px;font-weight:800;color:var(--mut);margin:16px 2px 7px}
+.lbl:first-child{margin-top:2px}
+.lbl em{font-style:normal;font-weight:500;color:var(--faint)}
+.seg{display:flex;gap:8px}
+.seg button{flex:1;border:2px solid var(--line);background:var(--panel);color:var(--dim);font-weight:800;
+  font-size:14px;padding:13px;border-radius:13px}
+.seg button.on{border-color:var(--grn);color:var(--grn);background:var(--grnbg)}
+.seg button.on.need{border-color:var(--red);color:var(--red);background:var(--redbg)}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{border:1.5px solid var(--line);background:var(--panel);color:var(--mut);font-size:13px;padding:9px 13px;border-radius:99px}
+.chip.on{border-color:var(--amb);color:var(--ambd);background:var(--ambbg);font-weight:700}
+.inp,textarea.inp{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;
+  outline:none;background:var(--panel);color:var(--txt)}
+.inp:focus{border-color:var(--amb)}
+textarea.inp{resize:vertical;min-height:84px;line-height:1.6}
+.qty{display:inline-flex;align-items:center;border:1.5px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
+.qty button{width:42px;padding:10px 0;border:none;background:var(--well);color:var(--mut);font-size:17px;font-weight:800}
+.qty b{padding:0 16px;font-size:14px}
+.photo{display:flex;gap:9px;align-items:center}
+.photo .pv{width:86px;height:86px;border-radius:13px;border:1.5px solid var(--line);background:var(--well);
+  display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--faint);overflow:hidden;position:relative}
+.photo .pv img{width:100%;height:100%;object-fit:cover}
+.photo .pv .x{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;border:none;background:rgba(20,28,40,.75);color:#fff;font-size:11px}
+.photo label{border:1.5px dashed var(--line2);border-radius:13px;width:86px;height:86px;display:flex;flex-direction:column;
+  gap:3px;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;color:var(--dim);cursor:pointer}
+.photo label i{font-style:normal;font-size:22px}
+.ainote{margin-top:14px;border:1.5px dashed rgba(61,139,212,.45);background:rgba(61,139,212,.07);color:#2D6FA8;
+  border-radius:12px;padding:11px 13px;font-size:12px;line-height:1.55}
+/* 알림 */
+.nrow{display:flex;gap:10px;background:var(--panel);border:1.5px solid var(--line);border-radius:13px;
+  padding:12px 13px;margin-bottom:9px;font-size:13px;line-height:1.5;color:var(--mut)}
+.nrow.unread{border-color:rgba(245,167,66,.55);color:var(--txt)}
+.nrow .ic{font-size:17px;flex-shrink:0}
+.nrow .t{font-size:11px;color:var(--faint);display:block;margin-top:3px}
+/* 내 지점 */
+.prof{background:var(--panel);border:1.5px solid var(--line);border-radius:16px;padding:20px;text-align:center;margin-bottom:12px}
+.pav{width:66px;height:66px;border-radius:20px;background:var(--amb);color:var(--ink);font-size:28px;font-weight:900;
+  display:inline-flex;align-items:center;justify-content:center}
+.prof h3{font-size:19px;margin-top:8px}
+.tempbig{font-size:36px;font-weight:900;color:var(--hot);margin-top:10px}
+.tempbig small{font-size:13px;color:var(--dim);font-weight:600;margin-left:5px}
+.gauge{height:11px;border-radius:99px;background:linear-gradient(90deg,var(--cool),var(--amb),#E8552F);
+  position:relative;margin:12px 4px 4px;opacity:.92}
+.mk{position:absolute;top:-5px;width:21px;height:21px;border-radius:50%;background:#fff;border:4px solid var(--hot);
+  transform:translateX(-50%);transition:left .6s cubic-bezier(.2,.8,.3,1)}
+.gs{display:flex;justify-content:space-between;font-size:10px;color:var(--faint);margin:0 4px}
+.stats{display:flex;gap:8px;margin-top:14px}
+.st{flex:1;background:var(--well);border:1px solid var(--line);border-radius:12px;padding:10px}
+.st b{font-size:18px;display:block}
+.st span{font-size:11px;color:var(--dim)}
+.badges{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+.badge{font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:99px;border:1.5px solid var(--line);color:var(--faint);background:var(--panel)}
+.badge.got{border-color:rgba(245,167,66,.6);color:var(--ambd);background:var(--ambbg)}
+.rules{border:1.5px dashed var(--line2);border-radius:13px;padding:12px 14px;font-size:12px;color:var(--mut);line-height:1.7;margin-bottom:12px;background:var(--panel)}
+.rules b{color:var(--ambd)}
+.card-t{background:var(--panel);border:1.5px solid var(--line);border-radius:13px;padding:12px 14px;margin-bottom:9px;font-size:13px;line-height:1.55;color:var(--mut)}
+.card-t .who{font-size:11px;color:var(--faint);margin-top:4px}
+h4.sec{font-size:13px;color:var(--mut);margin:18px 2px 9px}
+/* 하단 내비 */
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;z-index:30;
+  background:var(--panel);border-top:1px solid var(--line);display:flex;
+  padding:6px 8px calc(8px + env(safe-area-inset-bottom))}
+nav button{flex:1;border:none;background:none;color:var(--dim);font-size:10.5px;font-weight:700;
+  display:flex;flex-direction:column;gap:3px;align-items:center;padding:6px 0;position:relative}
+nav button .i{font-size:20px;line-height:1}
+nav button.on{color:var(--ambd)}
+nav button .nd{position:absolute;top:4px;right:calc(50% - 16px);width:8px;height:8px;border-radius:50%;background:var(--red);display:none}
+nav button.unread .nd{display:block}
+/* 빨리감기 + 토스트 */
+#ff{position:fixed;bottom:calc(78px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:29;
+  border:none;border-radius:99px;background:var(--ink);color:#fff;font-weight:800;font-size:12.5px;
+  padding:11px 18px;box-shadow:0 8px 22px rgba(20,28,40,.28);display:none;align-items:center;gap:7px}
+#ff.show{display:inline-flex}
+#toast{position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-80px);z-index:60;max-width:88%;
+  background:var(--ink);color:#fff;font-size:13px;font-weight:600;border-radius:12px;padding:12px 17px;
+  transition:transform .35s cubic-bezier(.2,.8,.3,1);line-height:1.45;text-align:center}
+#toast.show{transform:translateX(-50%) translateY(0)}
+/* 온보딩 */
+#onb{position:fixed;inset:0;z-index:50;background:rgba(22,32,46,.5);display:flex;align-items:flex-end;justify-content:center}
+#onb[hidden]{display:none}
+#onb .sheet{width:100%;max-width:520px;background:var(--panel);border-radius:22px 22px 0 0;padding:26px 22px calc(26px + env(safe-area-inset-bottom))}
+#onb h2{font-size:20px;margin:12px 0 6px}
+#onb p{font-size:13.5px;color:var(--mut);line-height:1.65}
+.brgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0}
+.brgrid button{border:1.5px solid var(--line);background:var(--well);border-radius:13px;padding:14px 10px;
+  font-size:14px;font-weight:700;color:var(--mut)}
+.brgrid button.on{border-color:var(--amb);background:var(--ambbg);color:var(--ambd)}
+.fine{font-size:11.5px;color:var(--faint);line-height:1.6;margin-top:10px}
+.footnote{text-align:center;font-size:11px;color:var(--faint);line-height:1.7;padding:18px 20px 6px}
+@keyframes pop{0%{transform:scale(.65);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+.pop{animation:pop .4s ease}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="logo">행</div><b>행낭마켓</b><span class="beta">아이디어 체험판</span>
+    <button class="hd-bell" id="bell" aria-label="알림"><span>🔔</span><span class="dot"></span></button>
+    <button class="hd-me" id="meChip">지점 선택</button>
+  </header>
+  <main id="view" aria-live="polite"></main>
+  <nav>
+    <button data-r="home" class="on"><span class="i">🏠</span>홈</button>
+    <button data-r="write"><span class="i">✍️</span>글쓰기</button>
+    <button data-r="noti" id="navNoti"><span class="i">🔔</span>알림<span class="nd"></span></button>
+    <button data-r="my"><span class="i">🏢</span>내 지점</button>
+  </nav>
+  <button id="ff">⏩ 행낭 빨리감기 <span id="ffn"></span></button>
+  <div id="toast" role="status"></div>
+
+  <div id="onb" hidden>
+    <div class="sheet">
+      <div class="logo" style="width:44px;height:44px;font-size:22px;border-radius:13px">행</div>
+      <h2>행낭마켓에 오신 것을 환영합니다</h2>
+      <p>지점끼리 남는 비품을 나누는 <b>사내 당근</b> — 배송은 매일 도는 <b>행낭</b>이 대신합니다.
+        먼저 당신의 지점을 골라주세요. (전부 가상 지점, 체험용)</p>
+      <div class="brgrid" id="brPick"></div>
+      <button class="btn" id="onbGo" disabled>이 지점으로 시작하기</button>
+      <p class="fine">· 글·사진·온도는 이 브라우저에만 저장됩니다(서버 없음)<br>
+        · 다른 지점들은 가상 지점(봇)이며 시간차를 두고 반응합니다<br>
+        · 행낭 하루 = 체험에서는 약 30초 (⏩ 빨리감기 가능)</p>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+/* ═══ 행낭마켓 미니 사이트 — 전부 클라이언트, localStorage 저장, 가상 지점 봇 ═══ */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const T0=36.5, TMAX=45.5, KEY='hnm-v1';
+const DAY_MS=30_000;                 /* 행낭 하루 = 30초 (체험 축약) */
+const CATS=[['📎','클립·집게','통'],['🗂','바인더','권'],['🖨','토너','개'],['✉️','봉투·전표','묶음'],['🎁','판촉물','장'],['🖊','필기구','자루']];
+const MY_CHOICES=['성수지점','종로지점','해운대지점','전주지점'];
+const BOTS=[
+  {n:'여의도지점',t:41.2,ch:'여'},{n:'마포지점',t:40.4,ch:'마'},{n:'부평지점',t:39.8,ch:'부'},
+  {n:'판교지점',t:39.1,ch:'판'},{n:'강서지점',t:38.6,ch:'강'},{n:'동탄지점',t:37.8,ch:'동'}];
+const THX=['따뜻하게 잘 쓰겠습니다 🙏','지점 살리셨어요 👏','최고의 이웃 지점입니다!','덕분에 주문 안 하고 해결했어요'];
+
+/* ── 상태 ── */
+let DB=null, tickTimer=null;
+const now=()=>Date.now();
+const load=()=>{try{DB=JSON.parse(localStorage.getItem(KEY))}catch(e){DB=null}
+  if(!DB||!DB.v){DB=seed()} };
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){toast('저장 공간이 가득 — 사진 없이 저장했어요');}};
+function seed(){
+  const t=now();
+  const mk=(min,o)=>Object.assign({id:'s'+min,ts:t-min*60000,comments:[],state:'open',img:null,qty:1,desc:''},o);
+  return {v:1,me:null,temp:T0,sent:0,recv:0,thx:0,noti:[],events:[],
+    posts:[
+      mk(10,{br:'여의도지점',kind:'give',cat:0,title:'대형 더블클립 3통 나눔해요',qty:3,
+        desc:'연말 정리하다 보니 새 제품 3통이 나왔어요.\n필요하신 지점은 신청 눌러주세요 — 다음 행낭 편에 실어 보내드립니다.'}),
+      mk(70,{br:'동탄지점',kind:'need',cat:2,title:'HP 토너 CF280A 급히 구합니다',
+        desc:'프린터가 하필 월말에 바닥났습니다. 여분 있으신 지점 계실까요? 🙏'}),
+      mk(200,{br:'부평지점',kind:'give',cat:4,title:'명절 판촉 쇼핑백 120장 남았습니다',qty:120,
+        desc:'행사 끝나고 박스째 남았어요. 나눠 가실 지점 찾습니다.'}),
+      mk(1500,{br:'마포지점',kind:'give',cat:3,title:'서류봉투(대) 5묶음 → 강서지점 발송 완료',qty:5,state:'closed',
+        desc:'강서지점에 잘 전달됐습니다. 다들 행낭마켓 하세요 😊',
+        comments:[{br:'강서지점',txt:'다음날 바로 도착했어요. 감사합니다! 👏',ts:t-1440*60000}]}),
+    ]};
+}
+const meBr=()=>DB.me;
+const isMine=p=>p.br===DB.me;
+const post=id=>DB.posts.find(p=>p.id===id);
+const botOf=n=>BOTS.find(b=>b.n===n);
+const catE=p=>CATS[p.cat][0], catU=p=>CATS[p.cat][2];
+
+/* ── 공용 UI ── */
+let toastT=null;
+function toast(msg){const el=$('#toast');el.innerHTML=msg;el.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),2600);}
+function noti(ic,txt,link){DB.noti.unshift({ic,txt,link:link||null,ts:now(),read:false});paintBell();}
+function paintBell(){const un=DB.noti.some(n=>!n.read);
+  $('#bell').classList.toggle('unread',un);$('#navNoti').classList.toggle('unread',un);}
+function ago(ts){const m=Math.floor((now()-ts)/60000);
+  if(m<1)return '방금';if(m<60)return m+'분 전';const h=Math.floor(m/60);
+  if(h<24)return h+'시간 전';return Math.floor(h/24)+'일 전';}
+const fmtT=v=>v.toFixed(1)+'°';
+function bump(dv,why){DB.temp=Math.round((DB.temp+dv)*10)/10;
+  toast(`🌡 나눔온도 <b style="color:var(--amb)">${fmtT(DB.temp)}</b> (+${dv.toFixed(1)}°) — ${why}`);}
+
+/* ── 이벤트(봇·행낭 타이머) — 재방문에도 이어짐 ── */
+function sched(delay,type,pid,data){DB.events.push({at:now()+delay,type,pid,data:data||null});paintFF();}
+function tick(){
+  const due=DB.events.filter(e=>e.at<=now());
+  if(!due.length){paintFF();return;}
+  DB.events=DB.events.filter(e=>e.at>now());
+  due.sort((a,b)=>a.at-b.at).forEach(run);
+  save();render();paintFF();
+}
+function paintFF(){const n=DB.events.length;
+  $('#ff').classList.toggle('show',n>0);$('#ffn').textContent=n?`(대기 ${n})`:'';}
+function run(ev){
+  const p=post(ev.pid);if(!p)return;
+  const B=ev.data&&ev.data.bot?ev.data.bot:'여의도지점';
+  switch(ev.type){
+    case 'botAsk':{ /* 내 나눔글에 봇이 신청 */
+      if(p.state!=='open')break;
+      p.comments.push({br:B,txt:'저희 지점 꼭 필요합니다! 신청드려요 🙏',ts:now(),ask:true});
+      noti('🙋',`<b>${B}</b>이 “${esc(p.title)}”에 신청했습니다 — 보낼 지점을 골라주세요`,'post/'+p.id);
+      break;}
+    case 'botOffer':{ /* 내 필요글에 봇이 제안 */
+      if(p.state!=='open')break;
+      p.state='promisedIn';p.peer=B;
+      p.comments.push({br:B,txt:'저희 창고에 여분 있어요! 다음 행낭 편에 실어 보낼게요 📦',ts:now()});
+      noti('📦',`<b>${B}</b>이 “${esc(p.title)}”를 보내주기로 했습니다 — 행낭을 기다려 보세요`,'post/'+p.id);
+      sched(DAY_MS,'arriveIn',p.id,{bot:B});
+      break;}
+    case 'botAccept':{ /* 봇 나눔글에 내가 신청 → 봇이 수락·발송 */
+      p.state='shippedIn';
+      p.comments.push({br:p.br,txt:`${meBr()} 수신 확정! 내일 아침 행낭에 실어 보냅니다 📦 (체험에서는 ~30초)`,ts:now()});
+      noti('🤝',`<b>${p.br}</b>이 수신처를 우리 지점으로 확정 — 행낭 이동 중`,'post/'+p.id);
+      sched(DAY_MS,'arriveIn',p.id,{bot:p.br});
+      break;}
+    case 'arriveIn':{ /* 나에게 도착 */
+      p.state='arrived';
+      noti('🌅',`아침 행낭 도착 — “${esc(p.title)}” 수령 확인을 눌러주세요`,'post/'+p.id);
+      break;}
+    case 'shipOut':{ /* 내가 발송한 물건이 봇에게 도착 → 봇이 수령+감사 */
+      p.state='closed';DB.sent++;
+      const b=botOf(p.peer);if(b)b.t=Math.round((b.t+0.2)*10)/10;
+      bump(0.2,'상대 지점 수령 확인');
+      p.comments.push({br:p.peer,txt:THX[Math.floor(Math.random()*THX.length)]+' 👏 (감사 카드)',ts:now()});
+      DB.thx++;setTimeout(()=>{bump(0.1,'감사 카드 도착');save();render();},700);
+      noti('✅',`<b>${p.peer}</b>이 “${esc(p.title)}” 수령을 확인했습니다 (+0.2°) · 감사 카드 도착(+0.1°)`,'post/'+p.id);
+      break;}
+    case 'botReply':{ p.comments.push({br:B,txt:ev.data.txt,ts:now()});
+      noti('💬',`<b>${B}</b>이 “${esc(p.title)}”에 댓글을 남겼습니다`,'post/'+p.id);break;}
+  }
+}
+$('#ff').addEventListener('click',()=>{DB.events.forEach(e=>e.at=now());tick();toast('⏩ 행낭이 밤새 달렸습니다 — 다음 날 아침');});
+
+/* ── 라우터 ── */
+function go(r){location.hash='#'+r}
+function route(){
+  const h=(location.hash||'#home').slice(1);
+  const [r,arg]=h.split('/');
+  $$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.r===(r==='post'?'home':r)));
+  const V=$('#view');
+  if(!DB.me){V.innerHTML='';return;}
+  if(r==='post'&&post(arg))V.innerHTML=vPost(post(arg));
+  else if(r==='write')V.innerHTML=vWrite();
+  else if(r==='noti'){V.innerHTML=vNoti();DB.noti.forEach(n=>n.read=true);save();paintBell();}
+  else if(r==='my')V.innerHTML=vMy();
+  else V.innerHTML=vHome();
+  V.scrollTop=0;window.scrollTo(0,0);
+  if(r==='write')bindWrite();
+}
+window.addEventListener('hashchange',route);
+function render(){paintMe();route()}
+
+/* ── 뷰: 홈 피드 ── */
+let fKind='all',fCat=-1,fQ='';
+function vHome(){
+  const posts=DB.posts.filter(p=>
+    (fKind==='all'||(fKind==='done'?p.state==='closed':p.kind===fKind&&p.state!=='closed'))&&
+    (fCat<0||p.cat===fCat)&&
+    (!fQ||p.title.includes(fQ)||p.desc.includes(fQ))
+  ).sort((a,b)=>b.ts-a.ts);
+  return `
+  <div class="search">🔍<input id="q" placeholder="비품 검색 (예: 토너)" value="${esc(fQ)}" autocomplete="off"></div>
+  <div class="ftabs">${[['all','전체'],['give','나눔해요'],['need','필요해요'],['done','완료']].map(([k,t])=>
+    `<button class="ftab${fKind===k?' on':''}" data-fk="${k}">${t}</button>`).join('')}</div>
+  <div class="cats"><button class="cat${fCat<0?' on':''}" data-fc="-1">전체 품목</button>${CATS.map((c,i)=>
+    `<button class="cat${fCat===i?' on':''}" data-fc="${i}">${c[0]} ${c[1]}</button>`).join('')}</div>
+  ${posts.length?posts.map(cardHTML).join(''):`<div class="empty">조건에 맞는 글이 없어요.<br>✍️ 첫 글을 올려 나눔을 시작해 보세요!</div>`}
+  <div class="footnote">지점·글·온도 전부 가상 예시 · 실제 시스템 아님 · AI Lab EXP.05</div>`;
+}
+function stBadge(p){
+  if(p.state==='closed')return '<span class="bdg done">나눔 완료</span>';
+  if(p.state==='open')return `<span class="bdg ${p.kind}">${p.kind==='give'?'나눔해요':'필요해요'}</span>`;
+  if(p.state==='arrived')return '<span class="bdg busy">🌅 도착 — 확인 대기</span>';
+  if(p.state.startsWith('shipped')||p.state==='promisedIn')return '<span class="bdg busy">🚚 행낭 이동 중</span>';
+  if(p.state==='matchedOut')return '<span class="bdg busy">📦 발송 준비</span>';
+  return '';
+}
+function cardHTML(p){
+  const b=botOf(p.br);
+  return `<button class="pcard${isMine(p)?' mine':''}" data-open="${p.id}">
+    <span class="pthumb">${p.img?`<img src="${p.img}" alt="">`:catE(p)}</span>
+    <span class="pinfo"><b>${esc(p.title)}</b>
+      <span class="m">${p.br}${isMine(p)?'(나)':''} <span class="tp">${fmtT(isMine(p)?DB.temp:(b?b.t:38))}</span> · ${ago(p.ts)}</span>
+      <span class="prow">${stBadge(p)}<span class="pfoot">💬 ${p.comments.length}</span></span>
+    </span></button>`;
+}
+
+/* ── 뷰: 글 상세 ── */
+function tlHTML(p){
+  const steps=['글 등록','매칭','행낭 이동','수령 확인','감사 카드'];
+  const idx=p.state==='open'?0:(p.state==='matchedOut'||p.state==='promisedIn')?1:
+    p.state.startsWith('shipped')?2:p.state==='arrived'?3:p.state==='thanks'?3:p.state==='closed'?4:1;
+  return `<div class="tl"><h4>나눔 진행 — 배송은 매일 도는 행낭이 (배송비 0원)</h4><div class="tls">${
+    steps.map((s,i)=>`<div class="tli${i<=idx?' on':''}"><span class="ic">${i<idx||p.state==='closed'&&i===4?'✓':i+1}</span><span>${s}</span></div>`).join('')}</div></div>`;
+}
+function actHTML(p){
+  if(p.state==='closed')return '';
+  if(isMine(p)){
+    if(p.state==='open'&&p.kind==='give'){
+      const asks=p.comments.filter(c=>c.ask);
+      return asks.length?`<div class="act">${asks.map(a=>
+        `<button class="btn" data-send="${p.id}" data-to="${a.br}">📦 ${a.br}에 보내기 — 행낭 발송 등록</button>`).join('')}</div>`
+        :`<div class="wait">⏳ 다른 지점의 신청을 기다리는 중… (가상 지점이 곧 반응합니다)</div>`;
+    }
+    if(p.state==='open'&&p.kind==='need')return `<div class="wait">⏳ 보내줄 지점을 기다리는 중… (가상 지점이 곧 반응합니다)</div>`;
+    if(p.state==='matchedOut')return `<div class="act"><button class="btn" data-ship="${p.id}">📦 행낭 발송 등록 — 내일 아침 편</button></div>`;
+    if(p.state==='shippedOut')return `<div class="wait">🚚 행낭 이동 중 — ${p.peer} 도착까지 잠시 (⏩ 빨리감기 가능)</div>`;
+    if(p.state==='promisedIn'||p.state==='shippedIn')return `<div class="wait">🚚 ${p.peer||'상대 지점'}이 보낸 행낭이 이동 중 (⏩ 빨리감기 가능)</div>`;
+    if(p.state==='arrived')return `<div class="act"><button class="btn" data-recv="${p.id}">✅ 잘 받았어요 — 수령 확인 (+0.2°)</button></div>`;
+    if(p.state==='thanks')return `<div class="act"><div class="wait">💌 감사 카드를 골라 보내면 +0.1°</div>
+      <div class="thx-pick">${THX.slice(0,3).map((t,i)=>`<button data-thx="${p.id}" data-i="${i}">👏 ${t}</button>`).join('')}</div></div>`;
+  }else{
+    if(p.state==='open'&&p.kind==='give')return `<div class="act"><button class="btn" data-ask="${p.id}">🙋 저희 지점 필요해요 — 신청</button></div>`;
+    if(p.state==='open'&&p.kind==='need')return `<div class="act"><button class="btn" data-offer="${p.id}">📦 저희가 보내드릴게요</button></div>`;
+    if(p.state==='shippedIn')return `<div class="wait">🚚 행낭 이동 중 — 내일 아침 도착 (⏩ 빨리감기 가능)</div>`;
+    if(p.state==='arrived')return `<div class="act"><button class="btn" data-recv="${p.id}">✅ 잘 받았어요 — 수령 확인 (+0.2°)</button></div>`;
+    if(p.state==='thanks')return `<div class="act"><div class="wait">💌 감사 카드를 골라 보내면 +0.1°</div>
+      <div class="thx-pick">${THX.slice(0,3).map((t,i)=>`<button data-thx="${p.id}" data-i="${i}">👏 ${t}</button>`).join('')}</div></div>`;
+    if(p.state==='matchedOut'||p.state==='shippedOut'||p.state==='promisedIn')return `<div class="wait">🚚 다른 지점과 진행 중인 나눔입니다</div>`;
+  }
+  return '';
+}
+function vPost(p){
+  const b=botOf(p.br);
+  return `<button class="back" onclick="history.back()">‹ 피드로</button>
+  <div class="hero">${p.img?`<img src="${p.img}" alt="">`:catE(p)}</div>
+  <div class="dtitle">${esc(p.title)}</div>
+  <div class="dmeta">${p.br}${isMine(p)?'(나)':''} <span class="tp">${fmtT(isMine(p)?DB.temp:(b?b.t:38))}</span>
+    · ${CATS[p.cat][1]}${p.qty>1?' · '+p.qty+catU(p):''} · ${ago(p.ts)}</div>
+  ${p.desc?`<div class="dbody">${esc(p.desc)}</div>`:''}
+  ${tlHTML(p)}${actHTML(p)}
+  <h4 class="sec">💬 댓글 ${p.comments.length}</h4>
+  ${p.comments.map(c=>`<div class="cm${c.br===meBr()?' me':''}"><div class="av">${c.br[0]}</div>
+    <div class="bd"><div class="who">${c.br}${c.br===meBr()?'(나)':''} · ${ago(c.ts)}</div>${esc(c.txt)}</div></div>`).join('')||
+    '<div class="empty" style="padding:14px">아직 댓글이 없어요</div>'}
+  <div class="cwrite"><input id="cmIn" placeholder="댓글 남기기…" maxlength="120"><button data-cm="${p.id}">등록</button></div>
+  <div class="footnote">가상 지점·예시 데이터 — 실제 시스템 아님</div>`;
+}
+
+/* ── 뷰: 글쓰기 ── */
+let wKind='give',wCat=0,wQty=3,wImg=null;
+function vWrite(){
+  return `<span class="eyebrow">NEW POST</span>
+  <span class="lbl">구분</span>
+  <div class="seg" id="wKind">
+    <button data-k="give" class="${wKind==='give'?'on':''}">📦 나눔해요</button>
+    <button data-k="need" class="${wKind==='need'?'on need':''}">🙋 필요해요</button></div>
+  <span class="lbl">품목</span>
+  <div class="chips" id="wCat">${CATS.map((c,i)=>
+    `<button class="chip${wCat===i?' on':''}" data-c="${i}">${c[0]} ${c[1]}</button>`).join('')}</div>
+  <span class="lbl">제목</span>
+  <input class="inp" id="wTitle" placeholder="예: ${autoTitle()}" maxlength="60" autocomplete="off">
+  <span class="lbl">수량</span>
+  <div class="qty"><button id="wQm">−</button><b id="wQv">${wQty}${CATS[wCat][2]}</b><button id="wQp">＋</button></div>
+  <span class="lbl">사진 <em>(선택 — 실제로 업로드됩니다 · 이 브라우저에만 저장)</em></span>
+  <div class="photo">
+    <div class="pv" id="wPv">${wImg?`<img src="${wImg}"><button class="x" id="wPvX">✕</button>`:'미리보기'}</div>
+    <label for="wFile"><i>＋</i>사진 추가</label>
+    <input type="file" id="wFile" accept="image/*" hidden>
+  </div>
+  <span class="lbl">내용 <em>(선택)</em></span>
+  <textarea class="inp" id="wDesc" placeholder="상태, 수령 희망 시기 등을 적어주세요" maxlength="300"></textarea>
+  <div style="display:flex;gap:9px;margin-top:16px">
+    <button class="btn ghost" id="wAuto" style="flex:1">🤖 자동 작성</button>
+    <button class="btn" id="wGo" style="flex:1.4">등록하기</button></div>
+  <div class="ainote">💡 실제 구상: 사진을 올리면 AI가 품목·수량을 인식해 자동 입력하고, 반대편 글과 자동 매칭 —
+    이 체험판의 🤖는 그 흐름의 모의 버전입니다.</div>`;
+}
+const autoTitle=()=>`${CATS[wCat][1].split('·')[0]} ${wQty}${CATS[wCat][2]} ${wKind==='give'?'나눔해요':'급히 구합니다'}`;
+function bindWrite(){
+  $('#wFile').addEventListener('change',e=>{
+    const f=e.target.files[0];if(!f)return;
+    const img=new Image(),rd=new FileReader();
+    rd.onload=()=>{img.onload=()=>{
+      const c=document.createElement('canvas'),M=640,r=Math.min(1,M/Math.max(img.width,img.height));
+      c.width=img.width*r;c.height=img.height*r;
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      wImg=c.toDataURL('image/jpeg',.78);
+      $('#wPv').innerHTML=`<img src="${wImg}"><button class="x" id="wPvX">✕</button>`;
+    };img.src=rd.result;};
+    rd.readAsDataURL(f);
+  });
+}
+function submitPost(){
+  const title=$('#wTitle').value.trim()||autoTitle();
+  const p={id:'p'+now(),br:meBr(),kind:wKind,cat:wCat,qty:wQty,title,desc:$('#wDesc').value.trim(),
+    img:wImg,ts:now(),state:'open',comments:[],peer:null};
+  DB.posts.unshift(p);
+  /* 가상 지점 반응 예약 — 나눔글엔 신청 1~2건, 필요글엔 보내주기 제안 */
+  const bots=[...BOTS].sort(()=>Math.random()-.5);
+  if(wKind==='give'){
+    sched(7000+Math.random()*8000,'botAsk',p.id,{bot:bots[0].n});
+    if(Math.random()<.6)sched(16000+Math.random()*9000,'botAsk',p.id,{bot:bots[1].n});
+  }else{
+    sched(8000+Math.random()*9000,'botOffer',p.id,{bot:bots[0].n});
+  }
+  wImg=null;$('#wTitle').value='';$('#wDesc').value='';
+  save();toast('📝 등록 완료 — 가상 지점들이 곧 반응합니다');go('post/'+p.id);
+}
+
+/* ── 뷰: 알림 ── */
+function vNoti(){
+  return `<span class="eyebrow">NOTIFICATIONS</span>${
+    DB.noti.length?DB.noti.map(n=>`<button class="nrow${n.read?'':' unread'}" style="width:100%;text-align:left"
+      ${n.link?`data-open-r="${n.link}"`:''}><span class="ic">${n.ic}</span><span>${n.txt}<span class="t">${ago(n.ts)}</span></span></button>`).join('')
+    :'<div class="empty">아직 알림이 없어요.<br>글을 올리거나 신청하면 가상 지점들이 반응합니다.</div>'}`;
+}
+
+/* ── 뷰: 내 지점 ── */
+function vMy(){
+  const B=[['🥇 첫 나눔',DB.sent>0],['🤲 첫 받음',DB.recv>0],['🔥 온기 37°',DB.temp>=37],['💌 감사 수집가',DB.thx>=2],['🏅 단골 이웃',DB.sent+DB.recv>=3]];
+  const myPosts=DB.posts.filter(isMine);
+  const cards=DB.posts.flatMap(p=>p.comments.filter(c=>c.txt.includes('감사 카드')&&isMine(p)).map(c=>({c,p})));
+  return `<div class="prof">
+    <div class="pav">${meBr()[0]}</div><h3>${meBr()}</h3>
+    <div style="font-size:12px;color:var(--dim);margin-top:2px">행낭마켓 체험 중 · 나 ${myPosts.length}글</div>
+    <div class="tempbig">${fmtT(DB.temp)}<small>나눔온도</small></div>
+    <div class="gauge"><div class="mk" style="left:${Math.min(100,Math.max(0,(DB.temp-T0)/(TMAX-T0)*100))}%"></div></div>
+    <div class="gs"><span>36.5°</span><span>40°</span><span>45°+</span></div>
+    <div class="stats"><div class="st"><b>${DB.sent}</b><span>나눔</span></div>
+      <div class="st"><b>${DB.recv}</b><span>받음</span></div>
+      <div class="st"><b>${DB.thx}</b><span>감사 카드</span></div></div>
+    <div class="badges">${B.map(([n,ok])=>`<span class="badge${ok?' got':''}">${n}</span>`).join('')}</div>
+  </div>
+  <div class="rules">🌡 <b>나눔온도 규칙(안)</b> — 모든 지점 36.5° 시작 · 수령 확인 <b>+0.2°</b> · 감사 카드 <b>+0.1°</b> ·
+    매칭 후 미발송 −0.5° · 배송은 매일 도는 <b>행낭</b>(배송비 0원 · 물류 신설 없음)</div>
+  ${cards.length?`<h4 class="sec">💌 받은 감사 카드</h4>${cards.map(({c,p})=>
+    `<div class="card-t">"${esc(c.txt.replace(' 👏 (감사 카드)',''))}"<div class="who">— ${c.br} · ${esc(p.title)}</div></div>`).join('')}`:''}
+  ${myPosts.length?`<h4 class="sec">📝 내가 쓴 글</h4>${myPosts.map(cardHTML).join('')}`:''}
+  <button class="btn mut" id="resetAll" style="margin-top:14px">↺ 체험 초기화 (모든 데이터 삭제)</button>
+  <div class="footnote">이 페이지는 AI Lab의 아이디어 체험판입니다 · 지점·온도 전부 가상 예시 ·
+    데이터는 이 브라우저(localStorage)에만 저장 · <a href="index.html#project/hn" style="text-decoration:underline">AI Lab에서 이 아이디어 보기</a></div>`;
+}
+
+/* ── 온보딩 ── */
+let pickBr=null;
+function onboard(){
+  $('#brPick').innerHTML=MY_CHOICES.map(b=>`<button data-b="${b}">${b}</button>`).join('');
+  $('#onb').hidden=false;
+  $('#brPick').addEventListener('click',e=>{
+    const b=e.target.closest('[data-b]');if(!b)return;
+    pickBr=b.dataset.b;
+    $$('#brPick button').forEach(x=>x.classList.toggle('on',x===b));
+    $('#onbGo').disabled=false;
+  });
+  $('#onbGo').addEventListener('click',()=>{
+    DB.me=pickBr;save();$('#onb').hidden=true;paintMe();route();
+    toast(`🏢 ${pickBr}으로 시작합니다 — 피드의 글에 신청하거나 첫 글을 올려보세요!`);
+  });
+}
+function paintMe(){$('#meChip').textContent=DB.me?`${DB.me} ${fmtT(DB.temp)}`:'지점 선택';}
+
+/* ── 전역 클릭 ── */
+document.addEventListener('click',e=>{
+  const nv=e.target.closest('nav button');if(nv){go(nv.dataset.r);return;}
+  if(e.target.closest('#bell')){go('noti');return;}
+  if(e.target.closest('#meChip')){go('my');return;}
+  const op=e.target.closest('[data-open]');if(op){go('post/'+op.dataset.open);return;}
+  const onr=e.target.closest('[data-open-r]');if(onr){go(onr.dataset.openR);return;}
+  const t=e.target;
+  /* 홈 필터 */
+  if(t.dataset.fk){fKind=t.dataset.fk;render();return;}
+  if(t.dataset.fc){fCat=+t.dataset.fc;render();return;}
+  /* 글쓰기 */
+  if(t.closest('#wKind [data-k]')){wKind=t.closest('[data-k]').dataset.k;render();return;}
+  if(t.closest('#wCat [data-c]')){wCat=+t.closest('[data-c]').dataset.c;render();return;}
+  if(t.id==='wQm'||t.id==='wQp'){wQty=Math.min(999,Math.max(1,wQty+(t.id==='wQp'?1:-1)));$('#wQv').textContent=wQty+CATS[wCat][2];return;}
+  if(t.id==='wAuto'){$('#wTitle').value=autoTitle();toast('🤖 품목·수량으로 제목을 채웠어요 (모의 AI)');return;}
+  if(t.id==='wGo'){submitPost();return;}
+  if(t.id==='wPvX'){wImg=null;$('#wPv').innerHTML='미리보기';return;}
+  if(t.id==='resetAll'){if(confirm('체험 데이터를 모두 지울까요?')){localStorage.removeItem(KEY);location.hash='#home';location.reload();}return;}
+  /* 상세 액션 */
+  const A=k=>t.closest(`[data-${k}]`)?.dataset[k];
+  const ask=A('ask');if(ask){const p=post(ask);p.comments.push({br:meBr(),txt:'저희 지점 필요합니다! 신청드려요 🙏',ts:now()});
+    sched(5000+Math.random()*6000,'botAccept',p.id);save();render();toast('🙋 신청 완료 — 상대 지점의 확정을 기다립니다');return;}
+  const off=A('offer');if(off){const p=post(off);p.state='matchedOut';p.peer=p.br;/* 받는 쪽 = 글쓴 지점 */
+    p.comments.push({br:meBr(),txt:'저희 창고에 여분 있어요, 보내드릴게요!',ts:now()});
+    save();render();toast('🤝 매칭 완료 — 발송 등록을 눌러 행낭에 실어주세요');return;}
+  const send=A('send');if(send){const p=post(send);p.state='matchedOut';p.peer=t.closest('[data-to]').dataset.to;
+    p.comments.push({br:meBr(),txt:`${p.peer} 수신 확정! 발송 등록하겠습니다`,ts:now()});
+    save();render();toast(`🤝 ${p.peer} 수신 확정 — 발송 등록을 눌러주세요`);return;}
+  const ship=A('ship');if(ship){const p=post(ship);p.state='shippedOut';
+    sched(DAY_MS,'shipOut',p.id);save();render();
+    toast('📦 행낭 발송 등록 — 내일 아침 도착 (체험에서는 ~30초, ⏩ 가능)');return;}
+  const recv=A('recv');if(recv){const p=post(recv);p.state='thanks';DB.recv++;
+    const b=botOf(p.peer||p.br);if(b)b.t=Math.round((b.t+0.2)*10)/10;
+    bump(0.2,'수령 확인 — 보낸 지점도 +0.2°');save();render();return;}
+  const thx=A('thx');if(thx){const p=post(thx);const txt=THX[+t.dataset.i];
+    p.state='closed';DB.thx++;p.comments.push({br:meBr(),txt:txt+' 👏 (감사 카드)',ts:now()});
+    bump(0.1,'감사 카드 전송');
+    if(!isMine(p))sched(4000,'botReply',p.id,{bot:p.peer||p.br,txt:'따뜻한 카드 감사합니다. 다음에 또 나눠요! 😊'});
+    save();render();return;}
+  const cm=A('cm');if(cm!==undefined&&cm!==null&&t.dataset.cm){const p=post(cm);const inp=$('#cmIn');const txt=inp.value.trim();
+    if(!txt)return;
+    p.comments.push({br:meBr(),txt,ts:now()});
+    if(!isMine(p))sched(6000+Math.random()*6000,'botReply',p.id,{bot:p.br,txt:'네! 확인했습니다 🙂'});
+    save();render();return;}
+});
+document.addEventListener('input',e=>{
+  if(e.target.id==='q'){fQ=e.target.value.trim();
+    clearTimeout(window._qT);window._qT=setTimeout(render,250);
+    setTimeout(()=>{const q=$('#q');if(q){q.focus();q.setSelectionRange(q.value.length,q.value.length);}},260);}
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&e.target.id==='cmIn'){e.target.nextElementSibling?.click();}
+});
+
+/* ── 부팅 ── */
+load();paintMe();paintBell();
+if(!DB.me)onboard();
+route();
+tickTimer=setInterval(tick,1000);
+</script>
+</body>
+</html>
