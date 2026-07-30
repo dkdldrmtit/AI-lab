@@ -15,7 +15,9 @@
      디자인: 당근 앱 문법 — 흰 배경·리스트·라인 아이콘·하단 CTA 바·FAB
      ═══════════════════════════════════════════════════════════════ -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<!-- 폰트는 비차단 로딩 — CDN이 막힌 환경(사내망)에서도 흰 화면 없이 즉시 렌더 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"></noscript>
 <style>
 :root{
   --bg:#FFFFFF; --well:#F4F5F7; --line:#EAEBEE; --line2:#DCDEE3;
