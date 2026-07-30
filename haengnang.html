@@ -24,7 +24,7 @@
   --grn:#0F8A5F; --grnbg:#EAF6F0; --red:#C2410C; --redbg:#FBEEE6;
   --hot:#E8801A; --cool:#3D8BD4;
 }
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%}
 body{font-family:'Pretendard','Malgun Gothic',sans-serif;background:#E9EBEF;color:var(--txt);
   min-height:100dvh;display:flex;justify-content:center}
@@ -39,18 +39,20 @@ header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px s
 header .ttl{font-size:19px;font-weight:800;letter-spacing:-.02em}
 header .beta{font-size:10px;font-weight:700;color:var(--mut);border:1px solid var(--line2);border-radius:5px;padding:2px 6px}
 .hd-r{margin-left:auto;display:flex;align-items:center;gap:6px}
-.hd-me{font-size:12.5px;font-weight:700;color:var(--mut);border:none;background:none;padding:6px 4px;white-space:nowrap}
+.hd-me{font-size:12.5px;font-weight:700;color:var(--mut);border:none;background:none;padding:11px 6px;white-space:nowrap}
 .hd-me b{color:var(--hot);font-weight:800}
-.icbtn{border:none;background:none;padding:7px;position:relative;color:var(--txt)}
-.icbtn .dot{position:absolute;top:6px;right:5px;width:7px;height:7px;border-radius:50%;background:#E5503C;display:none}
+.icbtn{border:none;background:none;padding:9px;min-width:40px;min-height:40px;position:relative;color:var(--txt);
+  display:flex;align-items:center;justify-content:center}
+.icbtn .dot{position:absolute;top:2px;right:0;min-width:15px;height:15px;border-radius:99px;background:#E5503C;
+  color:#fff;font-size:9px;font-weight:800;line-height:15px;text-align:center;padding:0 4px;display:none}
 .icbtn.unread .dot{display:block}
 /* ── 메인 ── */
 main{flex:1;padding:0 16px calc(90px + env(safe-area-inset-bottom))}
 .search{display:flex;align-items:center;gap:8px;background:var(--well);border-radius:10px;
-  padding:10px 12px;margin:12px 0 4px;color:var(--faint)}
+  padding:10px 12px;margin:12px 0 4px;color:var(--faint);cursor:text}
 .search input{border:none;outline:none;flex:1;font-size:14px;background:none;min-width:0}
-.ftabs{display:flex;gap:18px;border-bottom:1px solid var(--line);margin:6px -16px 0;padding:0 16px}
-.ftab{border:none;background:none;font-size:14px;font-weight:600;color:var(--faint);padding:11px 2px;
+.ftabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin:6px -16px 0;padding:0 10px}
+.ftab{border:none;background:none;font-size:14px;font-weight:600;color:var(--faint);padding:11px 8px;
   border-bottom:2px solid transparent;margin-bottom:-1px}
 .ftab.on{color:var(--txt);font-weight:800;border-bottom-color:var(--txt)}
 .cats{display:flex;gap:7px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none}
@@ -59,8 +61,18 @@ main{flex:1;padding:0 16px calc(90px + env(safe-area-inset-bottom))}
   padding:7px 13px;border-radius:99px;white-space:nowrap}
 .cat.on{background:var(--ink);border-color:var(--ink);color:#fff;font-weight:700}
 /* 피드 — 리스트 + 구분선 */
+.impact{display:flex;align-items:center;gap:9px;background:var(--well);border-radius:10px;
+  padding:10px 13px;margin:10px 0 2px;font-size:12.5px;color:var(--mut);line-height:1.5}
+.impact b{color:var(--txt)}
+.search .xq{border:none;background:var(--line2);color:#fff;border-radius:50%;width:18px;height:18px;
+  font-size:10px;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .pcard{display:flex;gap:14px;width:100%;text-align:left;background:none;border:none;
-  border-bottom:1px solid var(--line);padding:17px 0}
+  border-bottom:1px solid var(--line);padding:17px 0;transition:background .15s}
+.pcard:active{background:var(--well)}
+.pcard.closed .pthumb{position:relative}
+.pcard.closed .pthumb::after{content:'거래완료';position:absolute;inset:0;background:rgba(20,28,40,.45);
+  color:#fff;font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center;border-radius:10px}
+.pcard.closed .tt,.pcard.closed .qty{color:var(--mut)}
 .pthumb{width:88px;height:88px;border-radius:10px;flex-shrink:0;background:var(--well);
   display:flex;align-items:center;justify-content:center;color:var(--faint);overflow:hidden;border:1px solid rgba(0,0,0,.03)}
 .pthumb img{width:100%;height:100%;object-fit:cover}
@@ -74,8 +86,10 @@ main{flex:1;padding:0 16px calc(90px + env(safe-area-inset-bottom))}
 .bdg.need{background:var(--redbg);color:var(--red)}
 .bdg.done{background:var(--well);color:var(--mut)}
 .bdg.busy{background:#FFF3E0;color:var(--accd)}
-.pfoot{margin-left:auto;font-size:12px;color:var(--faint)}
-.empty{padding:60px 20px;text-align:center;color:var(--mut);font-size:14px;line-height:1.8}
+.pfoot{margin-left:auto;font-size:12px;color:var(--faint);display:flex;align-items:center;gap:8px}
+.pfoot .hv{color:#E5503C}
+.empty{padding:52px 20px 60px;text-align:center;color:var(--mut);font-size:14px;line-height:1.8}
+.empty svg{margin:0 auto 12px;opacity:.45}
 .footnote{text-align:center;font-size:11px;color:var(--faint);line-height:1.7;padding:22px 10px 8px}
 .footnote a{text-decoration:underline}
 /* 상세 */
@@ -122,8 +136,11 @@ h4.sec{font-size:13.5px;font-weight:800;margin:18px 0 4px}
 .ctabar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;z-index:30;
   background:var(--bg);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));
   display:flex;align-items:center;gap:12px}
-.ctabar .st{flex:1;min-width:0;font-size:13px;color:var(--mut);line-height:1.45}
+.ctabar .st{flex:1;min-width:0;font-size:13px;color:var(--mut);line-height:1.45;word-break:keep-all}
 .ctabar .st b{color:var(--txt)}
+.hbtn{border:none;background:none;padding:6px 12px 6px 2px;color:var(--faint);
+  border-right:1px solid var(--line);margin-right:2px;align-self:stretch;display:flex;align-items:center}
+.hbtn.on{color:#E5503C}
 .btn{border:none;border-radius:10px;background:var(--acc);color:var(--ink);font-weight:800;font-size:14.5px;
   padding:13px 20px;white-space:nowrap}
 .btn.line{background:var(--bg);border:1px solid var(--line2);color:var(--txt);font-weight:700}
@@ -158,7 +175,18 @@ textarea.inp{resize:vertical;min-height:96px;line-height:1.6}
 .photo label{border:1px dashed var(--line2);cursor:pointer}
 .ainote{margin-top:18px;background:var(--well);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--mut);line-height:1.6}
 .ainote b{color:var(--txt)}
-/* 알림 */
+/* 알림 + 키워드 */
+.kwbox{background:var(--well);border-radius:12px;padding:14px;margin:14px 0 6px}
+.kwbox h5{font-size:12.5px;font-weight:800;margin-bottom:3px}
+.kwbox .d{font-size:11.5px;color:var(--faint);line-height:1.55;margin-bottom:10px}
+.kwrow{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+.kw{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;
+  background:var(--bg);border:1px solid var(--line2);border-radius:99px;padding:7px 12px}
+.kw button{border:none;background:none;color:var(--faint);font-size:11px;padding:0;line-height:1}
+.kwadd{display:flex;gap:8px}
+.kwadd input{flex:1;border:none;background:var(--bg);border:1px solid var(--line2);border-radius:10px;
+  padding:10px 13px;font-size:13px;outline:none;min-width:0}
+.kwadd button{border:none;border-radius:10px;background:var(--ink);color:#fff;font-weight:700;font-size:12.5px;padding:0 15px}
 .nrow{display:flex;gap:11px;width:100%;text-align:left;background:none;border:none;border-bottom:1px solid var(--line);
   padding:15px 2px;font-size:13.5px;line-height:1.55;color:var(--mut);align-items:flex-start}
 .nrow.unread{color:var(--txt)}
@@ -178,6 +206,8 @@ textarea.inp{resize:vertical;min-height:96px;line-height:1.6}
 .gauge{height:8px;border-radius:99px;background:var(--line);margin-top:8px;overflow:hidden}
 .gauge i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--acc),var(--hot));transition:width .6s cubic-bezier(.2,.8,.3,1)}
 .gs{display:flex;justify-content:space-between;font-size:10.5px;color:var(--faint);margin-top:4px}
+.tlog{margin-top:10px;font-size:12px;color:var(--faint);line-height:1.9}
+.tlog b{color:var(--hot);font-weight:800;font-variant-numeric:tabular-nums;margin-right:6px}
 .stats{display:flex;border:1px solid var(--line);border-radius:12px;margin:16px 0 0;overflow:hidden}
 .st{flex:1;padding:13px 8px;text-align:center}
 .st+.st{border-left:1px solid var(--line)}
@@ -216,9 +246,9 @@ nav button.unread .nd{display:block}
 #ff.show{display:inline-flex}
 body.haspost #ff{bottom:calc(150px + env(safe-area-inset-bottom))}   /* 상세의 CTA 바를 피해서 */
 body.haswrite #ff{display:none!important}                            /* 글쓰기 화면에선 숨김 */
-#toast{position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-90px);z-index:60;max-width:86%;
+#toast{position:fixed;top:64px;left:50%;transform:translateX(-50%) translateY(-130px);z-index:60;max-width:86%;
   background:var(--ink);color:#fff;font-size:13px;font-weight:500;border-radius:11px;padding:12px 17px;
-  transition:transform .35s cubic-bezier(.2,.8,.3,1);line-height:1.5;text-align:center}
+  transition:transform .35s cubic-bezier(.2,.8,.3,1);line-height:1.5;text-align:center;pointer-events:none}
 #toast.show{transform:translateX(-50%) translateY(0)}
 #toast b{color:var(--acc)}
 /* 온보딩 */
@@ -236,6 +266,23 @@ body.haswrite #ff{display:none!important}                            /* 글쓰�
 .fine{font-size:11.5px;color:var(--faint);line-height:1.7;margin-top:12px}
 @keyframes pop{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}
 .pop{animation:pop .35s ease}
+.btn:active{transform:scale(.97);filter:brightness(.95)}
+.chip:active,.cat:active,.seg button:active,.ftab:active{opacity:.6}
+nav button:active,.icbtn:active{opacity:.55}
+.nrow:active,.brlist button:active,.thx-pick button:active{background:var(--well)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+@keyframes vin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+main.vin{animation:vin .18s ease}
+.guide{background:var(--well);border-radius:12px;padding:13px 34px 13px 15px;margin:12px 0 2px;
+  font-size:12.5px;color:var(--mut);line-height:1.7;position:relative}
+.guide b{color:var(--txt)}
+.guide .gx{position:absolute;top:6px;right:6px;border:none;background:none;color:var(--faint);font-size:12px;padding:7px}
+.dtop .del{margin-left:auto;border:none;background:none;color:var(--faint);font-size:12.5px;
+  padding:9px 10px;text-decoration:underline}
+.linkchip{display:inline-block;border:1px solid var(--line2);border-radius:99px;padding:10px 16px;
+  font-size:12.5px;font-weight:600;color:var(--mut);margin-top:16px}
+.gs{position:relative}
+#view>.footnote:last-of-type{margin-bottom:52px}   /* FAB가 정직 라벨을 가리지 않게 */
 </style>
 </head>
 <body>
@@ -261,11 +308,11 @@ body.haswrite #ff{display:none!important}                            /* 글쓰�
     <div class="sheet">
       <svg width="52" height="52" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 15v-2.5a8 8 0 0 1 16 0V15" fill="none" stroke="#1A2434" stroke-width="3.6" stroke-linecap="round"/><rect x="5" y="14" width="38" height="29" rx="7.5" fill="#1A2434"/><path d="M11 22h26" stroke="#F5A742" stroke-width="2.8" stroke-linecap="round"/><rect x="30.6" y="23.4" width="3.6" height="6.2" rx="1.8" fill="#F5A742"/></svg>
       <h2 style="margin-top:10px">행낭마켓 시작하기</h2>
-      <p>지점끼리 남는 비품을 나누는 <b>사내 당근</b>입니다. 배송은 매일 도는 <b>행낭</b>이 대신합니다.<br>
-        먼저 당신의 지점을 골라주세요.</p>
+      <p>당근마켓처럼, 지점끼리 남는 비품을 나누는 곳이에요. 배송은 매일 도는 <b>행낭</b>이 대신합니다.<br>
+        먼저 내 지점을 골라주세요.</p>
       <div class="brlist" id="brPick"></div>
       <button class="btn wide" id="onbGo" disabled>이 지점으로 시작</button>
-      <p class="fine">지점·글·온도는 전부 가상 예시이며, 데이터는 이 브라우저에만 저장됩니다(서버 없음).
+      <p class="fine">지점·글·온도는 전부 가상 예시(실존 동명 지점과 무관)이며, 데이터는 이 브라우저에만 저장됩니다(서버 없음).
         다른 지점들은 가상 지점이 시간차로 반응하고, 행낭 하루는 체험에서 약 30초입니다.</p>
     </div>
   </div>
@@ -290,13 +337,30 @@ const IC_CAM='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke
 const IC_SRCH='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>';
 const IC_BACK='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg>';
 const IC_FF='<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4 5v14l8-7-8-7Zm9 0v14l8-7-8-7Z"/></svg>';
+const IC_HEART=on=>`<svg width="24" height="24" viewBox="0 0 24 24" fill="${on?'currentColor':'none'}" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20.5S3.5 15.4 3.5 9.6C3.5 6.8 5.7 4.5 8.4 4.5c1.5 0 2.8.7 3.6 1.8.8-1.1 2.1-1.8 3.6-1.8 2.7 0 4.9 2.3 4.9 5.1 0 5.8-8.5 10.9-8.5 10.9Z"/></svg>`;
+/* 가상 지점이 올리는 신규 글 풀 — 피드가 계속 살아있게 (전부 예시) */
+const BOT_POSTS=[
+  {kind:'give',cat:1,qty:10,title:'3공 바인더 10권 나눔해요',desc:'창고 정리에서 새 바인더가 나왔습니다. 필요하신 지점 신청해 주세요.'},
+  {kind:'need',cat:3,qty:3,title:'A4 서류봉투(중) 3묶음 구합니다',desc:'재고가 바닥났어요. 여분 있으신 지점 부탁드립니다.'},
+  {kind:'give',cat:5,qty:20,title:'형광펜 세트 20개 나눔해요',desc:'판촉 행사 여분입니다. 전부 새 제품이에요.'},
+  {kind:'need',cat:0,qty:3,title:'집게 클립(중) 급하게 찾습니다',desc:'월말 서류 정리에 수량이 모자랍니다.'},
+  {kind:'give',cat:3,qty:2,title:'창구 전표 2박스 나눔',desc:'양식 변경으로 여분이 생겼어요. 다음 행낭 편에 실어 드립니다.'},
+  {kind:'need',cat:5,qty:12,title:'네임펜 여분 있으실까요',desc:'행사 준비 중인데 수량이 부족합니다.'},
+  {kind:'give',cat:0,qty:2,title:'대형 클립 2통 나눔해요',desc:'서랍 정리하다 새 제품이 나왔어요. 필요하신 지점은 신청 주세요.'},
+  {kind:'give',cat:4,qty:60,title:'볼펜 판촉물 60자루 나눔',desc:'행사 뒤 남았습니다. 나눠 가실 지점 찾아요.'},
+  {kind:'give',cat:2,qty:1,title:'레이저 토너 여분 1개 나눔해요',desc:'프린터 교체로 새 토너가 남았습니다. 모델 확인 후 신청해 주세요.'}];
 
 /* ── 상태 ── */
 let DB=null;
 const now=()=>Date.now();
 const load=()=>{try{DB=JSON.parse(localStorage.getItem(KEY))}catch(e){DB=null}
-  if(!DB||!DB.v){DB=seed()} };
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){toast('저장 공간이 가득 차 사진 없이 저장했어요');}};
+  if(!DB||!DB.v){DB=seed()}
+  /* 기존 사용자 마이그레이션 — 새 필드 기본값 */
+  DB.favs=DB.favs||[];DB.kw=DB.kw||[];DB.tlog=DB.tlog||[];DB.bpi=DB.bpi||0; };
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){
+  try{const slim=Object.assign({},DB,{posts:DB.posts.map(p=>p.img?Object.assign({},p,{img:null}):p)});
+    localStorage.setItem(KEY,JSON.stringify(slim));toast('저장 공간이 가득 차 사진을 빼고 저장했어요');}
+  catch(e2){toast('저장 공간이 가득 차 저장하지 못했어요 — 오래된 글을 지워주세요');}}};
 function seed(){
   const t=now();
   const mk=(min,o)=>Object.assign({id:'s'+min,ts:t-min*60000,comments:[],state:'open',img:null,qty:1,desc:''},o);
@@ -324,27 +388,47 @@ let toastT=null;
 function toast(msg){const el=$('#toast');el.innerHTML=msg;el.classList.add('show');
   clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),2600);}
 function noti(txt,link){DB.noti.unshift({txt,link:link||null,ts:now(),read:false});paintBell();}
-function paintBell(){const un=DB.noti.some(n=>!n.read);
-  $('#bell').classList.toggle('unread',un);$('#navNoti').classList.toggle('unread',un);}
+function paintBell(){const c=DB.noti.filter(n=>!n.read).length;
+  $('#bell').classList.toggle('unread',c>0);$('#navNoti').classList.toggle('unread',c>0);
+  $('#bell .dot').textContent=c>9?'9+':(c||'');}
 function ago(ts){const m=Math.floor((now()-ts)/60000);
   if(m<1)return '방금';if(m<60)return m+'분 전';const h=Math.floor(m/60);
   if(h<24)return h+'시간 전';return Math.floor(h/24)+'일 전';}
 const fmtT=v=>v.toFixed(1)+'°';
 function bump(dv,why){DB.temp=Math.round((DB.temp+dv)*10)/10;
+  DB.tlog.unshift({dv,why,ts:now()});if(DB.tlog.length>20)DB.tlog.length=20;
   toast(`나눔온도 <b>${fmtT(DB.temp)}</b> (+${dv.toFixed(1)}°) — ${why}`);}
 
 /* ── 이벤트(봇·행낭 타이머) — 재방문에도 이어짐 ── */
 function sched(delay,type,pid,data){DB.events.push({at:now()+delay,type,pid,data:data||null});paintFF();}
 function tick(){
-  const due=DB.events.filter(e=>e.at<=now());
+  const t=now();
+  const due=DB.events.filter(e=>e.at<=t);
   if(!due.length){paintFF();return;}
-  DB.events=DB.events.filter(e=>e.at>now());
+  DB.events=DB.events.filter(e=>e.at>t);
   due.sort((a,b)=>a.at-b.at).forEach(run);
-  save();render();paintFF();
+  save();
+  const r=(location.hash||'#home').slice(1).split('/')[0];
+  if(r==='write'){paintMe();paintBell();}else render();   /* 글쓰기 중엔 드래프트 보호 — 재렌더 금지 */
+  paintFF();
 }
-function paintFF(){const n=DB.events.length;
+function paintFF(){const n=DB.events.filter(e=>e.type!=='botPost').length;
   $('#ff').classList.toggle('show',n>0);$('#ffn').textContent=n?`(${n})`:'';}
+function ensureBotPost(){if(DB.me&&!DB.events.some(e=>e.type==='botPost'))
+  sched(35000+Math.random()*35000,'botPost',null);}
 function run(ev){
+  if(ev.type==='botPost'){                      /* 가상 지점의 신규 글 — 피드가 계속 살아있게 */
+    const tp=BOT_POSTS[DB.bpi%BOT_POSTS.length];DB.bpi++;
+    const br=BOTS[Math.floor(Math.random()*BOTS.length)].n;
+    const np=Object.assign({id:'b'+now(),br,ts:now(),state:'open',comments:[],img:null,peer:null},tp);
+    DB.posts.unshift(np);
+    DB.kw.forEach(k=>{if(np.title.includes(k))
+      noti(`키워드 "${esc(k)}" 새 글 — ${esc(np.title)} (${br})`,'post/'+np.id);});
+    if(DB.posts.length>36){                     /* 오래된 완료 글부터 정리 */
+      const old=[...DB.posts].reverse().find(x=>x.state==='closed'&&!isMine(x));
+      if(old){DB.posts=DB.posts.filter(x=>x.id!==old.id);DB.favs=DB.favs.filter(f=>f!==old.id);}}
+    sched(45000+Math.random()*45000,'botPost',null);
+    return;}
   const p=post(ev.pid);if(!p)return;
   const B=ev.data&&ev.data.bot?ev.data.bot:'여의도지점';
   switch(ev.type){
@@ -361,16 +445,19 @@ function run(ev){
       sched(DAY_MS,'arriveIn',p.id,{bot:B});
       break;}
     case 'botAccept':{
+      if(p.state!=='open')break;
       p.state='shippedIn';
       p.comments.push({br:p.br,txt:`${meBr()} 수신 확정입니다. 내일 아침 행낭에 실어 보냅니다. (체험에서는 약 30초)`,ts:now()});
       noti(`${p.br}이 수신처를 우리 지점으로 확정 — 행낭 이동 중`,'post/'+p.id);
       sched(DAY_MS,'arriveIn',p.id,{bot:p.br});
       break;}
     case 'arriveIn':{
+      if(p.state!=='shippedIn'&&p.state!=='promisedIn')break;
       p.state='arrived';
       noti(`아침 행낭 도착 — "${esc(p.title)}" 수령 확인을 눌러주세요`,'post/'+p.id);
       break;}
     case 'shipOut':{
+      if(p.state!=='shippedOut')break;
       p.state='closed';DB.sent++;
       const b=botOf(p.peer);if(b)b.t=Math.round((b.t+0.2)*10)/10;
       bump(0.2,'상대 지점 수령 확인');
@@ -386,43 +473,65 @@ $('#ff').addEventListener('click',()=>{DB.events.forEach(e=>e.at=now());tick();t
 
 /* ── 라우터 ── */
 function go(r){location.hash='#'+r}
+function goBack(){if(history.length>1)history.back();else go('home');}
+let _prevR='',homeScroll=0;
 function route(){
   const h=(location.hash||'#home').slice(1);
-  const [r,arg]=h.split('/');
+  let [r,arg]=h.split('/');
+  if(!r)r='home';
+  if(r==='post'&&!post(arg))r='home';         /* 없는 글 딥링크 → 홈으로 정규화 */
+  if(_prevR==='home')homeScroll=window.scrollY;
   $$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.r===(r==='post'?'home':r==='write'?'home':r)));
-  $('#fab').style.display=(r==='home'||!r)?'flex':'none';
+  $('#fab').style.display=(r==='home')?'flex':'none';
   document.body.classList.toggle('haspost',r==='post');
   document.body.classList.toggle('haswrite',r==='write');
   const V=$('#view');
   if(!DB.me){V.innerHTML='';return;}
-  if(r==='post'&&post(arg)){const pp=post(arg);
+  if(r==='post'){const pp=post(arg);
     if(window._lastView!==arg){window._lastView=arg;pp.views=(pp.views||0)+1;save();}
     V.innerHTML=vPost(pp);}
   else if(r==='write')V.innerHTML=vWrite();
   else if(r==='noti'){V.innerHTML=vNoti();DB.noti.forEach(n=>n.read=true);save();paintBell();}
   else if(r==='my')V.innerHTML=vMy();
   else V.innerHTML=vHome();
-  window.scrollTo(0,0);
+  if(r!==_prevR){V.classList.remove('vin');void V.offsetWidth;V.classList.add('vin');}
+  window.scrollTo(0,r==='home'?homeScroll:0);  /* 피드 훑던 자리로 복귀 */
+  _prevR=r;
   if(r==='write')bindWrite();
 }
 window.addEventListener('hashchange',route);
-function render(){paintMe();route()}
+function render(){                              /* 재렌더 시 입력 중 텍스트·커서 보존 */
+  const ae=document.activeElement;
+  const keep=ae&&['cmIn','q','kwIn'].includes(ae.id)?{id:ae.id,v:ae.value,s:ae.selectionStart,e:ae.selectionEnd}:null;
+  paintMe();route();
+  if(keep){const el=document.getElementById(keep.id);
+    if(el){el.value=keep.v;el.focus();try{el.setSelectionRange(keep.s,keep.e)}catch(_){}}}
+}
 
 /* ── 뷰: 홈 피드 ── */
 let fKind='all',fCat=-1,fQ='';
 function vHome(){
+  const q=fQ.trim();
   const posts=DB.posts.filter(p=>
     (fKind==='all'||(fKind==='done'?p.state==='closed':p.kind===fKind&&p.state!=='closed'))&&
     (fCat<0||p.cat===fCat)&&
-    (!fQ||p.title.includes(fQ)||p.desc.includes(fQ))
+    (!q||p.title.includes(q)||p.desc.includes(q))
   ).sort((a,b)=>b.ts-a.ts);
+  const circ=DB.posts.filter(p=>p.state==='closed').length;
   return `
-  <div class="search">${IC_SRCH}<input id="q" placeholder="비품 검색" value="${esc(fQ)}" autocomplete="off"></div>
+  <label class="search">${IC_SRCH}<input id="q" placeholder="비품 검색" value="${esc(fQ)}" autocomplete="off">${
+    fQ?'<button class="xq" id="qClear" aria-label="검색어 지우기">✕</button>':''}</label>
+  ${DB.guide?'':`<div class="guide"><button class="gx" id="gx" aria-label="안내 닫기">✕</button>
+    <b>행낭마켓 사용법</b> — 나눔 글에 신청하면 가상 지점이 반응해요.
+    행낭 하루는 체험에서 약 30초 — 기다리기 지루하면 왼쪽 아래 <b>⏩ 빨리감기</b>로 하룻밤을 건너뛰세요.</div>`}
+  ${circ?`<div class="impact"><svg width="17" height="17" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M16 15v-2.5a8 8 0 0 1 16 0V15"/><rect x="5.5" y="14.5" width="37" height="28" rx="7"/><path d="M11 22h26"/></svg>
+    <span>이 체험에서 순환된 비품 <b>${circ}건</b> · 배송비 <b>0원</b> — 행낭은 오늘도 돕니다</span></div>`:''}
   <div class="ftabs">${[['all','전체'],['give','나눔해요'],['need','필요해요'],['done','거래완료']].map(([k,t])=>
     `<button class="ftab${fKind===k?' on':''}" data-fk="${k}">${t}</button>`).join('')}</div>
   <div class="cats"><button class="cat${fCat<0?' on':''}" data-fc="-1">전체</button>${CATS.map((c,i)=>
     `<button class="cat${fCat===i?' on':''}" data-fc="${i}">${c[0]}</button>`).join('')}</div>
-  ${posts.length?posts.map(cardHTML).join(''):`<div class="empty">조건에 맞는 글이 없어요.<br>오른쪽 아래 글쓰기로 나눔을 시작해 보세요.</div>`}
+  ${posts.length?posts.map(cardHTML).join(''):`<div class="empty">${IC_PKG}조건에 맞는 글이 없어요.<br>오른쪽 아래 글쓰기로 나눔을 시작해 보세요.${
+    q&&!DB.kw.includes(q)?`<br><button class="btn line" data-kwadd="${esc(q)}" style="margin-top:16px;padding:11px 18px">"${esc(q)}" 키워드 알림 받기</button>`:''}</div>`}
   <div class="footnote">지점·글·온도 전부 가상 예시 · 실제 시스템 아님 · AI Lab EXP.05</div>`;
 }
 function stBadge(p){
@@ -434,12 +543,13 @@ function stBadge(p){
   return '';
 }
 function cardHTML(p){
-  return `<button class="pcard" data-open="${p.id}">
+  return `<button class="pcard${p.state==='closed'?' closed':''}" data-open="${p.id}">
     <span class="pthumb">${p.img?`<img src="${p.img}" alt="">`:IC_PKG}</span>
     <span class="pinfo"><span class="tt">${esc(p.title)}</span>
-      <span class="m">${p.br}${isMine(p)?' (나)':''} · ${ago(p.ts)}</span>
+      <span class="m">${p.br}${isMine(p)?' (나)':''} · ${p.bumps?'끌올 ':''}${ago(p.ts)}</span>
       <span class="qty">${p.qty>1?p.qty+catU(p):CATS[p.cat][0]}</span>
-      <span class="prow">${stBadge(p)}<span class="pfoot">${p.comments.length?'댓글 '+p.comments.length:''}</span></span>
+      <span class="prow">${stBadge(p)}<span class="pfoot">${
+        DB.favs.includes(p.id)?'<span class="hv">♥</span>':''}${p.comments.length?'댓글 '+p.comments.length:''}</span></span>
     </span></button>`;
 }
 
@@ -448,30 +558,37 @@ function tlHTML(p){
   const steps=['등록','매칭','행낭 이동','수령','감사'];
   const idx=p.state==='open'?0:(p.state==='matchedOut'||p.state==='promisedIn')?1:
     p.state.startsWith('shipped')?2:p.state==='arrived'?3:p.state==='thanks'?3:p.state==='closed'?4:1;
-  return `<div class="tl"><h4>나눔 진행 — 배송은 매일 도는 행낭이 (배송비 0원)</h4><div class="tls">${
+  return `<div class="tl"><h4>나눔 진행 — 배송은 매일 도는 행낭이 맡아요 (배송비 0원)</h4><div class="tls">${
     steps.map((s,i)=>`<div class="tli${i<=idx?' on':''}"><span class="ic"></span><span>${s}</span></div>`).join('')}</div></div>`;
 }
 function ctaHTML(p){
   const B=(a,t,line)=>`<button class="btn${line?' line':''}" data-${a}="${p.id}">${t}</button>`;
-  const bar=(st,btns)=>`<div class="ctabar"><div class="st">${st}</div>${btns||''}</div>`;
-  if(p.state==='closed')return '';
+  const fav=DB.favs.includes(p.id);
+  const hb=isMine(p)?'':`<button class="hbtn${fav?' on':''}" data-fav="${p.id}" aria-label="관심" aria-pressed="${fav}">${IC_HEART(fav)}</button>`;
+  const bar=(st,btns)=>`<div class="ctabar">${hb}<div class="st">${st}</div>${btns||''}</div>`;
+  if(p.state==='closed')return bar('나눔이 완료된 글이에요');
   if(isMine(p)){
+    const bump=(p.state==='open'&&now()-p.ts>DAY_MS&&!DB.events.some(e=>e.pid===p.id))?B('bump','끌어올리기',1):'';
     if(p.state==='open'&&p.kind==='give'){
       const asks=p.comments.filter(c=>c.ask);
       return asks.length?bar('신청한 지점 중 <b>보낼 곳</b>을 골라주세요',
           asks.map(a=>`<button class="btn" data-send="${p.id}" data-to="${a.br}">${a.br}에 보내기</button>`).join(''))
-        :bar('다른 지점의 신청을 기다리는 중 — 가상 지점이 곧 반응합니다');
+        :bar('다른 지점의 신청을 기다리는 중 — 가상 지점이 곧 반응합니다',bump);
     }
-    if(p.state==='open'&&p.kind==='need')return bar('보내줄 지점을 기다리는 중 — 가상 지점이 곧 반응합니다');
+    if(p.state==='open'&&p.kind==='need')return bar('보내줄 지점을 기다리는 중 — 가상 지점이 곧 반응합니다',bump);
     if(p.state==='matchedOut')return bar(`<b>${p.peer}</b> 수신 확정`,B('ship','행낭 발송 등록'));
     if(p.state==='shippedOut')return bar(`행낭 이동 중 — <b>${p.peer}</b> 도착까지 잠시 (빨리감기 가능)`);
     if(p.state==='promisedIn'||p.state==='shippedIn')return bar(`<b>${p.peer||'상대 지점'}</b>이 보낸 행낭이 이동 중 (빨리감기 가능)`);
     if(p.state==='arrived')return bar('행낭이 도착했습니다',B('recv','수령 확인 (+0.2°)'));
   }else{
-    if(p.state==='open'&&p.kind==='give')return bar(`${p.br}의 나눔<br>지금 신청하면 다음 행낭 편`,B('ask','저희 지점 필요해요'));
+    if(p.state==='open'&&p.kind==='give'){
+      if(p.comments.some(c=>c.ask&&c.br===meBr()))return bar(`신청 완료 — <b>${p.br}</b>의 확정을 기다리는 중 (빨리감기 가능)`);
+      return bar(`${p.br}의 나눔<br>지금 신청하면 다음 행낭 편`,B('ask','저희 지점 필요해요'));}
     if(p.state==='open'&&p.kind==='need')return bar(`${p.br}이 찾는 중<br>여분이 있다면 행낭에 실어주세요`,B('offer','저희가 보내드릴게요'));
     if(p.state==='shippedIn')return bar('행낭 이동 중 — 내일 아침 도착 (빨리감기 가능)');
     if(p.state==='arrived')return bar('행낭이 도착했습니다',B('recv','수령 확인 (+0.2°)'));
+    if(p.state==='matchedOut'&&p.sender===meBr())return bar(`<b>${p.br}</b>으로 보낼 준비 완료`,B('ship','행낭 발송 등록'));
+    if(p.state==='shippedOut'&&p.sender===meBr())return bar(`행낭 이동 중 — <b>${p.br}</b> 도착까지 잠시 (빨리감기 가능)`);
     if(p.state==='matchedOut'||p.state==='shippedOut'||p.state==='promisedIn')return bar('다른 지점과 진행 중인 나눔입니다');
   }
   return '';
@@ -493,7 +610,8 @@ function vPost(p){
   const b=botOf(p.br);
   const tp=isMine(p)?DB.temp:(b?b.t:38);
   const pct=Math.min(100,Math.max(4,(tp-T0)/(TMAX-T0)*100));
-  return `<div class="dtop"><button class="icbtn" onclick="history.back()" aria-label="뒤로">${IC_BACK}</button></div>
+  return `<div class="dtop"><button class="icbtn" onclick="goBack()" aria-label="뒤로">${IC_BACK}</button>${
+    isMine(p)&&p.state==='open'?`<button class="del" data-del="${p.id}">삭제</button>`:''}</div>
   <div class="hero">${p.img?`<img src="${p.img}" alt="">`:IC_PKG}</div>
   <div class="seller"><span class="av">${p.br[0]}</span>
     <div><div class="nm">${p.br}${isMine(p)?' (나)':''}</div><div class="sub">${isMine(p)?'내 지점':'가상 지점'}</div></div>
@@ -510,14 +628,14 @@ function vPost(p){
   <div class="cwrite"><input id="cmIn" placeholder="댓글 남기기" maxlength="120"><button data-cm="${p.id}">등록</button></div>
   ${(()=>{const o=DB.posts.filter(x=>x.br===p.br&&x.id!==p.id).slice(0,2);
     return o.length?`<h4 class="sec">${p.br}의 다른 글</h4>${o.map(cardHTML).join('')}`:''})()}
-  <div class="footnote" style="padding-bottom:90px">가상 지점 · 예시 데이터 — 실제 시스템 아님 · AI 작성·매칭은 실제 Claude(실패 시 모의 라벨)</div>
+  <div class="footnote" style="padding-bottom:90px">가상 지점 · 예시 데이터 — 실제 시스템 아님 · AI 작성·매칭은 실제 Claude — 작성 실패 시 모의 라벨 · 매칭은 확실할 때만 추천</div>
   ${ctaHTML(p)}`;
 }
 
 /* ── 뷰: 글쓰기 ── */
-let wKind='give',wCat=0,wQty=3,wImg=null;
+let wKind='give',wCat=0,wQty=3,wImg=null,wTitleV='',wDescV='';
 function vWrite(){
-  return `<div class="dtop" style="top:54px"><button class="icbtn" onclick="history.back()" aria-label="뒤로">${IC_BACK}</button>
+  return `<div class="dtop" style="top:54px"><button class="icbtn" onclick="goBack()" aria-label="뒤로">${IC_BACK}</button>
     <b style="font-size:16px;margin-left:2px">비품 글쓰기</b></div>
   <span class="lbl">구분</span>
   <div class="seg" id="wKind">
@@ -528,16 +646,16 @@ function vWrite(){
     `<button class="chip${wCat===i?' on':''}" data-c="${i}">${c[0]}</button>`).join('')}</div>
   <span class="lbl">사진 <em>선택 — 실제로 업로드됩니다 (이 브라우저에만 저장)</em></span>
   <div class="photo">
-    <div class="pv" id="wPv">${wImg?`<img src="${wImg}"><button class="x" id="wPvX">✕</button>`:IC_CAM}</div>
-    <label for="wFile">${IC_CAM}사진 추가</label>
+    <div class="pv" id="wPv"${wImg?'':' hidden'}>${wImg?`<img src="${wImg}"><button class="x" id="wPvX">✕</button>`:''}</div>
+    <label for="wFile">${IC_CAM}${wImg?'사진 바꾸기':'사진 추가'}</label>
     <input type="file" id="wFile" accept="image/*" hidden>
   </div>
   <span class="lbl">제목</span>
-  <input class="inp" id="wTitle" placeholder="예: ${autoTitle()}" maxlength="60" autocomplete="off">
+  <input class="inp" id="wTitle" placeholder="예: ${autoTitle()}" maxlength="60" autocomplete="off" value="${esc(wTitleV)}">
   <span class="lbl">수량</span>
   <div class="stepper"><button id="wQm">−</button><b id="wQv">${wQty}${CATS[wCat][1]}</b><button id="wQp">＋</button></div>
   <span class="lbl">내용 <em>선택</em></span>
-  <textarea class="inp" id="wDesc" placeholder="상태, 수령 희망 시기 등을 적어주세요"></textarea>
+  <textarea class="inp" id="wDesc" placeholder="상태, 수령 희망 시기 등을 적어주세요">${esc(wDescV)}</textarea>
   <div style="display:flex;gap:9px;margin-top:20px;padding-bottom:24px">
     <button class="btn line" id="wAuto" style="flex:1">AI로 작성</button>
     <button class="btn" id="wGo" style="flex:1.5">등록하기</button></div>
@@ -563,11 +681,13 @@ async function aiDraft(){                       /* 실제 Claude — 사진 비�
       $$('#wCat .chip').forEach(b=>b.classList.toggle('on',+b.dataset.c===wCat));}
     if(d.qty){wQty=d.qty;}
     $('#wQv').textContent=wQty+CATS[wCat][1];
-    $('#wTitle').value=d.title;if(d.desc)$('#wDesc').value=d.desc;
+    wTitleV=d.title;$('#wTitle').value=d.title;
+    if(d.desc){wDescV=d.desc;$('#wDesc').value=d.desc;}
     toast('Claude가 작성했어요 — 확인하고 등록해 주세요');
   }catch(e){
-    $('#wTitle').value=autoTitle();
-    toast('AI 연결 실패 — 모의 작성으로 채웠어요');
+    if(!$('#wTitle').value.trim()){wTitleV=autoTitle();$('#wTitle').value=wTitleV;
+      toast('AI 연결 실패 — 제목만 기본 문구로 채웠어요. 확인하고 고쳐주세요');}
+    else toast('AI 연결 실패 — 입력하신 내용은 그대로 두었어요');
   }finally{aiBusy=false;btn.disabled=false;btn.textContent=old;}
 }
 function aiMatch(p){                            /* 실제 Claude — 반대편 글 매칭 추천 */
@@ -594,7 +714,9 @@ function bindWrite(){
       c.width=img.width*r;c.height=img.height*r;
       c.getContext('2d').drawImage(img,0,0,c.width,c.height);
       wImg=c.toDataURL('image/jpeg',.78);
-      $('#wPv').innerHTML=`<img src="${wImg}"><button class="x" id="wPvX">✕</button>`;
+      const pv=$('#wPv');pv.hidden=false;
+      pv.innerHTML=`<img src="${wImg}"><button class="x" id="wPvX">✕</button>`;
+      const lb=$('label[for="wFile"]');if(lb)lb.innerHTML=IC_CAM+'사진 바꾸기';
     };img.src=rd.result;};
     rd.readAsDataURL(f);
   });
@@ -611,17 +733,24 @@ function submitPost(){
   }else{
     sched(8000+Math.random()*9000,'botOffer',p.id,{bot:bots[0].n});
   }
-  wImg=null;
+  wImg=null;wTitleV='';wDescV='';
   save();toast('등록 완료 — 가상 지점들이 곧 반응합니다');go('post/'+p.id);
   aiMatch(p);                                   /* Claude가 반대편 글과 매칭 시도 */
 }
 
 /* ── 뷰: 알림 ── */
 function vNoti(){
-  return `<h4 class="sec" style="margin-top:16px">알림</h4>${
-    DB.noti.length?DB.noti.map(n=>`<button class="nrow${n.read?'':' unread'}"
+  return `<h4 class="sec" style="margin-top:16px">알림</h4>
+  <div class="kwbox"><h5>키워드 알림</h5>
+    <div class="d">등록한 키워드가 들어간 새 글이 올라오면 알려드려요 — 예: 토너, 클립</div>
+    ${DB.kw.length?`<div class="kwrow">${DB.kw.map(k=>
+      `<span class="kw">${esc(k)}<button data-kwx="${esc(k)}" aria-label="${esc(k)} 삭제">✕</button></span>`).join('')}</div>`:''}
+    <div class="kwadd"><input id="kwIn" placeholder="키워드 추가" maxlength="12" autocomplete="off"><button id="kwGo">등록</button></div>
+  </div>
+  ${DB.noti.length?DB.noti.map(n=>`<button class="nrow${n.read?'':' unread'}"
       ${n.link?`data-open-r="${n.link}"`:''}><span class="nd"></span><span>${n.txt}<span class="t">${ago(n.ts)}</span></span></button>`).join('')
-    :'<div class="empty">아직 알림이 없어요.<br>글을 올리거나 신청하면 가상 지점들이 반응합니다.</div>'}`;
+    :'<div class="empty">아직 알림이 없어요.<br>글을 올리거나 신청하면 가상 지점들이 반응합니다.</div>'}
+  <div class="footnote">알림·지점 전부 가상 예시 · 실제 시스템 아님</div>`;
 }
 
 /* ── 뷰: 내 지점 ── */
@@ -636,7 +765,9 @@ function vMy(){
     <div class="tempw">
       <div class="row1"><span class="tv">${fmtT(DB.temp)}</span><span class="tl2">나눔온도</span></div>
       <div class="gauge"><i style="width:${pct}%"></i></div>
-      <div class="gs"><span>36.5°</span><span>40°</span><span>45°+</span></div>
+      <div class="gs"><span>36.5°</span><span style="position:absolute;left:41.2%">40°</span><span>45°+</span></div>
+      ${DB.tlog.length?`<div class="tlog">${DB.tlog.slice(0,3).map(l=>
+        `<div><b>+${l.dv.toFixed(1)}°</b>${esc(l.why)} · ${ago(l.ts)}</div>`).join('')}</div>`:''}
     </div>
     <div class="stats"><div class="st"><b>${DB.sent}</b><span>나눔</span></div>
       <div class="st"><b>${DB.recv}</b><span>받음</span></div>
@@ -647,10 +778,12 @@ function vMy(){
     매칭 후 미발송 −0.5° · 배송은 매일 도는 행낭이 담당(배송비 0원 · 물류 신설 없음)</div>
   ${cards.length?`<h4 class="sec">받은 감사 카드</h4>${cards.map(({c,p})=>
     `<div class="card-t">“${esc(c.txt.replace(' (감사 카드)',''))}”<div class="who">${c.br} · ${esc(p.title)}</div></div>`).join('')}`:''}
+  ${(()=>{const favs=DB.favs.map(post).filter(Boolean);
+    return favs.length?`<h4 class="sec">관심 목록 <span style="color:#E5503C">♥</span> ${favs.length}</h4>${favs.map(cardHTML).join('')}`:''})()}
   ${myPosts.length?`<h4 class="sec">내가 쓴 글</h4>${myPosts.map(cardHTML).join('')}`:''}
+  <div style="text-align:center"><a class="linkchip" href="index.html#project/hn">AI Lab에서 이 아이디어 보기 →</a></div>
   <button class="txtbtn" id="resetAll">체험 초기화 — 모든 데이터 삭제</button>
-  <div class="footnote">AI Lab의 아이디어 체험판 · 지점·온도 전부 가상 예시 ·
-    데이터는 이 브라우저에만 저장 · <a href="index.html#project/hn">AI Lab에서 이 아이디어 보기</a></div>`;
+  <div class="footnote">AI Lab의 아이디어 체험판 · 지점·온도 전부 가상 예시 · 데이터는 이 브라우저에만 저장</div>`;
 }
 
 /* ── 온보딩 ── */
@@ -665,7 +798,7 @@ function onboard(){
     $('#onbGo').disabled=false;
   });
   $('#onbGo').addEventListener('click',()=>{
-    DB.me=pickBr;save();$('#onb').hidden=true;paintMe();route();
+    DB.me=pickBr;ensureBotPost();save();$('#onb').hidden=true;paintMe();route();
     toast(`${pickBr}으로 시작합니다 — 피드의 글에 신청하거나 첫 글을 올려보세요`);
   });
 }
@@ -682,17 +815,51 @@ document.addEventListener('click',e=>{
   const t=e.target;
   if(t.dataset.fk){fKind=t.dataset.fk;render();return;}
   if(t.dataset.fc){fCat=+t.dataset.fc;render();return;}
-  if(t.closest('#wKind [data-k]')){wKind=t.closest('[data-k]').dataset.k;render();return;}
-  if(t.closest('#wCat [data-c]')){wCat=+t.closest('[data-c]').dataset.c;render();return;}
+  if(t.closest('#wKind [data-k]')){wKind=t.closest('[data-k]').dataset.k;   /* 재렌더 없이 토글 — 드래프트 보호 */
+    $$('#wKind button').forEach(b=>b.classList.toggle('on',b.dataset.k===wKind));
+    const ti=$('#wTitle');if(ti)ti.placeholder='예: '+autoTitle();return;}
+  if(t.closest('#wCat [data-c]')){wCat=+t.closest('[data-c]').dataset.c;
+    $$('#wCat .chip').forEach(b=>b.classList.toggle('on',+b.dataset.c===wCat));
+    const qv=$('#wQv');if(qv)qv.textContent=wQty+CATS[wCat][1];
+    const ti=$('#wTitle');if(ti)ti.placeholder='예: '+autoTitle();return;}
   if(t.id==='wQm'||t.id==='wQp'){wQty=Math.min(999,Math.max(1,wQty+(t.id==='wQp'?1:-1)));$('#wQv').textContent=wQty+CATS[wCat][1];return;}
   if(t.id==='wAuto'){aiDraft();return;}
   if(t.id==='wGo'){submitPost();return;}
-  if(t.id==='wPvX'){wImg=null;$('#wPv').innerHTML=IC_CAM;return;}
+  if(t.id==='wPvX'){wImg=null;const pv=$('#wPv');pv.hidden=true;pv.innerHTML='';
+    const lb=$('label[for="wFile"]');if(lb)lb.innerHTML=IC_CAM+'사진 추가';return;}
+  if(t.id==='qClear'){fQ='';render();return;}
+  if(t.id==='gx'){DB.guide=1;save();render();return;}
+  const kwa=t.closest('[data-kwadd]');if(kwa){const v=kwa.dataset.kwadd.trim();
+    if(v&&!DB.kw.includes(v)&&DB.kw.length<5){DB.kw.push(v);save();
+      toast(`키워드 "<b>${esc(v)}</b>" 등록 — 새 글이 올라오면 알려드려요`);render();}return;}
+  const del=t.closest('[data-del]');if(del){
+    if(!confirm('이 글을 삭제할까요?'))return;
+    const id=del.dataset.del;
+    DB.posts=DB.posts.filter(x=>x.id!==id);
+    DB.events=DB.events.filter(e=>e.pid!==id);
+    DB.favs=DB.favs.filter(f=>f!==id);
+    save();go('home');toast('글을 삭제했어요');return;}
+  if(t.id==='kwGo'){const v=$('#kwIn').value.trim();
+    if(!v)return;
+    if(DB.kw.includes(v)){toast('이미 등록된 키워드예요');return;}
+    if(DB.kw.length>=5){toast('키워드는 5개까지 등록할 수 있어요');return;}
+    DB.kw.push(v);save();render();toast(`키워드 "<b>${esc(v)}</b>" 등록 — 새 글이 올라오면 알려드려요`);return;}
+  const kwx=t.closest('[data-kwx]');if(kwx){DB.kw=DB.kw.filter(k=>k!==kwx.dataset.kwx);save();render();return;}
+  const fv=t.closest('[data-fav]');if(fv){const id=fv.dataset.fav;
+    const on=DB.favs.includes(id);
+    DB.favs=on?DB.favs.filter(f=>f!==id):[...DB.favs,id];
+    save();render();if(!on)toast('관심 목록에 담았어요 — 내 지점에서 볼 수 있어요');return;}
+  const bp=t.closest('[data-bump]');if(bp){const p=post(bp.dataset.bump);
+    p.ts=now();p.bumps=(p.bumps||0)+1;
+    const b=BOTS[Math.floor(Math.random()*BOTS.length)].n;   /* 끌올하면 가상 지점이 다시 봄 */
+    sched(6000+Math.random()*7000,p.kind==='give'?'botAsk':'botOffer',p.id,{bot:b});
+    save();render();toast('끌어올렸어요 — 가상 지점들이 다시 봅니다');return;}
   if(t.id==='resetAll'){if(confirm('체험 데이터를 모두 지울까요?')){localStorage.removeItem(KEY);location.hash='#home';location.reload();}return;}
   const A=k=>t.closest(`[data-${k}]`)?.dataset[k];
-  const ask=A('ask');if(ask){const p=post(ask);p.comments.push({br:meBr(),txt:'저희 지점 필요합니다. 신청드려요.',ts:now()});
+  const ask=A('ask');if(ask){const p=post(ask);
+    p.comments.push({br:meBr(),txt:'저희 지점 필요합니다. 신청드려요.',ts:now(),ask:true});
     sched(5000+Math.random()*6000,'botAccept',p.id);save();render();toast('신청 완료 — 상대 지점의 확정을 기다립니다');return;}
-  const off=A('offer');if(off){const p=post(off);p.state='matchedOut';p.peer=p.br;
+  const off=A('offer');if(off){const p=post(off);p.state='matchedOut';p.peer=p.br;p.sender=meBr();
     p.comments.push({br:meBr(),txt:'저희 창고에 여분 있어요. 보내드릴게요.',ts:now()});
     save();render();toast('매칭 완료 — 발송 등록을 눌러 행낭에 실어주세요');return;}
   const send=A('send');if(send){const p=post(send);p.state='matchedOut';p.peer=t.closest('[data-to]').dataset.to;
@@ -705,7 +872,7 @@ document.addEventListener('click',e=>{
     const b=botOf(p.peer||p.br);if(b)b.t=Math.round((b.t+0.2)*10)/10;
     bump(0.2,'수령 확인 — 보낸 지점도 +0.2°');save();render();return;}
   const thx=A('thx');if(thx){const p=post(thx);const txt=THX[+t.dataset.i];
-    p.state='closed';DB.thx++;p.comments.push({br:meBr(),txt:txt+' (감사 카드)',ts:now()});
+    p.state='closed';p.comments.push({br:meBr(),txt:txt+' (감사 카드)',ts:now()});
     bump(0.1,'감사 카드 전송');
     if(!isMine(p))sched(4000,'botReply',p.id,{bot:p.peer||p.br,txt:'따뜻한 카드 감사합니다. 다음에 또 나눠요.'});
     save();render();return;}
@@ -716,18 +883,21 @@ document.addEventListener('click',e=>{
     save();render();return;}
 });
 document.addEventListener('input',e=>{
-  if(e.target.id==='q'){fQ=e.target.value.trim();
-    clearTimeout(window._qT);window._qT=setTimeout(render,250);
-    setTimeout(()=>{const q=$('#q');if(q){q.focus();q.setSelectionRange(q.value.length,q.value.length);}},260);}
+  if(e.target.id==='q'){fQ=e.target.value;   /* trim은 필터 비교에서만 — IME·공백 보존 */
+    clearTimeout(window._qT);window._qT=setTimeout(render,250);}
+  if(e.target.id==='wTitle')wTitleV=e.target.value;
+  if(e.target.id==='wDesc')wDescV=e.target.value;
 });
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&e.target.id==='cmIn'){e.target.nextElementSibling?.click();}
+  if(e.key==='Enter'&&e.target.id==='kwIn'){e.preventDefault();$('#kwGo')?.click();}
 });
 
 /* ── 부팅 ── */
 $('#ff').innerHTML=IC_FF+'<span style="margin-left:2px">행낭 빨리감기</span> <span id="ffn"></span>';
 load();paintMe();paintBell();
 if(!DB.me)onboard();
+ensureBotPost();
 route();
 setInterval(tick,1000);
 </script>
