@@ -527,7 +527,7 @@ function vHome(){
     <b>행낭마켓 사용법</b> — 나눔 글에 신청하면 가상 지점이 반응해요.
     행낭 하루는 체험에서 약 30초 — 기다리기 지루하면 왼쪽 아래 <b>⏩ 빨리감기</b>로 하룻밤을 건너뛰세요.</div>`}
   ${circ?`<div class="impact"><svg width="17" height="17" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M16 15v-2.5a8 8 0 0 1 16 0V15"/><rect x="5.5" y="14.5" width="37" height="28" rx="7"/><path d="M11 22h26"/></svg>
-    <span>이 체험에서 순환된 비품 <b>${circ}건</b> · 배송비 <b>0원</b> — 행낭은 오늘도 돕니다</span></div>`:''}
+    <span>이 체험에서 순환된 비품 <b>${circ}건</b> — 배송은 <b>어차피 도는 행낭 편</b>에</span></div>`:''}
   <div class="ftabs">${[['all','전체'],['give','나눔해요'],['need','필요해요'],['done','거래완료']].map(([k,t])=>
     `<button class="ftab${fKind===k?' on':''}" data-fk="${k}">${t}</button>`).join('')}</div>
   <div class="cats"><button class="cat${fCat<0?' on':''}" data-fc="-1">전체</button>${CATS.map((c,i)=>
@@ -560,7 +560,7 @@ function tlHTML(p){
   const steps=['등록','매칭','행낭 이동','수령','감사'];
   const idx=p.state==='open'?0:(p.state==='matchedOut'||p.state==='promisedIn')?1:
     p.state.startsWith('shipped')?2:p.state==='arrived'?3:p.state==='thanks'?3:p.state==='closed'?4:1;
-  return `<div class="tl"><h4>나눔 진행 — 배송은 매일 도는 행낭이 맡아요 (배송비 0원)</h4><div class="tls">${
+  return `<div class="tl"><h4>나눔 진행 — 배송은 매일 도는 행낭 편에 실어요</h4><div class="tls">${
     steps.map((s,i)=>`<div class="tli${i<=idx?' on':''}"><span class="ic"></span><span>${s}</span></div>`).join('')}</div></div>`;
 }
 function ctaHTML(p){
@@ -777,7 +777,7 @@ function vMy(){
     <div class="badges">${B.map(([n,ok])=>`<span class="badge${ok?' got':''}">${n}</span>`).join('')}</div>
   </div>
   <div class="rules"><b>나눔온도 규칙(안)</b> — 모든 지점 36.5°에서 시작 · 수령 확인 +0.2° · 감사 카드 +0.1° ·
-    매칭 후 미발송 −0.5° · 배송은 매일 도는 행낭이 담당(배송비 0원 · 물류 신설 없음)</div>
+    매칭 후 미발송 −0.5° · 배송은 매일 도는 행낭 편 활용(새 물류 신설 없음)</div>
   ${cards.length?`<h4 class="sec">받은 감사 카드</h4>${cards.map(({c,p})=>
     `<div class="card-t">“${esc(c.txt.replace(' (감사 카드)',''))}”<div class="who">${c.br} · ${esc(p.title)}</div></div>`).join('')}`:''}
   ${(()=>{const favs=DB.favs.map(post).filter(Boolean);
